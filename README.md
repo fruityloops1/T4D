@@ -15,18 +15,22 @@ This is a continuation of Exelix' project trying to make this a better editor.
 - byml <-> xml 
 
 
-## ToDo->Near future
+## Usage
+Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load it following the program's steps, then open your level and edit as you like!
+
+
+## TODO->Near future
 - [ ] Improve camera
 - [ ] Less intrusive messages
 - [ ] Improve ObjectDB formatting and usage
 - [ ] X,Y and Z all in the same dropdown for direction, position and scale
-- [ ] More Hotkeys -> Ctrl + S to save and Ctrl + O to open
+- [x] More Hotkeys -> Ctrl + S to save and Ctrl + O to open
 - [ ] Collision importer gui
 - [ ] Revamp ui (move messy stuff and remove other things(the Help dropdown makes no sense ;^; ))
-- [ ] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
+- [x] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
 - [ ] Backface culling
 
-## ToDo->Distant future (lmao)
+## TODO->Distant future (lmao)
 - [ ] Translation + some way to switch translations in the program (no redownload)
 - [ ] Better GFX (better renderer or better model support, bcmdl, dae, fbx...)
 - [ ] More... :shushing_face:
