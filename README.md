@@ -24,7 +24,7 @@ This is a continuation of Exelix' project trying to make this a better editor.
 - [ ] Collision importer gui
 - [ ] Revamp ui (move messy stuff and remove other things(the Help dropdown makes no sense ;^; ))
 - [ ] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
-
+- [ ] Backface culling
 
 ## ToDo->Distant future (lmao)
 - [ ] Translation + some way to switch translations in the program (no redownload)
