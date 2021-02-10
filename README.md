@@ -1,9 +1,9 @@
-## TheFourthDimension-Quality Of Life
+# TheFourthDimension-Quality Of Life
 A **Super Mario 3d Land** level editor, originally made by [Exelix11](https://github.com/exelix11)
 This is a continuation of Exelix' project trying to make this a better editor.
 
 
-# Features
+## Features
 - Edits every 3d Land level and every file under romfs/StageData/
   - Stage collision editor
   - Camera editor
@@ -14,7 +14,7 @@ This is a continuation of Exelix' project trying to make this a better editor.
 - byml <-> xml 
 
 
-# ToDo->Near future
+## ToDo->Near future
 - [ ] Improve camera
 - [ ] Less intrusive messages
 - [ ] Improve ObjectDB formatting and usage
@@ -25,13 +25,13 @@ This is a continuation of Exelix' project trying to make this a better editor.
 - [ ] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
 
 
-# ToDo->Distant future (lmao)
+## ToDo->Distant future (lmao)
 - [ ] Translation + some way to switch translations in the program (no redownload)
 - [ ] Better GFX (better renderer or better model support, bcmdl, dae, fbx...)
 - [ ] More... :shushing_face:
 
 
-# Building
+## Building
 
 Use Visual Studio (not Code) with the .NET framework (specifically 4.5.2).
 It should load fine so just select `The4Dimension.sln` and then build.
