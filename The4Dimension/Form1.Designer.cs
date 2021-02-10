@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.Icon = Properties.Resources.t4d;
             this.components = new System.ComponentModel.Container();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.ClipBoardMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -249,9 +250,9 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.otherToolStripMenuItem,
-            this.UndoMenu,
             this.OtherLevelDataMenu,
             this.findToolStripMenuItem,
+            this.UndoMenu,
             this.helpToolStripMenuItem,
             this.StatusLbl});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -395,7 +396,7 @@
             this.toolStripSeparator9,
             this.gameROMFSPathToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.otherToolStripMenuItem.Text = "Tools";
             // 
             // creatorClassNameTableEditorToolStripMenuItem
@@ -896,7 +897,7 @@
             // SettingsPanel
             // 
             this.SettingsPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.SettingsPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.SettingsPanel.BackColor = System.Drawing.SystemColors.Highlight;
             this.SettingsPanel.Controls.Add(this.chbAddObjectOrigin);
             this.SettingsPanel.Controls.Add(this.btn_url_Default);
             this.SettingsPanel.Controls.Add(this.ChbStartupUpdate);
@@ -1174,7 +1175,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MinimumSize = new System.Drawing.Size(701, 470);
             this.Name = "Form1";
-            this.Text = "The Fourth Dimension - by Exelix11";
+            this.Text = "The 4th Dimension";
             this.Activated += new System.EventHandler(this.From_Activated);
             this.Deactivate += new System.EventHandler(this.Form_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_closing);

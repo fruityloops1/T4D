@@ -38,6 +38,7 @@ namespace The4Dimension
             try
             {
                 InitializeComponent();
+                /*//this used to work but now it doesn't for whatever reason
                 #region StageList 
                 string[] lines = Properties.Resources.AllStageList.Split(Environment.NewLine[0]);
                 int nextIndex = -1;
@@ -71,11 +72,13 @@ namespace The4Dimension
                     }
                 }
                 LevelNameNum.Add("W S8-Championship", lines[++nextIndex].Trim());
-                #endregion
+                #endregion*/
 
                 KeyPreview = true;
                 elementHost1.Child = render;
-                render.MouseLeftButtonDown += render_LeftClick;
+
+                /*  */
+                    render.MouseLeftButtonDown += render_LeftClick;
                 render.MouseMove += render_MouseMove;
                 render.MouseLeftButtonDown += render_MouseLeftButtonDown;
                 render.MouseLeftButtonUp += render_MouseLeftButtonUp;
@@ -709,7 +712,15 @@ namespace The4Dimension
 
         private void render_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) //Render hotkeys
         {
-            if (e.Key == Key.Z)
+            if (e.Key == Key.O && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                openToolStripMenuItem_Click(sender, new EventArgs());
+            }
+            if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                saveToolStripMenuItem_Click(sender, new EventArgs());
+            }
+            else if (e.Key == Key.Z)
             {
                 if (Undo.Count > 0) Undo.Pop().Undo();
                 return;
@@ -2383,7 +2394,7 @@ namespace The4Dimension
         {
             SaveFileDialog sav = new SaveFileDialog();
             sav.FileName = Path.GetFileNameWithoutExtension(LoadedFile);
-            sav.Filter = "Szs file|*.Szs";
+            sav.Filter = "Szs file|*.szs";
             if (sav.ShowDialog() == DialogResult.OK)
             {
                 SzsSave(sav.FileName);

@@ -39,51 +39,55 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(42, 15);
+            this.label1.Location = new System.Drawing.Point(105, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(221, 24);
+            this.label1.Size = new System.Drawing.Size(100, 24);
             this.label1.TabIndex = 0;
-            this.label1.Text = "The fourth dimension :";
+            this.label1.Text = "T4D-QoL:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 39);
+            this.label2.Location = new System.Drawing.Point(12, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(279, 20);
+            this.label2.Size = new System.Drawing.Size(285, 20);
             this.label2.TabIndex = 1;
-            this.label2.Text = "A Super Mario 3d land level editor";
+            this.label2.Text = "A Super Mario 3d Land level editor";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.UseWaitCursor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(78, 70);
+            this.label3.Location = new System.Drawing.Point(54, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(159, 91);
+            this.label3.Size = new System.Drawing.Size(200, 78);
             this.label3.TabIndex = 2;
-            this.label3.Text = "By Exelix11\r\n\r\n\r\nThanks to:\r\nGericom for Every File Explorer\r\nGdkchan for Ohana3D" +
-    "S Rebirth\r\nHCS for vgmstream and RevB";
+            this.label3.Text = "Original versions (up to 0.9.2) by Exelix11\n\r\n Thanks to:\r\nGericom for Every File" +
+    " Explorer\r\nGdkchan for Ohana3DS Rebirth\r\nHCS for vgmstream and RevB";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label4.Location = new System.Drawing.Point(-1, 174);
+            this.label4.Location = new System.Drawing.Point(-1, 221);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(16, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "...";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(76, 179);
+            this.label5.Location = new System.Drawing.Point(71, 226);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(166, 7);
             this.label5.TabIndex = 10;
@@ -93,7 +97,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 187);
+            this.ClientSize = new System.Drawing.Size(304, 234);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

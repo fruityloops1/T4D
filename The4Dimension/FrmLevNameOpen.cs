@@ -41,5 +41,10 @@ namespace The4Dimension
             res = listBox1.SelectedItem.ToString();
             this.Close();
         }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
