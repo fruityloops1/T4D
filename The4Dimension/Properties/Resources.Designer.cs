@@ -108,7 +108,7 @@ namespace The4Dimension.Properties {
         ///CaveClimbStageMap1.szs
         ///SkyRotateBlockStageMap1.szs
         ///FlashTeresaStageMap1.szs
-        ///SkyPatanStageMap1.szs [rest of string was truncated]&quot;;.
+        ///S [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AllStageList {
             get {
