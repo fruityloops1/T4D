@@ -81,15 +81,16 @@
             this.switchDeadOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByViewIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByRailNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.downloadLatestT4DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadLatestObjectDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectsDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.gbatempThreadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.C0EditingPanel = new System.Windows.Forms.Panel();
@@ -160,6 +161,7 @@
             this.propertyGrid1.Size = new System.Drawing.Size(234, 207);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridChange);
+            this.propertyGrid1.Click += new System.EventHandler(this.propertyGrid1_Click);
             // 
             // ClipBoardMenu
             // 
@@ -248,12 +250,12 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.otherToolStripMenuItem,
             this.OtherLevelDataMenu,
+            this.otherToolStripMenuItem,
             this.findToolStripMenuItem,
             this.UndoMenu,
-            this.helpToolStripMenuItem,
-            this.StatusLbl});
+            this.StatusLbl,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(788, 24);
@@ -379,8 +381,7 @@
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
+            this.preferencesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.preferencesToolStripMenuItem.Text = "Settings";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
@@ -452,7 +453,6 @@
             this.generate2DSectionToolStripMenuItem.Name = "generate2DSectionToolStripMenuItem";
             this.generate2DSectionToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.generate2DSectionToolStripMenuItem.Text = "Add TransparentWalls batch";
-            this.generate2DSectionToolStripMenuItem.Visible = false;
             this.generate2DSectionToolStripMenuItem.Click += new System.EventHandler(this.generate2DSectionToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
@@ -568,19 +568,14 @@
             this.objectByRailNameToolStripMenuItem.Text = "Object by Rail name";
             this.objectByRailNameToolStripMenuItem.Click += new System.EventHandler(this.objectByRailNameToolStripMenuItem_Click);
             // 
-            // UndoMenu
-            // 
-            this.UndoMenu.Name = "UndoMenu";
-            this.UndoMenu.Size = new System.Drawing.Size(48, 20);
-            this.UndoMenu.Text = "Undo";
-            this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
-            // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guideToolStripMenuItem,
             this.hotkeysListToolStripMenuItem,
             this.toolStripSeparator6,
+            this.downloadLatestT4DToolStripMenuItem,
             this.downloadLatestObjectDatabaseToolStripMenuItem,
             this.objectsDatabaseToolStripMenuItem,
             this.toolStripSeparator4,
@@ -608,6 +603,13 @@
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(242, 6);
             // 
+            // downloadLatestT4DToolStripMenuItem
+            // 
+            this.downloadLatestT4DToolStripMenuItem.Name = "downloadLatestT4DToolStripMenuItem";
+            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.downloadLatestT4DToolStripMenuItem.Text = "Download latest T4D";
+            this.downloadLatestT4DToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestT4DToolStripMenuItem_Click);
+            // 
             // downloadLatestObjectDatabaseToolStripMenuItem
             // 
             this.downloadLatestObjectDatabaseToolStripMenuItem.Name = "downloadLatestObjectDatabaseToolStripMenuItem";
@@ -629,10 +631,18 @@
             // 
             // gbatempThreadToolStripMenuItem
             // 
+            this.gbatempThreadToolStripMenuItem.Image = global::The4Dimension.Properties.Resources.gbatemp;
             this.gbatempThreadToolStripMenuItem.Name = "gbatempThreadToolStripMenuItem";
             this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
+            // 
+            // UndoMenu
+            // 
+            this.UndoMenu.Name = "UndoMenu";
+            this.UndoMenu.Size = new System.Drawing.Size(48, 20);
+            this.UndoMenu.Text = "Undo";
+            this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
             // 
             // StatusLbl
             // 
@@ -1311,6 +1321,7 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem downloadLatestT4DToolStripMenuItem;
     }
 }
 

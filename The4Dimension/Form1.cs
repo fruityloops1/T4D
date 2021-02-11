@@ -711,7 +711,7 @@ namespace The4Dimension
         Vector3D StartPos;
 
         private void render_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) //Render hotkeys
-        {
+        {/* //removed the shortcuts after discovering forms can add shortcuts by design
             if (e.Key == Key.O && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 openToolStripMenuItem_Click(sender, new EventArgs());
@@ -720,7 +720,7 @@ namespace The4Dimension
             {
                 saveToolStripMenuItem_Click(sender, new EventArgs());
             }
-            else if (e.Key == Key.Z)
+            else */if (e.Key == Key.Z)
             {
                 if (Undo.Count > 0) Undo.Pop().Undo();
                 return;
@@ -1162,8 +1162,11 @@ namespace The4Dimension
         private void hotkeysListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Hotkeys list:\r\n" +
+                " Ctrl + O : Open File\r\n" +
+                " Ctrl + S : Save File\r\n" +
                 " Ctrl + Z : Undo\r\n" +
-                " Space : Move the camera on the selected object\r\n" +
+                " Alt + S : Settings\r\n" +
+                " Space : Move the camera to the selected object\r\n" +
                 " Ctrl + D : Duplicate selected object\r\n" +
                 " + : Add a new object\r\n" +
                 " Del : Delete selected object\r\n" +
@@ -2729,7 +2732,7 @@ namespace The4Dimension
 
         private void btn_url_Default_Click(object sender, EventArgs e)
         {
-            tbUrl.Text = "http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php";
+            tbUrl.Text = "https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/objectdb.xml";
         }
         #endregion
 
@@ -2752,13 +2755,15 @@ namespace The4Dimension
                 }
                 if (Properties.Settings.Default.CheckUpdates)
                 {
-                    state = "checking updates";
+                    state = " checking updates";
+                    /*
                     var githubClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TheFourthDimension"));
                     var ver = await githubClient.Repository.Release.GetAll("exelix11", "TheFourthDimension");
-                    if (ver.Count > ReleaseId)
+                    if (ver.Count > ReleaseId)*/
+                    if (true == true) //TEMPORARY
                     {
-                        if (MessageBox.Show("There is a new version of the editor, do you want to open the github page ?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            System.Diagnostics.Process.Start("https://github.com/exelix11/TheFourthDimension/releases");
+                        if (MessageBox.Show("Do you want to check for the latest update? (This will open the web browser)", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/t4d-qol/releases/latest");
                     }
                 }
             }
@@ -2780,6 +2785,15 @@ namespace The4Dimension
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/exelix11/TheFourthDimension/blob/master/guide.md");
+        }
+
+        private void propertyGrid1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void downloadLatestT4DToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/t4d-qol/releases/latest");
         }
     }
 }
