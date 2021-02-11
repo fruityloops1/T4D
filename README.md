@@ -40,4 +40,3 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 
 Use Visual Studio (not Code) with the .NET framework (specifically 4.5.2).
 It should load fine so just select `The4Dimension.sln` and then build.
-hi
