@@ -40,3 +40,8 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 
 Use Visual Studio (not Code) with the .NET framework (specifically 4.5.2).
 It should load fine so just select `The4Dimension.sln` and then build.
+
+
+## Join Us
+If you need help with Super Mario 3D Land Hacking, you can join the Tanooki Tree  <a href="https://discord.gg/CXJgeUk"><img src="https://img.shields.io/discord/308323056592486420.svg?color=7289da&logo=discord&logoColor=white" alt="The Cat Chat" /></a> <br/>(*Disclaimer: We cannot help you get the 3D Land files*)
+
