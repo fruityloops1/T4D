@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Icon = Properties.Resources.t4d;
             this.components = new System.ComponentModel.Container();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.ClipBoardMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -70,7 +69,6 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.gameROMFSPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OtherLevelDataMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +81,7 @@
             this.switchDeadOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByViewIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByRailNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -294,6 +293,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
@@ -301,6 +301,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
@@ -378,6 +379,8 @@
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.preferencesToolStripMenuItem.Text = "Settings";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
@@ -472,13 +475,6 @@
             this.changeToolStripMenuItem.Text = "Change";
             this.changeToolStripMenuItem.Click += new System.EventHandler(this.changeToolStripMenuItem_Click_1);
             // 
-            // UndoMenu
-            // 
-            this.UndoMenu.Name = "UndoMenu";
-            this.UndoMenu.Size = new System.Drawing.Size(48, 20);
-            this.UndoMenu.Text = "Undo";
-            this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
-            // 
             // OtherLevelDataMenu
             // 
             this.OtherLevelDataMenu.Name = "OtherLevelDataMenu";
@@ -571,6 +567,13 @@
             this.objectByRailNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.objectByRailNameToolStripMenuItem.Text = "Object by Rail name";
             this.objectByRailNameToolStripMenuItem.Click += new System.EventHandler(this.objectByRailNameToolStripMenuItem_Click);
+            // 
+            // UndoMenu
+            // 
+            this.UndoMenu.Name = "UndoMenu";
+            this.UndoMenu.Size = new System.Drawing.Size(48, 20);
+            this.UndoMenu.Text = "Undo";
+            this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
             // 
             // helpToolStripMenuItem
             // 
@@ -1173,6 +1176,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = global::The4Dimension.Properties.Resources.t4d;
             this.MinimumSize = new System.Drawing.Size(701, 470);
             this.Name = "Form1";
             this.Text = "The 4th Dimension";
