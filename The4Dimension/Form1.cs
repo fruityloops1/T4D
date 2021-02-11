@@ -38,7 +38,6 @@ namespace The4Dimension
             try
             {
                 InitializeComponent();
-                /*//this used to work but now it doesn't for whatever reason
                 #region StageList 
                 string[] lines = Properties.Resources.AllStageList.Split(Environment.NewLine[0]);
                 int nextIndex = -1;
@@ -72,7 +71,7 @@ namespace The4Dimension
                     }
                 }
                 LevelNameNum.Add("W S8-Championship", lines[++nextIndex].Trim());
-                #endregion*/
+                #endregion
 
                 KeyPreview = true;
                 elementHost1.Child = render;
