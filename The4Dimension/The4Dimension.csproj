@@ -373,6 +373,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
+    <None Include="Resources\gbatemp.png" />
     <Content Include="t4d.ico" />
     <Content Include="t4d.png" />
   </ItemGroup>

@@ -137,6 +137,16 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gbatemp {
+            get {
+                object obj = ResourceManager.GetObject("gbatemp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;shift_jis&quot;?&gt;
         ///&lt;Root&gt;
         ///  &lt;isBigEndian Value=&quot;False&quot; /&gt;

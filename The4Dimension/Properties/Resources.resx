@@ -117,28 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actor" xml:space="preserve">
-    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
-&lt;Root&gt;
-  &lt;isBigEndian Value="False" /&gt;
-  &lt;BymlFormatVersion Value="1" /&gt;
-  &lt;C1&gt;
-    &lt;C1 Name="Collision"&gt;
-      &lt;A0 Name="Sensor" StringValue="Collision" /&gt;
-    &lt;/C1&gt;
-    &lt;C1 Name="Debug"&gt;
-      &lt;A0 Name="NodeName" StringValue="地形" /&gt;
-    &lt;/C1&gt;
-    &lt;C1 Name="Executor"&gt;
-      &lt;A0 Name="CategoryName" StringValue="固定地形" /&gt;
-    &lt;/C1&gt;
-    &lt;C1 Name="GroupClipping"&gt;
-      &lt;D1 Name="MaxCount" StringValue="64" /&gt;
-    &lt;/C1&gt;
-    &lt;FF Name="Model" StringValue="00000000" /&gt;
-  &lt;/C1&gt;
-&lt;/Root&gt;</value>
-  </data>
   <data name="AllStageList" xml:space="preserve">
     <value>FirstStageMap1.szs
 CaveInkStageMap1.szs
@@ -238,31 +216,28 @@ BattleShipRollerSpStageMap2.szs
 KoopaThirdStageMap2.szs
 ChampionshipSpStageMap1.szs</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BaseModels" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BaseModels.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BCSTMtools" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BCSTMtools.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="GenericCameraParam" xml:space="preserve">
+  <data name="GenericPreloadList" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
 &lt;Root&gt;
   &lt;isBigEndian Value="False" /&gt;
   &lt;BymlFormatVersion Value="1" /&gt;
-  &lt;C1&gt;
-    &lt;C0 Name="CameraParams"&gt;
-      
-    &lt;/C0&gt;
-    &lt;C1 Name="VisionParam"&gt;
-      &lt;D2 Name="FarClipDistance" StringValue="80000" /&gt;
-      &lt;D2 Name="FovyDegree" StringValue="45" /&gt;
-      &lt;D2 Name="NearClipDistacne" StringValue="100" /&gt;
-      &lt;D2 Name="StereovisionDepth" StringValue="0,4" /&gt;
-      &lt;D2 Name="StereovisionDistance" StringValue="200" /&gt;
+  &lt;C0&gt;
+    &lt;C1&gt;
+      &lt;A0 Name="Name" StringValue="SePmShootFire" /&gt;
+      &lt;A0 Name="Type" StringValue="SoundItem" /&gt;
     &lt;/C1&gt;
-  &lt;/C1&gt;
+  &lt;/C0&gt;
 &lt;/Root&gt;</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BaseModels" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BaseModels.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="t4d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\t4d.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BCSTMtools" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BCSTMtools.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PatchScript" xml:space="preserve">
     <value>@echo off
@@ -295,17 +270,26 @@ del "Patch script.bat"</value>
   &lt;/C0&gt;
 &lt;/Root&gt;</value>
   </data>
-  <data name="GenericPreloadList" xml:space="preserve">
+  <data name="Actor" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
 &lt;Root&gt;
   &lt;isBigEndian Value="False" /&gt;
   &lt;BymlFormatVersion Value="1" /&gt;
-  &lt;C0&gt;
-    &lt;C1&gt;
-      &lt;A0 Name="Name" StringValue="SePmShootFire" /&gt;
-      &lt;A0 Name="Type" StringValue="SoundItem" /&gt;
+  &lt;C1&gt;
+    &lt;C1 Name="Collision"&gt;
+      &lt;A0 Name="Sensor" StringValue="Collision" /&gt;
     &lt;/C1&gt;
-  &lt;/C0&gt;
+    &lt;C1 Name="Debug"&gt;
+      &lt;A0 Name="NodeName" StringValue="地形" /&gt;
+    &lt;/C1&gt;
+    &lt;C1 Name="Executor"&gt;
+      &lt;A0 Name="CategoryName" StringValue="固定地形" /&gt;
+    &lt;/C1&gt;
+    &lt;C1 Name="GroupClipping"&gt;
+      &lt;D1 Name="MaxCount" StringValue="64" /&gt;
+    &lt;/C1&gt;
+    &lt;FF Name="Model" StringValue="00000000" /&gt;
+  &lt;/C1&gt;
 &lt;/Root&gt;</value>
   </data>
   <data name="GenericStageInfo" xml:space="preserve">
@@ -325,7 +309,26 @@ del "Patch script.bat"</value>
   &lt;/C1&gt;
 &lt;/Root&gt;</value>
   </data>
-  <data name="t4d" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\t4d.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GenericCameraParam" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
+&lt;Root&gt;
+  &lt;isBigEndian Value="False" /&gt;
+  &lt;BymlFormatVersion Value="1" /&gt;
+  &lt;C1&gt;
+    &lt;C0 Name="CameraParams"&gt;
+      
+    &lt;/C0&gt;
+    &lt;C1 Name="VisionParam"&gt;
+      &lt;D2 Name="FarClipDistance" StringValue="80000" /&gt;
+      &lt;D2 Name="FovyDegree" StringValue="45" /&gt;
+      &lt;D2 Name="NearClipDistacne" StringValue="100" /&gt;
+      &lt;D2 Name="StereovisionDepth" StringValue="0,4" /&gt;
+      &lt;D2 Name="StereovisionDistance" StringValue="200" /&gt;
+    &lt;/C1&gt;
+  &lt;/C1&gt;
+&lt;/Root&gt;</value>
+  </data>
+  <data name="gbatemp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gbatemp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
