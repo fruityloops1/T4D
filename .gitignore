@@ -9,7 +9,8 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
+ObjectsDb.xml
+ObjectNotes.txt
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
