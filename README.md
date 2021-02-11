@@ -21,7 +21,7 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 
 ## TODO->Near future
 - [ ] Improve camera
-- [ ] Less intrusive messages
+- [x] Less intrusive messages
 - [ ] Improve ObjectDB formatting and usage
 - [ ] X,Y and Z all in the same dropdown for direction, position and scale
 - [x] More Hotkeys -> Ctrl + S to save and Ctrl + O to open
