@@ -73,13 +73,12 @@ namespace The4Dimension.Properties {
         ///      &lt;A0 Name=&quot;NodeName&quot; StringValue=&quot;地形&quot; /&gt;
         ///    &lt;/C1&gt;
         ///    &lt;C1 Name=&quot;Executor&quot;&gt;
-        ///      &lt;A0 Name=&quot;CategoryName&quot; StringValue=&quot;固定地形&quot; /&gt;
+        ///      &lt;A0 Name=&quot;CategoryName&quot; StringValue=&quot;地形オブジェ[キャラ後]&quot; /&gt;
         ///    &lt;/C1&gt;
         ///    &lt;C1 Name=&quot;GroupClipping&quot;&gt;
         ///      &lt;D1 Name=&quot;MaxCount&quot; StringValue=&quot;64&quot; /&gt;
         ///    &lt;/C1&gt;
-        ///    &lt;FF Name=&quot;Model&quot; StringValue=&quot;00000000&quot; /&gt;
-        ///  &lt;/ [rest of string was truncated]&quot;;.
+        ///    &lt;FF Name=&quot;Model&quot; StringValue=&quot;00000000&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Actor {
             get {

@@ -87,7 +87,10 @@ namespace The4Dimension
             if (LayerName != "StartInfo")
             {
                 obj.Prop.Add("l_id", new Node("0", "D1")); 
-                obj.Prop.Add("Arg", new int[1] { -1 });
+                if (LayerName != "CameraAreaInfo")
+                { 
+                        obj.Prop.Add("Arg", new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 });
+                }
                 obj.Prop.Add("SwitchA", new Node("-1", "D1"));
                 obj.Prop.Add("SwitchAppear", new Node("-1", "D1"));
                 obj.Prop.Add("SwitchB", new Node("-1", "D1"));
@@ -106,6 +109,7 @@ namespace The4Dimension
             obj.Prop.Add("scale_x", new Node("1", "D2"));
             obj.Prop.Add("scale_y", new Node("1", "D2"));
             obj.Prop.Add("scale_z", new Node("1", "D2"));
+            obj.Prop.Add("scale_XYZ", new int[3] { 100, 100, 100});
             Value = obj;
             this.Close();
         }

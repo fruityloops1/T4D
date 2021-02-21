@@ -184,7 +184,7 @@ del "Patch script.bat"</value>
       &lt;A0 Name="NodeName" StringValue="地形" /&gt;
     &lt;/C1&gt;
     &lt;C1 Name="Executor"&gt;
-      &lt;A0 Name="CategoryName" StringValue="固定地形" /&gt;
+      &lt;A0 Name="CategoryName" StringValue="地形オブジェ[キャラ後]" /&gt;
     &lt;/C1&gt;
     &lt;C1 Name="GroupClipping"&gt;
       &lt;D1 Name="MaxCount" StringValue="64" /&gt;

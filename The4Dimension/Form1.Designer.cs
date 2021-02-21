@@ -57,6 +57,7 @@
             this.xmlBymlToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OtherLevelDataMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creatorClassNameTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stagesBgmEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,6 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.gameROMFSPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OtherLevelDataMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByCameraIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +81,8 @@
             this.switchDeadOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByViewIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByRailNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,8 +92,6 @@
             this.objectsDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.gbatempThreadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.C0EditingPanel = new System.Windows.Forms.Panel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -386,6 +386,12 @@
             this.preferencesToolStripMenuItem.Text = "Settings";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
+            // OtherLevelDataMenu
+            // 
+            this.OtherLevelDataMenu.Name = "OtherLevelDataMenu";
+            this.OtherLevelDataMenu.Size = new System.Drawing.Size(70, 20);
+            this.OtherLevelDataMenu.Text = "Level files";
+            // 
             // otherToolStripMenuItem
             // 
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -475,12 +481,6 @@
             this.changeToolStripMenuItem.Text = "Change";
             this.changeToolStripMenuItem.Click += new System.EventHandler(this.changeToolStripMenuItem_Click_1);
             // 
-            // OtherLevelDataMenu
-            // 
-            this.OtherLevelDataMenu.Name = "OtherLevelDataMenu";
-            this.OtherLevelDataMenu.Size = new System.Drawing.Size(70, 20);
-            this.OtherLevelDataMenu.Text = "Level files";
-            // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -568,6 +568,20 @@
             this.objectByRailNameToolStripMenuItem.Text = "Object by Rail name";
             this.objectByRailNameToolStripMenuItem.Click += new System.EventHandler(this.objectByRailNameToolStripMenuItem_Click);
             // 
+            // UndoMenu
+            // 
+            this.UndoMenu.Name = "UndoMenu";
+            this.UndoMenu.Size = new System.Drawing.Size(48, 20);
+            this.UndoMenu.Text = "Undo";
+            this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
+            // 
+            // StatusLbl
+            // 
+            this.StatusLbl.ForeColor = System.Drawing.Color.Red;
+            this.StatusLbl.Name = "StatusLbl";
+            this.StatusLbl.Size = new System.Drawing.Size(12, 20);
+            this.StatusLbl.Visible = false;
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -636,20 +650,6 @@
             this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
-            // 
-            // UndoMenu
-            // 
-            this.UndoMenu.Name = "UndoMenu";
-            this.UndoMenu.Size = new System.Drawing.Size(48, 20);
-            this.UndoMenu.Text = "Undo";
-            this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
-            // 
-            // StatusLbl
-            // 
-            this.StatusLbl.ForeColor = System.Drawing.Color.Red;
-            this.StatusLbl.Name = "StatusLbl";
-            this.StatusLbl.Size = new System.Drawing.Size(12, 20);
-            this.StatusLbl.Visible = false;
             // 
             // splitContainer1
             // 
