@@ -20,20 +20,36 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 
 
 ## TODO->Near future
-- [ ] Improve camera
+- [ ] Improve camera (?)
 - [x] Less intrusive messages
-- [ ] Improve ObjectDB formatting and usage
 - [ ] X,Y and Z all in the same dropdown for direction, position and scale
+  - [x] Scale
+  - [x] Direction
+  - [ ] Position
 - [x] More Hotkeys -> Ctrl + S to save and Ctrl + O to open
 - [ ] Collision importer gui
 - [ ] Revamp ui (move messy stuff and remove other things(the Help dropdown makes no sense ;^; ))
+  - [ ] Make options it's own window and not a weird blue box
+  - [ ] Dark theme
+  - [ ] Remove deprecated programs
+  - [ ] Improve ObjectDB formatting and usage 
 - [x] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
-- [ ] Backface culling
+- [ ] Backface culling -> this will lead to:
+  - [ ] Less/No z fighting
+- [ ] Better documentation for everything
+  - [ ] Finish documenting every object
+  - [ ] Compare Galaxy and 3D land for more stuff (Collisions and cameras seem to be the same)
+  - [ ] Camera functions
+  - [ ] Rail types
+  - [ ] Rail arguments
+  - [ ] Layer usage
+  - [ ] Area arguments
 
-## TODO->Distant future (lmao)
+
+## TODO->Long term
 - [ ] Translation + some way to switch translations in the program (no redownload)
 - [ ] Better GFX (better renderer or better model support, bcmdl, dae, fbx...)
-- [ ] More... :shushing_face:
+- [ ] More (?)
 
 
 ## Building
