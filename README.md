@@ -22,13 +22,14 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 ## TODO->Near future
 - [ ] Improve camera (?)
 - [x] Less intrusive messages
-- [ ] X,Y and Z all in the same dropdown for direction, position and scale
+- [x] X,Y and Z all in the same dropdown for direction, position and scale
   - [x] Scale
   - [x] Direction
-  - [ ] Position
+  - [X] Position
 - [x] More Hotkeys -> Ctrl + S to save and Ctrl + O to open
 - [ ] Collision importer gui
 - [ ] Revamp ui (move messy stuff and remove other things(the Help dropdown makes no sense ;^; ))
+  - [ ] Position, Rotation and Scale visual editors (similar to the one found in other editors like Quad64)
   - [ ] Make options it's own window and not a weird blue box
   - [ ] Dark theme
   - [ ] Remove deprecated programs
