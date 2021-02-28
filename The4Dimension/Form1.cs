@@ -442,16 +442,92 @@ namespace The4Dimension
             {
                 string Path = GetModelname(Source[i].ToString());
                 if (!System.IO.File.Exists(Path)) Path = PlaceHolderMod;
-                Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ;
-                X = Single.Parse(((Node)Source[i].Prop["pos_x"]).StringValue);
-                Y = Single.Parse(((Node)Source[i].Prop["pos_y"]).StringValue);
-                Z = Single.Parse(((Node)Source[i].Prop["pos_z"]).StringValue);
-                ScaleX = Single.Parse(((Node)Source[i].Prop["scale_x"]).StringValue);
-                ScaleY = Single.Parse(((Node)Source[i].Prop["scale_y"]).StringValue);
-                ScaleZ = Single.Parse(((Node)Source[i].Prop["scale_z"]).StringValue);
-                RotX = Single.Parse(((Node)Source[i].Prop["dir_x"]).StringValue);
-                RotY = Single.Parse(((Node)Source[i].Prop["dir_y"]).StringValue);
-                RotZ = Single.Parse(((Node)Source[i].Prop["dir_z"]).StringValue);
+                Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ, A, B, C;
+                Single[] scale_XDD;
+                Single[] rotation;
+                Single[] position;
+                if (Source[i].Prop.ContainsKey("pos") == true)
+                { position = (Single[])Source[i].Prop["pos"]; }
+                else
+                {
+                    if (Source[i].Prop["pos_x"] != null)
+                    {
+                        A = Single.Parse(((Node)Source[i].Prop["pos_x"]).StringValue);
+                        B = Single.Parse(((Node)Source[i].Prop["pos_y"]).StringValue);
+                        C = Single.Parse(((Node)Source[i].Prop["pos_z"]).StringValue);
+                        position = new Single[3] { A, B, C };
+
+                        Source[i].Prop.Add("pos", position);
+                        Source[i].Prop.Remove("pos_x");
+                        Source[i].Prop.Remove("pos_y");
+                        Source[i].Prop.Remove("pos_z");
+                    }
+                    else
+                    {
+                        position = new Single[3] { 1, 1, 1 };
+                    }
+                }
+                X = position[0];
+                Y = position[1];
+                Z = position[2];
+                //X = Single.Parse(((Node)Source[i].Prop["pos_x"]).StringValue);
+                //Y = Single.Parse(((Node)Source[i].Prop["pos_y"]).StringValue);
+                //Z = Single.Parse(((Node)Source[i].Prop["pos_z"]).StringValue);
+                if (Source[i].Prop.ContainsKey("scale") == true)
+                { scale_XDD = (Single[])Source[i].Prop["scale"]; }
+                else
+                {
+                    if (Source[i].Prop["scale_x"] != null)
+                    {
+                        A = Single.Parse(((Node)Source[i].Prop["scale_x"]).StringValue);
+                        B = Single.Parse(((Node)Source[i].Prop["scale_y"]).StringValue);
+                        C = Single.Parse(((Node)Source[i].Prop["scale_z"]).StringValue);
+                        scale_XDD = new Single[3] { A,B,C };
+
+                        Source[i].Prop.Add("scale", scale_XDD);
+                        Source[i].Prop.Remove("scale_x");
+                        Source[i].Prop.Remove("scale_y");
+                        Source[i].Prop.Remove("scale_z");
+
+                        //cl.Scale = (Single[])((Single[])GetListByName(type)[index].Prop["scale"]).Clone();
+                        /*Single[] test;
+                        test = (Single[])((Single[])Source[i].Prop["scale"]).Clone();
+                        string text;
+                            text = test[2].ToString();
+                        MessageBox.Show("test " + text);*/
+                    }
+                    else
+                    {
+                        scale_XDD = new Single[3] { 1, 1, 1 };
+                    }
+                }
+                ScaleX = scale_XDD[0];
+                ScaleY = scale_XDD[1];
+                ScaleZ = scale_XDD[2];
+                if (Source[i].Prop.ContainsKey("dir") == true)
+                { rotation = (Single[])Source[i].Prop["dir"]; }
+                else
+                {
+                    if (Source[i].Prop["dir_x"] != null)
+                    {
+                        A = Single.Parse(((Node)Source[i].Prop["dir_x"]).StringValue);
+                        B = Single.Parse(((Node)Source[i].Prop["dir_y"]).StringValue);
+                        C = Single.Parse(((Node)Source[i].Prop["dir_z"]).StringValue);
+                        rotation = new Single[3] { A, B, C };
+
+                        Source[i].Prop.Add("dir", rotation);
+                        Source[i].Prop.Remove("dir_x");
+                        Source[i].Prop.Remove("dir_y");
+                        Source[i].Prop.Remove("dir_z");
+                    }
+                    else
+                    {
+                        rotation = new Single[3] { 1, 1, 1 };
+                    }
+                }
+                RotX = rotation[0];
+                RotY = rotation[1];
+                RotZ = rotation[2];
                 render.addModel(Path, Type, new Vector3D(X, -Z, Y), new Vector3D(ScaleX, ScaleZ, ScaleY), RotX, -RotZ, RotY, at);
             }
         }
@@ -472,16 +548,85 @@ namespace The4Dimension
                         Path = GetModelname(o.ToString());
                         if (!System.IO.File.Exists(Path)) Path = "models\\UnkRed.obj";
                     }
-                    Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ;
-                    X = Single.Parse(((Node)o.Prop["pos_x"]).StringValue);
-                    Y = Single.Parse(((Node)o.Prop["pos_y"]).StringValue);
-                    Z = Single.Parse(((Node)o.Prop["pos_z"]).StringValue);
-                    ScaleX = Single.Parse(((Node)o.Prop["scale_x"]).StringValue);
-                    ScaleY = Single.Parse(((Node)o.Prop["scale_y"]).StringValue);
-                    ScaleZ = Single.Parse(((Node)o.Prop["scale_z"]).StringValue);
-                    RotX = Single.Parse(((Node)o.Prop["dir_x"]).StringValue);
-                    RotY = Single.Parse(((Node)o.Prop["dir_y"]).StringValue);
-                    RotZ = Single.Parse(((Node)o.Prop["dir_z"]).StringValue);
+                    Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ, A, B, C;
+                    Single[] scale_XDD;
+                    Single[] rotation;
+                    Single[] position;
+                    if (o.Prop.ContainsKey("pos") == true)
+                    { position = (Single[])o.Prop["pos"]; }
+                    else
+                    {
+                        if (o.Prop["pos_x"] != null)
+                        {
+                            A = Single.Parse(((Node)o.Prop["pos_x"]).StringValue);
+                            B = Single.Parse(((Node)o.Prop["pos_y"]).StringValue);
+                            C = Single.Parse(((Node)o.Prop["pos_z"]).StringValue);
+                            position = new Single[3] { A, B, C };
+
+                            o.Prop.Add("pos", position);
+                            o.Prop.Remove("pos_x");
+                            o.Prop.Remove("pos_y");
+                            o.Prop.Remove("pos_z");
+                        }
+                        else
+                        {
+                            position = new Single[3] { 1, 1, 1 };
+                        }
+                    }
+                    X = position[0];
+                    Y = position[1];
+                    Z = position[2];
+                    //X = Single.Parse(((Node)Source[i].Prop["pos_x"]).StringValue);
+                    //Y = Single.Parse(((Node)Source[i].Prop["pos_y"]).StringValue);
+                    //Z = Single.Parse(((Node)Source[i].Prop["pos_z"]).StringValue);
+                    if (o.Prop.ContainsKey("scale") == true)
+                    { scale_XDD = (Single[])o.Prop["scale"]; }
+                    else
+                    {
+                        if (o.Prop["scale_x"] != null)
+                        {
+                            A = Single.Parse(((Node)o.Prop["scale_x"]).StringValue);
+                            B = Single.Parse(((Node)o.Prop["scale_y"]).StringValue);
+                            C = Single.Parse(((Node)o.Prop["scale_z"]).StringValue);
+                            scale_XDD = new Single[3] { A, B, C };
+
+                            o.Prop.Add("scale", scale_XDD);
+                            o.Prop.Remove("scale_x");
+                            o.Prop.Remove("scale_y");
+                            o.Prop.Remove("scale_z");
+                        }
+                        else
+                        {
+                            scale_XDD = new Single[3] { 1, 1, 1 };
+                        }
+                    }
+                    ScaleX = scale_XDD[0];
+                    ScaleY = scale_XDD[1];
+                    ScaleZ = scale_XDD[2];
+                    if (o.Prop.ContainsKey("dir") == true)
+                    { rotation = (Single[])o.Prop["dir"]; }
+                    else
+                    {
+                        if (o.Prop["dir_x"] != null)
+                        {
+                            A = Single.Parse(((Node)o.Prop["dir_x"]).StringValue);
+                            B = Single.Parse(((Node)o.Prop["dir_y"]).StringValue);
+                            C = Single.Parse(((Node)o.Prop["dir_z"]).StringValue);
+                            rotation = new Single[3] { A, B, C };
+
+                            o.Prop.Add("dir", rotation);
+                            o.Prop.Remove("dir_x");
+                            o.Prop.Remove("dir_y");
+                            o.Prop.Remove("dir_z");
+                        }
+                        else
+                        {
+                            rotation = new Single[3] { 1, 1, 1 };
+                        }
+                    }
+                    RotX = rotation[0];
+                    RotY = rotation[1];
+                    RotZ = rotation[2];
                     Pos.Add(new Vector3D(X, -Z, Y));
                     Rot.Add(new Vector3D(RotX, -RotZ, RotY));
                     Scale.Add(new Vector3D(ScaleX, ScaleZ, ScaleY));
@@ -750,9 +895,9 @@ namespace The4Dimension
                 if (RenderIsDragging) return;
                 string type = comboBox1.Text;
                 int id = ObjectsListBox.SelectedIndex;
-                ((Node)GetListByName(type)[id].Prop["pos_x"]).StringValue = (Math.Round(Single.Parse(((Node)GetListByName(type)[id].Prop["pos_x"]).StringValue) / 100d, 0) * 100).ToString();
-                ((Node)GetListByName(type)[id].Prop["pos_y"]).StringValue = (Math.Round(Single.Parse(((Node)GetListByName(type)[id].Prop["pos_y"]).StringValue) / 100d, 0) * 100).ToString();
-                ((Node)GetListByName(type)[id].Prop["pos_z"]).StringValue = (Math.Round(Single.Parse(((Node)GetListByName(type)[id].Prop["pos_z"]).StringValue) / 100d, 0) * 100).ToString();
+                ((Single[])GetListByName(type)[id].Prop["pos"])[0] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[0]) / 100d, 0) * 100);
+                ((Single[])GetListByName(type)[id].Prop["pos"])[1] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[1]) / 100d, 0) * 100);
+                ((Single[])GetListByName(type)[id].Prop["pos"])[2] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[2]) / 100d, 0) * 100);
                 UpdateOBJPos(id, GetListByName(type), type);
                 propertyGrid1.Refresh();
             }
@@ -788,9 +933,9 @@ namespace The4Dimension
                 if (RenderIsDragging) return;
                 string type = comboBox1.Text;
                 int id = ObjectsListBox.SelectedIndex;
-                ((Node)GetListByName(type)[id].Prop["pos_x"]).StringValue = (Math.Round(Single.Parse(((Node)GetListByName(type)[id].Prop["pos_x"]).StringValue) / 100d, 0) * 100).ToString();
-                ((Node)GetListByName(type)[id].Prop["pos_y"]).StringValue = (Math.Round(Single.Parse(((Node)GetListByName(type)[id].Prop["pos_y"]).StringValue) / 100d, 0) * 100).ToString();
-                ((Node)GetListByName(type)[id].Prop["pos_z"]).StringValue = (Math.Round(Single.Parse(((Node)GetListByName(type)[id].Prop["pos_z"]).StringValue) / 100d, 0) * 100).ToString();
+                ((Single[])GetListByName(type)[id].Prop["pos"])[0] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[0]) / 100d, 0) * 100);
+                ((Single[])GetListByName(type)[id].Prop["pos"])[1] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[1]) / 100d, 0) * 100);
+                ((Single[])GetListByName(type)[id].Prop["pos"])[2] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[2]) / 100d, 0) * 100);
                 UpdateOBJPos(id, GetListByName(type), type);
                 propertyGrid1.Refresh();
             }
@@ -838,16 +983,16 @@ namespace The4Dimension
             }
             else if ((string)DraggingArgs[0] == "TmpChildrenObjs")
             {
-                ((Node)((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos_x"]).StringValue = NewPos.X.ToString();
-                ((Node)((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos_y"]).StringValue = NewPos.Z.ToString();
-                ((Node)((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos_z"]).StringValue = (-NewPos.Y).ToString();
+                ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[0] = (Single)NewPos.X;
+                ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[1] = (Single)NewPos.Z;
+                ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[2] = -(Single)NewPos.Y;
                 UpdateOBJPos((int)DraggingArgs[1], null, "TmpChildrenObjs");
             }
             else if ((string)DraggingArgs[0] != "AllRailInfos")
             {
-                ((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_x"]).StringValue = NewPos.X.ToString();
-                ((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_y"]).StringValue = NewPos.Z.ToString();
-                ((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_z"]).StringValue = (-NewPos.Y).ToString();
+                ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[0] = (Single)NewPos.X;
+                ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[1] = (Single)NewPos.Z;
+                ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[2] = -(Single)NewPos.Y;
                 UpdateOBJPos((int)DraggingArgs[1], GetListByName((string)DraggingArgs[0]), (string)DraggingArgs[0]);
             }
             DraggingArgs[2] = NewPos;
@@ -882,9 +1027,9 @@ namespace The4Dimension
                     Vector3D pos = (Vector3D)args[3];
                     SetComboboxToLevObjList(type);
                     ObjectsListBox.SelectedIndex = id;
-                    ((Node)((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos_x"]).StringValue = pos.X.ToString();
-                    ((Node)((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos_y"]).StringValue = pos.Y.ToString();
-                    ((Node)((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos_z"]).StringValue = pos.Z.ToString();
+                    ((Single[])((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos"])[0]= (Single)pos.X;
+                    ((Single[])((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos"])[1]= (Single)pos.Y;
+                    ((Single[])((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos"])[2]= (Single)pos.Z;
                     propertyGrid1.Refresh();
                 };
                 Undo.Push(new UndoAction("Moved children object of: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, ObjectsListBox.SelectedIndex, (int)DraggingArgs[1] , StartPos }, act));
@@ -898,9 +1043,9 @@ namespace The4Dimension
                     List<LevelObj> type = (List<LevelObj>)args[0];
                     int id = (int)args[1];
                     Vector3D pos = (Vector3D)args[2];
-                    ((Node)type[id].Prop["pos_x"]).StringValue = pos.X.ToString(); //These values were stored directly
-                    ((Node)type[id].Prop["pos_y"]).StringValue = pos.Y.ToString();
-                    ((Node)type[id].Prop["pos_z"]).StringValue = pos.Z.ToString();
+                    ((Single[])type[id].Prop["pos"])[0] = (Single)pos.X; //These values were stored directly
+                    ((Single[])type[id].Prop["pos"])[1] = (Single)pos.Y;
+                    ((Single[])type[id].Prop["pos"])[2] = (Single)pos.Z;
                     string typename = (string)args[3];
                     if (typename != "C0EditingListObjs" || type.GetHashCode() == CurrentAllInfosSection.GetHashCode())
                     {
@@ -935,17 +1080,17 @@ namespace The4Dimension
             else if ((string)DraggingArgs[0] == "TmpChildrenObjs")
             {
                 StartPos = new Vector3D(
-                     float.Parse(((Node)((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos_x"]).StringValue),
-                      float.Parse(((Node)((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos_y"]).StringValue),
-                      float.Parse(((Node)((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos_z"]).StringValue));
+                    ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[0],
+                    ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[1],
+                    ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[2]);
             }
             else if ((string)DraggingArgs[0] == "C0EditingListObjs")
             {
                 ObjectsListBox.ClearSelected();
                 ObjectsListBox.SelectedIndex = (int)DraggingArgs[1];
-                    StartPos = new Vector3D(float.Parse(((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_x"]).StringValue),
-                       float.Parse(((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_y"]).StringValue),
-                       float.Parse(((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_z"]).StringValue));
+                    StartPos = new Vector3D((Single)((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[0],
+                       (Single)((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[1],
+                       (Single)((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[2]);
             }
             else if (!IsEditingC0List)
             {
@@ -953,9 +1098,10 @@ namespace The4Dimension
                 ObjectsListBox.ClearSelected();
                 ObjectsListBox.SelectedIndex = (int)DraggingArgs[1];
                 if ((string)DraggingArgs[0] != "AllRailInfos")
-                    StartPos = new Vector3D(float.Parse(((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_x"]).StringValue),
-                       float.Parse(((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_y"]).StringValue),
-                       float.Parse(((Node)GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos_z"]).StringValue));
+                    StartPos = new Vector3D(
+                    float.Parse(((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[0].ToString()),
+                    float.Parse(((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[1].ToString()),
+                    float.Parse(((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[2].ToString()));
             }
             else { RenderIsDragging = false; return; }
         }
@@ -1632,6 +1778,7 @@ namespace The4Dimension
                       foreach(int i in ObjectsListBox.SelectedIndices)  render.ChangeModel(CurrentAllInfosSectionName, i, path);
                     }
                 }
+                
                 UpdateOBJPos(ObjectsListBox.SelectedIndices,  CurrentAllInfosSection, CurrentAllInfosSectionName);
                 if (ObjectsListBox.SelectedItems.Count == 1)
                 {
@@ -1699,17 +1846,103 @@ namespace The4Dimension
             {
                 Source = ((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List;
             }
-            Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ;
-            X = Single.Parse(((Node)Source[id].Prop["pos_x"]).StringValue);
-            Y = Single.Parse(((Node)Source[id].Prop["pos_y"]).StringValue);
-            Z = Single.Parse(((Node)Source[id].Prop["pos_z"]).StringValue);
-            ScaleX = Single.Parse(((Node)Source[id].Prop["scale_x"]).StringValue);
-            ScaleY = Single.Parse(((Node)Source[id].Prop["scale_y"]).StringValue);
-            ScaleZ = Single.Parse(((Node)Source[id].Prop["scale_z"]).StringValue);
-            RotX = Single.Parse(((Node)Source[id].Prop["dir_x"]).StringValue);
-            RotY = Single.Parse(((Node)Source[id].Prop["dir_y"]).StringValue);
-            RotZ = Single.Parse(((Node)Source[id].Prop["dir_z"]).StringValue);
+           // xyz = ads[1]
+            Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ, A, B, C;
+            Single[] scale_XDD;
+            Single[] rotation;
+            Single[] position;
+            if (Source[id].Prop.ContainsKey("pos") == true)
+            { position = (Single[])Source[id].Prop["pos"]; }
+            else
+            {
+                if (Source[id].Prop["pos_x"] != null)
+                {
+                    A = Single.Parse(((Node)Source[id].Prop["pos_x"]).StringValue);
+                    B = Single.Parse(((Node)Source[id].Prop["pos_y"]).StringValue);
+                    C = Single.Parse(((Node)Source[id].Prop["pos_z"]).StringValue);
+                    position = new Single[3] { A, B, C };
+
+                    Source[id].Prop.Add("pos", position);
+                    Source[id].Prop.Remove("pos_x");
+                    Source[id].Prop.Remove("pos_y");
+                    Source[id].Prop.Remove("pos_z");
+                }
+                else
+                {
+                    position = new Single[3] { 1, 1, 1 };
+                }
+            }
+            X = position[0];
+            Y = position[1];
+            Z = position[2];
+            if (Source[id].Prop.ContainsKey("scale") == true)
+            { 
+                scale_XDD = (Single[])Source[id].Prop["scale"];
+
+                if (Source[id].Prop.ContainsKey("scale_x") == true && Source[id].Prop["scale_x"] != null)
+                {
+                    Source[id].Prop.Remove("scale_x");
+                    Source[id].Prop.Remove("scale_y");
+                    Source[id].Prop.Remove("scale_z");
+                }
+            }
+            else 
+            {
+                if (Source[id].Prop["scale_x"] != null) 
+                {
+                    A = Single.Parse(((Node)Source[id].Prop["scale_x"]).StringValue);
+                    B = Single.Parse(((Node)Source[id].Prop["scale_y"]).StringValue);
+                    C = Single.Parse(((Node)Source[id].Prop["scale_z"]).StringValue);
+                    scale_XDD = new Single[3] { A,B,C };
+                    Source[id].Prop.Add("scale", scale_XDD);
+                    Source[id].Prop.Remove("scale_x");
+                    Source[id].Prop.Remove("scale_y");
+                    Source[id].Prop.Remove("scale_z");
+                }
+                else
+                {
+                    scale_XDD = new Single[3] { 1, 1, 1 };
+                    Source[id].Prop.Add("scale", scale_XDD);
+                }
+            }
+            ScaleX = scale_XDD[0];
+            ScaleY = scale_XDD[1];
+            ScaleZ = scale_XDD[2];//Single.Parse(((Node)Source[id].Prop["scale_z"]).StringValue);
+            if (Source[id].Prop.ContainsKey("dir") == true)
+            {
+                rotation = (Single[])Source[id].Prop["dir"];
+
+                if (Source[id].Prop.ContainsKey("dir_x") == true && Source[id].Prop["dir_x"] != null)
+                {
+                    Source[id].Prop.Remove("dir_x");
+                    Source[id].Prop.Remove("dir_y");
+                    Source[id].Prop.Remove("dir_z");
+                }
+            }
+            else
+            {
+                if (Source[id].Prop["dir_x"] != null)
+                {
+                    A = Single.Parse(((Node)Source[id].Prop["dir_x"]).StringValue);
+                    B = Single.Parse(((Node)Source[id].Prop["dir_y"]).StringValue);
+                    C = Single.Parse(((Node)Source[id].Prop["dir_z"]).StringValue);
+                    rotation = new Single[3] { A, B, C };
+                    Source[id].Prop.Add("dir", rotation);
+                    Source[id].Prop.Remove("dir_x");
+                    Source[id].Prop.Remove("dir_y");
+                    Source[id].Prop.Remove("dir_z");
+                }
+                else
+                {
+                    rotation = new Single[3] { 1, 1, 1 };
+                    Source[id].Prop.Add("dir", rotation);
+                }
+            }
+            RotX = rotation[0];
+            RotY = rotation[1];
+            RotZ = rotation[2];
             render.ChangeTransform(Type, id, new Vector3D(X, -Z, Y), new Vector3D(ScaleX, ScaleZ, ScaleY), RotX, -RotZ, RotY , (Type != "AreaObjInfo" && Type != "CameraAreaInfo" && !isUndo));
+            //ScaleXd = Single.Parse(((Node)Source[id].array(prop)Prop(0).["X"]).StringValue);
         }
 
         private void button5_Click(object sender, EventArgs e) //Remove values
@@ -1939,21 +2172,21 @@ namespace The4Dimension
         {
             if (comboBox1.Text == "AllRailInfos") return;
             if (ObjectsListBox.SelectedIndex < 0) return;
-            CopyValue(GetSelectedIndexes(), CurrentAllInfosSectionName, "pos_");
+            CopyValue(GetSelectedIndexes(), CurrentAllInfosSectionName, "pos");
         }
 
         private void copyRotationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (comboBox1.Text == "AllRailInfos") return;
             if (ObjectsListBox.SelectedIndex < 0) return;
-            CopyValue(GetSelectedIndexes(), CurrentAllInfosSectionName, "dir_");
+            CopyValue(GetSelectedIndexes(), CurrentAllInfosSectionName, "dir");
         }
 
         private void copyScaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (comboBox1.Text == "AllRailInfos") return;
             if (ObjectsListBox.SelectedIndex < 0) return;
-            CopyValue(GetSelectedIndexes(), CurrentAllInfosSectionName, "scale_");
+            CopyValue(GetSelectedIndexes(), CurrentAllInfosSectionName, "scale");
         }
 
         private void ClipBoardMenu_CopyArgs_Click(object sender, EventArgs e)
@@ -1988,7 +2221,7 @@ namespace The4Dimension
         {
             ClipBoardItem cl = new ClipBoardItem();
             int index = indexes[0];
-            if (value == "pos_" || value == "dir_" || value == "scale_")
+            /*if (value == "pos_" || value == "dir_")
             {
                 if (value == "pos_") cl.Type = ClipBoardItem.ClipboardType.Position;
                 else if (value == "dir_") cl.Type = ClipBoardItem.ClipboardType.Rotation;
@@ -2000,8 +2233,8 @@ namespace The4Dimension
                     cl.Z = Single.Parse(((Node)GetListByName(type)[index].Prop[value + "z"]).StringValue);
                 }
                 else MessageBox.Show("You can't copy this value from this object");
-            }
-            else if (value == "Arg")
+            }*/
+            if (value == "Arg")
             {
                 if (type == "AllRailInfos")
                 {
@@ -2014,6 +2247,54 @@ namespace The4Dimension
                     if (GetListByName(type)[index].Prop.ContainsKey("Arg"))
                     {
                         cl.Args = (int[])((int[])GetListByName(type)[index].Prop["Arg"]).Clone(); //This looks strange but (int[])GetListByName(type)[index].Prop["Arg"] doesn't work
+                    }
+                    else MessageBox.Show("You can't copy this value from this object");
+                }
+            }
+            else if (value == "scale")
+            {
+                if (type == "AllRailInfos")
+                {
+                    return;
+                }
+                else
+                {
+                    cl.Type = ClipBoardItem.ClipboardType.Scale;
+                    if (GetListByName(type)[index].Prop.ContainsKey("scale"))
+                    {
+                        cl.Scale = (Single[])((Single[])GetListByName(type)[index].Prop["scale"]).Clone();
+                    }
+                    else MessageBox.Show("You can't copy this value from this object");
+                }
+            }
+            else if (value == "dir")
+            {
+                if (type == "AllRailInfos")
+                {
+                    return;
+                }
+                else
+                {
+                    cl.Type = ClipBoardItem.ClipboardType.Rotation;
+                    if (GetListByName(type)[index].Prop.ContainsKey("dir"))
+                    {
+                        cl.Dir = (Single[])((Single[])GetListByName(type)[index].Prop["dir"]).Clone();
+                    }
+                    else MessageBox.Show("You can't copy this value from this object");
+                }
+            }
+            else if (value == "pos")
+            {
+                if (type == "AllRailInfos")
+                {
+                    return;
+                }
+                else
+                {
+                    cl.Type = ClipBoardItem.ClipboardType.Position;
+                    if (GetListByName(type)[index].Prop.ContainsKey("pos"))
+                    {
+                        cl.Pos = (Single[])((Single[])GetListByName(type)[index].Prop["pos"]).Clone();
                     }
                     else MessageBox.Show("You can't copy this value from this object");
                 }
@@ -2153,21 +2434,18 @@ namespace The4Dimension
             }
             if (itm.Type == ClipBoardItem.ClipboardType.Position)
             {
-                if (type[index].Prop.ContainsKey("pos_x")) ((Node)type[index].Prop["pos_x"]).StringValue = itm.X.ToString();
-                if (type[index].Prop.ContainsKey("pos_y")) ((Node)type[index].Prop["pos_y"]).StringValue = itm.Y.ToString();
-                if (type[index].Prop.ContainsKey("pos_z")) ((Node)type[index].Prop["pos_z"]).StringValue = itm.Z.ToString();
+                if (type[index].Prop.ContainsKey("pos")) type[index].Prop["pos"] = itm.Pos.Clone();
+                else type[index].Prop.Add("pos", itm.Pos.Clone());
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.Rotation)
             {
-                if (type[index].Prop.ContainsKey("dir_x")) (type[index].Prop["dir_x"] as Node).StringValue = itm.X.ToString();
-                if (type[index].Prop.ContainsKey("dir_y")) ((Node)type[index].Prop["dir_y"]).StringValue = itm.Y.ToString();
-                if (type[index].Prop.ContainsKey("dir_z")) ((Node)type[index].Prop["dir_z"]).StringValue = itm.Z.ToString();
+                if (type[index].Prop.ContainsKey("dir")) type[index].Prop["dir"] = itm.Dir.Clone();
+                else type[index].Prop.Add("dir", itm.Dir.Clone());
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.Scale)
             {
-                if (type[index].Prop.ContainsKey("scale_x")) ((Node)type[index].Prop["scale_x"]).StringValue = itm.X.ToString();
-                if (type[index].Prop.ContainsKey("scale_y")) ((Node)type[index].Prop["scale_y"]).StringValue = itm.Y.ToString();
-                if (type[index].Prop.ContainsKey("scale_z")) ((Node)type[index].Prop["scale_z"]).StringValue = itm.Z.ToString();
+                if (type[index].Prop.ContainsKey("scale")) type[index].Prop["scale"] = itm.Scale.Clone();
+                else type[index].Prop.Add("scale", itm.Scale.Clone());
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.IntArray)
             {
@@ -2396,7 +2674,7 @@ namespace The4Dimension
         {
             SaveFileDialog sav = new SaveFileDialog();
             sav.FileName = Path.GetFileNameWithoutExtension(LoadedFile);
-            sav.Filter = "Szs file|*.szs";
+            sav.Filter = "szs file|*.szs";
             if (sav.ShowDialog() == DialogResult.OK)
             {
                 SzsSave(sav.FileName);
@@ -2568,7 +2846,33 @@ namespace The4Dimension
                         xr.WriteEndElement();
                     }
                 }
-                else if (node is C0List)
+                else if (node is Single[]) //POS, ROT, SCA XYZ
+                    
+                    {
+                        Single[] tmp = ((Single[])node);
+                        for (int i = 0; i < tmp.Length; i++)
+                        {
+                            string side = "";
+                            switch (i) 
+                            {
+                            case 0:
+                                side = "_x";
+                                break;
+                            case 1:
+                                side = "_y";
+                                break;
+                            case 2:
+                                side = "_z";
+                                break;
+                        }
+
+                            xr.WriteStartElement("D2");
+                            xr.WriteAttributeString("Name", Key + side/*.ToString()*/);
+                            xr.WriteAttributeString("StringValue", tmp[i].ToString());
+                            xr.WriteEndElement();
+                        }
+                    }
+                    else if (node is C0List)
                 {
                     C0List tmp = (C0List)node;
                     xr.WriteStartElement("C0");

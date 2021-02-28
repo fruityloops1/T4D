@@ -161,21 +161,18 @@ namespace The4Dimension
             if (Value == null) Value = new LevelObj();
             if (itm.Type == ClipBoardItem.ClipboardType.Position)
             {
-                if (Value.Prop.ContainsKey("pos_x")) ((Node)Value.Prop["pos_x"]).StringValue = itm.X.ToString();
-                if (Value.Prop.ContainsKey("pos_y")) ((Node)Value.Prop["pos_y"]).StringValue = itm.Y.ToString();
-                if (Value.Prop.ContainsKey("pos_z")) ((Node)Value.Prop["pos_z"]).StringValue = itm.Z.ToString();
+                if (Value.Prop.ContainsKey("pos")) Value.Prop["pos"] = itm.Pos;
+                else Value.Prop.Add("pos", itm.Pos);
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.Rotation)
             {
-                if (Value.Prop.ContainsKey("dir_x")) ((Node)Value.Prop["dir_x"]).StringValue = itm.X.ToString();
-                if (Value.Prop.ContainsKey("dir_y")) ((Node)Value.Prop["dir_y"]).StringValue = itm.Y.ToString();
-                if (Value.Prop.ContainsKey("dir_z")) ((Node)Value.Prop["dir_z"]).StringValue = itm.Z.ToString();
+                if (Value.Prop.ContainsKey("dir")) Value.Prop["dir"] = itm.Dir;
+                else Value.Prop.Add("dir", itm.Dir);
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.Scale)
             {
-                if (Value.Prop.ContainsKey("scale_x")) ((Node)Value.Prop["scale_x"]).StringValue = itm.X.ToString();
-                if (Value.Prop.ContainsKey("scale_y")) ((Node)Value.Prop["scale_y"]).StringValue = itm.Y.ToString();
-                if (Value.Prop.ContainsKey("scale_z")) ((Node)Value.Prop["scale_z"]).StringValue = itm.Z.ToString();
+                if (Value.Prop.ContainsKey("scale")) Value.Prop["scale"] = itm.Scale;
+                else Value.Prop.Add("scale", itm.Scale);
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.IntArray)
             {

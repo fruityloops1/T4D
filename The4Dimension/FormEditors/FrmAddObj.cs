@@ -83,6 +83,8 @@ namespace The4Dimension
             {
                 if (LayerName != "CameraAreaInfo") obj.Prop.Add("ViewId", new Node("-1", "D1"));
                 obj.Prop.Add("CameraId", new Node("-1", "D1"));
+                if (LayerName == "CameraAreaInfo")
+                    obj.Prop.Add("Priority", new Node("-1", "D1"));
             }
             if (LayerName != "StartInfo")
             {
@@ -100,18 +102,21 @@ namespace The4Dimension
             else obj.Prop.Add("MarioNo", new Node("0", "D1"));
             obj.Prop.Add("LayerName", new Node("共通", "A0"));
             obj.Prop.Add("name", new Node(comboBox1.Text, "A0"));
-            obj.Prop.Add("dir_x", new Node("0", "D2"));
-            obj.Prop.Add("dir_y", new Node("0", "D2"));
-            obj.Prop.Add("dir_z", new Node("0", "D2"));
-            obj.Prop.Add("pos_x", new Node(objPos.X.ToString(), "D2"));
-            obj.Prop.Add("pos_y", new Node((objPos.Z).ToString(), "D2"));
-            obj.Prop.Add("pos_z", new Node((-objPos.Y).ToString(), "D2"));
-            obj.Prop.Add("scale_x", new Node("1", "D2"));
-            obj.Prop.Add("scale_y", new Node("1", "D2"));
-            obj.Prop.Add("scale_z", new Node("1", "D2"));
-            obj.Prop.Add("scale_XYZ", new int[3] { 100, 100, 100});
+            //obj.Prop.Add("dir_x", new Node("1", "D2"));
+            //obj.Prop.Add("dir_y", new Node("1", "D2"));
+            //obj.Prop.Add("dir_z", new Node("1", "D2"));
+            obj.Prop.Add("dir", new Single[3] { 0, 0, 0 });
+            obj.Prop.Add("pos", new Single[3] { (Single)objPos.X , (Single)objPos.Z , (Single) (-objPos.Y) });
+            //obj.Prop.Add("pos_x", new Node(objPos.X.ToString(), "D2"));
+            //obj.Prop.Add("pos_y", new Node((objPos.Z).ToString(), "D2"));
+            //obj.Prop.Add("pos_z", new Node((-objPos.Y).ToString(), "D2"));
+            //obj.Prop.Add("scale_x", new Node("1", "D2"));
+            //obj.Prop.Add("scale_y", new Node("1", "D2"));
+            //obj.Prop.Add("scale_z", new Node("1", "D2"));
+            obj.Prop.Add("scale", new Single[3] { 1, 1, 1 });
             Value = obj;
             this.Close();
+            
         }
 
         private void FrmAddObj_Load(object sender, EventArgs e)

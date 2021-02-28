@@ -111,6 +111,9 @@ namespace The4Dimension
         public Single Y = 0;
         public Single Z = 0;
         public int[] Args = null;
+        public Single[] Scale = null;
+        public Single[] Dir = null;
+        public Single[] Pos = null;
         public ClipboardType Type = 0;
         public Rail Rail = null;
         public LevelObj[] Objs = null;
@@ -120,11 +123,11 @@ namespace The4Dimension
             switch (Type)
             {
                 case ClipboardType.Position:
-                    return String.Format("Position - X:{0} Y:{1} Z:{2}", X.ToString(), Y.ToString(), Z.ToString());
+                    return String.Format("Position - X:{0} Y:{1} Z:{2}", Pos[0].ToString(), Pos[1].ToString(), Pos[2].ToString());
                 case ClipboardType.Rotation:
-                    return String.Format("Rotation - X:{0} Y:{1} Z:{2}", X.ToString(), Y.ToString(), Z.ToString());
+                    return String.Format("Rotation - X:{0} Y:{1} Z:{2}", Dir[0].ToString(), Dir[1].ToString(), Dir[2].ToString());
                 case ClipboardType.Scale:
-                    return String.Format("Scale - X:{0} Y:{1} Z:{2}", X.ToString(), Y.ToString(), Z.ToString());
+                    return String.Format("Scale - X:{0} Y:{1} Z:{2}", Scale[0].ToString(), Scale[1].ToString(), Scale[2].ToString());
                 case ClipboardType.IntArray:
                     return "Args[]";
                 case ClipboardType.Rail:
@@ -143,11 +146,11 @@ namespace The4Dimension
             switch (Type)
             {
                 case ClipboardType.Position:
-                    return String.Format("Position - X:{0} Y:{1} Z:{2}", X.ToString(), Y.ToString(), Z.ToString());
+                    return String.Format("Position - X:{0} Y:{1} Z:{2}", Pos[0].ToString(), Pos[1].ToString(), Pos[2].ToString());
                 case ClipboardType.Rotation:
-                    return String.Format("Rotation - X:{0} Y:{1} Z:{2}", X.ToString(), Y.ToString(), Z.ToString());
+                    return String.Format("Rotation - X:{0} Y:{1} Z:{2}", Dir[0].ToString(), Dir[1].ToString(), Dir[2].ToString());
                 case ClipboardType.Scale:
-                    return String.Format("Scale - X:{0} Y:{1} Z:{2}", X.ToString(), Y.ToString(), Z.ToString());
+                    return String.Format("Scale - X:{0} Y:{1} Z:{2}", Scale[0].ToString(), Scale[1].ToString(), Scale[2].ToString());
                 case ClipboardType.IntArray:
                     return "Args[]";
                 case ClipboardType.Rail:

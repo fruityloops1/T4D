@@ -8,11 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            <HelixToolkit:HelixViewport3D x:Name="ModelView" ZoomExtentsWhenLoaded="True" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
-    <!-- Remember to add light to the scene -->
-    <HelixToolkit:SunLight/>
-    
-    <HelixToolkit:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1"/>
-</HelixToolkit:HelixViewport3D>
+        <HelixToolkit:HelixViewport3D x:Name="ModelView" ZoomExtentsWhenLoaded="True" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
+            <!-- Remember to add light to the scene -->
+            <HelixToolkit:SunLight/>
+
+            <HelixToolkit:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1"/>
+        </HelixToolkit:HelixViewport3D>
     </Grid>
 </UserControl>
