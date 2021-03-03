@@ -23,7 +23,7 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 - [X] Improve ui for settings, menus etc; make everything use the t4d icon instead of generic window icon
 - [x] Add more bgms to bgmselector
 - [x] Add more options for the model importer (object creator)
-- [ ] Add more options for the cameras (Rail, fixed, etc)
+- [x] Add more options for the cameras (Rail, fixed, etc)
 
 ### v 0.9.6.0 to 1.0.0.0
 - [ ] Create Rotation and Position GUI for scale position and direction
