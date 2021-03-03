@@ -18,6 +18,19 @@ This is a continuation of Exelix' project trying to make this a better editor.
 ## Usage
 Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load it following the program's steps, then open your level and edit as you like!
 
+## Roadmap
+### v 0.9.5.0
+- [X] Improve ui for settings, menus etc; make everything use the t4d icon instead of generic window icon
+- [x] Add more bgms to bgmselector
+- [x] Add more options for the model importer (object creator)
+- [ ] Add more options for the cameras (Rail, fixed, etc)
+
+### v 0.9.6.0 to 1.0.0.0
+- [ ] Create Rotation and Position GUI for scale position and direction
+- [ ] Fix Z-fighting (Add culling)
+- [ ] Minor stuff?
+- [ ] Bugfixing
+
 
 ## TODO->Near future
 - [ ] Improve camera (?)
@@ -28,9 +41,9 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
   - [X] Position
 - [x] More Hotkeys -> Ctrl + S to save and Ctrl + O to open
 - [ ] Collision importer gui
-- [ ] Revamp ui (move messy stuff and remove other things(the Help dropdown makes no sense ;^; ))
+- [ ] Revamp ui (move messy stuff and remove other things)
   - [ ] Position, Rotation and Scale visual editors (similar to the one found in other editors like Quad64)
-  - [ ] Make options it's own window and not a weird blue box
+  - [x] Make options it's own window and not a weird blue box
   - [ ] Dark theme
   - [ ] Remove deprecated programs
   - [ ] Improve ObjectDB formatting and usage 
