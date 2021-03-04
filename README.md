@@ -25,6 +25,9 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 - [x] Add more options for the model importer (object creator)
 - [x] Add more options for the cameras (Rail, fixed, etc)
 - [ ] Add GenerateChildren C0list option button in the add property/it's own button so it's less tedious
+- [ ] Change Romfs folder selection to use file selection style instead of the old window
+- [ ] Force the apps to use . or , depending on the settings
+- [ ] 
 
 ### v 0.9.6.0 to 1.0.0.0
 - [ ] Create Rotation and Position GUI for scale position and direction
