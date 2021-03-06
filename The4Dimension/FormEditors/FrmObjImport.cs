@@ -188,8 +188,9 @@ namespace The4Dimension.FormEditors
             Sensor.Data = BymlConverter.GetByml(Properties.Resources.Sensor);
             dir.Files.Add(Sensor);
             //InitActor
+            string actor = "<?xml version =\"1.0\" encoding=\"shift_jis\"?>\r\n<Root>\r\n  <isBigEndian Value=\"False\" />\r\n  <BymlFormatVersion Value=\"1\" />\r\n  <C1>\r\n    <C1 Name=\"Collision\">\r\n      <A0 Name=\"Sensor\" StringValue=\"Collision\" />\r\n    </C1>\r\n    <C1 Name=\"Debug\">\r\n      <A0 Name=\"NodeName\" StringValue=\"地形\" />\r\n    </C1>\r\n    <C1 Name=\"Executor\">\r\n      <A0 Name=\"CategoryName\" StringValue=\"" + comboBox1.SelectedItem + "\" />\r\n    </C1>\r\n    <C1 Name=\"GroupClipping\">\r\n      <D1 Name=\"MaxCount\" StringValue=\"64\" />\r\n    </C1>\r\n    <FF Name=\"Model\" StringValue=\"00000000\" />\r\n  </C1>\r\n</Root>";
             SFSFile Actor = new SFSFile(4, "InitActor.byml", dir);
-            Actor.Data = BymlConverter.GetByml(Properties.Resources.Actor);
+            Actor.Data = BymlConverter.GetByml(actor);//Properties.Resources.Actor);
             dir.Files.Add(Actor);
             //InitClipping
             string clip = "<?xml version=\"1.0\" encoding=\"shift_jis\"?>\r\n<Root>\r\n  <isBigEndian Value=\"False\" />\r\n  <BymlFormatVersion Value=\"1\" />\r\n  <C1>\r\n    <D2 Name=\"Radius\" StringValue=\"" + numericUpDown1.Value.ToString() + "\" />\r\n  </C1>\r\n</Root>";
@@ -204,5 +205,62 @@ namespace The4Dimension.FormEditors
             MessageBox.Show("To view the model in the editor you must copy it in the models folder with the name " + textBox1.Text + ".obj or else you will see a blue box");
             this.Close();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Properties.Resources.ExecName);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog s = new SaveFileDialog();
+            s.Filter = "Szs files|*.szs";
+            s.FileName = textBox1.Text;
+            if (s.ShowDialog() != DialogResult.OK) return;
+            CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
+            NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
+            SFSDirectory dir = new SFSDirectory("", true);
+
+            //Model
+            SFSFile Model = new SFSFile(0, textBox1.Text + ".bcmdl", dir);
+            if (IsObj)
+            {
+                CGFX mod = null;
+                mod = new CGFX();
+                CGFXGenerator.FromOBJ(mod, modelPath, textBox1.Text);
+                Model.Data = mod.Write();
+            }
+            else Model.Data = File.ReadAllBytes(modelPath);
+            dir.Files.Add(Model);
+            //Collisions
+            /*SFSFile KclFile = new SFSFile(1, textBox1.Text + ".kcl", dir);
+            KclFile.Data = File.ReadAllBytes(KclPath);
+            dir.Files.Add(KclFile);
+            SFSFile PaFile = new SFSFile(2, textBox1.Text + ".pa", dir);
+            PaFile.Data = File.ReadAllBytes(PaPath);
+            dir.Files.Add(PaFile);*/
+            //InitSensor
+            SFSFile Sensor = new SFSFile(3, "InitSensor.byml", dir);
+            Sensor.Data = BymlConverter.GetByml(Properties.Resources.SensorNPC);
+            dir.Files.Add(Sensor);
+            //InitActor
+            string actor = "<?xml version =\"1.0\" encoding=\"shift_jis\"?>\r\n<Root>\r\n  <isBigEndian Value=\"False\" />\r\n  <BymlFormatVersion Value=\"1\" />\r\n  <C1>\r\n        <C1 Name=\"Debug\">\r\n      <A0 Name=\"NodeName\" StringValue=\"地形\" />\r\n    </C1>\r\n    <C1 Name=\"Executor\">\r\n      <A0 Name=\"CategoryName\" StringValue=\"" + comboBox1.SelectedItem + "\" />\r\n    </C1>\r\n    <C1 Name=\"GroupClipping\">\r\n      <D1 Name=\"MaxCount\" StringValue=\"64\" />\r\n    </C1>\r\n    <FF Name=\"Model\" StringValue=\"00000000\" />\r\n  </C1>\r\n</Root>";
+            SFSFile Actor = new SFSFile(4, "InitActor.byml", dir);
+            Actor.Data = BymlConverter.GetByml(actor);//Properties.Resources.Actor);
+            dir.Files.Add(Actor);
+            //InitClipping
+            string clip = "<?xml version=\"1.0\" encoding=\"shift_jis\"?>\r\n<Root>\r\n  <isBigEndian Value=\"False\" />\r\n  <BymlFormatVersion Value=\"1\" />\r\n  <C1>\r\n    <D2 Name=\"Radius\" StringValue=\"" + numericUpDown1.Value.ToString() + "\" />\r\n  </C1>\r\n</Root>";
+            SFSFile Clipping = new SFSFile(5, "InitClipping.byml", dir);
+            Clipping.Data = BymlConverter.GetByml(clip);
+            dir.Files.Add(Clipping);
+
+            SzsArch.FromFileSystem(dir);
+            File.WriteAllBytes(s.FileName, y.Compress(SzsArch.Write()));
+            MessageBox.Show("Done !");
+            MessageBox.Show("Remember you need to add the object to the CreatorClassNameTable to use the object in-game (Other modding -> CreatorClassNameTable editor)");
+            MessageBox.Show("To view the model in the editor you must copy it in the models folder with the name " + textBox1.Text + ".obj or else you will see a blue box");
+            this.Close();
+        }
+    
     }
 }

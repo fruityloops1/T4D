@@ -170,6 +170,7 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameObjectDumper";
             this.Text = "GameObjectDumper";
             this.Load += new System.EventHandler(this.GameObjectDumper_Load);

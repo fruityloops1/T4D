@@ -73,12 +73,12 @@ namespace The4Dimension.Properties {
         ///      &lt;A0 Name=&quot;NodeName&quot; StringValue=&quot;地形&quot; /&gt;
         ///    &lt;/C1&gt;
         ///    &lt;C1 Name=&quot;Executor&quot;&gt;
-        ///      &lt;A0 Name=&quot;CategoryName&quot; StringValue=&quot;地形オブジェ[キャラ後]&quot; /&gt;
+        ///      &lt;A0 Name=&quot;CategoryName&quot; StringValue=&quot;地形オブジェ[Movement]&quot; /&gt;
         ///    &lt;/C1&gt;
         ///    &lt;C1 Name=&quot;GroupClipping&quot;&gt;
         ///      &lt;D1 Name=&quot;MaxCount&quot; StringValue=&quot;64&quot; /&gt;
         ///    &lt;/C1&gt;
-        ///    &lt;FF Name=&quot;Model&quot; StringValue=&quot;00000000&quot; [rest of string was truncated]&quot;;.
+        ///    &lt;FF Name=&quot;Model&quot; StringValue=&quot;00000 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Actor {
             get {
@@ -132,6 +132,30 @@ namespace The4Dimension.Properties {
             get {
                 object obj = ResourceManager.GetObject("BCSTMtools", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List:
+        ///敵 = enemy
+        ///地形オブジェ = terrain object
+        ///固定地形 = fixed terrain 
+        ///デモ = demo (cutscene)
+        ///アイテム = item (e.g coin)
+        ///コリジョン地形 = Collision terrain (e.g worldmap models)
+        ///地形オブジェ[Movement] = Terrain object [Movement] 
+        ///ＮＰＣ = NPC 
+        ///地形オブジェ[キャラ後] = Terrain object [after character] (e.g level preview models)
+        ///デモ[影なし] = Demo [no shadow]
+        ///コリジョンアイテム = Collision item
+        ///コリジョン地形装飾 = Collision terrain decoration (e.g Rope ends)
+        ///空 = Sky
+        ///敵[Movement] = Enemy Movement (e.g streetpass obj)
+        ///遠景（固定地形） = Distant view (fixed terrain)  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ExecName {
+            get {
+                return ResourceManager.GetString("ExecName", resourceCulture);
             }
         }
         
@@ -213,6 +237,15 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Music {
+            get {
+                return ResourceManager.GetString("Music", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @echo off
         ///Title CCNT patcher
         ///cls
@@ -252,6 +285,27 @@ namespace The4Dimension.Properties {
         internal static string Sensor {
             get {
                 return ResourceManager.GetString("Sensor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;shift_jis&quot;?&gt;
+        ///&lt;Root&gt;
+        ///  &lt;isBigEndian Value=&quot;False&quot; /&gt;
+        ///  &lt;BymlFormatVersion Value=&quot;1&quot; /&gt;
+        ///  &lt;C0&gt;
+        ///    &lt;C1&gt;
+        ///      &lt;A0 Name=&quot;Name&quot; StringValue=&quot;Body&quot; /&gt;
+        ///	  &lt;D2 Name=&quot;Radius&quot; StringValue=&quot;50&quot; /&gt;
+        ///      &lt;A0 Name=&quot;Type&quot; StringValue=&quot;Npc&quot; /&gt;
+        ///	  &lt;D2 Name=&quot;Y&quot; StringValue=&quot;80&quot; /&gt;
+        ///    &lt;/C1&gt;
+        ///  &lt;/C0&gt;
+        ///&lt;/Root&gt;.
+        /// </summary>
+        internal static string SensorNPC {
+            get {
+                return ResourceManager.GetString("SensorNPC", resourceCulture);
             }
         }
         

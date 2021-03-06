@@ -15,6 +15,7 @@ using CommonFiles;
 using The4Dimension.Ohana;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace The4Dimension
 {
@@ -30,10 +31,11 @@ namespace The4Dimension
 
         private void ModelDumper_Load(object sender, EventArgs e)
         {
-             FolderBrowserDialog fld = new FolderBrowserDialog();
-            if (fld.ShowDialog() != DialogResult.OK) this.Close();
-            Properties.Settings.Default.GamePath =  fld.SelectedPath;
-            ObjDataPath = fld.SelectedPath + "\\ObjectData";
+            CommonOpenFileDialog fld = new CommonOpenFileDialog { IsFolderPicker = true };
+            fld.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            if (fld.ShowDialog() != CommonFileDialogResult.Ok) this.Close();
+            Properties.Settings.Default.GamePath =  fld.FileName;
+            ObjDataPath = fld.FileName + "\\ObjectData";
             Directory.CreateDirectory("models");
             File.WriteAllBytes(@"models\baseModels.zip", Properties.Resources.BaseModels);
             ZipFile.ExtractToDirectory(@"models\baseModels.zip", @"models");

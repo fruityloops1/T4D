@@ -117,82 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenericPreloadList" xml:space="preserve">
-    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
-&lt;Root&gt;
-  &lt;isBigEndian Value="False" /&gt;
-  &lt;BymlFormatVersion Value="1" /&gt;
-  &lt;C0&gt;
-    &lt;C1&gt;
-      &lt;A0 Name="Name" StringValue="SePmShootFire" /&gt;
-      &lt;A0 Name="Type" StringValue="SoundItem" /&gt;
-    &lt;/C1&gt;
-  &lt;/C0&gt;
-&lt;/Root&gt;</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BaseModels" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BaseModels.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="t4d" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\t4d.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BCSTMtools" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BCSTMtools.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PatchScript" xml:space="preserve">
-    <value>@echo off
-Title CCNT patcher
-cls
-echo This will add the object entries to the CreatorClassNameTable.szs file.
-echo You should make a backup of this file.
-echo Press enter to continue
-pause &gt;nul
-Start /W Patcher.exe CCNTpatch Done, you are ready to go !
-del 3DS.dll
-del CCNTpatch.xml
-del CommonCompressors.dll
-del CommonFiles.dll
-del LibEveryFileExplorer.dll
-del NDS.dll
-del Patcher.exe
-del "Patch script.bat"</value>
-  </data>
-  <data name="Sensor" xml:space="preserve">
-    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
-&lt;Root&gt;
-  &lt;isBigEndian Value="False" /&gt;
-  &lt;BymlFormatVersion Value="1" /&gt;
-  &lt;C0&gt;
-    &lt;C1&gt;
-      &lt;A0 Name="Name" StringValue="Collision" /&gt;
-      &lt;A0 Name="Type" StringValue="CollisionParts" /&gt;
-    &lt;/C1&gt;
-  &lt;/C0&gt;
-&lt;/Root&gt;</value>
-  </data>
-  <data name="Actor" xml:space="preserve">
-    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
-&lt;Root&gt;
-  &lt;isBigEndian Value="False" /&gt;
-  &lt;BymlFormatVersion Value="1" /&gt;
-  &lt;C1&gt;
-    &lt;C1 Name="Collision"&gt;
-      &lt;A0 Name="Sensor" StringValue="Collision" /&gt;
-    &lt;/C1&gt;
-    &lt;C1 Name="Debug"&gt;
-      &lt;A0 Name="NodeName" StringValue="地形" /&gt;
-    &lt;/C1&gt;
-    &lt;C1 Name="Executor"&gt;
-      &lt;A0 Name="CategoryName" StringValue="地形オブジェ[キャラ後]" /&gt;
-    &lt;/C1&gt;
-    &lt;C1 Name="GroupClipping"&gt;
-      &lt;D1 Name="MaxCount" StringValue="64" /&gt;
-    &lt;/C1&gt;
-    &lt;FF Name="Model" StringValue="00000000" /&gt;
-  &lt;/C1&gt;
-&lt;/Root&gt;</value>
-  </data>
   <data name="GenericStageInfo" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
 &lt;Root&gt;
@@ -229,8 +153,96 @@ del "Patch script.bat"</value>
   &lt;/C1&gt;
 &lt;/Root&gt;</value>
   </data>
-  <data name="gbatemp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gbatemp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Actor" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
+&lt;Root&gt;
+  &lt;isBigEndian Value="False" /&gt;
+  &lt;BymlFormatVersion Value="1" /&gt;
+  &lt;C1&gt;
+    &lt;C1 Name="Collision"&gt;
+      &lt;A0 Name="Sensor" StringValue="Collision" /&gt;
+    &lt;/C1&gt;
+    &lt;C1 Name="Debug"&gt;
+      &lt;A0 Name="NodeName" StringValue="地形" /&gt;
+    &lt;/C1&gt;
+    &lt;C1 Name="Executor"&gt;
+      &lt;A0 Name="CategoryName" StringValue="地形オブジェ[Movement]" /&gt;
+    &lt;/C1&gt;
+    &lt;C1 Name="GroupClipping"&gt;
+      &lt;D1 Name="MaxCount" StringValue="64" /&gt;
+    &lt;/C1&gt;
+    &lt;FF Name="Model" StringValue="00000000" /&gt;
+  &lt;/C1&gt;
+&lt;/Root&gt;</value>
+  </data>
+  <data name="PatchScript" xml:space="preserve">
+    <value>@echo off
+Title CCNT patcher
+cls
+echo This will add the object entries to the CreatorClassNameTable.szs file.
+echo You should make a backup of this file.
+echo Press enter to continue
+pause &gt;nul
+Start /W Patcher.exe CCNTpatch Done, you are ready to go !
+del 3DS.dll
+del CCNTpatch.xml
+del CommonCompressors.dll
+del CommonFiles.dll
+del LibEveryFileExplorer.dll
+del NDS.dll
+del Patcher.exe
+del "Patch script.bat"</value>
+  </data>
+  <data name="SensorNPC" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
+&lt;Root&gt;
+  &lt;isBigEndian Value="False" /&gt;
+  &lt;BymlFormatVersion Value="1" /&gt;
+  &lt;C0&gt;
+    &lt;C1&gt;
+      &lt;A0 Name="Name" StringValue="Body" /&gt;
+	  &lt;D2 Name="Radius" StringValue="50" /&gt;
+      &lt;A0 Name="Type" StringValue="Npc" /&gt;
+	  &lt;D2 Name="Y" StringValue="80" /&gt;
+    &lt;/C1&gt;
+  &lt;/C0&gt;
+&lt;/Root&gt;</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GenericPreloadList" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
+&lt;Root&gt;
+  &lt;isBigEndian Value="False" /&gt;
+  &lt;BymlFormatVersion Value="1" /&gt;
+  &lt;C0&gt;
+    &lt;C1&gt;
+      &lt;A0 Name="Name" StringValue="SePmShootFire" /&gt;
+      &lt;A0 Name="Type" StringValue="SoundItem" /&gt;
+    &lt;/C1&gt;
+  &lt;/C0&gt;
+&lt;/Root&gt;</value>
+  </data>
+  <data name="Sensor" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="shift_jis"?&gt;
+&lt;Root&gt;
+  &lt;isBigEndian Value="False" /&gt;
+  &lt;BymlFormatVersion Value="1" /&gt;
+  &lt;C0&gt;
+    &lt;C1&gt;
+      &lt;A0 Name="Name" StringValue="Collision" /&gt;
+      &lt;A0 Name="Type" StringValue="CollisionParts" /&gt;
+    &lt;/C1&gt;
+  &lt;/C0&gt;
+&lt;/Root&gt;</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BCSTMtools" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BCSTMtools.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BaseModels" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BaseModels.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AllStageList" xml:space="preserve">
     <value>FirstStageMap1.szs
@@ -330,5 +342,30 @@ LavaWheelStageMap2.szs
 BattleShipRollerSpStageMap2.szs
 KoopaThirdStageMap2.szs
 ChampionshipSpStageMap1.szs</value>
+  </data>
+  <data name="ExecName" xml:space="preserve">
+    <value>List:
+敵 = enemy
+地形オブジェ = terrain object
+固定地形 = fixed terrain 
+デモ = demo (cutscene)
+アイテム = item (e.g coin)
+コリジョン地形 = Collision terrain (e.g worldmap models)
+地形オブジェ[Movement] = Terrain object [Movement] 
+ＮＰＣ = NPC 
+地形オブジェ[キャラ後] = Terrain object [after character] (e.g level preview models)
+デモ[影なし] = Demo [no shadow]
+コリジョンアイテム = Collision item
+コリジョン地形装飾 = Collision terrain decoration (e.g Rope ends)
+空 = Sky
+敵[Movement] = Enemy Movement (e.g streetpass obj)
+遠景（固定地形） = Distant view (fixed terrain) (e.g titlefield.szs)
+ワープオブジェ[影なし] = Warp Object [No Shadow] (e.g WarpCube)</value>
+  </data>
+  <data name="t4d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\t4d.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gbatemp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gbatemp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

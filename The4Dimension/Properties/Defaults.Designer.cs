@@ -13,11 +13,11 @@ namespace The4Dimension.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Defaults : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Defaults defaultInstance = ((Defaults)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Defaults())));
         
-        public static Settings Default {
+        public static Defaults Default {
             get {
                 return defaultInstance;
             }
@@ -38,12 +38,12 @@ namespace The4Dimension.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool OnlyKnwonObjs {
+        public bool OnlyKnownObjs {
             get {
-                return ((bool)(this["OnlyKnwonObjs"]));
+                return ((bool)(this["OnlyKnownObjs"]));
             }
             set {
-                this["OnlyKnwonObjs"] = value;
+                this["OnlyKnownObjs"] = value;
             }
         }
         
@@ -92,18 +92,6 @@ namespace The4Dimension.Properties {
             }
             set {
                 this["ShowDbgInfo"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FirstStartup {
-            get {
-                return ((bool)(this["FirstStartup"]));
-            }
-            set {
-                this["FirstStartup"] = value;
             }
         }
         
@@ -158,12 +146,12 @@ namespace The4Dimension.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AddObjectOrigin {
+        public bool AddObjOrigin {
             get {
-                return ((bool)(this["AddObjectOrigin"]));
+                return ((bool)(this["AddObjOrigin"]));
             }
             set {
-                this["AddObjectOrigin"] = value;
+                this["AddObjOrigin"] = value;
             }
         }
         
@@ -171,36 +159,24 @@ namespace The4Dimension.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/obje" +
             "ctdb.xml")]
-        public string DownloadDbLink {
+        public string DownloadDbLnk {
             get {
-                return ((string)(this["DownloadDbLink"]));
+                return ((string)(this["DownloadDbLnk"]));
             }
             set {
-                this["DownloadDbLink"] = value;
+                this["DownloadDbLnk"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CheckUpdates {
+        public bool CheckUpd {
             get {
-                return ((bool)(this["CheckUpdates"]));
+                return ((bool)(this["CheckUpd"]));
             }
             set {
-                this["CheckUpdates"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DownloadDb {
-            get {
-                return ((bool)(this["DownloadDb"]));
-            }
-            set {
-                this["DownloadDb"] = value;
+                this["CheckUpd"] = value;
             }
         }
         
@@ -262,6 +238,18 @@ namespace The4Dimension.Properties {
             }
             set {
                 this["DotComma"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DownloadDb {
+            get {
+                return ((bool)(this["DownloadDb"]));
+            }
+            set {
+                this["DownloadDb"] = value;
             }
         }
     }

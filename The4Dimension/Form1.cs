@@ -19,6 +19,8 @@ using ExtensionMethods;
 using System.Net;
 using The4Dimension.ObjectDB;
 using The4Dimension.FormEditors;
+using System.Globalization;
+using System.Threading;
 
 namespace The4Dimension
 {
@@ -35,6 +37,9 @@ namespace The4Dimension
 
         public Form1(string FileLoad = "")
         {
+            string setlng;
+            if (Properties.Settings.Default.DotComma != true) { setlng = "de-DE"; } else { setlng = "en-UK"; }
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
             try
             {
                 InitializeComponent();
@@ -112,7 +117,7 @@ namespace The4Dimension
 
         public Dictionary<string, byte[]> SzsFiles = null;
         public Dictionary<string, AllInfoSection> AllInfos = new Dictionary<string, AllInfoSection>();
-        List<Rail> AllRailInfos = new List<Rail>();
+        public List<Rail> AllRailInfos = new List<Rail>();
         public Dictionary<string, int> higestID = new Dictionary<string, int>();
         public Dictionary<string, string> CreatorClassNameTable = new Dictionary<string, string>();
         public CustomStack<UndoAction> Undo = new CustomStack<UndoAction>();
@@ -147,7 +152,6 @@ namespace The4Dimension
             LoadCreatorClassNameTable();
             if (LoadedFile != "") LoadFile(LoadedFile);
             else SetUiLock(false);
-            gameROMFSPathToolStripMenuItem.Text = "Game ROMFS path: " + Properties.Settings.Default.GamePath;
             if (Properties.Settings.Default.CheckUpdates || Properties.Settings.Default.DownloadDb)
             {
                 StatusLbl.Visible = true;
@@ -1388,40 +1392,6 @@ namespace The4Dimension
             LoadCreatorClassNameTable();
         }
 
-        private void changeToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            FolderBrowserDialog fld = new FolderBrowserDialog();
-            if (fld.ShowDialog() != DialogResult.OK) return;
-            Properties.Settings.Default.GamePath = fld.SelectedPath;
-            gameROMFSPathToolStripMenuItem.Text = "Game ROMFS path: " + Properties.Settings.Default.GamePath;
-            if (File.Exists(@"BgmTable.szs"))
-            {
-                var res = MessageBox.Show("There is already a BgmTable.szs file in this program's folder, do you want to replace it with a new one from the game path you just selected ? (Choose no if you edited the BGMs or else you will lose your changes)", "Warning", MessageBoxButtons.YesNo);
-                if (res == DialogResult.Yes)
-                {
-                    if (File.Exists(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs"))
-                    {
-                        File.Delete(@"BgmTable.szs");
-                        File.Copy(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs", @"BgmTable.szs");
-                    }
-                    else MessageBox.Show(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs not found !\r\nThe file wasn't replaced");
-                }
-            }
-            if (File.Exists(@"CreatorClassNameTable.szs"))
-            {
-                var res = MessageBox.Show("There is already a CreatorClassNameTable.szs file in this program's folder, do you want to replace it with a new one from the game path you just selected ? (Choose no if you edited the game objects or else you will lose your changes)", "Warning", MessageBoxButtons.YesNo);
-                if (res == DialogResult.Yes)
-                {
-                    if (File.Exists(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs"))
-                    {
-                        File.Delete(@"CreatorClassNameTable.szs");
-                        File.Copy(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs", @"CreatorClassNameTable.szs");
-                    }
-                    else MessageBox.Show(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs not found !\r\nThe file wasn't replaced");
-                }
-            }
-        }
-
         private void stagesBgmEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Properties.Settings.Default.GamePath.Trim() == "" && !File.Exists(@"BgmTable.szs"))
@@ -1764,7 +1734,14 @@ namespace The4Dimension
             }
             else
             {
-                string name = e.ChangedItem.Parent.Value is Node ? e.ChangedItem.Parent.Label : e.ChangedItem.Label;
+                //string name = e.ChangedItem.Parent.Value is Node ? e.ChangedItem.Parent.Label : e.ChangedItem.Label;
+                string name = null;
+                string pname = null;
+                if (e.ChangedItem.Parent.Value is Node)
+                {
+                    name = e.ChangedItem.Parent.Label;
+                }
+                else if(e.ChangedItem.Parent.Value is Array) { name = e.ChangedItem.Label; pname = e.ChangedItem.Parent.Label; } else {name = e.ChangedItem.Label; }
                 if (name == "name" || name == "l_id")
                 {
                     if (!warningShow)
@@ -1785,6 +1762,8 @@ namespace The4Dimension
                     Action<object[]> action;
                     action = (object[] args) =>
                     {
+                        if (args[5] == null) 
+                        { 
                         List<LevelObj> type = (List<LevelObj>)args[0];
                         render.ClearSelection();
                         string TypeName = (string)args[1];
@@ -1803,10 +1782,38 @@ namespace The4Dimension
                             if (name == "name") render.ChangeModel(TypeName, id, path);
                             ObjectsListBox.Items[id] = type[id].ToString();
                         }
+                        }
+                        else
+                        {
+                            List<LevelObj> type = (List<LevelObj>)args[0];
+                            render.ClearSelection();
+                            string TypeName = (string)args[1];
+                            int id = (int)args[2];
+                            string propName = (string)args[5];
+                            object value = args[4];
+                            int axis = Int32.Parse(String.Join("", ((string)args[3]).Split('[', ']')));
+                            if (propName == "pos" || propName == "scale" || propName == "dir")
+                            ((Single[])(((type)[id].Prop[propName])))[axis] = (Single)value;
+                            else
+                            {
+                                ((Int32[])(((type)[id].Prop[propName])))[axis] = (Int32)value;
+                            }
+                            propertyGrid1.Refresh();
+                            if (type.GetHashCode() == CurrentAllInfosSection.GetHashCode()) UpdateOBJPos(id, type, TypeName, true);
+                        }
                     };
-                    Undo.Push(new UndoAction("Changed value: " + name + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue }, action));
+                    if (pname == null)
+                    {
+                        Undo.Push(new UndoAction("Changed value: " + name + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
+                    }
+                    else
+                    {
+                        Undo.Push(new UndoAction("Changed value: " + name + " of array "+ pname +" of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
+                    }
                 }
+
                 ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString();
+
             }
         }
 
@@ -1842,6 +1849,9 @@ namespace The4Dimension
 
         public void UpdateOBJPos(int id, List<LevelObj> Source, string Type, bool isUndo = false)
         {
+            string setlng;
+            if (Properties.Settings.Default.DotComma != true) { setlng = "de-DE"; } else { setlng = "en-UK"; }
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
             if (Type == "TmpChildrenObjs")
             {
                 Source = ((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List;
@@ -2828,6 +2838,7 @@ namespace The4Dimension
 
         void WriteOBJ(XmlWriter xr, LevelObj obj)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             if (obj.ToString().StartsWith("@")) return; //for @CameraPositionHelper
             xr.WriteStartElement("C1");
             List<string> Keys = obj.Prop.Keys.ToList();
@@ -3017,6 +3028,8 @@ namespace The4Dimension
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            new FormEditors.Settings(render).ShowDialog();
+            /*
             SettingsPanel.Visible = true;
             CamInertiaUpDown.Value = (decimal)render.CameraInertiaFactor;
             ChbFps.Checked = render.ShowFps;
@@ -3030,7 +3043,7 @@ namespace The4Dimension
             ChbStartupDb.Checked = Properties.Settings.Default.DownloadDb;
             tbUrl.Text = Properties.Settings.Default.DownloadDbLink;
             chbAddObjectOrigin.Checked = AddObjectOrigin;
-            SettingsPanel.Focus();
+            SettingsPanel.Focus();*/
         }
 
         private void btn_url_Default_Click(object sender, EventArgs e)

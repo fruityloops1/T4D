@@ -67,9 +67,6 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.generatePreloadFileListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generate2DSectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.gameROMFSPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByCameraIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -402,9 +399,7 @@
             this.modelImporterToolStripMenuItem,
             this.toolStripSeparator5,
             this.generatePreloadFileListToolStripMenuItem,
-            this.generate2DSectionToolStripMenuItem,
-            this.toolStripSeparator9,
-            this.gameROMFSPathToolStripMenuItem});
+            this.generate2DSectionToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
             this.otherToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.otherToolStripMenuItem.Text = "Tools";
@@ -460,26 +455,6 @@
             this.generate2DSectionToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.generate2DSectionToolStripMenuItem.Text = "Add TransparentWalls batch";
             this.generate2DSectionToolStripMenuItem.Click += new System.EventHandler(this.generate2DSectionToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(231, 6);
-            // 
-            // gameROMFSPathToolStripMenuItem
-            // 
-            this.gameROMFSPathToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changeToolStripMenuItem});
-            this.gameROMFSPathToolStripMenuItem.Name = "gameROMFSPathToolStripMenuItem";
-            this.gameROMFSPathToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.gameROMFSPathToolStripMenuItem.Text = "Game ROMFS path:";
-            // 
-            // changeToolStripMenuItem
-            // 
-            this.changeToolStripMenuItem.Name = "changeToolStripMenuItem";
-            this.changeToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
-            this.changeToolStripMenuItem.Text = "Change";
-            this.changeToolStripMenuItem.Click += new System.EventHandler(this.changeToolStripMenuItem_Click_1);
             // 
             // findToolStripMenuItem
             // 
@@ -1272,8 +1247,6 @@
         private System.Windows.Forms.ToolStripMenuItem creatorClassNameTableEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stagesBgmEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem gameROMFSPathToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changeToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button Btn_CopyObjs;
         private System.Windows.Forms.ToolStripMenuItem modelImporterToolStripMenuItem;
@@ -1313,7 +1286,6 @@
         private System.ComponentModel.BackgroundWorker StartupChecks;
         private System.Windows.Forms.Button btn_url_Default;
         private System.Windows.Forms.ToolStripMenuItem generate2DSectionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.CheckBox chbAddObjectOrigin;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generatePreloadFileListToolStripMenuItem;

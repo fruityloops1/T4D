@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRailPointEditor));
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.ClipBoardMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ClipBoardMenu_Paste = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,6 +130,7 @@
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.propertyGrid1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmRailPointEditor";

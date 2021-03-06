@@ -63,12 +63,20 @@ namespace The4Dimension
                 resName = textBox1.Text.Trim();
                 this.Close();
             }
-            else MessageBox.Show("This name is not valid or is arleady in use");
+            else MessageBox.Show("This name is not valid or is already in use");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             resName = null;
+            this.Close();
+        }
+
+        private void AddChild_Click(object sender, EventArgs e)
+        {
+            resName = "GenerateChildren";
+            result = new C0List();
+            propertyGrid1.SelectedObject = (C0List)result;
             this.Close();
         }
     }

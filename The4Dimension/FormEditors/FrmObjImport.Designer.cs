@@ -42,6 +42,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +68,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(192, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Generate SZS";
+            this.button1.Text = "Generate SZS (Collision)";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -180,13 +184,71 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(195, 337);
             this.label6.TabIndex = 13;
-            this.label6.Text = resources.GetString("label6.Text");
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "敵",
+            "地形オブジェ",
+            "固定地形",
+            "デモ",
+            "アイテム",
+            "コリジョン地形",
+            "地形オブジェ[Movement]",
+            "ＮＰＣ",
+            "地形オブジェ[キャラ後]",
+            "デモ[影なし]",
+            "コリジョンアイテム",
+            "コリジョン地形装飾",
+            "空",
+            "敵[Movement]",
+            "遠景（固定地形）",
+            "ワープオブジェ[影なし]"});
+            this.comboBox1.Location = new System.Drawing.Point(4, 200);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(162, 21);
+            this.comboBox1.TabIndex = 14;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1, 184);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Object Type:";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(173, 200);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(23, 21);
+            this.button5.TabIndex = 16;
+            this.button5.Text = "?";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button6.Location = new System.Drawing.Point(4, 511);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(192, 23);
+            this.button6.TabIndex = 17;
+            this.button6.Text = "Generate SZS (No collision/NPC)";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // FrmObjImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(706, 564);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -200,6 +262,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.elementHost1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(722, 571);
             this.Name = "FrmObjImport";
             this.Text = "Model import";
@@ -226,5 +289,9 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
     }
 }

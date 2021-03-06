@@ -54,6 +54,18 @@ namespace The4Dimension.BgmEditors
             }
 
             foreach (string k in LevelsNum.Keys.ToArray()) listBox1.Items.Add(k + " (" + LevelsNum[k] + ")");
+            string[] Mus = new string [Properties.Settings.Default.Music.Count];//{ "STM_BGM_TRUCK_B_FAST", "STM_BGM_WORLD1_A", "STM_BGM_WORLD2_A" };
+            Properties.Settings.Default.Music.CopyTo(Mus, 0);
+            Music.AddRange(Mus);
+            if (Properties.Settings.Default.CustomMusic != null)
+            {
+            string[] custmus = new string[Properties.Settings.Default.CustomMusic.Count];
+                
+
+            Properties.Settings.Default.CustomMusic.CopyTo(custmus, 0);
+
+            Music.AddRange(custmus);
+            }
             comboBox1.Items.AddRange(Music.ToArray());
             listBox1.SelectedIndex = 0;
         }

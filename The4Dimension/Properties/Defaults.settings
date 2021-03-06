@@ -1,11 +1,11 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="The4Dimension.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="The4Dimension.Properties" GeneratedClassName="Defaults">
   <Profiles />
   <Settings>
     <Setting Name="GamePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OnlyKnwonObjs" Type="System.Boolean" Scope="User">
+    <Setting Name="OnlyKnownObjs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="CameraInertia" Type="System.Double" Scope="User">
@@ -20,9 +20,6 @@
     <Setting Name="ShowDbgInfo" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="FirstStartup" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="CameraMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
@@ -35,16 +32,13 @@
     <Setting Name="AutoMoveCam" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="AddObjectOrigin" Type="System.Boolean" Scope="User">
+    <Setting Name="AddObjOrigin" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DownloadDbLink" Type="System.String" Scope="User">
+    <Setting Name="DownloadDbLnk" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/objectdb.xml</Value>
     </Setting>
-    <Setting Name="CheckUpdates" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="DownloadDb" Type="System.Boolean" Scope="User">
+    <Setting Name="CheckUpd" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="CustomMusic" Type="System.Collections.Specialized.StringCollection" Scope="User">
@@ -107,6 +101,9 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="DotComma" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DownloadDb" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

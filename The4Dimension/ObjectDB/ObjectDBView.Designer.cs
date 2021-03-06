@@ -69,6 +69,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ObjectDBView";
+            this.ShowIcon = false;
             this.Text = "ObjectDBView";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.ObjectDBView_Load);

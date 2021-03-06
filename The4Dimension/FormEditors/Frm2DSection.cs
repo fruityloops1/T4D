@@ -25,7 +25,7 @@ namespace The4Dimension.FormEditors
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1 f = (Form1)Application.OpenForms["Form1"];
+            The4Dimension.Form1 f = (The4Dimension.Form1)Application.OpenForms["Form1"];
             List<LevelObj> List = new List<LevelObj>();
             List.AddRange(Generate((int)numericUpDown3.Value, (int)numericUpDown4.Value, (int)numericUpDown5.Value, false));
             if (checkBox1.Checked)
@@ -72,7 +72,7 @@ namespace The4Dimension.FormEditors
         {
             List<LevelObj> List = new List<LevelObj>();
             LevelObj BaseObj = new The4Dimension.LevelObj();
-            Form1 f = (Form1)Application.OpenForms["Form1"];
+            The4Dimension.Form1 f = (The4Dimension.Form1)Application.OpenForms["Form1"];
             int HighestId = f.higestID["ObjInfo"];
             BaseObj.Prop.Add("LayerName", new Node("共通", "A0"));
             BaseObj.Prop.Add("name", new Node("TransparentWall", "A0"));
