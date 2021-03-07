@@ -538,6 +538,9 @@ namespace The4Dimension
 
         public void AddChildrenModels(C0List tmp, bool area)
         {
+            string setlng;
+            if (Properties.Settings.Default.DotComma != true) { setlng = "de-DE"; } else { setlng = "en-UK"; }
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
             if (tmp.List.Count > 0)
             {
                 List<string> modelsPaths = new List<string>();
