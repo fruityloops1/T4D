@@ -3002,32 +3002,6 @@ namespace The4Dimension
         #endregion
 
         #region Settings
-        private void SettingsPanel_LostFocus(object sender, EventArgs e)
-        {
-            SettingsPanel.Visible = false;
-            Properties.Settings.Default.CameraInertia = (double)CamInertiaUpDown.Value;
-            render.CameraInertiaFactor = (double)CamInertiaUpDown.Value;
-            Properties.Settings.Default.ShowFps = ChbFps.Checked;
-            render.ShowFps = ChbFps.Checked;
-            Properties.Settings.Default.ShowTriCount = ChbTriCount.Checked;
-            render.ShowTriangleCount = ChbTriCount.Checked;
-            Properties.Settings.Default.ShowDbgInfo = ChbDebugInfo.Checked;
-            render.ShowDebugInfo = ChbDebugInfo.Checked;
-            Properties.Settings.Default.CameraMode = cbCameraMode.SelectedIndex;
-            render.CamMode = cbCameraMode.SelectedIndex == 0 ? HelixToolkit.Wpf.CameraMode.Inspect : HelixToolkit.Wpf.CameraMode.WalkAround;
-            Properties.Settings.Default.ZoomSen = (double)ZoomSenUpDown.Value;
-            render.ZoomSensitivity = (double)ZoomSenUpDown.Value;
-            Properties.Settings.Default.RotSen = (double)RotSenUpDown.Value;
-            render.RotationSensitivity = (double)RotSenUpDown.Value;
-            Properties.Settings.Default.AutoMoveCam = ChbAddCameraMove.Checked;
-            AutoMoveCam = ChbAddCameraMove.Checked;
-            Properties.Settings.Default.CheckUpdates = ChbStartupUpdate.Checked;
-            Properties.Settings.Default.DownloadDb = ChbStartupDb.Checked;
-            Properties.Settings.Default.DownloadDbLink = tbUrl.Text;
-            Properties.Settings.Default.AddObjectOrigin = chbAddObjectOrigin.Checked;
-            AddObjectOrigin = chbAddObjectOrigin.Checked;
-            Properties.Settings.Default.Save();
-        }
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3049,10 +3023,6 @@ namespace The4Dimension
             SettingsPanel.Focus();*/
         }
 
-        private void btn_url_Default_Click(object sender, EventArgs e)
-        {
-            tbUrl.Text = "https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/objectdb.xml";
-        }
         #endregion
 
         private async void StartupChecks_DoWork(object sender, DoWorkEventArgs e)
