@@ -3045,13 +3045,12 @@ namespace The4Dimension
                 if (Properties.Settings.Default.CheckUpdates)
                 {
                     state = " checking updates";
-                    /*
+                    
                     var githubClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TheFourthDimension"));
                     var ver = await githubClient.Repository.Release.GetAll("exelix11", "TheFourthDimension");
-                    if (ver.Count > ReleaseId)*/
-                    if (true == true) //TEMPORARY
+                    if (ver.Count > ReleaseId)
                     {
-                        if (MessageBox.Show("Do you want to check for the latest update? (This will open the web browser)", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show("There's a new version of T4D available, do you want to open its release page in your web browser?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/t4d-qol/releases/latest");
                     }
                 }
