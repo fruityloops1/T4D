@@ -63,6 +63,9 @@ namespace The4Dimension.FormEditors
             this.button1 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.dotcomma = new System.Windows.Forms.CheckBox();
+            this.HasAA = new System.Windows.Forms.CheckBox();
+            this.TextFilter = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotSenUpDown)).BeginInit();
@@ -112,7 +115,7 @@ namespace The4Dimension.FormEditors
             // 
             this.ShowFPS.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ShowFPS.AutoSize = true;
-            this.ShowFPS.Location = new System.Drawing.Point(34, 242);
+            this.ShowFPS.Location = new System.Drawing.Point(31, 217);
             this.ShowFPS.Name = "ShowFPS";
             this.ShowFPS.Size = new System.Drawing.Size(76, 17);
             this.ShowFPS.TabIndex = 6;
@@ -123,7 +126,7 @@ namespace The4Dimension.FormEditors
             // 
             this.ShowCamDBG.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ShowCamDBG.AutoSize = true;
-            this.ShowCamDBG.Location = new System.Drawing.Point(291, 242);
+            this.ShowCamDBG.Location = new System.Drawing.Point(288, 217);
             this.ShowCamDBG.Name = "ShowCamDBG";
             this.ShowCamDBG.Size = new System.Drawing.Size(144, 17);
             this.ShowCamDBG.TabIndex = 8;
@@ -134,7 +137,7 @@ namespace The4Dimension.FormEditors
             // 
             this.ShowTri.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ShowTri.AutoSize = true;
-            this.ShowTri.Location = new System.Drawing.Point(34, 265);
+            this.ShowTri.Location = new System.Drawing.Point(31, 240);
             this.ShowTri.Name = "ShowTri";
             this.ShowTri.Size = new System.Drawing.Size(120, 17);
             this.ShowTri.TabIndex = 9;
@@ -145,7 +148,7 @@ namespace The4Dimension.FormEditors
             // 
             this.CamToObj.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.CamToObj.AutoSize = true;
-            this.CamToObj.Location = new System.Drawing.Point(291, 258);
+            this.CamToObj.Location = new System.Drawing.Point(288, 233);
             this.CamToObj.Name = "CamToObj";
             this.CamToObj.Size = new System.Drawing.Size(192, 30);
             this.CamToObj.TabIndex = 10;
@@ -156,7 +159,7 @@ namespace The4Dimension.FormEditors
             // 
             this.AddOrigin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.AddOrigin.AutoSize = true;
-            this.AddOrigin.Location = new System.Drawing.Point(34, 288);
+            this.AddOrigin.Location = new System.Drawing.Point(31, 263);
             this.AddOrigin.Name = "AddOrigin";
             this.AddOrigin.Size = new System.Drawing.Size(121, 17);
             this.AddOrigin.TabIndex = 11;
@@ -406,12 +409,49 @@ namespace The4Dimension.FormEditors
             // 
             this.dotcomma.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.dotcomma.AutoSize = true;
-            this.dotcomma.Location = new System.Drawing.Point(291, 288);
+            this.dotcomma.Location = new System.Drawing.Point(288, 263);
             this.dotcomma.Name = "dotcomma";
             this.dotcomma.Size = new System.Drawing.Size(149, 17);
             this.dotcomma.TabIndex = 36;
             this.dotcomma.Text = "Use dot instead of comma";
             this.dotcomma.UseVisualStyleBackColor = true;
+            // 
+            // HasAA
+            // 
+            this.HasAA.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.HasAA.AutoSize = true;
+            this.HasAA.Location = new System.Drawing.Point(30, 286);
+            this.HasAA.Name = "HasAA";
+            this.HasAA.Size = new System.Drawing.Size(126, 17);
+            this.HasAA.TabIndex = 37;
+            this.HasAA.Text = "Use anti aliasing (AA)";
+            this.HasAA.UseVisualStyleBackColor = true;
+            // 
+            // TextFilter
+            // 
+            this.TextFilter.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.TextFilter.Enabled = false;
+            this.TextFilter.FormattingEnabled = true;
+            this.TextFilter.Items.AddRange(new object[] {
+            "Bilinear",
+            "Fant",
+            "Nearest Neighbour"});
+            this.TextFilter.Location = new System.Drawing.Point(372, 284);
+            this.TextFilter.Name = "TextFilter";
+            this.TextFilter.Size = new System.Drawing.Size(108, 21);
+            this.TextFilter.TabIndex = 38;
+            this.TextFilter.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(291, 287);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 13);
+            this.label4.TabIndex = 39;
+            this.label4.Text = "Texture filter:";
+            this.label4.Visible = false;
             // 
             // Settings
             // 
@@ -420,6 +460,9 @@ namespace The4Dimension.FormEditors
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(503, 538);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.TextFilter);
+            this.Controls.Add(this.HasAA);
             this.Controls.Add(this.dotcomma);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
@@ -496,5 +539,8 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox dotcomma;
+        private System.Windows.Forms.CheckBox HasAA;
+        private System.Windows.Forms.ComboBox TextFilter;
+        private System.Windows.Forms.Label label4;
     }
 }

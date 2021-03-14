@@ -3,16 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+
+             xmlns:unused="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+             xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf.SharpDX;assembly=HelixToolkit.Wpf.SharpDX"
              xmlns:local="clr-namespace:ModelViewer"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <HelixToolkit:HelixViewport3D x:Name="ModelView" ZoomExtentsWhenLoaded="True" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
-            <!-- Remember to add light to the scene -->
-            <HelixToolkit:SunLight/>
 
-            <HelixToolkit:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1"/>
-        </HelixToolkit:HelixViewport3D>
+
+        <Grid>
+        <unused:HelixViewport3D x:Name="ModelView" ShowViewCube="false" Background="Transparent" RenderOptions.EdgeMode="Unspecified" ZoomExtentsWhenLoaded="True" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
+            <!-- Remember to add light to the scene -->
+            <unused:SunLight/>
+
+            <unused:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1" Fill="#FFD8D8D8"/>
+        </unused:HelixViewport3D>
     </Grid>
+
 </UserControl>

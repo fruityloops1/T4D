@@ -1,5 +1,7 @@
 ﻿using ModelViewer;
+using HelixToolkit;
 using HelixToolkit.Wpf;
+using HelixToolkit.Wpf.SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,6 +29,7 @@ namespace ModelViewer
         public Dictionary<string, List<Vector3D>> Positions = new Dictionary<string, List<Vector3D>>();
         ModelImporter Importer = new ModelImporter();
         SortingVisual3D ModelViewer = new SortingVisual3D();
+        
         Vector3D CameraTarget = new Vector3D(0, 0, 0);
 
         public double CameraInertiaFactor
@@ -39,6 +42,17 @@ namespace ModelViewer
         {
             get { return ModelView.ShowFrameRate; }
             set { ModelView.ShowFrameRate = value; }
+        }
+        public bool HasAA
+        {
+            get { if (RenderOptions.EdgeModeProperty.ToString() == "Unspecified") return true; else return false; }
+            set { if (value == true) RenderOptions.SetEdgeMode(ModelView,(EdgeMode)0); else RenderOptions.SetEdgeMode(ModelView, (EdgeMode)1); }
+        }
+
+        public int TextureFilter
+        {
+            get {return (int)RenderOptions.GetBitmapScalingMode(ModelView);}
+            set { RenderOptions.SetBitmapScalingMode(ModelView, (BitmapScalingMode)value+1); string desc =  RenderOptions.GetBitmapScalingMode(ModelView).ToString(); } 
         }
 
         public bool ShowTriangleCount
@@ -53,7 +67,7 @@ namespace ModelViewer
             set { ModelView.ShowCameraInfo = value; }
         }
 
-        public CameraMode CamMode
+        public HelixToolkit.Wpf.CameraMode CamMode
         {
             get { return ModelView.CameraMode; }
             set { ModelView.CameraMode = value; }
@@ -80,6 +94,7 @@ namespace ModelViewer
             InitializeComponent();
             ModelViewer.SortingFrequency = 0.5;
             ModelView.Children.Add(ModelViewer);
+            //ModelView.
         }
 
         public void Clear()
@@ -328,7 +343,7 @@ namespace ModelViewer
 
         ModelVisual3D GetHitResult(Point location)
         {
-            HitTestResult result = VisualTreeHelper.HitTest(ModelView, location);
+            System.Windows.Media.HitTestResult result = VisualTreeHelper.HitTest(ModelView, location);
             if (result != null && result.VisualHit is ModelVisual3D)
             {
                 ModelVisual3D visual = (ModelVisual3D)result.VisualHit;

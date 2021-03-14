@@ -59,10 +59,10 @@
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OtherLevelDataMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelImporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creatorClassNameTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stagesBgmEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oggToBcstmConverterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modelImporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.generatePreloadFileListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generate2DSectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -376,6 +376,14 @@
             this.otherToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.otherToolStripMenuItem.Text = "Tools";
             // 
+            // modelImporterToolStripMenuItem
+            // 
+            this.modelImporterToolStripMenuItem.Name = "modelImporterToolStripMenuItem";
+            this.modelImporterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.modelImporterToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.modelImporterToolStripMenuItem.Text = "Model importer";
+            this.modelImporterToolStripMenuItem.Click += new System.EventHandler(this.modelImporterToolStripMenuItem_Click);
+            // 
             // creatorClassNameTableEditorToolStripMenuItem
             // 
             this.creatorClassNameTableEditorToolStripMenuItem.Name = "creatorClassNameTableEditorToolStripMenuItem";
@@ -398,14 +406,6 @@
             this.oggToBcstmConverterToolStripMenuItem.Text = "Ogg to Bcstm converter";
             this.oggToBcstmConverterToolStripMenuItem.Visible = false;
             this.oggToBcstmConverterToolStripMenuItem.Click += new System.EventHandler(this.oggToBcstmConverterToolStripMenuItem_Click);
-            // 
-            // modelImporterToolStripMenuItem
-            // 
-            this.modelImporterToolStripMenuItem.Name = "modelImporterToolStripMenuItem";
-            this.modelImporterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.modelImporterToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.modelImporterToolStripMenuItem.Text = "Model importer";
-            this.modelImporterToolStripMenuItem.Click += new System.EventHandler(this.modelImporterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 

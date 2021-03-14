@@ -44,6 +44,8 @@ namespace The4Dimension.FormEditors
             cbCameraMode.SelectedIndex = render.CamMode == HelixToolkit.Wpf.CameraMode.Inspect ? 0 : 1;
             URLtxtb.Text = Properties.Settings.Default.DownloadDbLink;
             dotcomma.Checked = Properties.Settings.Default.DotComma;
+            HasAA.Checked = Properties.Settings.Default.HasAA;
+            TextFilter.SelectedIndex = Properties.Settings.Default.TextFilter;
         }
         private void SetDefaultUrl_Click(object sender, EventArgs e)
         {
@@ -79,6 +81,10 @@ namespace The4Dimension.FormEditors
             }
             else { Properties.Settings.Default.DownloadDbLink = "https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/objectdb.xml"; }
             Properties.Settings.Default.DotComma = dotcomma.Checked;
+            Properties.Settings.Default.HasAA = HasAA.Checked;
+            rendera.HasAA = HasAA.Checked;
+            Properties.Settings.Default.TextFilter = TextFilter.SelectedIndex;
+            rendera.TextureFilter = TextFilter.SelectedIndex;
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -111,6 +117,10 @@ namespace The4Dimension.FormEditors
             Properties.Settings.Default.DownloadDbLink = Properties.Defaults.Default.DownloadDbLnk;
             Properties.Settings.Default.AddObjectOrigin = Properties.Defaults.Default.AddObjOrigin;
             Properties.Settings.Default.DotComma = Properties.Defaults.Default.DotComma;
+            Properties.Settings.Default.HasAA = Properties.Defaults.Default.HasAA;
+            rendera.HasAA = Properties.Defaults.Default.HasAA;
+            Properties.Settings.Default.TextFilter = Properties.Defaults.Default.TextFilter;
+            rendera.TextureFilter = Properties.Defaults.Default.TextFilter;
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -148,6 +158,11 @@ namespace The4Dimension.FormEditors
                     else MessageBox.Show(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs not found !\r\nThe file wasn't replaced");
                 }
             }
+        }
+
+        private void HasAA_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

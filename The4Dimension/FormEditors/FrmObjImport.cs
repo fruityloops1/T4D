@@ -1,6 +1,7 @@
 ﻿using _3DS.NintendoWare.GFX;
 using CommonFiles;
 using LibEveryFileExplorer.Files.SimpleFileSystem;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using ModelViewer;
 using System;
 using System.Collections.Generic;
@@ -148,6 +149,7 @@ namespace The4Dimension.FormEditors
                 label5.Text = Path.GetFileName(PaPath);
                 KclPath = ObjModelPath + ".kcl";
                 label4.Text = Path.GetFileName(KclPath);
+                button7.Enabled = true;
             }
             else MessageBox.Show("Files not found, something went wrong !");
         }
@@ -261,6 +263,25 @@ namespace The4Dimension.FormEditors
             MessageBox.Show("To view the model in the editor you must copy it in the models folder with the name " + textBox1.Text + ".obj or else you will see a blue box");
             this.Close();
         }
-    
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog fld = new CommonOpenFileDialog { IsFolderPicker = true };
+            fld.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            if (fld.ShowDialog() != CommonFileDialogResult.Ok) return;
+            if (File.Exists(fld.FileName + "\\pa.pa")!=true)
+            { 
+            File.Copy(PaPath, fld.FileName+"\\pa.pa");
+            File.Copy(KclPath, fld.FileName+"\\kcl.kcl");
+            }
+            else 
+            {
+                File.Delete(fld.FileName + "\\pa.pa");
+                File.Delete(fld.FileName + "\\kcl.kcl");
+                File.Copy(PaPath, fld.FileName + "\\pa.pa");
+                File.Copy(KclPath, fld.FileName + "\\kcl.kcl");
+            }
+            MessageBox.Show("The kcl and pa files were saved in :"+ fld.FileName+"\r\n Don't forget to rename them to your model name!");
+        }
     }
 }

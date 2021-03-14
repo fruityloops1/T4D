@@ -252,5 +252,29 @@ namespace The4Dimension.Properties {
                 this["DownloadDb"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HasAA {
+            get {
+                return ((bool)(this["HasAA"]));
+            }
+            set {
+                this["HasAA"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TextFilter {
+            get {
+                return ((int)(this["TextFilter"]));
+            }
+            set {
+                this["TextFilter"] = value;
+            }
+        }
     }
 }

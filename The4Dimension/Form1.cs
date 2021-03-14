@@ -95,6 +95,8 @@ namespace The4Dimension
                 render.CamMode = Properties.Settings.Default.CameraMode == 0 ? HelixToolkit.Wpf.CameraMode.Inspect : HelixToolkit.Wpf.CameraMode.WalkAround;
                 render.ZoomSensitivity = Properties.Settings.Default.ZoomSen;
                 render.RotationSensitivity = Properties.Settings.Default.RotSen;
+                render.HasAA = Properties.Settings.Default.HasAA;
+                render.TextureFilter = Properties.Settings.Default.TextFilter;
                 AutoMoveCam = Properties.Settings.Default.AutoMoveCam;
                 AddObjectOrigin = Properties.Settings.Default.AddObjectOrigin;
 
