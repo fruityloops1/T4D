@@ -29,7 +29,7 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 - [x] Force the apps to use . or , depending on the settings
 
 ### v 0.9.6.0 to 1.0.0.0
-- [ ] Create Rotation and Position GUI for scale position and direction
+- [ ] Create Rotation and Position GUI
 - [ ] Fix Z-fighting (Add culling)
 - [ ] Minor stuff?
 - [ ] Bugfixing
@@ -55,7 +55,6 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
   - [ ] Less/No z fighting
 - [ ] Better documentation for everything
   - [ ] Finish documenting every object
-  - [ ] Compare Galaxy and 3D land for more stuff (Collisions and cameras seem to be the same)
   - [ ] Camera functions
   - [ ] Rail types
   - [ ] Rail arguments
