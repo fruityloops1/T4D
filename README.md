@@ -28,9 +28,13 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 - [x] Change Romfs folder selection to use file selection style instead of the old window
 - [x] Force the apps to use . or , depending on the settings
 
-### v 0.9.6.0 to 1.0.0.0
+### v 0.9.6.0
 - [ ] Create Rotation and Position GUI
-- [ ] Fix Z-fighting (Add culling)
+- [ ] Dark theme
+- [ ] Translation (at least a base for it)
+
+### Up to v 1.0.0.0
+- [ ] Fix rendering issues
 - [ ] Minor stuff?
 - [ ] Bugfixing
 
@@ -51,8 +55,7 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
   - [ ] Remove deprecated programs
   - [ ] Improve ObjectDB formatting and usage 
 - [x] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
-- [ ] Backface culling -> this will lead to:
-  - [ ] Less/No z fighting
+- [ ] Change the model renderer or improve current one to fix clipping and rendering issues
 - [ ] Better documentation for everything
   - [ ] Finish documenting every object
   - [ ] Camera functions
