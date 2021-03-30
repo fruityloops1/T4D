@@ -28,6 +28,7 @@ namespace The4Dimension
     {
         public static string ObjectDbLink = "https://raw.githubusercontent.com/exelix11/TheFourthDimension/master/ObjectsDb.xml";
         public UserControl1 render = new UserControl1();
+        public UserControlNEW renderr = new UserControlNEW();
         public Dictionary<string, string> LevelNameNum = new Dictionary<string, string>(); //WX-X, stageName
         int APP_VER = Int32.Parse(Application.ProductVersion.Replace(".", ""));
         string LoadedFile = "";
@@ -80,6 +81,8 @@ namespace The4Dimension
 
                 KeyPreview = true;
                 elementHost1.Child = render;
+                elementHost2.Visible = false;
+                elementHost2.Child = renderr;
 
                 /*  */
                     render.MouseLeftButtonDown += render_LeftClick;

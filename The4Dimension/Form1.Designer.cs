@@ -110,6 +110,7 @@
             this.ZoomCheckWarning = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.StartupChecks = new System.ComponentModel.BackgroundWorker();
+            this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -858,11 +859,24 @@
             this.StartupChecks.DoWork += new System.ComponentModel.DoWorkEventHandler(this.StartupChecks_DoWork);
             this.StartupChecks.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.StartupChecks_Completed);
             // 
+            // elementHost2
+            // 
+            this.elementHost2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.elementHost2.Location = new System.Drawing.Point(601, 27);
+            this.elementHost2.Name = "elementHost2";
+            this.elementHost2.Size = new System.Drawing.Size(187, 186);
+            this.elementHost2.TabIndex = 10;
+            this.elementHost2.Text = "elementHost2";
+            this.elementHost2.Child = null;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 575);
+            this.Controls.Add(this.elementHost2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.splitContainer1);
@@ -973,6 +987,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadLatestT4DToolStripMenuItem;
+        private System.Windows.Forms.Integration.ElementHost elementHost2;
     }
 }
 
