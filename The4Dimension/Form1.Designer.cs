@@ -111,6 +111,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.StartupChecks = new System.ComponentModel.BackgroundWorker();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.IncAxis = new System.Windows.Forms.ComboBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.IncType = new System.Windows.Forms.ComboBox();
+            this.XMLTEST = new System.Windows.Forms.Button();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -118,6 +126,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.C0EditingPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -129,7 +138,7 @@
             this.propertyGrid1.HelpVisible = false;
             this.propertyGrid1.Location = new System.Drawing.Point(4, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(234, 207);
+            this.propertyGrid1.Size = new System.Drawing.Size(234, 205);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridChange);
             this.propertyGrid1.Click += new System.EventHandler(this.propertyGrid1_Click);
@@ -601,7 +610,7 @@
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.splitContainer1.Location = new System.Drawing.Point(0, 36);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -666,7 +675,7 @@
             // Btn_CopyObjs
             // 
             this.Btn_CopyObjs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_CopyObjs.Location = new System.Drawing.Point(35, 216);
+            this.Btn_CopyObjs.Location = new System.Drawing.Point(35, 218);
             this.Btn_CopyObjs.Name = "Btn_CopyObjs";
             this.Btn_CopyObjs.Size = new System.Drawing.Size(96, 23);
             this.Btn_CopyObjs.TabIndex = 12;
@@ -681,7 +690,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(3, 193);
+            this.checkBox2.Location = new System.Drawing.Point(3, 195);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(227, 17);
             this.checkBox2.TabIndex = 9;
@@ -693,7 +702,7 @@
             // btn_cameraCode
             // 
             this.btn_cameraCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_cameraCode.Location = new System.Drawing.Point(103, 187);
+            this.btn_cameraCode.Location = new System.Drawing.Point(103, 189);
             this.btn_cameraCode.Name = "btn_cameraCode";
             this.btn_cameraCode.Size = new System.Drawing.Size(135, 26);
             this.btn_cameraCode.TabIndex = 11;
@@ -716,7 +725,7 @@
             // 
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(4, 192);
+            this.checkBox1.Location = new System.Drawing.Point(4, 194);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(92, 17);
             this.checkBox1.TabIndex = 9;
@@ -732,7 +741,7 @@
             this.ObjectsListBox.Location = new System.Drawing.Point(7, 30);
             this.ObjectsListBox.Name = "ObjectsListBox";
             this.ObjectsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.ObjectsListBox.Size = new System.Drawing.Size(229, 147);
+            this.ObjectsListBox.Size = new System.Drawing.Size(229, 121);
             this.ObjectsListBox.TabIndex = 8;
             this.ObjectsListBox.SelectedIndexChanged += new System.EventHandler(this.ObjectsListBox_SelectedIndexChanged);
             this.ObjectsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Listbox_keyDown);
@@ -763,7 +772,7 @@
             // Btn_AddObj
             // 
             this.Btn_AddObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_AddObj.Location = new System.Drawing.Point(3, 215);
+            this.Btn_AddObj.Location = new System.Drawing.Point(3, 217);
             this.Btn_AddObj.Name = "Btn_AddObj";
             this.Btn_AddObj.Size = new System.Drawing.Size(29, 23);
             this.Btn_AddObj.TabIndex = 5;
@@ -774,7 +783,7 @@
             // btn_delObj
             // 
             this.btn_delObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_delObj.Location = new System.Drawing.Point(137, 215);
+            this.btn_delObj.Location = new System.Drawing.Point(137, 217);
             this.btn_delObj.Name = "btn_delObj";
             this.btn_delObj.Size = new System.Drawing.Size(101, 23);
             this.btn_delObj.TabIndex = 4;
@@ -785,7 +794,7 @@
             // Btn_Duplicate
             // 
             this.Btn_Duplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_Duplicate.Location = new System.Drawing.Point(35, 215);
+            this.Btn_Duplicate.Location = new System.Drawing.Point(35, 217);
             this.Btn_Duplicate.Name = "Btn_Duplicate";
             this.Btn_Duplicate.Size = new System.Drawing.Size(96, 23);
             this.Btn_Duplicate.TabIndex = 3;
@@ -796,7 +805,7 @@
             // lblDescription
             // 
             this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblDescription.Location = new System.Drawing.Point(3, 213);
+            this.lblDescription.Location = new System.Drawing.Point(3, 211);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(235, 49);
             this.lblDescription.TabIndex = 9;
@@ -808,7 +817,7 @@
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(84, 265);
+            this.button5.Location = new System.Drawing.Point(84, 263);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(152, 23);
             this.button5.TabIndex = 2;
@@ -819,7 +828,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(3, 265);
+            this.button4.Location = new System.Drawing.Point(3, 263);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 1;
@@ -864,21 +873,132 @@
             this.elementHost2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.elementHost2.Location = new System.Drawing.Point(601, 27);
+            this.elementHost2.Location = new System.Drawing.Point(669, 36);
             this.elementHost2.Name = "elementHost2";
-            this.elementHost2.Size = new System.Drawing.Size(187, 186);
+            this.elementHost2.Size = new System.Drawing.Size(114, 121);
             this.elementHost2.TabIndex = 10;
             this.elementHost2.Text = "elementHost2";
             this.elementHost2.Child = null;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.IncAxis);
+            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.IncType);
+            this.panel1.Location = new System.Drawing.Point(544, 501);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(239, 71);
+            this.panel1.TabIndex = 11;
+            this.panel1.Visible = false;
+            // 
+            // IncAxis
+            // 
+            this.IncAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.IncAxis.FormattingEnabled = true;
+            this.IncAxis.Items.AddRange(new object[] {
+            "X-Axis",
+            "Y-Axis",
+            "Z-Axis"});
+            this.IncAxis.Location = new System.Drawing.Point(125, 38);
+            this.IncAxis.Name = "IncAxis";
+            this.IncAxis.Size = new System.Drawing.Size(107, 21);
+            this.IncAxis.TabIndex = 22;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.textBox2.Enabled = false;
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(38, 8);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(49, 23);
+            this.textBox2.TabIndex = 21;
+            this.textBox2.Text = "Increment";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(88, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(31, 52);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "+";
+            this.button1.UseMnemonic = false;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(38, 32);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(49, 27);
+            this.textBox1.TabIndex = 19;
+            this.textBox1.Text = "20";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackColor = System.Drawing.SystemColors.Control;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(6, 8);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(31, 52);
+            this.button3.TabIndex = 18;
+            this.button3.Text = "-";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
+            // IncType
+            // 
+            this.IncType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.IncType.FormattingEnabled = true;
+            this.IncType.Items.AddRange(new object[] {
+            "Position",
+            "Rotation",
+            "Scale"});
+            this.IncType.Location = new System.Drawing.Point(125, 8);
+            this.IncType.Name = "IncType";
+            this.IncType.Size = new System.Drawing.Size(107, 21);
+            this.IncType.TabIndex = 17;
+            // 
+            // XMLTEST
+            // 
+            this.XMLTEST.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.XMLTEST.Enabled = false;
+            this.XMLTEST.Location = new System.Drawing.Point(435, 1);
+            this.XMLTEST.Name = "XMLTEST";
+            this.XMLTEST.Size = new System.Drawing.Size(79, 23);
+            this.XMLTEST.TabIndex = 12;
+            this.XMLTEST.Text = "XML TEST";
+            this.XMLTEST.UseVisualStyleBackColor = true;
+            this.XMLTEST.Visible = false;
+            this.XMLTEST.Click += new System.EventHandler(this.XMLTEST_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 575);
+            this.Controls.Add(this.XMLTEST);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.elementHost2);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.menuStrip1);
@@ -900,6 +1020,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.C0EditingPanel.ResumeLayout(false);
             this.C0EditingPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -988,6 +1110,14 @@
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadLatestT4DToolStripMenuItem;
         private System.Windows.Forms.Integration.ElementHost elementHost2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox IncType;
+        private System.Windows.Forms.ComboBox IncAxis;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button XMLTEST;
     }
 }
 

@@ -12,7 +12,7 @@
 
 
         <Grid>
-        <unused:HelixViewport3D x:Name="ModelView" ShowViewCube="false" Background="Transparent" RenderOptions.EdgeMode="Unspecified" ZoomExtentsWhenLoaded="True" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
+        <unused:HelixViewport3D x:Name="ModelView" Background="Transparent" RenderOptions.EdgeMode="Unspecified" ZoomExtentsWhenLoaded="True" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
             <!-- Remember to add light to the scene -->
             <unused:SunLight/>
 

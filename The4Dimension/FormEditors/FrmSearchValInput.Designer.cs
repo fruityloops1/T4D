@@ -41,7 +41,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(3, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 41);
+            this.label1.Size = new System.Drawing.Size(136, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Write the value to look for :";
             // 

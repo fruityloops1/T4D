@@ -58,7 +58,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(503, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "This form atuomatically generates many TransparentWall objects to create quickly " +
+            this.label1.Text = "This form automatically generates many TransparentWall objects to create quickly " +
     "a 2D section for a level\r\n";
             // 
             // button1

@@ -44,6 +44,186 @@ namespace The4Dimension
             try
             {
                 InitializeComponent();
+                #region Language
+                if (!Directory.Exists("LANG"))
+                {
+                    MessageBox.Show("A language folder will be created, you'll be able to change the language later in the settings");
+                    Directory.CreateDirectory("LANG");
+                    File.WriteAllText(@"LANG\LANG.xml", Properties.Resources.LANG);
+                    File.WriteAllText(@"LANG\EN.xml", Properties.Resources.EN);
+                }
+                if (!File.Exists(@"LANG\LANG.xml")) { File.WriteAllText(@"LANG\LANG.xml", Properties.Resources.LANG); }
+                if (!File.Exists(@"LANG\EN.xml")) { File.WriteAllText(@"LANG\EN.xml", Properties.Resources.EN); }
+                if (Properties.Settings.Default.CurrentLang != 0)
+                {
+                    string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                    XmlReader LANG = XmlReader.Create(path);
+                    string CForm = null;
+                    while (LANG.Read())
+                    {
+
+                        if (LANG.NodeType == XmlNodeType.Element)
+                        {
+                            switch (LANG.Name)
+                            {
+                                case "MainMenu":
+                                    CForm = "Form1";
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        if (LANG.NodeType == XmlNodeType.EndElement)
+                        {
+                            switch (LANG.Name)
+                            {
+                                case "MainMenu":
+                                    CForm = null;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                        {
+                            string label = LANG.GetAttribute("name");
+                            string parent = LANG.GetAttribute("parent");
+                            string text = LANG.ReadElementContentAsString();
+                            if (this.Name == CForm)
+                            {
+                                switch (parent)
+                                {
+                                    case "splitContainer1.Panel1":
+                                        ((Label)splitContainer1.Panel1.Controls[label]).Text = text;
+                                        break;
+                                    case "C0EditingPanel":
+                                        ((Label)C0EditingPanel.Controls[label]).Text = text;
+                                        break;
+                                    case "splitContainer1.Panel2":
+                                        ((Label)splitContainer1.Panel2.Controls[label]).Text = text;
+                                        break;
+                                    default:
+                                        ((Label)Controls[label]).Text = text;
+                                        break;
+                                }
+                            }
+                        }
+                        else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                        {
+                            string button = LANG.GetAttribute("name");
+                            string parent = LANG.GetAttribute("parent");
+                            string text = LANG.ReadElementContentAsString();
+                            if (this.Name == CForm)
+                            {
+                                switch (parent)
+                                {
+                                    case "splitContainer1.Panel1":
+                                        ((Button)splitContainer1.Panel1.Controls[button]).Text = text;
+                                        break;
+                                    case "C0EditingPanel":
+                                        ((Button)C0EditingPanel.Controls[button]).Text = text;
+                                        break;
+                                    case "splitContainer1.Panel2":
+                                        ((Button)splitContainer1.Panel2.Controls[button]).Text = text;
+                                        break;
+                                    default:
+                                        ((Button)Controls[button]).Text = text;
+                                        break;
+
+                                }
+                            }
+
+                        }
+                        else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                        {
+                            string cbox = LANG.GetAttribute("name");
+                            string parent = LANG.GetAttribute("parent");
+                            string text = LANG.ReadElementContentAsString();
+                            if (this.Name == CForm)
+                            {
+                                switch (parent)
+                                {
+                                    case "splitContainer1.Panel1":
+                                        ((CheckBox)splitContainer1.Panel1.Controls[cbox]).Text = text;
+                                        break;
+                                    case "C0EditingPanel":
+                                        ((CheckBox)C0EditingPanel.Controls[cbox]).Text = text;
+                                        break;
+                                    case "splitContainer1.Panel2":
+                                        ((CheckBox)splitContainer1.Panel2.Controls[cbox]).Text = text;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                        else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Strp"))
+                        {
+                            string smenu = LANG.GetAttribute("name");
+                            string parent = LANG.GetAttribute("parent");
+                            string text = LANG.ReadElementContentAsString();
+                            if (this.Name == CForm)
+                            {
+                                switch (parent)
+                                {
+                                    case "menu":
+                                        menuStrip1.Items[smenu].Text = text;
+                                        break;
+                                    case "bymlconv":
+                                        bymlConverterToolStripMenuItem1.DropDownItems[smenu].Text = text;
+                                        break;
+                                    case "file":
+                                        fileToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                        break;
+                                    case "help":
+                                        helpToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                        break;
+                                    case "clipboard":
+                                        ClipBoardMenu.Items[smenu].Text = text;
+                                        break;
+                                    case "tools":
+                                        otherToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                        break;
+                                    case "find":
+                                        findToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                        break;
+                                    case "SaveAs":
+                                        saveAsToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                        break;
+                                    case "OBJbySWITCH":
+                                        objectBySwitchToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                        break;
+                                    default:
+                                        ToolStripItem Menu = menuStrip1.Items["fileToolStripMenuItem"];
+                                        text = "aga";
+                                        Menu.Text = text;
+                                        break;
+                                }
+                            }
+                        }
+                        else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx"))
+                        {
+                            string tbx = LANG.GetAttribute("name");
+                            string parent = LANG.GetAttribute("parent");
+                            string text = LANG.ReadElementContentAsString();
+                            if (this.Name == CForm)
+                            {
+                                switch (parent)
+                                {
+                                    case "panel1":
+                                        panel1.Controls[tbx].Text = text;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                #endregion
                 #region StageList 
                 string[] lines = Properties.Resources.AllStageList.Split(Environment.NewLine[0]);
                 int nextIndex = -1;
@@ -812,6 +992,28 @@ namespace The4Dimension
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+         /*   if (comboBox1.Text != "AllRailInfos")
+            {
+                if (ObjectsListBox.Items.Count < )
+                {
+                    panel1.Visible = false;
+                    panel1.Enabled = false;
+                }
+                else
+                {
+                    panel1.Visible = true;
+                    panel1.Enabled = true;
+                }
+            }
+            else
+            {*/
+                panel1.Visible = false;
+                panel1.Enabled = false;
+            button4.Visible = false;
+            button5.Visible = false;
+            /*  }*/
+            IncType.SelectedIndex = 0;
+            IncAxis.SelectedIndex = 0;
             btn_cameraCode.Visible = false;
             ObjectsListBox.Items.Clear();
             propertyGrid1.SelectedObject = null;
@@ -1168,9 +1370,23 @@ namespace The4Dimension
             render.ClearSelection();
             lblDescription.Text = "";
             lblDescription.Tag = -1;
-            if (ObjectsListBox.SelectedIndex < 0) return;
+            if (ObjectsListBox.SelectedIndex < 0)
+            {
+                panel1.Visible = false;
+                button4.Visible = false;
+                button5.Visible = false;
+                return;
+            }
+            else
+            { 
+                panel1.Visible = true; 
+                panel1.Enabled =true;
+                button4.Visible = true;
+                button5.Visible = true;
+            }
             if (ObjectsListBox.SelectedItems.Count > 1)
             {
+
                 Btn_CopyObjs.Visible = true;
                 Btn_Duplicate.Visible = false;
                 button4.Enabled = false;
@@ -3087,6 +3303,332 @@ namespace The4Dimension
         private void downloadLatestT4DToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/t4d-qol/releases/latest");
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text != ""&&(int.TryParse(textBox1.Text, out _)== false || int.Parse(textBox1.Text) > 9999)) { textBox1.Text = 10.ToString(); }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBox1.Text, out _) == false|| textBox1.Text == "") { textBox1.Text = 10.ToString(); }
+            Int32 add;
+            int.TryParse(textBox1.Text, out add);
+            string type = comboBox1.Text;
+            int id = ObjectsListBox.SelectedIndex;
+            string kind = "";
+            switch (IncType.SelectedIndex)
+            {
+                case 0:
+                    kind = "pos";
+                    break;
+                case 1:
+                    kind = "dir";
+                    break;
+                case 2:
+                    kind = "scale";
+                    break;
+            }
+            int OldValue = (int)((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex];
+            ((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex] += (Single)add;
+            Single current = ((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex];
+            if (IncType.SelectedIndex == 1 && (current > 360 || current < -360))
+            {
+                while (current > 360)
+                {
+                    ((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex] -= 360;
+                    current = ((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex];
+                }
+                while (current < -360)
+                {
+                    ((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex] += 360;
+                    current = ((Single[])GetListByName(type)[id].Prop[kind])[IncAxis.SelectedIndex];
+                }
+            }
+            string name = "["+IncAxis.SelectedIndex.ToString()+"]";
+            string pname = kind;
+
+            Action<object[]> action;
+            action = (object[] args) =>
+            {
+                
+                    List<LevelObj> typ = (List<LevelObj>)args[0];
+                    render.ClearSelection();
+                    string TypeName = (string)args[1];
+                    int ido = (int)args[2];
+                    string propName = (string)args[5];
+                    object value = args[4];
+                    int axis = Int32.Parse(String.Join("", ((string)args[3]).Split('[', ']')));
+                    if (propName == "pos" || propName == "scale" || propName == "dir")
+                        ((Single[])(((typ)[ido].Prop[propName])))[axis] = Single.Parse((value).ToString());
+                    else
+                    {
+                        ((Int32[])(((typ)[ido].Prop[propName])))[axis] = (Int32)value;
+                    }
+                    propertyGrid1.Refresh();
+                    if (typ.GetHashCode() == CurrentAllInfosSection.GetHashCode()) UpdateOBJPos(ido, typ, TypeName, true);
+                
+            };
+            Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
+            UpdateOBJPos(id, GetListByName(type), type);
+            propertyGrid1.Update();
+            propertyGrid1.Refresh();
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBox1.Text, out _) == false || textBox1.Text == "") { textBox1.Text = 10.ToString(); }
+            Int32 add;
+            int.TryParse(textBox1.Text, out add);
+            string typo = comboBox1.Text;
+            int ido = ObjectsListBox.SelectedIndex;
+            string kind = "";
+            switch (IncType.SelectedIndex)
+            {
+                case 0:
+                    kind = "pos";
+                    break;
+                case 1:
+                    kind = "dir";
+                    break;
+                case 2:
+                    kind = "scale";
+                    break;
+            }
+            int OldValue = (int)((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex];
+            ((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex] -= (Single)add;
+            Single current = ((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex];
+            if (IncType.SelectedIndex == 1 && (current > 360 || current < -360))
+            {
+                while (current > 360) 
+                { 
+                    ((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex] -= 360;
+                    current = ((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex];
+                }
+                while (current < -360) 
+                { 
+                    ((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex] += 360;
+                    current = ((Single[])GetListByName(typo)[ido].Prop[kind])[IncAxis.SelectedIndex];
+                }
+            }
+
+            
+
+
+            string name = "["+IncAxis.SelectedIndex.ToString()+"]";
+            string pname = kind;
+
+            Action<object[]> action;
+            action = (object[] args) =>
+            {
+                
+                    List<LevelObj> type = (List<LevelObj>)args[0];
+                    render.ClearSelection();
+                    string TypeName = (string)args[1];
+                    int id = (int)args[2];
+                    string propName = (string)args[5];
+                    object value = args[4];
+                    int axis = Int32.Parse(String.Join("", ((string)args[3]).Split('[', ']')));
+                    if (propName == "pos" || propName == "scale" || propName == "dir")
+                        ((Single[])(((type)[id].Prop[propName])))[axis] = Single.Parse((value).ToString());
+                    else
+                    {
+                        ((Int32[])(((type)[id].Prop[propName])))[axis] = (Int32)value;
+                    }
+                    propertyGrid1.Refresh();
+                    if (type.GetHashCode() == CurrentAllInfosSection.GetHashCode()) UpdateOBJPos(id, type, TypeName, true);
+                
+            };
+            Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
+            UpdateOBJPos(ido, GetListByName(typo), typo);
+            propertyGrid1.Update();
+            propertyGrid1.Refresh();
+        }
+
+        private void XMLTEST_Click(object sender, EventArgs e)
+        {
+
+            string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\EN.xml";
+            XmlReader LANG = XmlReader.Create(path);
+            string CForm = null;
+            while (LANG.Read())
+            {
+                
+                if (LANG.NodeType == XmlNodeType.Element)
+                { switch (LANG.Name)
+                    {
+                        case "Form1":
+                            CForm = "Form1";
+                            break;
+                        case "FrmSetting":
+                            CForm = "FrmSettings";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (LANG.NodeType == XmlNodeType.EndElement) 
+                {
+                    switch (LANG.Name)
+                    {
+                        case "Form1":
+                            CForm = null;
+                            break;
+                        case "FrmSetting":
+                            CForm = null;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
+                if (LANG.NodeType == XmlNodeType.Element&& LANG.Name.Equals("Lbl")) 
+                {
+                    string label = LANG.GetAttribute("name");
+                    string parent = LANG.GetAttribute("parent");
+                    string text = LANG.ReadElementContentAsString();
+                    if (this.Name == CForm) 
+                    { 
+                        switch (parent)
+                        {
+                        case "splitContainer1.Panel1":
+                            ((Label)splitContainer1.Panel1.Controls[label]).Text = text;
+                            break;
+                        case "C0EditingPanel":
+                            ((Label)C0EditingPanel.Controls[label]).Text = text;
+                            break;
+                        case "splitContainer1.Panel2":
+                            ((Label)splitContainer1.Panel2.Controls[label]).Text = text;
+                            break;
+                        default:
+                            ((Label)Controls[label]).Text = text;
+                            break;
+                        }
+                    }
+                    //label3 = label1;
+                }
+                else if(LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                {
+                    string button = LANG.GetAttribute("name");
+                    string parent = LANG.GetAttribute("parent");
+                    string text = LANG.ReadElementContentAsString();
+                    if (this.Name == CForm)
+                    {
+                        switch (parent)
+                        {
+                            case "splitContainer1.Panel1":
+                                ((Button)splitContainer1.Panel1.Controls[button]).Text = text;
+                                break;
+                            case "C0EditingPanel":
+                                ((Button)C0EditingPanel.Controls[button]).Text = text;
+                                break;
+                            case "splitContainer1.Panel2":
+                                ((Button)splitContainer1.Panel2.Controls[button]).Text = text;
+                                break;
+                            default:
+                                ((Button)Controls[button]).Text = text;
+                                break;
+
+                        }
+                    }
+
+                }
+                else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                {
+                    string cbox = LANG.GetAttribute("name");
+                    string parent = LANG.GetAttribute("parent");
+                    string text = LANG.ReadElementContentAsString();
+                    if (this.Name == CForm)
+                    {
+                        switch (parent)
+                        {
+                            case "splitContainer1.Panel1":
+                                ((CheckBox)splitContainer1.Panel1.Controls[cbox]).Text = text;
+                                break;
+                            case "C0EditingPanel":
+                                ((CheckBox)C0EditingPanel.Controls[cbox]).Text = text;
+                                break;
+                            case "splitContainer1.Panel2":
+                                ((CheckBox)splitContainer1.Panel2.Controls[cbox]).Text = text;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Strp"))
+                {
+                    string smenu = LANG.GetAttribute("name");
+                    string parent = LANG.GetAttribute("parent");
+                    string text = LANG.ReadElementContentAsString();
+                    if (this.Name == CForm)
+                    {
+                        switch (parent)
+                        {
+                            case "menu":
+                                menuStrip1.Items[smenu].Text = text;
+                                break;
+                            case "bymlconv":
+                                bymlConverterToolStripMenuItem1.DropDownItems[smenu].Text = text;
+                                break;
+                            case "file":
+                                fileToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                break;
+                            case "help":
+                                helpToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                break;
+                            case "clipboard":
+                                ClipBoardMenu.Items[smenu].Text = text;
+                                break;
+                            case "tools":
+                                otherToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                break;
+                            case "find":
+                                findToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                break;
+                            case "SaveAs":
+                                saveAsToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                break;
+                            case "OBJbySWITCH":
+                                objectBySwitchToolStripMenuItem.DropDownItems[smenu].Text = text;
+                                break;
+                            default:
+                                ToolStripItem Menu = menuStrip1.Items["fileToolStripMenuItem"];
+                                text = "TEST";
+                                Menu.Text = text;
+                                break;
+                        }
+                    }
+                    //helpToolStripMenuItem.DropDownItems["gbatempThreadToolStripMenuItem"].Text = "TEST";
+                    //gbatempThreadToolStripMenuItem.Text = "";
+                    //openToolStripMenuItem.Text = "Open";
+                    //break;
+                }
+                else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx")) 
+                {
+                    string tbx = LANG.GetAttribute("name");
+                    string parent = LANG.GetAttribute("parent");
+                    string text = LANG.ReadElementContentAsString();
+                    if (this.Name == CForm)
+                    {
+                        switch (parent)
+                        {
+                            case "panel1":
+                                panel1.Controls[tbx].Text = text;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                }
+            }
         }
     }
 }

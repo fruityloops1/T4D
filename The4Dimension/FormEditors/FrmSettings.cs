@@ -13,15 +13,16 @@ using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Threading;
 using System.Globalization;
+using System.Xml;
 
 namespace The4Dimension.FormEditors
 {
     public partial class Settings : Form
     {
         private UserControl1 rendera;
-        
 
 
+        private List<string> languages;
 
         public Settings(UserControl1 render)
         {
@@ -30,6 +31,140 @@ namespace The4Dimension.FormEditors
             Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
             rendera = render;
             InitializeComponent();
+            # region Language
+            string langpath = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\LANG.xml";
+            XmlReader use = XmlReader.Create(langpath);
+            LanguageBox.Items.Add("DEFAULT");
+            languages = new List<string>();
+            while (use.Read())
+            {
+                string info = "";
+                
+                if(use.NodeType == XmlNodeType.Element && use.Name == "Lang") 
+                {
+                    string CurrentFile = use.GetAttribute("file");
+                    string xmlinfopath = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + CurrentFile + ".xml";
+                    if (!File.Exists(xmlinfopath)) { break; }
+                    XmlReader xmlinfo = XmlReader.Create(xmlinfopath);
+                    languages.Add(CurrentFile);
+                    while (xmlinfo.Read())
+                    {
+                        if (xmlinfo.NodeType == XmlNodeType.Element && xmlinfo.Name == "INFO") 
+                        {
+                            info = xmlinfo.GetAttribute("lang") + " translation by " + xmlinfo.GetAttribute("author");
+                            break;
+                        }
+                    }
+                    LanguageBox.Items.Add(info);
+                }
+                
+            }
+            LanguageBox.SelectedIndex = Properties.Settings.Default.CurrentLang;
+            #endregion
+            #region Translation
+            if (Properties.Settings.Default.CurrentLang != 0)
+            {
+                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                XmlReader LANG = XmlReader.Create(path);
+                string CForm = null;
+                while (LANG.Read())
+                {
+
+                    if (LANG.NodeType == XmlNodeType.Element)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "Settings":
+                                CForm = "Settings";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (LANG.NodeType == XmlNodeType.EndElement)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "Settings":
+                                CForm = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                    {
+                        string label = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Label)Controls[label]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                    {
+                        string button = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Button)Controls[button]).Text = text;
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                    {
+                        string cbox = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((CheckBox)Controls[cbox]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                   
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx"))
+                    {
+                        string tbx = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                case "panel1":
+                                    Controls[tbx].Text = text;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                    }
+                }
+            }
+            #endregion
+
+
+
             textBox1.Text = Properties.Settings.Default.GamePath;
             CamInertiaUpDown.Value = (decimal)render.CameraInertiaFactor;
             ShowFPS.Checked = render.ShowFps;
@@ -54,6 +189,15 @@ namespace The4Dimension.FormEditors
 
         private void Save_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.CurrentLang = LanguageBox.SelectedIndex;
+            if (LanguageBox.SelectedIndex == 0) 
+            { 
+                Properties.Settings.Default.CurrentLangName = Properties.Defaults.Default.CurrentLangName; 
+            }
+            else
+            {
+                Properties.Settings.Default.CurrentLangName = languages[LanguageBox.SelectedIndex - 1];
+            }
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Properties.Settings.Default.GamePath = textBox1.Text;
             Properties.Settings.Default.CameraInertia = (double)CamInertiaUpDown.Value;
@@ -96,6 +240,8 @@ namespace The4Dimension.FormEditors
 
         private void Apply_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.CurrentLang = Properties.Defaults.Default.CurrentLang;
+            Properties.Settings.Default.CurrentLangName = Properties.Defaults.Default.CurrentLangName;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Properties.Settings.Default.CameraInertia = Properties.Defaults.Default.CameraInertia;
             rendera.CameraInertiaFactor = Properties.Defaults.Default.CameraInertia;
@@ -163,6 +309,11 @@ namespace The4Dimension.FormEditors
         private void HasAA_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Some changes won't take place until you reload the editor!");
         }
     }
 }

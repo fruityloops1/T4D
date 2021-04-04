@@ -66,6 +66,9 @@ namespace The4Dimension.FormEditors
             this.HasAA = new System.Windows.Forms.CheckBox();
             this.TextFilter = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.LanguageBox = new System.Windows.Forms.ComboBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotSenUpDown)).BeginInit();
@@ -181,7 +184,7 @@ namespace The4Dimension.FormEditors
             // 
             this.DwnldObjDBStart.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.DwnldObjDBStart.AutoSize = true;
-            this.DwnldObjDBStart.Location = new System.Drawing.Point(25, 389);
+            this.DwnldObjDBStart.Location = new System.Drawing.Point(203, 357);
             this.DwnldObjDBStart.Name = "DwnldObjDBStart";
             this.DwnldObjDBStart.Size = new System.Drawing.Size(277, 17);
             this.DwnldObjDBStart.TabIndex = 13;
@@ -203,7 +206,7 @@ namespace The4Dimension.FormEditors
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(27, 426);
+            this.label7.Location = new System.Drawing.Point(26, 433);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(124, 13);
             this.label7.TabIndex = 15;
@@ -212,7 +215,7 @@ namespace The4Dimension.FormEditors
             // SetDefaultUrl
             // 
             this.SetDefaultUrl.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.SetDefaultUrl.Location = new System.Drawing.Point(416, 422);
+            this.SetDefaultUrl.Location = new System.Drawing.Point(416, 427);
             this.SetDefaultUrl.Name = "SetDefaultUrl";
             this.SetDefaultUrl.Size = new System.Drawing.Size(75, 23);
             this.SetDefaultUrl.TabIndex = 16;
@@ -223,7 +226,7 @@ namespace The4Dimension.FormEditors
             // URLtxtb
             // 
             this.URLtxtb.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.URLtxtb.Location = new System.Drawing.Point(157, 424);
+            this.URLtxtb.Location = new System.Drawing.Point(157, 430);
             this.URLtxtb.Name = "URLtxtb";
             this.URLtxtb.Size = new System.Drawing.Size(252, 20);
             this.URLtxtb.TabIndex = 20;
@@ -453,6 +456,36 @@ namespace The4Dimension.FormEditors
             this.label4.Text = "Texture filter:";
             this.label4.Visible = false;
             // 
+            // label13
+            // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(92, 398);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(58, 13);
+            this.label13.TabIndex = 41;
+            this.label13.Text = "Language:";
+            // 
+            // LanguageBox
+            // 
+            this.LanguageBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LanguageBox.FormattingEnabled = true;
+            this.LanguageBox.Location = new System.Drawing.Point(157, 395);
+            this.LanguageBox.Name = "LanguageBox";
+            this.LanguageBox.Size = new System.Drawing.Size(303, 21);
+            this.LanguageBox.TabIndex = 40;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button2.Location = new System.Drawing.Point(466, 395);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(24, 23);
+            this.button2.TabIndex = 42;
+            this.button2.Text = "?";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -460,6 +493,9 @@ namespace The4Dimension.FormEditors
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(503, 538);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.LanguageBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.TextFilter);
             this.Controls.Add(this.HasAA);
@@ -542,5 +578,8 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.CheckBox HasAA;
         private System.Windows.Forms.ComboBox TextFilter;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox LanguageBox;
+        private System.Windows.Forms.Button button2;
     }
 }

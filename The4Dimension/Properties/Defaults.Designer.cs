@@ -276,5 +276,29 @@ namespace The4Dimension.Properties {
                 this["TextFilter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CurrentLang {
+            get {
+                return ((int)(this["CurrentLang"]));
+            }
+            set {
+                this["CurrentLang"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DEFAULT")]
+        public string CurrentLangName {
+            get {
+                return ((string)(this["CurrentLangName"]));
+            }
+            set {
+                this["CurrentLangName"] = value;
+            }
+        }
     }
 }
