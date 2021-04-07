@@ -5,11 +5,13 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using The4Dimension;
 
 namespace The4Dimension.FormEditors
@@ -21,12 +23,131 @@ namespace The4Dimension.FormEditors
         int CameraId;
         int TextInsertIndex = -1;
         Form1 owner;
+        private Dictionary<string, string> strings;
         public FrmAddCameraSettings(string xml, int camId, Form1 own)
         {
+            strings = new Dictionary<string, string>();
             InitializeComponent();
+            #region Translation
+            if (Properties.Settings.Default.CurrentLang != 0)
+            {
+                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                XmlReader LANG = XmlReader.Create(path);
+                string CForm = null;
+                while (LANG.Read())
+                {
+
+                    if (LANG.NodeType == XmlNodeType.Element)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "AddCam":
+                                CForm = "FrmAddCameraSettings";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (LANG.NodeType == XmlNodeType.EndElement)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "AddCam":
+                                CForm = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                    {
+                        string label = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Label)Controls[label]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Var"))
+                    {
+                        string var = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    strings.Add(var,text);
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                    {
+                        string button = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Button)Controls[button]).Text = text;
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                    {
+                        string cbox = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((CheckBox)Controls[cbox]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx"))
+                    {
+                        string tbx = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                case "panel1":
+                                    Controls[tbx].Text = text;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                    }
+                }
+            }
+            #endregion
+
             XmlFile = xml;
             CameraId = camId;
-            label1.Text = "CameraId: " + camId.ToString();
+            label1.Text = label1.Text + " " + camId.ToString();
             owner = own;
         }
 
@@ -174,29 +295,29 @@ namespace The4Dimension.FormEditors
             switch (FixedTypeBox.SelectedIndex)
             {
                 case 0://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = "Camera position:";
-                    label11.Text = "Point position:";
+                    label9.Text = strings["campos"];
+                    label11.Text = strings["pointpos"];
                     FixX2.Enabled = true;
                     FixY2.Enabled = true;
                     FixZ2.Enabled = true;
                     break;
                 case 1://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = "Box vertex 1 position:";
-                    label11.Text = "Box vertex 2 position:";
+                    label9.Text = strings["boxV1"];
+                    label11.Text = strings["boxV2"];
                     FixX2.Enabled = true;
                     FixY2.Enabled = true;
                     FixZ2.Enabled = true;
                     break;
                 case 2://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = "Camera position:";
-                    label11.Text = "Unused:";
+                    label9.Text = strings["campos"];
+                    label11.Text = strings["unused"];
                     FixX2.Enabled = false;
                     FixY2.Enabled = false;
                     FixZ2.Enabled = false;
                     break;
                 case 3://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = "Center of rotation position:";
-                    label11.Text = "Unused:";
+                    label9.Text = strings["rotcent"];
+                    label11.Text = strings["unused"];
                     FixX2.Enabled = false;
                     FixY2.Enabled = false;
                     FixZ2.Enabled = false;

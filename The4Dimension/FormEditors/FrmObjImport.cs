@@ -14,12 +14,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using static The4Dimension.Ohana.RenderBase;
 
 namespace The4Dimension.FormEditors
 {
     public partial class FrmObjImport : Form
     {
+        string filename = "";
         string modelPath = "";
         string ObjModelPath = "";
         bool IsObj;
@@ -27,16 +29,115 @@ namespace The4Dimension.FormEditors
         string tmpPath = "";
         string KclPath = "";
         string PaPath = "";
-
+        private Dictionary<string, string> strings;
         public FrmObjImport()
         {
+            strings = new Dictionary<string, string>();
             InitializeComponent();
+            comboBox1.SelectedIndex = 5;
             elementHost1.Child = render;
             render.AddKey("Model");
         }
 
         private void FrmObjImport_Load(object sender, EventArgs e)
         {
+            #region Translation
+            if (Properties.Settings.Default.CurrentLang != 0)
+            {
+                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                XmlReader LANG = XmlReader.Create(path);
+                string CForm = null;
+                while (LANG.Read())
+                {
+
+                    if (LANG.NodeType == XmlNodeType.Element)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "ModelImport":
+                                CForm = "FrmObjImport";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (LANG.NodeType == XmlNodeType.EndElement)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "ModelImport":
+                                CForm = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                    {
+                        string label = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Label)Controls[label]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Var"))
+                    {
+                        string var = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    strings.Add(var, text);
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                    {
+                        string button = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Button)Controls[button]).Text = text;
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                    {
+                        string cbox = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((CheckBox)Controls[cbox]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
             OpenFileDialog opn = new OpenFileDialog();
             opn.Title = "Open a model file";
             opn.Filter = "Supported formats (.bcmdl, .obj)|*.bcmdl; *.obj";
@@ -44,7 +145,7 @@ namespace The4Dimension.FormEditors
             if (opn.ShowDialog() != DialogResult.OK) ok = false;
             if (Path.GetExtension(opn.FileName).ToLower() == ".obj")
             {
-                if (MessageBox.Show("The obj will be converted to bcmdl with Every File Explorer's method, this is known to have problems, especially with models made in sketchup.\r\nDo you want to continue ?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show(strings["objconvY"], "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     modelPath = opn.FileName;
                     ObjModelPath = modelPath;
@@ -53,14 +154,15 @@ namespace The4Dimension.FormEditors
                 }
                 else
                 {
-                    MessageBox.Show("You can convert the model to bcmdl with the leaked tools");
+                    MessageBox.Show(strings["objconvN"]);
                     this.Close();
                 }
             }
             else if (Path.GetExtension(opn.FileName).ToLower() == ".bcmdl")
             {
                 tmpPath = Path.GetTempPath() + "TmpT4D";
-                string Name = tmpPath + "\\model.obj";
+                filename = Path.GetFileNameWithoutExtension(opn.FileName);
+                string Name = tmpPath + "\\"+Path.GetFileNameWithoutExtension(opn.FileName)+".obj";
                 Directory.CreateDirectory(tmpPath);
                 CGFX mod = null;
                 mod = new _3DS.NintendoWare.GFX.CGFX(File.ReadAllBytes(opn.FileName));
@@ -89,8 +191,8 @@ namespace The4Dimension.FormEditors
             }
             else
             {
-                if (ok) MessageBox.Show("File not supported");
-                else MessageBox.Show("You must select your model file to use this function");
+                if (ok) MessageBox.Show(strings["nosup"]);
+                else MessageBox.Show(strings["selectmodel"]);
                 this.Close();
             }
         }
@@ -132,7 +234,7 @@ namespace The4Dimension.FormEditors
         {
             if (!File.Exists("CollisionsMng.exe"))
             {
-                MessageBox.Show("CollisionsMng.exe not found !");
+                MessageBox.Show("CollisionsMng.exe"+strings["enotfound"]);
                 return;
             }
             button2.Enabled = false;
@@ -146,19 +248,19 @@ namespace The4Dimension.FormEditors
             if (File.Exists(ObjModelPath + ".kcl") && File.Exists(ObjModelPath + ".pa"))
             {
                 PaPath = ObjModelPath + ".pa";
-                label5.Text = Path.GetFileName(PaPath);
+                label5.Text = strings["label5"] + filename + ".pa";
                 KclPath = ObjModelPath + ".kcl";
-                label4.Text = Path.GetFileName(KclPath);
+                label4.Text = strings["label4"] + filename + ".kcl";
                 button7.Enabled = true;
             }
-            else MessageBox.Show("Files not found, something went wrong !");
+            else MessageBox.Show(strings["notfound"]);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(PaPath)) { MessageBox.Show("Pa file not found !"); return; }
-            if (!File.Exists(KclPath)) { MessageBox.Show("kcl file not found !"); return; }
-            if (!File.Exists(modelPath)) { MessageBox.Show("Model file not found !"); return; }
+            if (!File.Exists(PaPath)) { MessageBox.Show(strings["panf"]); return; }
+            if (!File.Exists(KclPath)) { MessageBox.Show(strings["kclnf"]); return; }
+            if (!File.Exists(modelPath)) { MessageBox.Show(strings["modelnf"]); return; }
             SaveFileDialog s = new SaveFileDialog();
             s.Filter = "Szs files|*.szs";
             s.FileName = textBox1.Text;
@@ -202,15 +304,16 @@ namespace The4Dimension.FormEditors
 
             SzsArch.FromFileSystem(dir);
             File.WriteAllBytes(s.FileName, y.Compress(SzsArch.Write()));
-            MessageBox.Show("Done !");
-            MessageBox.Show("Remember you need to add the object to the CreatorClassNameTable to use the object in-game (Other modding -> CreatorClassNameTable editor)");
-            MessageBox.Show("To view the model in the editor you must copy it in the models folder with the name " + textBox1.Text + ".obj or else you will see a blue box");
+            MessageBox.Show(strings["done"]);
+            MessageBox.Show(strings["CC"]);
+            MessageBox.Show(strings["view2"] + textBox1.Text + strings["view2"]);
             this.Close();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Properties.Resources.ExecName);
+            MessageBox.Show("If unsure leave the default option (collision terrain/option n 6)");
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -258,9 +361,9 @@ namespace The4Dimension.FormEditors
 
             SzsArch.FromFileSystem(dir);
             File.WriteAllBytes(s.FileName, y.Compress(SzsArch.Write()));
-            MessageBox.Show("Done !");
-            MessageBox.Show("Remember you need to add the object to the CreatorClassNameTable to use the object in-game (Other modding -> CreatorClassNameTable editor)");
-            MessageBox.Show("To view the model in the editor you must copy it in the models folder with the name " + textBox1.Text + ".obj or else you will see a blue box");
+            MessageBox.Show(strings["done"]);
+            MessageBox.Show(strings["CC"]);
+            MessageBox.Show(strings["view2"] + textBox1.Text + strings["view2"]);
             this.Close();
         }
 
@@ -281,7 +384,7 @@ namespace The4Dimension.FormEditors
                 File.Copy(PaPath, fld.FileName + "\\pa.pa");
                 File.Copy(KclPath, fld.FileName + "\\kcl.kcl");
             }
-            MessageBox.Show("The kcl and pa files were saved in :"+ fld.FileName+"\r\n Don't forget to rename them to your model name!");
+            MessageBox.Show(strings["kclpa"]+ fld.FileName+strings["rename"]);
         }
     }
 }

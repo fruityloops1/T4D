@@ -113,5 +113,82 @@ automatically move the camera to it</Chck>
 			<Btn name="button2">Cancel</Btn>
 			<Chck name="checkBox1">Show only known objects (in the database)</Chck>
 		</AddObj>
+		<Add2d>
+			<Lbl name="label1">This form automatically generates many TransparentWall objects to create quickly a 2D section for a level
+</Lbl>
+			<Lbl name="label3">How many walls to place:  (each TransparentWall is 1000 units)</Lbl>
+			<Lbl name="label2">Horizontal:</Lbl>
+			<Lbl name="label6">Vertical:</Lbl>
+			<Lbl name="label4">Position of the first wall:</Lbl>
+			<Lbl name="label5">Distance between walls:
+(100 units = 1 block)</Lbl>
+			<Btn name="button1">OK</Btn>
+			<Btn name="button2">Cancel</Btn>
+			<Chck name="checkBox1">Make a 2D section (2 sets of transparent walls)</Chck>
+			<Chck name="checkBox2">Closed on top</Chck>
+		</Add2d>
+		<AddCam>
+			<Lbl name="label1">Camera Id:</Lbl>
+			<Lbl name="label3">Horizontal angle:</Lbl>
+			<Lbl name="label2">Vertical angle:</Lbl>
+			<Lbl name="label4">Distance from player:</Lbl>
+			<Lbl name="label8">Rotator:</Lbl>
+			<Lbl name="label15">Max dash angle:</Lbl>
+			<Lbl name="label16">Max dash zoom out offset:</Lbl>
+			<Lbl name="label9">Point position:</Lbl>
+			<Lbl name="label11">Point position:</Lbl>
+			<Lbl name="label10">Rail id (I_id)</Lbl>
+			<Btn name="button1">OK</Btn>
+			<Btn name="button2">Cancel</Btn>
+			<Chck name="ChckBxFixCam">Fixed position camera?</Chck>
+			<Chck name="ChckBxRailCam">Follow rail?</Chck>
+			<Var name="pointpos">Point position:</Var>
+			<Var name="campos">Camera position:</Var>
+			<Var name="boxV1">Box 1st vertex pos:</Var>
+			<Var name="boxV2">Box 2nd vertex pos:</Var>
+			<Var name="unused">Unused:</Var>
+			<Var name="rotcent">Rotation center position:</Var>
+		</AddCam>
+		<AddProp>
+			<Lbl name="label4">Add object properties:</Lbl>
+			<Lbl name="label3">Name:</Lbl>
+			<Lbl name="label2">Byte node type (0 to FF):</Lbl>
+			<Lbl name="label1">Value type:</Lbl>
+			<Btn name="AddChild">Add children</Btn>
+			<Btn name="button1">no</Btn>
+			<Btn name="button2">Cancel</Btn>
+		</AddProp>
+		<ModelImport>
+			<Lbl name="label4">KCL: </Lbl>
+			<Lbl name="label5">PA: </Lbl>			
+			<Var name="label4">KCL: </Var>
+			<Var name="label5">PA: </Var>
+			<Lbl name="label6">Object Type:</Lbl>
+			<Lbl name="label3">Collision files:</Lbl>
+			<Lbl name="label2">Clipping radius:</Lbl>
+			<Var name="notset">not set</Var>
+			<Var name="objconvY">The obj will be converted to bcmdl with Every File Explorer's method, this is known to have problems, especially with models made in sketchup.\r\nDo you want to continue ?</Var>
+			<Var name="objconvN">You can convert the model to bcmdl with the leaked tools</Var>
+			<Var name="nosup">File not supported</Var>
+			<Var name="selectmodel">You must select your model file to use this function</Var>
+			<Var name="enotfound">not found!</Var>
+			<Var name="notfound">Files not found, something went wrong!</Var>
+			<Var name="panf">Pa file not found!</Var>
+			<Var name="kclnf">KCL file not found!</Var>
+			<Var name="modelnf">Model file not found!</Var>
+			<Var name="done">Done!</Var>
+			<Var name="CC">Remember you need to add the object to the CreatorClassNameTable to use the object in-game (Other modding -> CreatorClassNameTable editor)</Var>
+			<Var name="view1">To view the model in the editor you must copy it in the models folder with the name </Var>
+			<Var name="view2">.obj or else you will see a blue box</Var>
+			<Var name="kclpa">The kcl and pa files were saved in :</Var>
+			<Var name="rename">\r\n Don't forget to rename them to your model name!</Var>
+			
+			
+			<Lbl name="label1">Model name:</Lbl>
+			<Btn name="button7">Get KCL and PA files</Btn>
+			<Btn name="button6">Generate SZS (No collision/NPC)</Btn>
+			<Btn name="button1">Generate SZS (Collision)</Btn>
+			<Btn name="button2">Generate now (CollisionsMng)</Btn>
+		</ModelImport>
 	</Section>
 </INFO>

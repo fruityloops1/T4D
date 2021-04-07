@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace The4Dimension
 {
@@ -16,6 +18,107 @@ namespace The4Dimension
         public FrmAddValue(LevelObj s)
         {
             InitializeComponent();
+            #region Translation
+            if (Properties.Settings.Default.CurrentLang != 0)
+            {
+                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                XmlReader LANG = XmlReader.Create(path);
+                string CForm = null;
+                while (LANG.Read())
+                {
+
+                    if (LANG.NodeType == XmlNodeType.Element)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "AddProp":
+                                CForm = "FrmAddValue";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (LANG.NodeType == XmlNodeType.EndElement)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "AddProp":
+                                CForm = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                    {
+                        string label = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Label)Controls[label]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                    {
+                        string button = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Button)Controls[button]).Text = text;
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                    {
+                        string cbox = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((CheckBox)Controls[cbox]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx"))
+                    {
+                        string tbx = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                case "panel1":
+                                    Controls[tbx].Text = text;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                    }
+                }
+            }
+            #endregion
             result = null;
             propertyGrid1.SelectedObject = result;
             resName = null;
