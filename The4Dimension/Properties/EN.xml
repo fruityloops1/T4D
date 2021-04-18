@@ -182,8 +182,7 @@ automatically move the camera to it</Chck>
 			<Var name="view2">.obj or else you will see a blue box</Var>
 			<Var name="kclpa">The kcl and pa files were saved in :</Var>
 			<Var name="rename">\r\n Don't forget to rename them to your model name!</Var>
-			
-			
+			<Var name="unsure">If unsure leave the default option (collision terrain/option n 6)</Var>
 			<Lbl name="label1">Model name:</Lbl>
 			<Btn name="button7">Get KCL and PA files</Btn>
 			<Btn name="button6">Generate SZS (No collision/NPC)</Btn>

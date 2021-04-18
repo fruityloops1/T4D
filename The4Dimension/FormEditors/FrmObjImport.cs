@@ -137,6 +137,29 @@ namespace The4Dimension.FormEditors
                     }
                 }
             }
+            else 
+            {
+                //Do not edit these unless you find translation errors, change the ones in your preferred language xml instead
+                strings.Add("label4","KCL: ");
+                strings.Add("label5","PA: ");
+                strings.Add("notset", "not set");
+                strings.Add("objconvY", "The obj will be converted to bcmdl with Every File Explorer's method, this is known to have problems, especially with models made in sketchup.\r\nDo you want to continue ?");
+                strings.Add("objconvN", "You can convert the model to bcmdl with the leaked tools");
+                strings.Add("nosup", "You can convert the model to bcmdl with the leaked tools");
+                strings.Add("selectmodel", "You must select your model file to use this function");
+                strings.Add("enotfound", "not found!");
+                strings.Add("notfound", "Files not found, something went wrong!");
+                strings.Add("panf", "Pa file not found!");
+                strings.Add("kclnf", "Kcl file not found!");
+                strings.Add("modelnf", "Model file not found!");
+                strings.Add("done", "Done!");
+                strings.Add("CC", "Remember you need to add the object to the CreatorClassNameTable to use the object in-game (Other modding -> CreatorClassNameTable editor)");
+                strings.Add("view1", "To view the model in the editor you must copy it in the models folder with the name ");
+                strings.Add("view2", ".obj or else you will see a blue box");
+                strings.Add("kclpa", "The kcl and pa files were saved in :");
+                strings.Add("rename", "\r\n Don't forget to rename them to your model name!");
+                strings.Add("unsure", "If unsure leave the default option (collision terrain/option n 6)");
+            }
             #endregion
             OpenFileDialog opn = new OpenFileDialog();
             opn.Title = "Open a model file";
@@ -313,7 +336,7 @@ namespace The4Dimension.FormEditors
         private void button5_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Properties.Resources.ExecName);
-            MessageBox.Show("If unsure leave the default option (collision terrain/option n 6)");
+            MessageBox.Show(strings["unsure"]);
         }
 
         private void button6_Click(object sender, EventArgs e)

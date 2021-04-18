@@ -143,6 +143,15 @@ namespace The4Dimension.FormEditors
                     }
                 }
             }
+            else 
+            {
+                strings.Add("pointpos", "Point position:");
+                strings.Add("campos", "Camera position:");
+                strings.Add("boxV1", "Box 1st vertex pos:");
+                strings.Add("boxV2", "Box 2nd vertex pos:");
+                strings.Add("unused", "Unused:");
+                strings.Add("rotcent", "Rotation center position:");
+            }
             #endregion
 
             XmlFile = xml;
@@ -204,6 +213,25 @@ namespace The4Dimension.FormEditors
             str += "<C1>\r\n";
             str += "<D2 Name=\"AngleH\" StringValue=\"" + numericUpDown3.Value.ToString() + "\" />\r\n";
             str += "<D2 Name=\"AngleV\" StringValue=\"" + numericUpDown2.Value.ToString() + "\" />\r\n";
+            if (ChckBxFixCam.Checked == true)
+            {
+                switch (FixedTypeBox.SelectedIndex)
+                {
+                    case 0:
+                        str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             str += "<A0 Name=\"Category\" StringValue=\"Map\" />\r\n<A0 Name=\"Class\" StringValue=\""+ type +"\"/>\r\n";
             str += "<C1 Name=\"DashAngleTuner\">\r\n          <D2 Name=\"AddAngleMax\" StringValue=\""+numericUpDown5.Value.ToString() + "\" />\r\n          <D2 Name=\"ZoomOutOffsetMax\" StringValue=\""+numericUpDown6.Value.ToString()+"\" />\r\n        </C1>\r\n";
             str += "<D2 Name=\"Distance\" StringValue=\"" + numericUpDown4.Value.ToString() + "\" />\r\n";
@@ -216,7 +244,6 @@ namespace The4Dimension.FormEditors
                 switch (FixedTypeBox.SelectedIndex)
                 {
                     case 0:
-                        str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
                         str += "<C1 Name=\"LookAtPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX2.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY2.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ2.Value.ToString() + "\" />\r\n        </C1>\r\n";
                         break;
                     case 1:
@@ -225,13 +252,11 @@ namespace The4Dimension.FormEditors
                         str += "<C1 Name=\"LimitBoxMin\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX2.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY2.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ2.Value.ToString() + "\" />\r\n        </C1>\r\n";
                         break;
                     case 2:
-                        str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
                         break;
                     case 3:
                         str += "<C1 Name=\"Position\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
                         break;
                     default:
-                        type = "Parallel";
                         break;
                 }
             }
