@@ -62,9 +62,8 @@ namespace The4Dimension
             if (value == "pos_")
             {
                 cl.Type = ClipBoardItem.ClipboardType.Position;
-                cl.X = Value[listBox1.SelectedIndex].X;
-                cl.Y = Value[listBox1.SelectedIndex].Y;
-                cl.Z = Value[listBox1.SelectedIndex].Z;
+                Single[] ds = new Single[] { Value[listBox1.SelectedIndex].X, Value[listBox1.SelectedIndex].Y,  Value[listBox1.SelectedIndex].Z};
+                cl.Pos = ds;
             }
             else if (value == "Arg")
             {
@@ -99,9 +98,9 @@ namespace The4Dimension
             if (listBox1.SelectedIndex == -1) return;
             if (itm.Type == ClipBoardItem.ClipboardType.Position)
             {
-                Value[listBox1.SelectedIndex].X = itm.X;
-                Value[listBox1.SelectedIndex].Y = itm.Y;
-                Value[listBox1.SelectedIndex].Z = itm.Z;
+                Value[listBox1.SelectedIndex].X = itm.Pos[0];
+                Value[listBox1.SelectedIndex].Y = itm.Pos[1];
+                Value[listBox1.SelectedIndex].Z = itm.Pos[2];
             }
             else if (itm.Type == ClipBoardItem.ClipboardType.IntArray)
             {

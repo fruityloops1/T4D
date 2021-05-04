@@ -1378,9 +1378,13 @@ namespace The4Dimension
                 return;
             }
             else
-            { 
-                panel1.Visible = true; 
-                panel1.Enabled =true;
+            {
+                if (comboBox1.SelectedItem != "AllRailInfos")
+                {
+                    panel1.Visible = true;
+                    panel1.Enabled = true;
+                }
+
                 button4.Visible = true;
                 button5.Visible = true;
             }
