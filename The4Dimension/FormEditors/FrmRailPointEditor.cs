@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
+using System.Xml;
 
 namespace The4Dimension
 {
@@ -16,19 +18,126 @@ namespace The4Dimension
         public List<Rail.Point> Value { get; set; }
         public List<Rail.Point> OldValue = new List<Rail.Point>();
         Form1 owner;
+        private Dictionary<string, string> strings;
         public FrmRailPointEditor(List<Rail.Point> list)
         {
+            strings = new Dictionary<string, string>(); 
             InitializeComponent();
             Value = list;
             foreach (Rail.Point p in Value) OldValue.Add(p.Clone());
-            this.Text = "Edit point list";
+            
         }
 
         private void FrmObjEditor_Load(object sender, EventArgs e)
         {
+            #region Translation
+            if (Properties.Settings.Default.CurrentLang != 0)
+            {
+                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                XmlReader LANG = XmlReader.Create(path);
+                string CForm = null;
+                while (LANG.Read())
+                {
+
+                    if (LANG.NodeType == XmlNodeType.Element)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "RailEditor":
+                                CForm = "FrmRailPointEditor";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (LANG.NodeType == XmlNodeType.EndElement)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "RailEditor":
+                                CForm = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                    {
+                        string label = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Label)Controls[label]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Var"))
+                    {
+                        string var = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    strings.Add(var, text);
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                    {
+                        string button = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((Button)Controls[button]).Text = text;
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
+                    {
+                        string cbox = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((CheckBox)Controls[cbox]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Do not edit these unless you find translation errors, change the ones in your preferred language xml instead
+                strings.Add("Name", "Edit point list");
+                strings.Add("2Point", "A rail must have at least 2 points!");
+                strings.Add("NoPaste", "You can't paste this here");
+            }
+            #endregion
             owner = (Form1)Application.OpenForms["Form1"];
             RefreshListBox();
-            if (listBox1.Items.Count > 0) listBox1.SelectedIndex = 0;            
+            if (listBox1.Items.Count > 0) listBox1.SelectedIndex = 0;
+            this.Text = strings["Name"];
         }
 
         void RefreshListBox()
@@ -108,7 +217,7 @@ namespace The4Dimension
             }
             else
             {
-                MessageBox.Show("You can't paste this here");
+                MessageBox.Show(strings["NoPaste"]);
                 return;
             }
             propertyGrid1.Refresh();
@@ -158,7 +267,7 @@ namespace The4Dimension
             if (listBox1.SelectedIndex == -1) return;
             if (listBox1.Items.Count - listBox1.SelectedItems.Count +1 < 3)
             {
-                MessageBox.Show("A rail must have at least 2 points !");
+                MessageBox.Show(strings["2Point"]);
                 return;
             }
             foreach (Rail.Point i in listBox1.SelectedItems)

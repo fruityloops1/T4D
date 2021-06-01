@@ -72,7 +72,30 @@
 			<Strp name="switchDeadOnToolStripMenuItem" parent="OBJbySWITCH">SwitchDeadOn</Strp>
 			<Strp name="switchKillToolStripMenuItem" parent="OBJbySWITCH">SwitchKill</Strp>
 			<Strp name="UndoMenu" parent="menu">Undo</Strp>
-			<Strp name="xmlBymlToolStripMenuItem1" parent="bymlconv">Xml -> Byml</Strp>	
+			<Strp name="xmlBymlToolStripMenuItem1" parent="bymlconv">Xml -> Byml</Strp>
+			<Var name="Hotkey">Hotkeys list:
+Ctrl + O : Open File
+Ctrl + S : Save File
+Ctrl + Z : Undo
+Alt + S : Settings
+Space : Move the camera to the selected object
+Ctrl + D : Duplicate selected object
++ : Add a new object
+Del : Delete selected object
+Ctrl + R : Round the selected object position to a multiple of 100 (like Ctrl + alt + drag, but without dragging)
+Ctrl + F : Open the search menu
+C : If the selected object has a GenerateChildren C0List edit it
+B : If you are editing a C0List go back
+In the Objects list:
+Click once on an object to select it
+Double click an object to select it and move the camera to it
+Left click to deselect every object
+In the 3D view:
+Ctrl + drag : Move object
+Ctrl + Alt + drag : Move object snapping every 100 units
+Ctrl + Shift + drag : Move object snapping every 50 units
+(With a rail selected) N : Add a new point at the end of the rail
+-Every other combination without having to press Ctrl</Var>
 		</MainMenu>
 		<Settings>
 			<Lbl name="label1">3D view settings:</Lbl>
@@ -189,5 +212,50 @@ automatically move the camera to it</Chck>
 			<Btn name="button1">Generate SZS (Collision)</Btn>
 			<Btn name="button2">Generate now (CollisionsMng)</Btn>
 		</ModelImport>
+		<RailEditor>
+			<Var name="Name">Edit point list</Var>
+			<Var name="2Point">A rail must have at least 2 points!</Var>
+			<Var name="NoPaste">You can't paste this here</Var>
+			<Btn name="button1">Add..</Btn>
+			<Btn name="button2">Remove</Btn>
+		</RailEditor>
+		<SearchVal>
+			<Lbl name="label1">Write the value to look for :</Lbl>
+			<Btn name="button1">Cancel</Btn>
+			<Btn name="button2">Search</Btn>
+		</SearchVal>		
+		<ObjType>
+			<Lbl name="label1">Write the object type you want to add, you can't add types already in the level, also, if the type isn't one of the ones recognized by the game the objects inside of it won't appear.
+It's case sensitive
+</Lbl>
+			<Btn name="button2">Cancel</Btn>
+			<Btn name="button1">Ok</Btn>
+		</ObjType>
+		<CCNT>
+			<Var name="label4">Too many objects selected</Var>
+			<Var name="name">Object name: </Var>
+			<Var name="class">, Class: </Var>
+			<Var name="done">Done</Var>
+			<Var name="unkformat">Unknown format!</Var>
+			<Var name="listalready">This object is already in the list</Var>
+			<Var name="validname">Use a valid name and a valid class name</Var>
+			<Var name="1elist">Select at least one entry in the list</Var>
+			<Var name="cntuseprgmf">You can't use this program's directory, select another folder</Var>
+			<Var name="fnotempty">This folder isn't empty, do you want to continue?</Var>
+			<Var name="warn">Warning</Var>
+			
+			<Lbl name="label2" parent="groupBox1">Object name:</Lbl>			
+			<Lbl name="label3" parent="groupBox1">Object class:</Lbl>
+			<Lbl name="label1">Objects in the game:</Lbl>
+
+			<Gbox name="groupBox1">Add object</Gbox>
+			
+			<Btn name="button1">Remove selected objects</Btn>
+			<Btn name="button2" parent="groupBox1">Add object</Btn>
+			<Btn name="button3">Save</Btn>
+			<Btn name="button4">Merge objects from another CCNT</Btn>
+			<Btn name="button5">Export selected objects as standalone CCNT</Btn>
+			<Btn name="button6">Generate CCNT patch files for selected objects</Btn>
+		</CCNT>
 	</Section>
 </INFO>

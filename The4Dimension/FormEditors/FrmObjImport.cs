@@ -145,7 +145,7 @@ namespace The4Dimension.FormEditors
                 strings.Add("notset", "not set");
                 strings.Add("objconvY", "The obj will be converted to bcmdl with Every File Explorer's method, this is known to have problems, especially with models made in sketchup.\r\nDo you want to continue ?");
                 strings.Add("objconvN", "You can convert the model to bcmdl with the leaked tools");
-                strings.Add("nosup", "You can convert the model to bcmdl with the leaked tools");
+                strings.Add("nosup", "File not supported");
                 strings.Add("selectmodel", "You must select your model file to use this function");
                 strings.Add("enotfound", "not found!");
                 strings.Add("notfound", "Files not found, something went wrong!");

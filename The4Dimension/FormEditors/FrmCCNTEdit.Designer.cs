@@ -55,14 +55,14 @@
             this.listBox1.Location = new System.Drawing.Point(12, 25);
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox1.Size = new System.Drawing.Size(201, 290);
+            this.listBox1.Size = new System.Drawing.Size(201, 407);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(12, 321);
+            this.button1.Location = new System.Drawing.Point(12, 447);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(201, 23);
             this.button1.TabIndex = 1;
@@ -140,7 +140,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(453, 321);
+            this.button3.Location = new System.Drawing.Point(453, 447);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -161,7 +161,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(266, 321);
+            this.button4.Location = new System.Drawing.Point(266, 447);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(181, 23);
             this.button4.TabIndex = 7;
@@ -172,7 +172,7 @@
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(266, 292);
+            this.button5.Location = new System.Drawing.Point(266, 418);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(262, 23);
             this.button5.TabIndex = 8;
@@ -183,7 +183,7 @@
             // button6
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(266, 263);
+            this.button6.Location = new System.Drawing.Point(266, 389);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(262, 23);
             this.button6.TabIndex = 9;
@@ -197,7 +197,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(537, 352);
+            this.ClientSize = new System.Drawing.Size(537, 478);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -208,6 +208,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(553, 391);
             this.Name = "FrmCCNTEdit";

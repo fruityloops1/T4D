@@ -19,9 +19,129 @@ namespace The4Dimension.FormEditors
         Dictionary<string, string> CCNT;
         Dictionary<string, string> CCNT2;
         Form1 own;
+        Dictionary<string, string> strings;
         public FrmCCNTEdit(Dictionary<string, string> CreatorClassNameTable, Form1 owner)
         {
+            strings = new Dictionary<string, string>();
             InitializeComponent();
+            #region Translation
+            if (Properties.Settings.Default.CurrentLang != 0)
+            {
+                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
+                XmlReader LANG = XmlReader.Create(path);
+                string CForm = null;
+                while (LANG.Read())
+                {
+
+                    if (LANG.NodeType == XmlNodeType.Element)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "CCNT":
+                                CForm = "FrmCCNTEdit";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (LANG.NodeType == XmlNodeType.EndElement)
+                    {
+                        switch (LANG.Name)
+                        {
+                            case "CCNT":
+                                CForm = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
+                    {
+                        string label = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                case "groupBox1":
+                                    ((Label)groupBox1.Controls[label]).Text = text;
+                                    break;
+                                default:
+                                    ((Label)Controls[label]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Var"))
+                    {
+                        string var = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    strings.Add(var, text);
+                                    break;
+                            }
+                        }
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
+                    {
+                        string button = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                case "groupBox1":
+                                    ((Button)groupBox1.Controls[button]).Text = text;
+                                    break;
+                                default:
+                                    ((Button)Controls[button]).Text = text;
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Gbox"))
+                    {
+                        string gbox = LANG.GetAttribute("name");
+                        string parent = LANG.GetAttribute("parent");
+                        string text = LANG.ReadElementContentAsString();
+                        if (this.Name == CForm)
+                        {
+                            switch (parent)
+                            {
+                                default:
+                                    ((GroupBox)Controls[gbox]).Text = text;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Do not edit these unless you find translation errors, change the ones in your preferred language xml instead
+                strings.Add("label4", "Too many objects selected");
+                strings.Add("name", "Object name: ");
+                strings.Add("class", ", Class: ");
+                strings.Add("done", "Done");
+                strings.Add("unkformat", "Unknown format!");
+                strings.Add("listalready", "This object is already in the list");
+                strings.Add("validname", "Use a valid name and a valid class name");
+                strings.Add("1elist", "Select at least one entry in the list");
+                strings.Add("cntuseprgmf", "You can't use this program's directory, select another folder");
+                strings.Add("fnotempty", "This folder isn't empty, do you want to continue?");
+                strings.Add("warn", "Warning");
+            }
+            #endregion
             CCNT = CreatorClassNameTable;
             updateListbox();
             own = owner;
@@ -107,11 +227,11 @@ namespace The4Dimension.FormEditors
             label4.Text = "";
             int[] Selected = GetSelectedObjs(false);
             if (Selected[0] == -1) label4.Text = "";
-            else if (Selected.Length > 30 ) label4.Text = "Too many objects selected";
+            else if (Selected.Length > 19) label4.Text = strings["label4"];
             else
             {
                 foreach (int i in Selected)
-                    label4.Text += listBox1.Items[i].ToString() + " class: " + CCNT[listBox1.Items[i].ToString()] + "\r\n";
+                    label4.Text += strings["name"] + listBox1.Items[i].ToString() + strings["class"] + CCNT[listBox1.Items[i].ToString()] + "\r\n";
             }
         }
 
@@ -144,12 +264,12 @@ namespace The4Dimension.FormEditors
         {
             if (textBox1.Text.Trim() == "" || textBox2.Text.Trim() == "" || textBox1.Text.Contains(" ")|| textBox2.Text.Contains(" "))
             {
-                MessageBox.Show("Use a valid name and a valid class name");
+                MessageBox.Show(strings["validname"]);
                 return;
             }
             if (CCNT.ContainsKey(textBox1.Text))
             {
-                MessageBox.Show("This object is already in the list");
+                MessageBox.Show(strings["listalready"]);
                 return;
             }
             CCNT.Add(textBox1.Text, textBox2.Text);
@@ -188,7 +308,7 @@ namespace The4Dimension.FormEditors
                 }
                 else
                 {
-                    MessageBox.Show("Unknown format !");
+                    MessageBox.Show(strings["unkformat"]);
                     return;
                 }
             }
@@ -201,7 +321,7 @@ namespace The4Dimension.FormEditors
                 }
             }
             updateListbox();
-            MessageBox.Show("Done");
+            MessageBox.Show(strings["done"]);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -220,7 +340,7 @@ namespace The4Dimension.FormEditors
         {
             if (listBox1.SelectedIndex == -1)
             {
-                MessageBox.Show("Select at least one entry in the list");
+                MessageBox.Show(strings["1elist"]);
                 return;
             }
             CommonOpenFileDialog d = new CommonOpenFileDialog { IsFolderPicker = true };
@@ -229,12 +349,12 @@ namespace The4Dimension.FormEditors
             {
                 if (d.FileName == Directory.GetCurrentDirectory())
                 {
-                    MessageBox.Show("You can't use this program's directory, select another folder");
+                    MessageBox.Show(strings["cntuseprgmf"]);
                     return;
                 }
                 if (new DirectoryInfo(d.FileName).GetFiles().Length != 0)
                 {
-                    if (MessageBox.Show("This folder isn't empty, do you want to continue ?", "Warning", MessageBoxButtons.YesNo) == DialogResult.No) return;
+                    if (MessageBox.Show(strings["fnotempty"], strings["warn"], MessageBoxButtons.YesNo) == DialogResult.No) return;
                 }
                 File.Copy(System.Reflection.Assembly.GetEntryAssembly().Location, d.FileName + "\\patcher.exe", true);
                 File.Copy("3DS.dll", d.FileName + "\\3DS.dll", true);

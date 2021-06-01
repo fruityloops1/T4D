@@ -35,7 +35,7 @@ namespace The4Dimension
         bool AutoMoveCam = true;
         bool AddObjectOrigin = false;
         public static int ReleaseId = 11;
-
+        private Dictionary<string, string> strings;
         public Form1(string FileLoad = "")
         {
             string setlng;
@@ -43,6 +43,7 @@ namespace The4Dimension
             Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
             try
             {
+                strings = new Dictionary<string, string>();
                 InitializeComponent();
                 #region Language
                 if (!Directory.Exists("LANG"))
@@ -220,7 +221,48 @@ namespace The4Dimension
                             }
 
                         }
+                        else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Var"))
+                        {
+                            string var = LANG.GetAttribute("name");
+                            string parent = LANG.GetAttribute("parent");
+                            string text = LANG.ReadElementContentAsString();
+                            if (this.Name == CForm)
+                            {
+                                switch (parent)
+                                {
+                                    default:
+                                        strings.Add(var, text);
+                                        break;
+                                }
+                            }
+                        }
                     }
+                }
+                else
+                {
+                    strings.Add("Hotkey", "Hotkeys list:\r\n" +
+                   " Ctrl + O : Open File\r\n" +
+                   " Ctrl + S : Save File\r\n" +
+                   " Ctrl + Z : Undo\r\n" +
+                   " Alt + S : Settings\r\n" +
+                   " Space : Move the camera to the selected object\r\n" +
+                   " Ctrl + D : Duplicate selected object\r\n" +
+                   " + : Add a new object\r\n" +
+                   " Del : Delete selected object\r\n" +
+                   " Ctrl + R : Round the selected object position to a multiple of 100 (like Ctrl + alt + drag, but without dragging)\r\n" +
+                   " Ctrl + F : Open the search menu\r\n" +
+                   " C : If the selected object has a GenerateChildren C0List edit it\r\n" +
+                   " B : If you are editing a C0List go back\r\n\r\n" +
+                   "In the Objects list:\r\n" +
+                   " Click once on an object to select it\r\n" +
+                   " Double click an object to select it and move the camera to it\r\n" +
+                   " Left click to deselect every object\r\n" +
+                   "In the 3D view:\r\n" +
+                   " Ctrl + drag : Move object\r\n" +
+                   " Ctrl + Alt + drag : Move object snapping every 100 units\r\n" +
+                   " Ctrl + Shift + drag : Move object snapping every 50 units\r\n" +
+                   " (With a rail selected) N : Add a new point at the end of the rail\r\n" +
+                   " -Every other combination without having to press Ctrl\r\n");
                 }
 
                 #endregion
@@ -376,7 +418,7 @@ namespace The4Dimension
             propertyGrid1.SelectedObject = null;
             //if (MessageBox.Show("Keep clipboard ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) clipboard = new List<ClipBoardItem>();
             LoadedFile = "";
-            this.Text = LoadedFile == "" ? "The Fourth Dimension - by Exelix11" : "The Fourth Dimension - " + LoadedFile;
+            this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
             SetUiLock(false);
         }
 
@@ -504,7 +546,7 @@ namespace The4Dimension
                 MessageBox.Show("File type not supported !");
                 SetUiLock(false);
             }
-            this.Text = LoadedFile == "" ? "The Fourth Dimension - by Exelix11" : "The Fourth Dimension - " + LoadedFile;
+            this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
         }
 
         private void LoadFileList_click(object sender, EventArgs e)
@@ -1069,16 +1111,8 @@ namespace The4Dimension
         Vector3D StartPos;
 
         private void render_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) //Render hotkeys
-        {/* //removed the shortcuts after discovering forms can add shortcuts by design
-            if (e.Key == Key.O && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                openToolStripMenuItem_Click(sender, new EventArgs());
-            }
-            if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                saveToolStripMenuItem_Click(sender, new EventArgs());
-            }
-            else */if (e.Key == Key.Z)
+        {
+            if (e.Key == Key.Z)
             {
                 if (Undo.Count > 0) Undo.Pop().Undo();
                 return;
@@ -1538,29 +1572,7 @@ namespace The4Dimension
 
         private void hotkeysListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Hotkeys list:\r\n" +
-                " Ctrl + O : Open File\r\n" +
-                " Ctrl + S : Save File\r\n" +
-                " Ctrl + Z : Undo\r\n" +
-                " Alt + S : Settings\r\n" +
-                " Space : Move the camera to the selected object\r\n" +
-                " Ctrl + D : Duplicate selected object\r\n" +
-                " + : Add a new object\r\n" +
-                " Del : Delete selected object\r\n" +
-                " Ctrl + R : Round the selected object position to a multiple of 100 (like Ctrl + alt + drag, but without dragging)\r\n" +
-                " Ctrl + F : Open the search menu\r\n" +
-                " C : If the selected object has a GenerateChildren C0List edit it\r\n" +
-                " B : If you are editing a C0List go back\r\n\r\n" +
-                "In the Objects list:\r\n" +
-                " Click once on an object to select it\r\n" +
-                " Double click an object to select it and move the camera to it\r\n" +
-                " Left click to deselect every object\r\n"+
-                "In the 3D view:\r\n" +
-                " Ctrl + drag : Move object\r\n" +
-                " Ctrl + Alt + drag : Move object snapping every 100 units\r\n" +
-                " Ctrl + Shift + drag : Move object snapping every 50 units\r\n" +
-                " (With a rail selected) N : Add a new point at the end of the rail\r\n" +
-                " -Every other combination without having to press Ctrl\r\n");
+            MessageBox.Show(strings["Hotkey"]);
         }
 
         private void Undo_loading(object sender, EventArgs e)
@@ -2917,7 +2929,7 @@ namespace The4Dimension
             {
                 SzsSave(sav.FileName);
                 LoadedFile = sav.FileName;
-                this.Text = LoadedFile == "" ? "The Fourth Dimension - by Exelix11" : "The Fourth Dimension - " + LoadedFile;
+                this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
                 saveToolStripMenuItem.Enabled = true;
             }
         }
@@ -2931,7 +2943,7 @@ namespace The4Dimension
             {
                 XmlSave(sav.FileName, false);
                 LoadedFile = sav.FileName;
-                this.Text = LoadedFile == "" ? "The Fourth Dimension - by Exelix11" : "The Fourth Dimension - " + LoadedFile;
+                this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
                 saveToolStripMenuItem.Enabled = true;
             }
         }
@@ -2945,7 +2957,7 @@ namespace The4Dimension
             {
                 XmlSave(sav.FileName, true);
                 LoadedFile = sav.FileName;
-                this.Text = LoadedFile == "" ? "The Fourth Dimension - by Exelix11" : "The Fourth Dimension - " + LoadedFile;
+                this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
                 saveToolStripMenuItem.Enabled = true;
             }
         }
