@@ -458,6 +458,7 @@ namespace The4Dimension
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UnloadLevel();
+            elementHost1.Show();
             comboBox1.Items.Add("AllRailInfos");
             higestID.Add("AllRailInfos", 0);
             render.AddKey("AllRailInfos");
@@ -503,8 +504,9 @@ namespace The4Dimension
             }
             else if (Path.GetExtension(FilePath).ToLower() == ".szs")
             {
+                elementHost1.Show();
                 LoadedFile = FilePath;
-                SetUiLock(true);
+                
                 OtherLevelDataMenu.DropDownItems.Clear();
                 SzsFiles = new Dictionary<string, byte[]>();
                 CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
@@ -539,6 +541,7 @@ namespace The4Dimension
                     SzsFiles = null;
                     SetUiLock(false);
                 }
+                SetUiLock(true);
             }
             else
             {
@@ -3644,6 +3647,36 @@ namespace The4Dimension
                     }
 
                 }
+            }
+        }
+
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                
+                e.Effect = DragDropEffects.Copy;
+                elementHost1.Hide();
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+
+            string[] filename = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            LoadFile(filename[0]);
+        }
+
+        private void Form1_DragLeave(object sender, EventArgs e)
+        {
+            if (this.Text.Contains(@"\"))
+            {
+                elementHost1.Show();
             }
         }
     }

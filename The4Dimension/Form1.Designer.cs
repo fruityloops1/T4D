@@ -224,6 +224,7 @@
             this.elementHost1.Size = new System.Drawing.Size(539, 536);
             this.elementHost1.TabIndex = 3;
             this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Visible = false;
             this.elementHost1.Child = null;
             // 
             // menuStrip1
@@ -991,6 +992,7 @@
             // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 575);
@@ -1010,6 +1012,9 @@
             this.Deactivate += new System.EventHandler(this.Form_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_closing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
+            this.DragLeave += new System.EventHandler(this.Form1_DragLeave);
             this.ClipBoardMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
