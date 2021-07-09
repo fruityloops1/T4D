@@ -300,5 +300,16 @@ namespace The4Dimension.Properties {
                 this["CurrentLangName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection OpenRecent {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["OpenRecent"]));
+            }
+            set {
+                this["OpenRecent"] = value;
+            }
+        }
     }
 }

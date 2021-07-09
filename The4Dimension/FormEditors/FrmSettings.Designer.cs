@@ -418,6 +418,7 @@ namespace The4Dimension.FormEditors
             this.dotcomma.TabIndex = 36;
             this.dotcomma.Text = "Use dot instead of comma";
             this.dotcomma.UseVisualStyleBackColor = true;
+            this.dotcomma.CheckedChanged += new System.EventHandler(this.dotcomma_CheckedChanged);
             // 
             // HasAA
             // 

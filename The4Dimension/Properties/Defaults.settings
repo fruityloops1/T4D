@@ -118,5 +118,8 @@
     <Setting Name="CurrentLangName" Type="System.String" Scope="User">
       <Value Profile="(Default)">DEFAULT</Value>
     </Setting>
+    <Setting Name="OpenRecent" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

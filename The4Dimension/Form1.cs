@@ -301,6 +301,29 @@ namespace The4Dimension
                 LevelNameNum.Add("W S8-Championship", lines[++nextIndex].Trim());
                 #endregion
 
+
+                while (Properties.Settings.Default.OpenRecent.Count > 9)
+                {
+                    Properties.Settings.Default.OpenRecent.RemoveAt(0);
+                }
+                int d = Properties.Settings.Default.OpenRecent.Count;
+
+                for (int i = Properties.Settings.Default.OpenRecent.Count; i > 0; i--)
+                    {
+                        ToolStripMenuItem btn = new ToolStripMenuItem();
+                        btn.Name = "OpnRec" + (Properties.Settings.Default.OpenRecent.Count-i+1);
+                        btn.Text = (Properties.Settings.Default.OpenRecent.Count-i+1).ToString() + ". " + Properties.Settings.Default.OpenRecent[i-1];
+                        btn.Click += OpenRecent_click;
+                        openRecentToolStripMenuItem.DropDownItems.Add(btn);
+                }
+                ToolStripMenuItem clr = new ToolStripMenuItem();
+                clr.Name = "OpnRecClr";
+                clr.Text = "Clear";
+                clr.Click += OpenRecentClear;
+                openRecentToolStripMenuItem.DropDownItems.Add(clr);
+
+
+
                 KeyPreview = true;
                 elementHost1.Child = render;
                 elementHost2.Visible = false;
@@ -487,8 +510,8 @@ namespace The4Dimension
         #region FileLoading
         public void LoadFile(string FilePath) //Checks the file type and then loads the file
         {
-            UnloadLevel();
-            if (Path.GetExtension(FilePath).ToLower() == ".xml")
+
+            if (Path.GetExtension(FilePath).ToLower() == ".xml")//xml and byml originally tried to load levels, now only xml does this as it makes more sense for byml to be readable, like when dropping a byml file to t4d.exe
             {
                 LoadedFile = FilePath;
                 SetUiLock(true);
@@ -498,15 +521,21 @@ namespace The4Dimension
             else if (Path.GetExtension(FilePath).ToLower() == ".byml")
             {
                 LoadedFile = FilePath;
+                FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(LoadedFile), LoadedFile, false);
+                frm.ShowDialog();
+                if (frm.XmlRes != null) { File.WriteAllBytes(FilePath, BymlConverter.GetByml(frm.XmlRes)); }
+                /* Original function was less useful
+                LoadedFile = FilePath;
                 SetUiLock(true);
                 OpenFile(BymlConverter.GetXml(FilePath));
-                SetupSZS();
+                SetupSZS();*/
             }
             else if (Path.GetExtension(FilePath).ToLower() == ".szs")
             {
+                UnloadLevel();
                 elementHost1.Show();
                 LoadedFile = FilePath;
-                
+                   
                 OtherLevelDataMenu.DropDownItems.Clear();
                 SzsFiles = new Dictionary<string, byte[]>();
                 CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
@@ -542,6 +571,36 @@ namespace The4Dimension
                     SetUiLock(false);
                 }
                 SetUiLock(true);
+                this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
+                if (!Properties.Settings.Default.OpenRecent.Contains(LoadedFile))
+                {
+                    Properties.Settings.Default.OpenRecent.Add(LoadedFile);
+                    while (Properties.Settings.Default.OpenRecent.Count>9)
+                    {
+                        Properties.Settings.Default.OpenRecent.RemoveAt(0);
+                    }
+                    int d = Properties.Settings.Default.OpenRecent.Count;
+                }
+                else
+                {
+                    Properties.Settings.Default.OpenRecent.RemoveAt(Properties.Settings.Default.OpenRecent.IndexOf(LoadedFile));
+                    Properties.Settings.Default.OpenRecent.Add(LoadedFile);
+                }
+                openRecentToolStripMenuItem.DropDownItems.Clear();
+                for (int i = Properties.Settings.Default.OpenRecent.Count; i > 0; i--)
+                {
+                    ToolStripMenuItem btn = new ToolStripMenuItem();
+                    btn.Name = "OpnRec" + (Properties.Settings.Default.OpenRecent.Count - i + 1);
+                    btn.Text = (Properties.Settings.Default.OpenRecent.Count - i + 1).ToString() + ". " + Properties.Settings.Default.OpenRecent[i - 1];
+                    btn.Click += OpenRecent_click;
+                    openRecentToolStripMenuItem.DropDownItems.Add(btn);
+
+                }
+                ToolStripMenuItem clr = new ToolStripMenuItem();
+                clr.Name = "OpnRecClr";
+                clr.Text = "Clear";
+                clr.Click += OpenRecentClear;
+                openRecentToolStripMenuItem.DropDownItems.Add(clr);
             }
             else
             {
@@ -549,9 +608,24 @@ namespace The4Dimension
                 MessageBox.Show("File type not supported !");
                 SetUiLock(false);
             }
-            this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
+            
         }
 
+        private void OpenRecent_click(object sender, EventArgs e)
+        {
+            string filepath = (((ToolStripMenuItem)sender).Text);
+            LoadFile(filepath.Substring(3));
+        }
+        private void OpenRecentClear(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.OpenRecent.Clear();
+            openRecentToolStripMenuItem.DropDownItems.Clear();
+            ToolStripMenuItem clr = new ToolStripMenuItem();
+            clr.Name = "OpnRecClr";
+            clr.Text = "Clear";
+            clr.Click += OpenRecentClear;
+            openRecentToolStripMenuItem.DropDownItems.Add(clr);
+        }
         private void LoadFileList_click(object sender, EventArgs e)
         {
             string name = ((ToolStripMenuItem)sender).Text;
@@ -559,7 +633,7 @@ namespace The4Dimension
             frm.ShowDialog();
             if (frm.XmlRes != null) SzsFiles[name] = BymlConverter.GetByml(frm.XmlRes);
         }
-
+        
         public void LoadObjectDatabase()
         {
             ObjectDatabase = null;
@@ -1833,9 +1907,12 @@ namespace The4Dimension
         {
             if (addToStack && ObjectsListBox.SelectedItems.Count > 1)
             {
-                MessageBox.Show("You can't edito more C0lists at once, edit only on one object then copy the children objects to the others");
+                MessageBox.Show("You can't edit more C0lists at once, edit only on one object then copy the children objects to the others");
                 return;
-            }           
+            }
+            fileToolStripMenuItem.Enabled = false;
+            saveToolStripMenuItem.Enabled = false;
+            openToolStripMenuItem.Enabled = false;
             comboBox1.Text = "C0EditingListObjs";
             C0EditingPanel.Visible = true;
             IsEditingC0List = true;
@@ -1872,6 +1949,9 @@ namespace The4Dimension
                 EditC0List(C0ListEditingStack.Peek(), false);
             }
             ObjectsListBox.SelectedIndex = SelectionIndex.Pop();
+            fileToolStripMenuItem.Enabled = true;
+            saveToolStripMenuItem.Enabled = true;
+            openToolStripMenuItem.Enabled = true;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -3322,11 +3402,6 @@ namespace The4Dimension
         private void downloadLatestT4DToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/t4d-qol/releases/latest");
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

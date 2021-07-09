@@ -312,5 +312,18 @@ namespace The4Dimension.Properties {
                 this["CurrentLangName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection OpenRecent {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["OpenRecent"]));
+            }
+            set {
+                this["OpenRecent"] = value;
+            }
+        }
     }
 }

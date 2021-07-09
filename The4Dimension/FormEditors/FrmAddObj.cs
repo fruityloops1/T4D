@@ -181,6 +181,10 @@ namespace The4Dimension
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (comboBox1.Text == "") 
+            {
+                MessageBox.Show("You can't add nothing as an object!"); return;
+            }
             LevelObj obj = new LevelObj();
             if (LayerName != "StartInfo" && LayerName != "AreaObjInfo")
             {

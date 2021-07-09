@@ -56,6 +56,7 @@
 			<Strp name="oggToBcstmConverterToolStripMenuItem" parent="tools">OGG to BCSTM converter (DEPRECATED)</Strp>
 			<Strp name="openFromLevelNameWXXToolStripMenuItem" parent="file">Open from level name (W X-Y)</Strp>
 			<Strp name="openToolStripMenuItem" parent="file">Open</Strp>
+			<Strp name="openRecentToolStripMenuItem" parent="file">Open Recent</Strp>
 			<Strp name="OtherLevelDataMenu" parent="menu">Level files</Strp>
 			<Strp name="otherToolStripMenuItem" parent="menu">Tools</Strp>
 			<Strp name="preferencesToolStripMenuItem" parent="file">Settings</Strp>
@@ -178,7 +179,7 @@ automatically move the camera to it</Chck>
 			<Lbl name="label2">Byte node type (0 to FF):</Lbl>
 			<Lbl name="label1">Value type:</Lbl>
 			<Btn name="AddChild">Add children</Btn>
-			<Btn name="button1">no</Btn>
+			<Btn name="button1">Add</Btn>
 			<Btn name="button2">Cancel</Btn>
 		</AddProp>
 		<ModelImport>
@@ -205,7 +206,7 @@ automatically move the camera to it</Chck>
 			<Var name="view2">.obj or else you will see a blue box</Var>
 			<Var name="kclpa">The kcl and pa files were saved in :</Var>
 			<Var name="rename">\r\n Don't forget to rename them to your model name!</Var>
-			<Var name="unsure">If unsure leave the default option (collision terrain/option n 6)</Var>
+			<Var name="unsure">If unsure leave the default option (collision terrain/option no. 6)</Var>
 			<Lbl name="label1">Model name:</Lbl>
 			<Btn name="button7">Get KCL and PA files</Btn>
 			<Btn name="button6">Generate SZS (No collision/NPC)</Btn>

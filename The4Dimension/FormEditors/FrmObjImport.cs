@@ -158,7 +158,7 @@ namespace The4Dimension.FormEditors
                 strings.Add("view2", ".obj or else you will see a blue box");
                 strings.Add("kclpa", "The kcl and pa files were saved in :");
                 strings.Add("rename", "\r\n Don't forget to rename them to your model name!");
-                strings.Add("unsure", "If unsure leave the default option (collision terrain/option n 6)");
+                strings.Add("unsure", "If unsure leave the default option (collision terrain/option no. 6)");
             }
             #endregion
             OpenFileDialog opn = new OpenFileDialog();

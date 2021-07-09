@@ -43,8 +43,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFromLevelNameWXXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFromLevelNameWXXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsSZSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -247,8 +248,9 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.openFromLevelNameWXXToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openFromLevelNameWXXToolStripMenuItem,
+            this.openRecentToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator2,
@@ -262,16 +264,10 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
-            // 
-            // openFromLevelNameWXXToolStripMenuItem
-            // 
-            this.openFromLevelNameWXXToolStripMenuItem.Name = "openFromLevelNameWXXToolStripMenuItem";
-            this.openFromLevelNameWXXToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
-            this.openFromLevelNameWXXToolStripMenuItem.Text = "Open from level name (W X-X)";
-            this.openFromLevelNameWXXToolStripMenuItem.Click += new System.EventHandler(this.openFromLevelNameWXXToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -280,6 +276,20 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // openFromLevelNameWXXToolStripMenuItem
+            // 
+            this.openFromLevelNameWXXToolStripMenuItem.Name = "openFromLevelNameWXXToolStripMenuItem";
+            this.openFromLevelNameWXXToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.openFromLevelNameWXXToolStripMenuItem.Text = "Open from level name (W X-X)";
+            this.openFromLevelNameWXXToolStripMenuItem.Click += new System.EventHandler(this.openFromLevelNameWXXToolStripMenuItem_Click);
+            // 
+            // openRecentToolStripMenuItem
+            // 
+            this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
+            this.openRecentToolStripMenuItem.ShowShortcutKeys = false;
+            this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.openRecentToolStripMenuItem.Text = "Open recent";
             // 
             // saveToolStripMenuItem
             // 
@@ -314,9 +324,11 @@
             // 
             // saveAsBymlToolStripMenuItem1
             // 
+            this.saveAsBymlToolStripMenuItem1.Enabled = false;
             this.saveAsBymlToolStripMenuItem1.Name = "saveAsBymlToolStripMenuItem1";
             this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(142, 22);
             this.saveAsBymlToolStripMenuItem1.Text = "Save as Byml";
+            this.saveAsBymlToolStripMenuItem1.Visible = false;
             this.saveAsBymlToolStripMenuItem1.Click += new System.EventHandler(this.saveAsBymlToolStripMenuItem1_Click);
             // 
             // saveAsXmlToolStripMenuItem
@@ -1079,7 +1091,6 @@
         private System.Windows.Forms.ToolStripMenuItem objectByViewIdToolStripMenuItem;
         private System.Windows.Forms.Button Btn_addType;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem saveAsBymlToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem objectByRailNameToolStripMenuItem;
@@ -1123,6 +1134,8 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button XMLTEST;
+        private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
     }
 }
 

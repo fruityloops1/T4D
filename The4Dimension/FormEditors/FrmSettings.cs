@@ -315,5 +315,14 @@ namespace The4Dimension.FormEditors
         {
             MessageBox.Show("Some changes won't take place until you reload the editor!");
         }
+
+        private void dotcomma_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dotcomma.Checked==true) 
+            { 
+            MessageBox.Show("This feature is experimental and will break children objects with decimal for position, rotation and scale, so use at your own risk");
+        
+            }
+        }
     }
 }
