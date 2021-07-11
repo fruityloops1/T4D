@@ -139,7 +139,7 @@
             this.propertyGrid1.HelpVisible = false;
             this.propertyGrid1.Location = new System.Drawing.Point(4, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(234, 205);
+            this.propertyGrid1.Size = new System.Drawing.Size(234, 203);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridChange);
             this.propertyGrid1.Click += new System.EventHandler(this.propertyGrid1_Click);
@@ -623,7 +623,7 @@
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Location = new System.Drawing.Point(0, 36);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -652,7 +652,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.button4);
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
             this.splitContainer1.Size = new System.Drawing.Size(244, 536);
-            this.splitContainer1.SplitterDistance = 241;
+            this.splitContainer1.SplitterDistance = 243;
             this.splitContainer1.TabIndex = 7;
             // 
             // C0EditingPanel
@@ -688,7 +688,7 @@
             // Btn_CopyObjs
             // 
             this.Btn_CopyObjs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_CopyObjs.Location = new System.Drawing.Point(35, 218);
+            this.Btn_CopyObjs.Location = new System.Drawing.Point(35, 220);
             this.Btn_CopyObjs.Name = "Btn_CopyObjs";
             this.Btn_CopyObjs.Size = new System.Drawing.Size(96, 23);
             this.Btn_CopyObjs.TabIndex = 12;
@@ -703,7 +703,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(3, 195);
+            this.checkBox2.Location = new System.Drawing.Point(3, 197);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(227, 17);
             this.checkBox2.TabIndex = 9;
@@ -715,7 +715,7 @@
             // btn_cameraCode
             // 
             this.btn_cameraCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_cameraCode.Location = new System.Drawing.Point(103, 189);
+            this.btn_cameraCode.Location = new System.Drawing.Point(103, 191);
             this.btn_cameraCode.Name = "btn_cameraCode";
             this.btn_cameraCode.Size = new System.Drawing.Size(135, 26);
             this.btn_cameraCode.TabIndex = 11;
@@ -738,7 +738,7 @@
             // 
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(4, 194);
+            this.checkBox1.Location = new System.Drawing.Point(4, 196);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(92, 17);
             this.checkBox1.TabIndex = 9;
@@ -754,7 +754,7 @@
             this.ObjectsListBox.Location = new System.Drawing.Point(7, 30);
             this.ObjectsListBox.Name = "ObjectsListBox";
             this.ObjectsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.ObjectsListBox.Size = new System.Drawing.Size(229, 121);
+            this.ObjectsListBox.Size = new System.Drawing.Size(229, 160);
             this.ObjectsListBox.TabIndex = 8;
             this.ObjectsListBox.SelectedIndexChanged += new System.EventHandler(this.ObjectsListBox_SelectedIndexChanged);
             this.ObjectsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Listbox_keyDown);
@@ -785,7 +785,7 @@
             // Btn_AddObj
             // 
             this.Btn_AddObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_AddObj.Location = new System.Drawing.Point(3, 217);
+            this.Btn_AddObj.Location = new System.Drawing.Point(3, 219);
             this.Btn_AddObj.Name = "Btn_AddObj";
             this.Btn_AddObj.Size = new System.Drawing.Size(29, 23);
             this.Btn_AddObj.TabIndex = 5;
@@ -796,7 +796,7 @@
             // btn_delObj
             // 
             this.btn_delObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_delObj.Location = new System.Drawing.Point(137, 217);
+            this.btn_delObj.Location = new System.Drawing.Point(137, 219);
             this.btn_delObj.Name = "btn_delObj";
             this.btn_delObj.Size = new System.Drawing.Size(101, 23);
             this.btn_delObj.TabIndex = 4;
@@ -807,7 +807,7 @@
             // Btn_Duplicate
             // 
             this.Btn_Duplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_Duplicate.Location = new System.Drawing.Point(35, 217);
+            this.Btn_Duplicate.Location = new System.Drawing.Point(35, 219);
             this.Btn_Duplicate.Name = "Btn_Duplicate";
             this.Btn_Duplicate.Size = new System.Drawing.Size(96, 23);
             this.Btn_Duplicate.TabIndex = 3;
@@ -818,7 +818,7 @@
             // lblDescription
             // 
             this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblDescription.Location = new System.Drawing.Point(3, 211);
+            this.lblDescription.Location = new System.Drawing.Point(3, 209);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(235, 49);
             this.lblDescription.TabIndex = 9;
@@ -830,7 +830,7 @@
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(84, 263);
+            this.button5.Location = new System.Drawing.Point(84, 261);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(152, 23);
             this.button5.TabIndex = 2;
@@ -841,7 +841,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(3, 263);
+            this.button4.Location = new System.Drawing.Point(3, 261);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 1;
