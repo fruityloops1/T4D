@@ -141,6 +141,49 @@ namespace The4Dimension
         void LoadObjList(string[] array)
         {
             comboBox1.Items.Clear();
+            switch (LayerName)
+            {
+                case "StartInfo":
+                    comboBox1.Text = "Mario";
+                    comboBox1.Enabled = false;
+                    checkBox1.Enabled = false;
+                    break;
+                case "AreaObjInfo":
+                    foreach (string s in array)
+                    {
+                        if (!s.EndsWith("*") && s.ToLower().EndsWith("area") && !s.ToLower().Contains("camera")) comboBox1.Items.Add(s);
+                    }
+                    break;
+                case "CameraAreaInfo":
+                    foreach (string s in array)
+                    {
+                        if (!s.EndsWith("*") && s.ToLower().EndsWith("area") && s.ToLower().Contains("camera")) comboBox1.Items.Add(s);
+                    }
+                    break;
+                case "ObjInfo":
+                    comboBox1.Items.Add("@CameraPositionHelper");
+                    foreach (string s in array)
+                    {
+                        if (!s.EndsWith("*") && !s.ToLower().EndsWith("area")) comboBox1.Items.Add(s);
+                    }
+                    break;
+                case "StartEventObjInfo":
+                    foreach (string s in array)
+                    {
+                        if (!s.EndsWith("*") && s.ToLower().StartsWith("startevent")) comboBox1.Items.Add(s);
+                    }
+                    break;
+                case "DemoSceneObjInfo":
+                    foreach (string s in array)
+                    {
+                        if (!s.EndsWith("*") && s.ToLower().Contains("demo")) comboBox1.Items.Add(s);
+                    }
+                    break;
+                default:
+                    comboBox1.Items.AddRange(array);
+                    break;
+            }
+            /*
             if (LayerName == "StartInfo")
             {
                 comboBox1.Text = "Mario";
@@ -170,7 +213,7 @@ namespace The4Dimension
                 foreach (string s in array)
                     if (!s.EndsWith("*") && s.ToLower().StartsWith("startevent")) comboBox1.Items.Add(s);
             }
-            else comboBox1.Items.AddRange(array);
+            else comboBox1.Items.AddRange(array);*/
             Value = null;
         }
 
@@ -186,7 +229,19 @@ namespace The4Dimension
                 MessageBox.Show("You can't add nothing as an object!"); return;
             }
             LevelObj obj = new LevelObj();
-            if (LayerName != "StartInfo" && LayerName != "AreaObjInfo")
+            if (LayerName == "DemoSceneObjInfo")
+            {
+                obj.Prop.Add("Action1", new Node("-", "A0"));
+                obj.Prop.Add("Action2", new Node("-", "A0"));
+                obj.Prop.Add("Action3", new Node("-", "A0"));
+                obj.Prop.Add("Action4", new Node("-", "A0"));
+                obj.Prop.Add("Action5", new Node("-", "A0"));
+                obj.Prop.Add("LuigiType", new Node("Common", "A0"));
+                obj.Prop.Add("MarioType", new Node("Common", "A0"));
+                obj.Prop.Add("ModelName", new Node("DemoBird", "A0"));
+                obj.Prop.Add("SuffixName", new Node("-", "A0"));
+            }
+            if (LayerName != "StartInfo" && LayerName != "AreaObjInfo" && LayerName != "DemoSceneObjInfo")
             {
                 if (LayerName != "CameraAreaInfo") obj.Prop.Add("ViewId", new Node("-1", "D1"));
                 obj.Prop.Add("CameraId", new Node("-1", "D1"));
@@ -207,6 +262,7 @@ namespace The4Dimension
                 obj.Prop.Add("SwitchDeadOn", new Node("-1", "D1"));
             }
             else obj.Prop.Add("MarioNo", new Node("0", "D1"));
+            obj.Prop.Add("MultiFileName", new Node("StageData_tool", "A0"));
             obj.Prop.Add("LayerName", new Node("共通", "A0"));
             obj.Prop.Add("name", new Node(comboBox1.Text, "A0"));
             //obj.Prop.Add("dir_x", new Node("1", "D2"));

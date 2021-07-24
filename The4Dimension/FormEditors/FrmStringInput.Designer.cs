@@ -49,6 +49,7 @@
             this.comboBox1.Items.AddRange(new object[] {
             "AreaObjInfo",
             "CameraAreaInfo",
+            "DemoSceneObjInfo",
             "GoalObjInfo",
             "ObjInfo",
             "StartEventObjInfo",

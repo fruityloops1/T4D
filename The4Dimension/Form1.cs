@@ -489,6 +489,8 @@ namespace The4Dimension
             SetupSZS();
             SetUiLock(true);
             saveToolStripMenuItem.Enabled = false;
+            lblDescription.Text = "";
+            lblDescription.Tag = -1;
         }
 
         void SetUiLock(bool Lock)
