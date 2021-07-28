@@ -27,6 +27,7 @@ namespace ModelViewer
         Dictionary<string, Model3D> ImportedModels = new Dictionary<string, Model3D>();
         Dictionary<string, List<ModelVisual3D>> Models = new Dictionary<string, List<ModelVisual3D>>();
         public Dictionary<string, List<Vector3D>> Positions = new Dictionary<string, List<Vector3D>>();
+        Dictionary<string, ModelVisual3D> AxisDict = new Dictionary<string, ModelVisual3D>();
         ModelImporter Importer = new ModelImporter();
         SortingVisual3D ModelViewer = new SortingVisual3D();
         
@@ -83,6 +84,21 @@ namespace ModelViewer
         {
             get { return ModelView.RotationSensitivity; }
             set { ModelView.RotationSensitivity = value; }
+        }
+        private double CameraTime;
+
+        public double Camspeed
+        {
+            get { return CameraTime; }
+            set { CameraTime = value; }
+
+        }
+        private double CameraDist;
+        public double CamDistance
+        {
+            get { return CameraDist; }
+            set { CameraDist = value; }
+
         }
 
         void test()
@@ -153,7 +169,63 @@ namespace ModelViewer
             l.Thickness = Thickness;
             AddRailpoints(l, Points, Thickness);
         }
+        public void addAxis(Point3D Point, string axis)
+        {
+            Point3D point2 = new Point3D(Point.X,Point.Y,Point.Z);
+            LinesVisual3D l = new LinesVisual3D();
+            l.Color = Color.FromRgb(0,0,0);
+            switch (axis) 
+            {
+                case "X":
+                    point2.X += 5000;
+                    Point.X -= 5000;
+                    l.Color = Color.FromRgb(255,0,0);
+                    break;
+                case "Y":
+                    point2.Z += 5000;
+                    Point.Z -= 5000;
+                    l.Color = Color.FromRgb(0, 0, 255);
+                    break;
+                case "Z":
+                    point2.Y += 5000;
+                    Point.Y -= 5000;
+                    l.Color = Color.FromRgb(0, 255, 0);
+                    break;
+            }
+            Point3D[] Points = new Point3D[2] {Point,point2 };
+            int at = -1;
+            string Type = "AllRailInfos";
+            l.SetName(axis);
+            AxisDict.Add(axis, l);
+            if (at == -1) Models[Type].Add(l); else Models[Type].Insert(at, l);
+            if (at == -1) Positions[Type].Add(Points[0].ToVector3D()); else Positions[Type].Insert(at, Points[0].ToVector3D());
+            if (at == -1) ModelViewer.Children.Add(Models[Type][Models[Type].Count - 1]); else ModelViewer.Children.Insert(at, Models[Type][at]);
+            if (Points.Length < 2) return;
+            l.Thickness = 2.9;
+            AddRailpoints(l, Points, 5);
+        }
+        public void removeAxis(string axis = "All")
+        {
 
+            if (axis == "All" && AxisDict.ContainsKey("X"))
+            {
+                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict["X"]));
+                AxisDict.Remove("X");
+                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict["Y"]));
+                AxisDict.Remove("Y");
+                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict["Z"]));
+                AxisDict.Remove("Z");
+            }
+            else if (axis != "All"&& AxisDict.ContainsKey(axis)) 
+            {
+                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict[axis]));
+                AxisDict.Remove(axis);
+            }
+
+            ModelView.UpdateLayout();
+            //can use X Y and Z
+
+        }
         public void SelectRail(Point3D[] Points)
         {
             UnselectRail(); 
@@ -248,7 +320,7 @@ namespace ModelViewer
 
         public void LookAt(Vector3D p)
         {
-            ModelView.Camera.LookAt(p.ToPoint3D(), 500, 1000);
+            ModelView.Camera.LookAt(p.ToPoint3D(), CameraDist, CameraTime);
             CameraTarget = p;
         }
 
@@ -256,8 +328,10 @@ namespace ModelViewer
         {
             if (Positions[Type].Count <= index) return;
             Vector3D pos = Positions[Type][index];
-            ModelView.Camera.LookAt(new Point3D(pos.X, pos.Y, pos.Z), 500, 1000);
-            CameraTarget = new Vector3D(pos.X, pos.Y, pos.Z);
+            Point3D point3 = new Point3D(Math.Truncate(pos.X * 100) / 100, Math.Truncate(pos.Y * 100) / 100, Math.Truncate(pos.Z * 100) / 100);
+            ModelView.Camera.LookAt(point3, CameraDist, CameraTime);
+            Vector3D vec3 = new Vector3D(Math.Truncate(pos.X * 100) / 100, Math.Truncate(pos.Y * 100) / 100, Math.Truncate(pos.Z * 100) / 100);
+            CameraTarget = vec3;
         }
 
         public void SetCameraDirection(int x, int y, int z)
@@ -377,7 +451,7 @@ namespace ModelViewer
             AddKey("TmpAreaChildrenObjs");
             AddKey("C0EditingListObjs");
             AddKey("SelectionLayer");
-            ModelView.Camera.LookAt(new Point3D(0,0,0), 50, 1000);
+            ModelView.Camera.LookAt(new Point3D(0,0,0), CameraDist, CameraTime);
             CameraTarget = new Vector3D(0, 0, 0);
         }
         

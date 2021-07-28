@@ -338,6 +338,31 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DemoBeforeEndingStageMap1.szs
+        ///DemoCourseKoopaRunawayStageMap1.szs
+        ///DemoCourseSelectStartStageMap1.szs
+        ///DemoDokanWorldMapStageMap1.szs
+        ///DemoEndRollCompleteStageMap1.szs
+        ///DemoEndRollStageMap1.szs
+        ///DemoGameOverStageMap1.szs
+        ///DemoKoopaDownStageMap1.szs
+        ///DemoKoopaLastStageMap1.szs
+        ///DemoKoopaLv3StageMap1.szs
+        ///DemoLastLetterStageMap1.szs
+        ///DemoLuigiLetterStageMap1.szs
+        ///DemoLuigiRescueStageMap1.szs
+        ///DemoOpeningStageMap1.szs
+        ///DemoStartBattleShipEveningStageMap1.szs
+        ///DemoStartBattleShipSpecialEveningStageMap1.szs
+        ///De [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SpecialStageList {
+            get {
+                return ResourceManager.GetString("SpecialStageList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon t4d {

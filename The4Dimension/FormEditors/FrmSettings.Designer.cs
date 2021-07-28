@@ -69,9 +69,15 @@ namespace The4Dimension.FormEditors
             this.label13 = new System.Windows.Forms.Label();
             this.LanguageBox = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.UDCamDistance = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.UDCamSpeed = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotSenUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UDCamDistance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UDCamSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -98,7 +104,7 @@ namespace The4Dimension.FormEditors
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(31, 81);
+            this.label3.Location = new System.Drawing.Point(40, 81);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 2;
@@ -108,7 +114,7 @@ namespace The4Dimension.FormEditors
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(31, 173);
+            this.label5.Location = new System.Drawing.Point(129, 173);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 4;
@@ -238,9 +244,9 @@ namespace The4Dimension.FormEditors
             this.cbCameraMode.Items.AddRange(new object[] {
             "Inspect (Default)",
             "WalkAround (Whitehole)"});
-            this.cbCameraMode.Location = new System.Drawing.Point(311, 173);
+            this.cbCameraMode.Location = new System.Drawing.Point(217, 170);
             this.cbCameraMode.Name = "cbCameraMode";
-            this.cbCameraMode.Size = new System.Drawing.Size(156, 21);
+            this.cbCameraMode.Size = new System.Drawing.Size(179, 21);
             this.cbCameraMode.TabIndex = 21;
             // 
             // CamInertiaUpDown
@@ -276,7 +282,7 @@ namespace The4Dimension.FormEditors
             0,
             0,
             131072});
-            this.ZoomSenUpDown.Location = new System.Drawing.Point(392, 81);
+            this.ZoomSenUpDown.Location = new System.Drawing.Point(141, 87);
             this.ZoomSenUpDown.Maximum = new decimal(new int[] {
             5,
             0,
@@ -295,7 +301,7 @@ namespace The4Dimension.FormEditors
             0,
             0,
             65536});
-            this.RotSenUpDown.Location = new System.Drawing.Point(392, 115);
+            this.RotSenUpDown.Location = new System.Drawing.Point(392, 87);
             this.RotSenUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -319,7 +325,7 @@ namespace The4Dimension.FormEditors
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(31, 94);
+            this.label9.Location = new System.Drawing.Point(40, 94);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 13);
             this.label9.TabIndex = 27;
@@ -329,7 +335,7 @@ namespace The4Dimension.FormEditors
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(31, 128);
+            this.label10.Location = new System.Drawing.Point(285, 94);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 13);
             this.label10.TabIndex = 29;
@@ -339,7 +345,7 @@ namespace The4Dimension.FormEditors
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(31, 115);
+            this.label11.Location = new System.Drawing.Point(285, 81);
             this.label11.Name = "label11";
             this.label11.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label11.Size = new System.Drawing.Size(95, 13);
@@ -377,7 +383,7 @@ namespace The4Dimension.FormEditors
             this.Default.TabIndex = 32;
             this.Default.Text = "Reset Settings";
             this.Default.UseVisualStyleBackColor = true;
-            this.Default.Click += new System.EventHandler(this.Apply_Click);
+            this.Default.Click += new System.EventHandler(this.Default_Click);
             // 
             // textBox1
             // 
@@ -487,6 +493,72 @@ namespace The4Dimension.FormEditors
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(24, 123);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(111, 26);
+            this.label14.TabIndex = 43;
+            this.label14.Text = "Time for the camera \r\nto return to the object:";
+            // 
+            // UDCamDistance
+            // 
+            this.UDCamDistance.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.UDCamDistance.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UDCamDistance.Location = new System.Drawing.Point(392, 129);
+            this.UDCamDistance.Maximum = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+            this.UDCamDistance.Name = "UDCamDistance";
+            this.UDCamDistance.Size = new System.Drawing.Size(75, 20);
+            this.UDCamDistance.TabIndex = 46;
+            this.UDCamDistance.Value = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            // 
+            // label16
+            // 
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(249, 123);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(137, 26);
+            this.label16.TabIndex = 47;
+            this.label16.Text = "Distance when the camera \r\nreturns to the object :";
+            // 
+            // UDCamSpeed
+            // 
+            this.UDCamSpeed.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.UDCamSpeed.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UDCamSpeed.Location = new System.Drawing.Point(141, 129);
+            this.UDCamSpeed.Maximum = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+            this.UDCamSpeed.Name = "UDCamSpeed";
+            this.UDCamSpeed.Size = new System.Drawing.Size(75, 20);
+            this.UDCamSpeed.TabIndex = 48;
+            this.UDCamSpeed.Value = new decimal(new int[] {
+            700,
+            0,
+            0,
+            0});
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -496,6 +568,10 @@ namespace The4Dimension.FormEditors
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(503, 538);
+            this.Controls.Add(this.UDCamSpeed);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.UDCamDistance);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.LanguageBox);
@@ -541,6 +617,8 @@ namespace The4Dimension.FormEditors
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotSenUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UDCamDistance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UDCamSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -584,5 +662,9 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox LanguageBox;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown UDCamDistance;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown UDCamSpeed;
     }
 }

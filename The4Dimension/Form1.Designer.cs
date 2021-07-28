@@ -119,7 +119,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.IncType = new System.Windows.Forms.ComboBox();
-            this.XMLTEST = new System.Windows.Forms.Button();
+            this.objectByNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -139,7 +139,7 @@
             this.propertyGrid1.HelpVisible = false;
             this.propertyGrid1.Location = new System.Drawing.Point(4, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(234, 203);
+            this.propertyGrid1.Size = new System.Drawing.Size(234, 205);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridChange);
             this.propertyGrid1.Click += new System.EventHandler(this.propertyGrid1_Click);
@@ -217,6 +217,7 @@
             // 
             // elementHost1
             // 
+            this.elementHost1.AllowDrop = true;
             this.elementHost1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -280,8 +281,9 @@
             // openFromLevelNameWXXToolStripMenuItem
             // 
             this.openFromLevelNameWXXToolStripMenuItem.Name = "openFromLevelNameWXXToolStripMenuItem";
-            this.openFromLevelNameWXXToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
-            this.openFromLevelNameWXXToolStripMenuItem.Text = "Open from level name (W X-X)";
+            this.openFromLevelNameWXXToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
+            this.openFromLevelNameWXXToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.openFromLevelNameWXXToolStripMenuItem.Text = "Open from level name (W X-Y)";
             this.openFromLevelNameWXXToolStripMenuItem.Click += new System.EventHandler(this.openFromLevelNameWXXToolStripMenuItem_Click);
             // 
             // openRecentToolStripMenuItem
@@ -307,13 +309,15 @@
             this.saveAsBymlToolStripMenuItem1,
             this.saveAsXmlToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
             // 
             // saveAsSZSToolStripMenuItem
             // 
             this.saveAsSZSToolStripMenuItem.Name = "saveAsSZSToolStripMenuItem";
-            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.saveAsSZSToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.saveAsSZSToolStripMenuItem.Text = "Save as Szs";
             this.saveAsSZSToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
             // 
@@ -452,6 +456,7 @@
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.objectByNameToolStripMenuItem,
             this.objectByIdToolStripMenuItem,
             this.objectByCameraIdToolStripMenuItem,
             this.objectBySwitchToolStripMenuItem,
@@ -652,7 +657,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.button4);
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
             this.splitContainer1.Size = new System.Drawing.Size(244, 536);
-            this.splitContainer1.SplitterDistance = 243;
+            this.splitContainer1.SplitterDistance = 241;
             this.splitContainer1.TabIndex = 7;
             // 
             // C0EditingPanel
@@ -688,7 +693,7 @@
             // Btn_CopyObjs
             // 
             this.Btn_CopyObjs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_CopyObjs.Location = new System.Drawing.Point(35, 220);
+            this.Btn_CopyObjs.Location = new System.Drawing.Point(35, 218);
             this.Btn_CopyObjs.Name = "Btn_CopyObjs";
             this.Btn_CopyObjs.Size = new System.Drawing.Size(96, 23);
             this.Btn_CopyObjs.TabIndex = 12;
@@ -703,7 +708,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(3, 197);
+            this.checkBox2.Location = new System.Drawing.Point(3, 195);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(227, 17);
             this.checkBox2.TabIndex = 9;
@@ -715,7 +720,7 @@
             // btn_cameraCode
             // 
             this.btn_cameraCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_cameraCode.Location = new System.Drawing.Point(103, 191);
+            this.btn_cameraCode.Location = new System.Drawing.Point(103, 189);
             this.btn_cameraCode.Name = "btn_cameraCode";
             this.btn_cameraCode.Size = new System.Drawing.Size(135, 26);
             this.btn_cameraCode.TabIndex = 11;
@@ -738,7 +743,7 @@
             // 
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(4, 196);
+            this.checkBox1.Location = new System.Drawing.Point(4, 194);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(92, 17);
             this.checkBox1.TabIndex = 9;
@@ -754,7 +759,7 @@
             this.ObjectsListBox.Location = new System.Drawing.Point(7, 30);
             this.ObjectsListBox.Name = "ObjectsListBox";
             this.ObjectsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.ObjectsListBox.Size = new System.Drawing.Size(229, 160);
+            this.ObjectsListBox.Size = new System.Drawing.Size(229, 134);
             this.ObjectsListBox.TabIndex = 8;
             this.ObjectsListBox.SelectedIndexChanged += new System.EventHandler(this.ObjectsListBox_SelectedIndexChanged);
             this.ObjectsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Listbox_keyDown);
@@ -785,7 +790,7 @@
             // Btn_AddObj
             // 
             this.Btn_AddObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_AddObj.Location = new System.Drawing.Point(3, 219);
+            this.Btn_AddObj.Location = new System.Drawing.Point(3, 217);
             this.Btn_AddObj.Name = "Btn_AddObj";
             this.Btn_AddObj.Size = new System.Drawing.Size(29, 23);
             this.Btn_AddObj.TabIndex = 5;
@@ -796,7 +801,7 @@
             // btn_delObj
             // 
             this.btn_delObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_delObj.Location = new System.Drawing.Point(137, 219);
+            this.btn_delObj.Location = new System.Drawing.Point(137, 217);
             this.btn_delObj.Name = "btn_delObj";
             this.btn_delObj.Size = new System.Drawing.Size(101, 23);
             this.btn_delObj.TabIndex = 4;
@@ -807,7 +812,7 @@
             // Btn_Duplicate
             // 
             this.Btn_Duplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Btn_Duplicate.Location = new System.Drawing.Point(35, 219);
+            this.Btn_Duplicate.Location = new System.Drawing.Point(35, 217);
             this.Btn_Duplicate.Name = "Btn_Duplicate";
             this.Btn_Duplicate.Size = new System.Drawing.Size(96, 23);
             this.Btn_Duplicate.TabIndex = 3;
@@ -818,7 +823,7 @@
             // lblDescription
             // 
             this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblDescription.Location = new System.Drawing.Point(3, 209);
+            this.lblDescription.Location = new System.Drawing.Point(3, 211);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(235, 49);
             this.lblDescription.TabIndex = 9;
@@ -830,7 +835,7 @@
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(84, 261);
+            this.button5.Location = new System.Drawing.Point(84, 263);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(152, 23);
             this.button5.TabIndex = 2;
@@ -841,7 +846,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(3, 261);
+            this.button4.Location = new System.Drawing.Point(3, 263);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 1;
@@ -891,6 +896,7 @@
             this.elementHost2.Size = new System.Drawing.Size(114, 121);
             this.elementHost2.TabIndex = 10;
             this.elementHost2.Text = "elementHost2";
+            this.elementHost2.Visible = false;
             this.elementHost2.Child = null;
             // 
             // panel1
@@ -989,18 +995,13 @@
             this.IncType.Size = new System.Drawing.Size(107, 21);
             this.IncType.TabIndex = 17;
             // 
-            // XMLTEST
+            // objectByNameToolStripMenuItem
             // 
-            this.XMLTEST.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.XMLTEST.Enabled = false;
-            this.XMLTEST.Location = new System.Drawing.Point(435, 1);
-            this.XMLTEST.Name = "XMLTEST";
-            this.XMLTEST.Size = new System.Drawing.Size(79, 23);
-            this.XMLTEST.TabIndex = 12;
-            this.XMLTEST.Text = "XML TEST";
-            this.XMLTEST.UseVisualStyleBackColor = true;
-            this.XMLTEST.Visible = false;
-            this.XMLTEST.Click += new System.EventHandler(this.XMLTEST_Click);
+            this.objectByNameToolStripMenuItem.Name = "objectByNameToolStripMenuItem";
+            this.objectByNameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.objectByNameToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.objectByNameToolStripMenuItem.Text = "Object by name";
+            this.objectByNameToolStripMenuItem.Click += new System.EventHandler(this.objectByNameToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -1008,7 +1009,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 575);
-            this.Controls.Add(this.XMLTEST);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.elementHost2);
@@ -1133,9 +1133,9 @@
         private System.Windows.Forms.ComboBox IncAxis;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button XMLTEST;
         private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectByNameToolStripMenuItem;
     }
 }
 

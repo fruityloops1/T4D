@@ -164,7 +164,8 @@ namespace The4Dimension.FormEditors
             #endregion
 
 
-
+            UDCamSpeed.Value = (decimal)Properties.Settings.Default.CamSpeed;
+            UDCamDistance.Value = (decimal)Properties.Settings.Default.CamDistance;
             textBox1.Text = Properties.Settings.Default.GamePath;
             CamInertiaUpDown.Value = (decimal)render.CameraInertiaFactor;
             ShowFPS.Checked = render.ShowFps;
@@ -229,6 +230,10 @@ namespace The4Dimension.FormEditors
             rendera.HasAA = HasAA.Checked;
             Properties.Settings.Default.TextFilter = TextFilter.SelectedIndex;
             rendera.TextureFilter = TextFilter.SelectedIndex;
+            rendera.Camspeed = (double)UDCamSpeed.Value;
+            Properties.Settings.Default.CamSpeed = (double)UDCamSpeed.Value;
+            rendera.CamDistance = (double)UDCamDistance.Value;
+            Properties.Settings.Default.CamDistance = (double)UDCamDistance.Value;
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -238,8 +243,12 @@ namespace The4Dimension.FormEditors
             this.Close();
         }
 
-        private void Apply_Click(object sender, EventArgs e)
+        private void Default_Click(object sender, EventArgs e)
         {
+            rendera.Camspeed = Properties.Defaults.Default.CamSpeed;
+            Properties.Settings.Default.CamSpeed = Properties.Defaults.Default.CamSpeed;
+            rendera.CamDistance = Properties.Defaults.Default.CamDistance;
+            Properties.Settings.Default.CamDistance = Properties.Defaults.Default.CamDistance;
             Properties.Settings.Default.CurrentLang = Properties.Defaults.Default.CurrentLang;
             Properties.Settings.Default.CurrentLangName = Properties.Defaults.Default.CurrentLangName;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");

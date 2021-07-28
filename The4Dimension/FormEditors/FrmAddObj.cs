@@ -229,6 +229,7 @@ namespace The4Dimension
                 MessageBox.Show("You can't add nothing as an object!"); return;
             }
             LevelObj obj = new LevelObj();
+            if (LayerName == "ObjInfo") { obj.Prop.Add("ClippingGroupId", new Node("-1", "D1")); }
             if (LayerName == "DemoSceneObjInfo")
             {
                 obj.Prop.Add("Action1", new Node("-", "A0"));

@@ -303,12 +303,39 @@ namespace The4Dimension.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring />\r\n</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection OpenRecent {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["OpenRecent"]));
             }
             set {
                 this["OpenRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("700")]
+        public double CamSpeed {
+            get {
+                return ((double)(this["CamSpeed"]));
+            }
+            set {
+                this["CamSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public double CamDistance {
+            get {
+                return ((double)(this["CamDistance"]));
+            }
+            set {
+                this["CamDistance"] = value;
             }
         }
     }

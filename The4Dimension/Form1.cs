@@ -273,32 +273,61 @@ namespace The4Dimension
                 {
                     for (int y = 1; y < 6; y++)
                     {
-                        LevelNameNum.Add("W " + i.ToString() + "-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
+                        LevelNameNum.Add("W" + i.ToString() + "-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
                     }
                 }
                 for (int i = 3; i < 8; i++)
                 {
                     for (int y = 1; y < 7; y++)
                     {
-                        LevelNameNum.Add("W " + i.ToString() + "-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
+                        LevelNameNum.Add("W" + i.ToString() + "-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
                     }
                 }
                 for (int y = 1; y < 10; y++)
                 {
-                    LevelNameNum.Add("W 8-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
+                    LevelNameNum.Add("W8-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
                 }
                 for (int y = 1; y < 6; y++)
                 {
-                    LevelNameNum.Add("W S1-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
+                    LevelNameNum.Add("S1-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
                 }
                 for (int i = 10; i < 17; i++)
                 {
                     for (int y = 1; y < 7; y++)
                     {
-                        LevelNameNum.Add("W S" + (i - 8).ToString() + "-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
+                        LevelNameNum.Add("S" + (i - 8).ToString() + "-" + y.ToString() + "  (" + lines[++nextIndex].Trim() + ")", lines[nextIndex].Trim());
                     }
                 }
-                LevelNameNum.Add("W S8-Championship", lines[++nextIndex].Trim());
+                LevelNameNum.Add("S8-Championship", lines[++nextIndex].Trim());
+                string[] spstg = Properties.Resources.SpecialStageList.Split(Environment.NewLine[0]);
+                nextIndex = 0;
+                int spstgindex = 0;
+                for (int i = 0; i < spstg.Length; i++)
+                {
+                    if (spstg[i].Trim().StartsWith("Demo"))
+                    {
+                        LevelNameNum.Add("Cutscene " +  ((++nextIndex)).ToString() + " (" + spstg[spstgindex].Trim() + ")" , spstg[spstgindex].Trim());
+                        if(!spstg[i+1].Trim().StartsWith("Demo")){ nextIndex = 0; }
+                    }
+                    else if (spstg[i].Trim().StartsWith("KinopioHouse"))
+                    {
+                        LevelNameNum.Add("Toad house " + ((++nextIndex)).ToString() + " (" + spstg[spstgindex].Trim() + ")", spstg[spstgindex].Trim());
+                        if (!spstg[i + 1].Trim().StartsWith("KinopioHouse")){ nextIndex = 0; }
+                    }
+                    else if (spstg[i].Trim().StartsWith("KinopioGame"))
+                    {
+                        LevelNameNum.Add("Gameover house " + ((++nextIndex)).ToString() + " (" + spstg[spstgindex].Trim() + ")", spstg[spstgindex].Trim());
+                        if (!spstg[i + 1].Trim().StartsWith("KinopioGame")){ nextIndex = 0; }
+                    }                    
+                    else if (spstg[i].Trim().StartsWith("Mystery"))
+                    {
+                        LevelNameNum.Add("Mystery box " + ((++nextIndex)).ToString() + " (" + spstg[spstgindex].Trim() + ")", spstg[spstgindex].Trim());
+                        if (i != spstg.Length - 1) 
+                        { if (!spstg[i + 1].Trim().StartsWith("Mystery")) { nextIndex = 0; } }
+                        
+                    }
+                    ++spstgindex;
+                }
                 #endregion
 
 
@@ -323,7 +352,8 @@ namespace The4Dimension
                 openRecentToolStripMenuItem.DropDownItems.Add(clr);
 
 
-
+                render.CamDistance =Properties.Settings.Default.CamDistance;
+                render.Camspeed =Properties.Settings.Default.CamSpeed;
                 KeyPreview = true;
                 elementHost1.Child = render;
                 elementHost2.Visible = false;
@@ -1179,6 +1209,10 @@ namespace The4Dimension
             }
             else
             {
+                if (RenderIsDragging == true) { return; }
+                if (DraggingAxis[0] == true) { return; }
+                if (DraggingAxis[1] == true) { return; }
+                if (DraggingAxis[2] == true) { return; }
                 if ((string)indexes[0] != "C0EditingListObjs") comboBox1.SelectedIndex = comboBox1.Items.IndexOf((string)indexes[0]);
                 ObjectsListBox.ClearSelected();
                 ObjectsListBox.SelectedIndex = (int)indexes[1];
@@ -1187,13 +1221,122 @@ namespace The4Dimension
 
         bool RenderIsDragging = false;
         object[] DraggingArgs = null;
+        bool[] DraggingAxis = new bool[5];
         Vector3D StartPos;
 
         private void render_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) //Render hotkeys
         {
+            if (e.Key == Key.X)
+            {
+                if (RenderIsDragging == true)
+                {
+                    if (DraggingAxis[0] == false && (DraggingAxis[1] == false || DraggingAxis[2] == false) && (string)DraggingArgs[0] != "SelectedRail")
+                    { 
+                        DraggingAxis[0] = true;
+                        Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
+                        Point3D axiss = new Point3D(sing[0], -sing[2], sing[1]);
+                        render.addAxis(axiss, "X");
+                    }
+                    else if (DraggingAxis[0] == true && (DraggingAxis[1] == false || DraggingAxis[2] == false))
+                    {
+                        DraggingAxis[0] = false;
+                        render.removeAxis("X");
+                    }
+                    else if (DraggingAxis[0] == false && (DraggingAxis[1] == true || DraggingAxis[2] == true))
+                    {
+                        DraggingAxis[0] = true;
+                        Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
+                        Point3D axiss = new Point3D(sing[0], -sing[2], sing[1]);
+                        render.addAxis(axiss, "X");
+                        render.removeAxis("Y");
+                        DraggingAxis[1] = false;
+                        render.removeAxis("Z");
+                        DraggingAxis[2] = false;
+                    }
+                }
+            }
+            if (e.Key == Key.Y)
+            {
+                if (RenderIsDragging == true)
+                {
+                    if (DraggingAxis[1] == false && (DraggingAxis[0] == false || DraggingAxis[2] == false)&& (string)DraggingArgs[0]!="SelectedRail")
+                    {
+                        DraggingAxis[1] = true;
+                        Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
+                        Point3D axiss = new Point3D(sing[0], -sing[2], sing[1]);
+                        render.addAxis(axiss, "Y");
+                    }
+                    else if (DraggingAxis[1] == true && (DraggingAxis[0] == false || DraggingAxis[2] == false))
+                    {
+                        DraggingAxis[1] = false;
+                        render.removeAxis("Y");
+                    }
+                    else if (DraggingAxis[1] == false && (DraggingAxis[0] == true || DraggingAxis[2] == true))
+                    {
+                        DraggingAxis[1] = true;
+                        Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
+                        Point3D axiss = new Point3D(sing[0], -sing[2], sing[1]);
+                        render.addAxis(axiss, "Y");
+                        render.removeAxis("X");
+                        DraggingAxis[0] = false;
+                        render.removeAxis("Z");
+                        DraggingAxis[2] = false;
+                    }
+                }
+            }
+            if (e.Key == Key.S)
+            {
+                if (RenderIsDragging == true)
+                {
+                    if (DraggingAxis[3] == false)
+                    {
+                        DraggingAxis[4] = false;
+                        DraggingAxis[3] = true;
+                    }
+                    else { DraggingAxis[3] = false; }
+                }
+            }
+            if (e.Key == Key.R)
+            {
+                if (RenderIsDragging == true)
+                {
+                    if (DraggingAxis[4] == false)
+                    {
+                        DraggingAxis[4] = true;
+                        DraggingAxis[3] = false;
+                    }
+                    else { DraggingAxis[4] = false; }
+                }
+            }
             if (e.Key == Key.Z)
             {
-                if (Undo.Count > 0) Undo.Pop().Undo();
+                if (Undo.Count > 0 && RenderIsDragging==false) Undo.Pop().Undo();
+                else if (RenderIsDragging == true)
+                {
+                    if (DraggingAxis[2] == false && (DraggingAxis[0] == false || DraggingAxis[1] == false) && (string)DraggingArgs[0] != "SelectedRail")
+                    {
+                        DraggingAxis[2] = true;
+                        Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
+                        Point3D axiss = new Point3D(sing[0], -sing[2], sing[1]);
+                        render.addAxis(axiss, "Z");
+                    }
+                    else if (DraggingAxis[2] == true && (DraggingAxis[0] == false || DraggingAxis[1] == false))
+                    {
+                        DraggingAxis[2] = false;
+                        render.removeAxis("Z");
+                    }
+                    else if (DraggingAxis[2] == false && (DraggingAxis[0] == true || DraggingAxis[1] == true))
+                    {
+                        DraggingAxis[2] = true;
+                        Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
+                        Point3D axiss = new Point3D(sing[0], -sing[2], sing[1]);
+                        render.addAxis(axiss, "Z");
+                        render.removeAxis("X");
+                        DraggingAxis[0] = false;
+                        render.removeAxis("Y");
+                        DraggingAxis[1] = false;
+                    }
+                }
                 return;
             }
             else if (e.Key == Key.B && comboBox1.Text != "AllRailInfos")
@@ -1317,9 +1460,35 @@ namespace The4Dimension
             }
             else if ((string)DraggingArgs[0] != "AllRailInfos")
             {
-                ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[0] = (Single)NewPos.X;
-                ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[1] = (Single)NewPos.Z;
-                ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[2] = -(Single)NewPos.Y;
+                string type = "pos";
+                //if (DraggingAxis[3]==true) { type = "scale"; }
+                //if (DraggingAxis[4]==true) { type = "dir"; }
+                if ((DraggingAxis[0] == false && DraggingAxis[1] == false && DraggingAxis[2] == false)|| (DraggingAxis[0] == true && DraggingAxis[1] == true && DraggingAxis[2] == true))
+                {
+                    ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[0] = (Single)NewPos.X;
+                    ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[1] = (Single)NewPos.Z;
+                    ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[2] = -(Single)NewPos.Y;
+                    //render.removeAxis();
+
+                }
+                else
+                {
+                    if(DraggingAxis[0] == true)
+                    {
+
+
+                        ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[0] = (Single)NewPos.X;
+                    }
+                    if (DraggingAxis[1] == true)
+                    {
+                        ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[1] = (Single)NewPos.Z;
+                    }
+                    if (DraggingAxis[2] == true)
+                    {
+                        ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[2] = -(Single)NewPos.Y;
+                    }
+                }
+
                 UpdateOBJPos((int)DraggingArgs[1], GetListByName((string)DraggingArgs[0]), (string)DraggingArgs[0]);
             }
             DraggingArgs[2] = NewPos;
@@ -1329,6 +1498,10 @@ namespace The4Dimension
         {
             if (DraggingArgs[0] == null || DraggingArgs[1] == null || DraggingArgs[2] == null) return;
             if (IsEditingC0List && (string)DraggingArgs[0] != "C0EditingListObjs") return;
+
+            if (DraggingAxis[0] == true) { render.removeAxis("X"); DraggingAxis[0] = false; }
+            if (DraggingAxis[1] == true) { render.removeAxis("Y"); DraggingAxis[1] = false; }
+            if (DraggingAxis[2] == true) { render.removeAxis("Z"); DraggingAxis[2] = false; }
             if ((string)DraggingArgs[0] == "SelectedRail")
             {
                 Action<object[]> act;
@@ -2868,6 +3041,7 @@ namespace The4Dimension
             if (type == "AllRailInfos")
             {
                 MessageBox.Show("You can't search here");
+                
             }
             else
             {
@@ -2875,7 +3049,17 @@ namespace The4Dimension
                 {
                     if (GetListByName(type)[i].Prop.ContainsKey(PropertyName) && GetListByName(type)[i].Prop[PropertyName] is Rail)
                     {
-                        if (((Rail)GetListByName(type)[i].Prop[PropertyName]).Name.ToLower() == Value.ToLower()) { HitsNames.Add(GetListByName(type)[i].ToString()); HitsIndexes.Add(i); }
+                        if (((Rail)GetListByName(type)[i].Prop[PropertyName]).Name.ToLower() == Value.ToLower())
+                        {
+                            HitsNames.Add(GetListByName(type)[i].ToString()); HitsIndexes.Add(i);
+                        }
+                    }
+                    else if (GetListByName(type)[i].Prop.ContainsKey(PropertyName))
+                    {
+                        if (((Node)GetListByName(type)[i].Prop[PropertyName]).StringValue.ToLower().Contains(Value.ToLower()))
+                        {
+                            HitsNames.Add(GetListByName(type)[i].ToString()); HitsIndexes.Add(i);
+                        }
                     }
                     if (GetListByName(type)[i].Prop.ContainsKey("GenerateChildren"))
                     {
@@ -2884,7 +3068,17 @@ namespace The4Dimension
                         {
                             if (children.List[ii].Prop.ContainsKey(PropertyName) && children.List[ii].Prop[PropertyName] is Rail)
                             {
-                                if (((Rail)children.List[ii].Prop[PropertyName]).Name.ToLower() == Value.ToLower()) { HitsNames.Add(children.List[ii].ToString() + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); }
+                                if (((Rail)children.List[ii].Prop[PropertyName]).Name.ToLower() == Value.ToLower())
+                                {
+                                    HitsNames.Add(children.List[ii].ToString() + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); 
+                                }
+                            }
+                            else if (children.List[ii].Prop.ContainsKey(PropertyName))
+                            {
+                                if (((Node)children.List[ii].Prop[PropertyName]).StringValue.ToLower().Contains(Value.ToLower()))
+                                {
+                                    HitsNames.Add(children.List[ii].ToString() + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i);
+                                }
                             }
                         }
                     }
@@ -3547,186 +3741,6 @@ namespace The4Dimension
             propertyGrid1.Refresh();
         }
 
-        private void XMLTEST_Click(object sender, EventArgs e)
-        {
-
-            string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\EN.xml";
-            XmlReader LANG = XmlReader.Create(path);
-            string CForm = null;
-            while (LANG.Read())
-            {
-                
-                if (LANG.NodeType == XmlNodeType.Element)
-                { switch (LANG.Name)
-                    {
-                        case "Form1":
-                            CForm = "Form1";
-                            break;
-                        case "FrmSetting":
-                            CForm = "FrmSettings";
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                if (LANG.NodeType == XmlNodeType.EndElement) 
-                {
-                    switch (LANG.Name)
-                    {
-                        case "Form1":
-                            CForm = null;
-                            break;
-                        case "FrmSetting":
-                            CForm = null;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                
-                if (LANG.NodeType == XmlNodeType.Element&& LANG.Name.Equals("Lbl")) 
-                {
-                    string label = LANG.GetAttribute("name");
-                    string parent = LANG.GetAttribute("parent");
-                    string text = LANG.ReadElementContentAsString();
-                    if (this.Name == CForm) 
-                    { 
-                        switch (parent)
-                        {
-                        case "splitContainer1.Panel1":
-                            ((Label)splitContainer1.Panel1.Controls[label]).Text = text;
-                            break;
-                        case "C0EditingPanel":
-                            ((Label)C0EditingPanel.Controls[label]).Text = text;
-                            break;
-                        case "splitContainer1.Panel2":
-                            ((Label)splitContainer1.Panel2.Controls[label]).Text = text;
-                            break;
-                        default:
-                            ((Label)Controls[label]).Text = text;
-                            break;
-                        }
-                    }
-                    //label3 = label1;
-                }
-                else if(LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
-                {
-                    string button = LANG.GetAttribute("name");
-                    string parent = LANG.GetAttribute("parent");
-                    string text = LANG.ReadElementContentAsString();
-                    if (this.Name == CForm)
-                    {
-                        switch (parent)
-                        {
-                            case "splitContainer1.Panel1":
-                                ((Button)splitContainer1.Panel1.Controls[button]).Text = text;
-                                break;
-                            case "C0EditingPanel":
-                                ((Button)C0EditingPanel.Controls[button]).Text = text;
-                                break;
-                            case "splitContainer1.Panel2":
-                                ((Button)splitContainer1.Panel2.Controls[button]).Text = text;
-                                break;
-                            default:
-                                ((Button)Controls[button]).Text = text;
-                                break;
-
-                        }
-                    }
-
-                }
-                else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
-                {
-                    string cbox = LANG.GetAttribute("name");
-                    string parent = LANG.GetAttribute("parent");
-                    string text = LANG.ReadElementContentAsString();
-                    if (this.Name == CForm)
-                    {
-                        switch (parent)
-                        {
-                            case "splitContainer1.Panel1":
-                                ((CheckBox)splitContainer1.Panel1.Controls[cbox]).Text = text;
-                                break;
-                            case "C0EditingPanel":
-                                ((CheckBox)C0EditingPanel.Controls[cbox]).Text = text;
-                                break;
-                            case "splitContainer1.Panel2":
-                                ((CheckBox)splitContainer1.Panel2.Controls[cbox]).Text = text;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Strp"))
-                {
-                    string smenu = LANG.GetAttribute("name");
-                    string parent = LANG.GetAttribute("parent");
-                    string text = LANG.ReadElementContentAsString();
-                    if (this.Name == CForm)
-                    {
-                        switch (parent)
-                        {
-                            case "menu":
-                                menuStrip1.Items[smenu].Text = text;
-                                break;
-                            case "bymlconv":
-                                bymlConverterToolStripMenuItem1.DropDownItems[smenu].Text = text;
-                                break;
-                            case "file":
-                                fileToolStripMenuItem.DropDownItems[smenu].Text = text;
-                                break;
-                            case "help":
-                                helpToolStripMenuItem.DropDownItems[smenu].Text = text;
-                                break;
-                            case "clipboard":
-                                ClipBoardMenu.Items[smenu].Text = text;
-                                break;
-                            case "tools":
-                                otherToolStripMenuItem.DropDownItems[smenu].Text = text;
-                                break;
-                            case "find":
-                                findToolStripMenuItem.DropDownItems[smenu].Text = text;
-                                break;
-                            case "SaveAs":
-                                saveAsToolStripMenuItem.DropDownItems[smenu].Text = text;
-                                break;
-                            case "OBJbySWITCH":
-                                objectBySwitchToolStripMenuItem.DropDownItems[smenu].Text = text;
-                                break;
-                            default:
-                                ToolStripItem Menu = menuStrip1.Items["fileToolStripMenuItem"];
-                                text = "TEST";
-                                Menu.Text = text;
-                                break;
-                        }
-                    }
-                    //helpToolStripMenuItem.DropDownItems["gbatempThreadToolStripMenuItem"].Text = "TEST";
-                    //gbatempThreadToolStripMenuItem.Text = "";
-                    //openToolStripMenuItem.Text = "Open";
-                    //break;
-                }
-                else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx")) 
-                {
-                    string tbx = LANG.GetAttribute("name");
-                    string parent = LANG.GetAttribute("parent");
-                    string text = LANG.ReadElementContentAsString();
-                    if (this.Name == CForm)
-                    {
-                        switch (parent)
-                        {
-                            case "panel1":
-                                panel1.Controls[tbx].Text = text;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                }
-            }
-        }
-
         private void Form1_DragEnter(object sender, DragEventArgs e)
         {
 
@@ -3755,6 +3769,14 @@ namespace The4Dimension
             {
                 elementHost1.Show();
             }
+        }
+
+        private void objectByNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditors.FrmSearchValInput f = new FormEditors.FrmSearchValInput(true);
+            f.ShowDialog();
+            if (f.Res == null || (string)f.Res == "") return;
+            FindIndex(comboBox1.Text, "name", (string)f.Res);
         }
     }
 }

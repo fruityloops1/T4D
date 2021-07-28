@@ -325,5 +325,29 @@ namespace The4Dimension.Properties {
                 this["OpenRecent"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("700")]
+        public double CamSpeed {
+            get {
+                return ((double)(this["CamSpeed"]));
+            }
+            set {
+                this["CamSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public double CamDistance {
+            get {
+                return ((double)(this["CamDistance"]));
+            }
+            set {
+                this["CamDistance"] = value;
+            }
+        }
     }
 }
