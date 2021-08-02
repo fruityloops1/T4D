@@ -377,7 +377,7 @@ namespace The4Dimension
                 render.TextureFilter = Properties.Settings.Default.TextFilter;
                 AutoMoveCam = Properties.Settings.Default.AutoMoveCam;
                 AddObjectOrigin = Properties.Settings.Default.AddObjectOrigin;
-
+                
                 Focus();
                 if (FileLoad != "")
                 {
@@ -394,7 +394,7 @@ namespace The4Dimension
                 MessageBox.Show("A log of the error was saved in the same folder of this application.");
             }
         }
-
+        public bool UseDesignSound = Properties.Settings.Default.UseDesignSound;
         public Dictionary<string, byte[]> SzsFiles = null;
         public Dictionary<string, AllInfoSection> AllInfos = new Dictionary<string, AllInfoSection>();
         public List<Rail> AllRailInfos = new List<Rail>();
@@ -472,6 +472,7 @@ namespace The4Dimension
             //if (MessageBox.Show("Keep clipboard ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) clipboard = new List<ClipBoardItem>();
             LoadedFile = "";
             this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
+            otherToolStripMenuItem.DropDownItems.Clear();
             SetUiLock(false);
         }
 
@@ -540,15 +541,16 @@ namespace The4Dimension
         }
 
         #region FileLoading
+        public List<string> opnfiles = new List<string>();
         public void LoadFile(string FilePath) //Checks the file type and then loads the file
         {
 
             if (Path.GetExtension(FilePath).ToLower() == ".xml")//xml and byml originally tried to load levels, now only xml does this as it makes more sense for byml to be readable, like when dropping a byml file to t4d.exe
-            {
+            {/*
                 LoadedFile = FilePath;
                 SetUiLock(true);
                 OpenFile(File.ReadAllText(FilePath, DefEnc));
-                SetupSZS();
+                SetupSZS();*/
             }
             else if (Path.GetExtension(FilePath).ToLower() == ".byml")
             {
@@ -562,12 +564,18 @@ namespace The4Dimension
                 OpenFile(BymlConverter.GetXml(FilePath));
                 SetupSZS();*/
             }
-            else if (Path.GetExtension(FilePath).ToLower() == ".szs")
+            else if (Path.GetExtension(FilePath).ToLower() == ".szs")//load the main level and then try to load the design and sound
             {
                 UnloadLevel();
                 elementHost1.Show();
                 LoadedFile = FilePath;
-                   
+                int Scenario = 1;
+                if (Int32.TryParse(FilePath.Substring(FilePath.Count() - 5, 1), out _))
+                {
+                    Scenario = Int32.Parse(FilePath.Substring(FilePath.Count() - 5, 1));
+                }
+                string DesignFile = FilePath.Substring(0, FilePath.Count()-8)+"Design"+ Scenario.ToString()+".szs";
+                string SoundFile = FilePath.Substring(0, FilePath.Count() - 8) + "Sound" + Scenario.ToString() + ".szs";
                 OtherLevelDataMenu.DropDownItems.Clear();
                 SzsFiles = new Dictionary<string, byte[]>();
                 CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
@@ -576,6 +584,7 @@ namespace The4Dimension
                 int index = 0;
                 List<ToolStripMenuItem> OtherFiles = new List<ToolStripMenuItem>();
                 byte[] StageData = null;
+                opnfiles.Add(FilePath);
                 foreach (SFSFile f in SzsArch.ToFileSystem().Files)
                 {
                     if (f.FileName.ToLower() == "stagedata.byml") StageData = f.Data;
@@ -594,7 +603,8 @@ namespace The4Dimension
                 if (StageData != null)
                 {
                     Debug.Print("Size : " + (StageData.Length / 1024).ToString());
-                    OpenFile(BymlConverter.GetXml(StageData));
+
+                    OpenFile(BymlConverter.GetXml(StageData),"Map", (!File.Exists(DesignFile)&&!File.Exists(SoundFile)));
                 }
                 else
                 {
@@ -602,8 +612,86 @@ namespace The4Dimension
                     SzsFiles = null;
                     SetUiLock(false);
                 }
+                if ((File.Exists(DesignFile) || File.Exists(SoundFile))&& UseDesignSound == true)
+                {
+                    if (File.Exists(DesignFile))
+                    {
+                        //SzsFiles = new Dictionary<string, byte[]>();
+                        y = new CommonCompressors.YAZ0();
+                        SzsArch = new NDS.NitroSystem.FND.NARC();
+                        SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(DesignFile)));
+                        OtherFiles = new List<ToolStripMenuItem>();
+                        StageData = null;
+                        opnfiles.Add(DesignFile);
+                        foreach (SFSFile f in SzsArch.ToFileSystem().Files)
+                        {
+                            if (f.FileName.ToLower() == "stagedata.byml") StageData = f.Data;
+                            else
+                            {
+                                ToolStripMenuItem btn = new ToolStripMenuItem();
+                                btn.Name = "LoadFile" + index.ToString();
+                                btn.Text = f.FileName;
+                                btn.Click += LoadFileList_click;
+                                OtherFiles.Add(btn);
+                                SzsFiles.Add(f.FileName, f.Data);
+                            }
+                            index++;
+                        }
+                        OtherLevelDataMenu.DropDownItems.AddRange(OtherFiles.ToArray());
+                        if (StageData != null)
+                        {
+                            Debug.Print("Size : " + (StageData.Length / 1024).ToString());
+                            OpenFile(BymlConverter.GetXml(StageData),"Design",!File.Exists(SoundFile));
+                        }
+                        else
+                        {
+                            MessageBox.Show("StageData.byml not found in the file !");
+                            SzsFiles = null;
+                            SetUiLock(false);
+                        }
+                    }
+                    if (File.Exists(SoundFile))
+                    {
+                        //SzsFiles = new Dictionary<string, byte[]>();
+                        y = new CommonCompressors.YAZ0();
+                        SzsArch = new NDS.NitroSystem.FND.NARC();
+                        SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(SoundFile)));
+                        OtherFiles = new List<ToolStripMenuItem>();
+                        StageData = null;
+                        opnfiles.Add(SoundFile);
+                        foreach (SFSFile f in SzsArch.ToFileSystem().Files)
+                        {
+                            if (f.FileName.ToLower() == "stagedata.byml") StageData = f.Data;
+                            else
+                            {
+                                ToolStripMenuItem btn = new ToolStripMenuItem();
+                                btn.Name = "LoadFile" + index.ToString();
+                                btn.Text = f.FileName;
+                                btn.Click += LoadFileList_click;
+                                OtherFiles.Add(btn);
+                                SzsFiles.Add(f.FileName, f.Data);
+                            }
+                            index++;
+                        }
+                        OtherLevelDataMenu.DropDownItems.AddRange(OtherFiles.ToArray());
+                        if (StageData != null)
+                        {
+                            Debug.Print("Size : " + (StageData.Length / 1024).ToString());
+                            OpenFile(BymlConverter.GetXml(StageData),"Sound",true);
+                        }
+                        else
+                        {
+                            MessageBox.Show("StageData.byml not found in the file !");
+                            SzsFiles = null;
+                            SetUiLock(false);
+                        }
+                    }
+                    this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + FilePath.Substring(0, FilePath.Count() - 8) + " - Scenario " + Scenario.ToString();
+                }
+                else { this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + FilePath; }
+
                 SetUiLock(true);
-                this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
+
                 if (!Properties.Settings.Default.OpenRecent.Contains(LoadedFile))
                 {
                     Properties.Settings.Default.OpenRecent.Add(LoadedFile);
@@ -718,7 +806,7 @@ namespace The4Dimension
             }
         }
 
-        void OpenFile(string XmlText)
+        void OpenFile(string XmlText, string Type, bool Last)
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(XmlText);
@@ -726,10 +814,14 @@ namespace The4Dimension
             if (n.Attributes["Name"].Value == "AllInfos") ProcessAllInfos(n.ChildNodes); else throw new Exception("Not The AllInfos node !");
             n = xml.SelectNodes("/Root/C1/C1")[1];
             if (n.Attributes["Name"].Value == "AllRailInfos") ProcessRailInfos(n.ChildNodes); else throw new Exception("Not The AllRailInfos node !");
-            comboBox1.Items.AddRange(AllInfos.Keys.ToArray());
-            comboBox1.Items.Add("AllRailInfos");
-            render.AddKey("AllRailInfos");
-            LoadRailsModels(AllRailInfos);
+            if (Type == "Map")
+            {
+                comboBox1.Items.AddRange(AllInfos.Keys.ToArray());
+                comboBox1.Items.Add("AllRailInfos");
+                render.AddKey("AllRailInfos");
+                LoadRailsModels(AllRailInfos);
+            }
+
             /*xml.Load(System.IO.Path.GetDirectoryName(file) + "\\PreLoadFileList1.xml");
             n = xml.SelectSingleNode("/Root/C1");
             foreach (XmlNode subnode in n.ChildNodes)
@@ -742,22 +834,25 @@ namespace The4Dimension
                 }
             } Reading the file list doesn't seem to be useful for now
             */
-            foreach (string k in AllInfos.Keys.ToArray())
+            if (Last)
             {
-                render.AddKey(k);
-                if (k == "AreaObjInfo") LoadModels(AllInfos[k], k, "models\\UnkYellow.obj");
-                else if (k == "CameraAreaInfo") LoadModels(AllInfos[k], k, "models\\UnkGreen.obj");
-                else LoadModels(AllInfos[k], k);
-            }
-            if (AllInfos.ContainsKey("AreaObjInfo")) HideLayer("AreaObjInfo");
-            if (AllInfos.ContainsKey("CameraAreaInfo")) HideLayer("CameraAreaInfo");
-            checkBox1.Checked = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            if (comboBox1.Items.Contains("ObjInfo")) comboBox1.Text = "ObjInfo"; else comboBox1.Text = comboBox1.Items[0].ToString();
-            if (ObjectsListBox.Items.Count > 0)
-            {
-                ObjectsListBox.SelectedIndex = 0;
-                render.CameraToObj(CurrentAllInfosSectionName, 0);
+                foreach (string k in AllInfos.Keys.ToArray())
+                {
+                    render.AddKey(k);
+                    if (k == "AreaObjInfo") LoadModels(AllInfos[k], k, "models\\UnkYellow.obj");
+                    else if (k == "CameraAreaInfo") LoadModels(AllInfos[k], k, "models\\UnkGreen.obj");
+                    else LoadModels(AllInfos[k], k);
+                }
+                if (AllInfos.ContainsKey("AreaObjInfo")) HideLayer("AreaObjInfo");
+                if (AllInfos.ContainsKey("CameraAreaInfo")) HideLayer("CameraAreaInfo");
+                checkBox1.Checked = true;
+                checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+                if (comboBox1.Items.Contains("ObjInfo")) comboBox1.Text = "ObjInfo"; else comboBox1.Text = comboBox1.Items[0].ToString();
+                if (ObjectsListBox.Items.Count > 0)
+                {
+                    ObjectsListBox.SelectedIndex = 0;
+                    render.CameraToObj(CurrentAllInfosSectionName, 0);
+                }
             }
         }
 
@@ -1710,6 +1805,8 @@ namespace The4Dimension
                     UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, comboBox1.Text);
                 }
                 AreaObjOldSelection = ObjectsListBox.SelectedIndex;
+                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "FogArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit fog area"; }
+
                 return;
             }
             else if (comboBox1.Text == "CameraAreaInfo")
@@ -1721,7 +1818,7 @@ namespace The4Dimension
                     UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, comboBox1.Text);
                 }
                 CameraAreaOldSelection = ObjectsListBox.SelectedIndex;
-                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "CameraArea") btn_cameraCode.Visible = true;
+                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "CameraArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit camera code"; }
                 return;
             }
             else if (comboBox1.Text == "AllRailInfos")
@@ -2141,51 +2238,114 @@ namespace The4Dimension
 
         private void CameraCode_click(object sender, EventArgs e)
         {
-            int cameraId = int.Parse(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue);
-            if (cameraId < 0)
+            if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString().Contains("Fog"))
             {
-                MessageBox.Show("CameraId can't be less than 0 !");
-                return;
-            }
-            if (SzsFiles == null)
-            {
-                MessageBox.Show("To use this function you must load a level from an szs file");
-                return;
-            }
-            if (!SzsFiles.ContainsKey("CameraParam.byml"))
-            {
-                MessageBox.Show("This level doesn't contain the CameraParam file, a generic CameraParam will be generated");
-                string TmpCameraParam = Properties.Resources.GenericCameraParam;
-                SzsFiles.Add("CameraParam.byml", BymlConverter.GetByml(TmpCameraParam));
-                FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
-                f.ShowDialog();
-            }
-            else
-            {
-                string CameraParam = BymlConverter.GetXml(SzsFiles["CameraParam.byml"]);
-                if (!CameraParam.Contains("<C0 Name=\"CameraParams\">"))
+                int fogid = ((int)((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[0]);
+                if (fogid < 0)
                 {
-                    DialogResult r = MessageBox.Show("The CameraParam.byml from this szs can't be used, do you want to generate a new CameraParam ?", "CameraParam.byml", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                    if (r == DialogResult.Yes)
-                    {
-                        string TmpCameraParam = Properties.Resources.GenericCameraParam;
-                        FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
-                        f.ShowDialog();
-                    }
-                    else return;
+                    MessageBox.Show("The FogArea Arg[0] can't be less than 0!");
+                    return;
                 }
-                else
+                if (SzsFiles == null)
                 {
-                    if (CameraParam.Contains("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"))
+                    MessageBox.Show("To use this function you must load a level from an szs file");
+                    return;
+                }
+                string TmpFogParam = Properties.Resources.GenericFogParam;
+                if (!SzsFiles.ContainsKey("FogParam.byml"))
+                {
+                    MessageBox.Show("This level doesn't contain the FogParam file, a generic FogParam will be generated");
+
+                    SzsFiles.Add("FogParam.byml", BymlConverter.GetByml(TmpFogParam));
+                    FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, this);
+                    f.ShowDialog();
+                    OtherLevelDataMenu.DropDownItems.Clear();
+                    for (int i = 0; i < SzsFiles.Keys.Count; i++)
                     {
-                        FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(SzsFiles["CameraParam.byml"]), "CameraParam.byml", false, CameraParam.IndexOf("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"));
-                        frm.ShowDialog();
-                        if (frm.XmlRes != null) SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
+                        ToolStripMenuItem btn = new ToolStripMenuItem();
+                        btn.Name = "LoadFile" + i.ToString();
+                        btn.Text = SzsFiles.Keys.ToArray()[i];
+                        btn.Click += LoadFileList_click;
+                        OtherLevelDataMenu.DropDownItems.Add(btn);
+                    }
+                }
+                else 
+                {
+                    string FogParam = BymlConverter.GetXml(SzsFiles["FogParam.byml"]);
+                    if (!FogParam.Contains("<C0 Name=\"FogAreas\">"))
+                    {
+                        DialogResult r = MessageBox.Show("The FogParam from this szs can't be used, do you want to generate a new FogParam ?", "FogParam.byml", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                        if (r == DialogResult.Yes)
+                        {
+                            FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, this);
+                            f.ShowDialog();
+                        }
+                        else return;
                     }
                     else
                     {
-                        FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(CameraParam, cameraId, this);
-                        f.ShowDialog();
+                        if (FogParam.Contains("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"))
+                        {
+                            FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(SzsFiles["FogParam.byml"]), "FogParam.byml", false, FogParam.IndexOf("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"));
+                            frm.ShowDialog();
+                            if (frm.XmlRes != null) SzsFiles["FogParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
+                        }
+                        else
+                        {
+                            FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, this);
+                            f.ShowDialog();
+                        }
+                    }
+                }
+            }
+            else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "CameraArea")
+            {
+                int cameraId = int.Parse(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue);
+                if (cameraId < 0)
+                {
+                    MessageBox.Show("CameraId can't be less than 0 !");
+                    return;
+                }
+                if (SzsFiles == null)
+                {
+                    MessageBox.Show("To use this function you must load a level from an szs file");
+                    return;
+                }
+                if (!SzsFiles.ContainsKey("CameraParam.byml"))
+                {
+                    MessageBox.Show("This level doesn't contain the CameraParam file, a generic CameraParam will be generated");
+                    string TmpCameraParam = Properties.Resources.GenericCameraParam;
+                    SzsFiles.Add("CameraParam.byml", BymlConverter.GetByml(TmpCameraParam));
+                    FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
+                    f.ShowDialog();
+                }
+                else
+                {
+                    string CameraParam = BymlConverter.GetXml(SzsFiles["CameraParam.byml"]);
+                    if (!CameraParam.Contains("<C0 Name=\"CameraParams\">"))
+                    {
+                        DialogResult r = MessageBox.Show("The CameraParam.byml from this szs can't be used, do you want to generate a new CameraParam ?", "CameraParam.byml", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                        if (r == DialogResult.Yes)
+                        {
+                            string TmpCameraParam = Properties.Resources.GenericCameraParam;
+                            FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
+                            f.ShowDialog();
+                        }
+                        else return;
+                    }
+                    else
+                    {
+                        if (CameraParam.Contains("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"))
+                        {
+                            FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(SzsFiles["CameraParam.byml"]), "CameraParam.byml", false, CameraParam.IndexOf("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"));
+                            frm.ShowDialog();
+                            if (frm.XmlRes != null) SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
+                        }
+                        else
+                        {
+                            FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(CameraParam, cameraId, this);
+                            f.ShowDialog();
+                        }
                     }
                 }
             }
@@ -3172,24 +3332,99 @@ namespace The4Dimension
                 }
             }
         }
-
+        public Dictionary<string, AllInfoSection> DesignInfos = new Dictionary<string, AllInfoSection>();
+        public Dictionary<string, AllInfoSection> SoundInfos = new Dictionary<string, AllInfoSection>();
+        public Dictionary<string, AllInfoSection> MapInfos = new Dictionary<string, AllInfoSection>();
         void SzsSave(string filename)
         {
-            CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
+            DesignInfos.Clear();
+            SoundInfos.Clear();
+            MapInfos.Clear();
+            foreach (string type in AllInfos.Keys)
+            {
+                MapInfos.Add(type, new AllInfoSection());
+            }
+            foreach (string section in AllInfos.Keys)
+            {
+
+                    MapInfos[section].AddRange(AllInfos[section]);
+                
+            }
+            //MapInfos = new Dictionary<string, AllInfoSection>(AllInfos);
+            if ((!(filename.Substring(filename.Count() - 15).Contains("Sound") || filename.Substring(filename.Count() - 15).Contains("Design")))&& Properties.Settings.Default.UseDesignSound )
+            { 
+            int Scenario = 1;
+            if (Int32.TryParse(filename.Substring(filename.Count() - 5, 1), out _))
+            {
+                    Scenario = Int32.Parse(filename.Substring(filename.Count() - 5, 1));
+            }
+            string DesignFile = filename.Substring(0, filename.Count() - 8) + "Design" + Scenario.ToString() + ".szs";
+            string SoundFile = filename.Substring(0, filename.Count() - 8) + "Sound" + Scenario.ToString() + ".szs";
+                DesignInfos.Add("AreaObjInfo", new AllInfoSection());
+                SoundInfos.Add("AreaObjInfo", new AllInfoSection());
+                SoundInfos.Add("ObjInfo", new AllInfoSection());
+                CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
             NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
             SFSDirectory dir = new SFSDirectory("", true);
+            SFSDirectory dsgndir = new SFSDirectory("", true);
+            SFSDirectory snddir = new SFSDirectory("", true);
             for (int i = 0; i < SzsFiles.Count; i++)
             {
                 SFSFile file = new SFSFile(i, SzsFiles.Keys.ToArray()[i], dir);
                 file.Data = SzsFiles.Values.ToArray()[i];
-                dir.Files.Add(file);
+                if (SzsFiles.Keys.ToArray()[i].Contains("FogParam")|| SzsFiles.Keys.ToArray()[i].Contains("LightParam")|| SzsFiles.Keys.ToArray()[i].Contains("ModelTo")||SzsFiles.Keys.ToArray()[i].Contains("AreaIdTo")) 
+                {
+                    dsgndir.Files.Add(file);
+                }
+                else
+                {
+                    dir.Files.Add(file);
+                }
+
             }
             SFSFile StgData = new SFSFile(SzsFiles.Count, "StageData.byml", dir);
-            StgData.Data = BymlConverter.GetByml(MakeXML());
+            StgData.Data = BymlConverter.GetByml(MakeXML(true));
             dir.Files.Add(StgData);
             SzsArch.FromFileSystem(dir);
             File.WriteAllBytes(filename, y.Compress(SzsArch.Write()));
-            MessageBox.Show("Done !");
+            if (DesignInfos["AreaObjInfo"].Count>0) 
+                {
+                    SzsArch = new NDS.NitroSystem.FND.NARC();
+                    StgData = new SFSFile(SzsFiles.Count, "StageData.byml", dsgndir);
+                    StgData.Data = BymlConverter.GetByml(MakeXML(false, 1));
+                    dsgndir.Files.Add(StgData);
+                    SzsArch.FromFileSystem(dsgndir);
+                    File.WriteAllBytes(DesignFile, y.Compress(SzsArch.Write()));
+                }
+            if (SoundInfos["AreaObjInfo"].Count > 0||SoundInfos["ObjInfo"].Count>0)
+                {
+                    SzsArch = new NDS.NitroSystem.FND.NARC();
+                    StgData = new SFSFile(SzsFiles.Count, "StageData.byml", snddir);
+                    StgData.Data = BymlConverter.GetByml(MakeXML(false, 2));
+                    snddir.Files.Add(StgData);
+                    SzsArch.FromFileSystem(snddir);
+                    File.WriteAllBytes(SoundFile, y.Compress(SzsArch.Write()));
+                }
+                MessageBox.Show("Done !");
+            }
+            else
+            {
+                CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
+                NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
+                SFSDirectory dir = new SFSDirectory("", true);
+                for (int i = 0; i < SzsFiles.Count; i++)
+                {
+                    SFSFile file = new SFSFile(i, SzsFiles.Keys.ToArray()[i], dir);
+                    file.Data = SzsFiles.Values.ToArray()[i];
+                    dir.Files.Add(file);
+                }
+                SFSFile StgData = new SFSFile(SzsFiles.Count, "StageData.byml", dir);
+                StgData.Data = BymlConverter.GetByml(MakeXML());
+                dir.Files.Add(StgData);
+                SzsArch.FromFileSystem(dir);
+                File.WriteAllBytes(filename, y.Compress(SzsArch.Write()));
+                MessageBox.Show("Done !");
+            }
         }
 
         void XmlSave(string filename, bool BYML)
@@ -3241,7 +3476,7 @@ namespace The4Dimension
             }
         }
 
-        string MakeXML()
+        string MakeXML(bool getobjs = false, int snddsgn = 0)
         {
             using (var stream = new MemoryStream())
             {
@@ -3254,17 +3489,68 @@ namespace The4Dimension
                     xr.WriteEndElement();
                     xr.WriteStartElement("BymlFormatVersion");
                     xr.WriteAttributeString("Value", ((uint)1).ToString());
-                    xr.WriteEndElement(); 
+                    xr.WriteEndElement();
                     xr.WriteStartElement("C1"); //Byml Root
                     xr.WriteStartElement("C1");
                     xr.WriteAttributeString("Name", "AllInfos");
-                    List<string> keys = AllInfos.Keys.ToList();
-                    keys.Sort(StringComparer.Ordinal);
-                    foreach (string k in keys) if (AllInfos[k].Count != 0) WriteOBJInfoSection(xr, k, AllInfos[k]);
+                    if (snddsgn == 0) { 
+                        if (getobjs == true)
+                        {
+                            List<string> keys = AllInfos.Keys.ToList();
+                            keys.Sort(StringComparer.Ordinal);
+                            foreach (string k in keys)
+                            {
+                                if (AllInfos[k].Count != 0)
+                                {
+                                    WriteOBJInfoSection(xr, k, AllInfos[k], "C0", true);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            List<string> keys = MapInfos.Keys.ToList();
+                            keys.Sort(StringComparer.Ordinal);
+                            foreach (string k in keys)
+                            {
+                                if (MapInfos[k].Count != 0)
+                                {
+                                    WriteOBJInfoSection(xr, k, MapInfos[k]);
+                                }
+
+                            }
+                        }
+                    }
+                    else if(snddsgn == 1)
+                    {
+                        List<string> keys = DesignInfos.Keys.ToList();
+                        keys.Sort(StringComparer.Ordinal);
+                        foreach (string k in keys)
+                        {
+                            if (DesignInfos[k].Count != 0)
+                            {
+                                WriteOBJInfoSection(xr, k, DesignInfos[k]);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        List<string> keys = SoundInfos.Keys.ToList();
+                        keys.Sort(StringComparer.Ordinal);
+                        foreach (string k in keys)
+                        {
+                            if (SoundInfos[k].Count != 0)
+                            {
+                                WriteOBJInfoSection(xr, k, SoundInfos[k]);
+                            }
+
+                        }
+                    }
                     xr.WriteEndElement();
                     xr.WriteStartElement("C1");
                     xr.WriteAttributeString("Name", "AllRailInfos");
-                    if (AllRailInfos.Count != 0)
+                    if (AllRailInfos.Count != 0 && snddsgn == 0)
                     {
                         xr.WriteStartElement("C0");
                         xr.WriteAttributeString("Name", "RailInfo");
@@ -3279,7 +3565,7 @@ namespace The4Dimension
                     xr.WriteEndElement();
                     xr.WriteStartElement("C0");
                     xr.WriteAttributeString("Name", "LayerInfos");
-                    WriteLayerInfos(xr);
+                    WriteLayerInfos(xr, snddsgn);
                     xr.WriteEndElement();
                     xr.WriteEndElement();
                     xr.WriteEndElement();
@@ -3290,21 +3576,59 @@ namespace The4Dimension
             }
         }
 
-        void WriteLayerInfos(XmlWriter xr)
+        void WriteLayerInfos(XmlWriter xr, int snddsgn = 0)
         {
             //string[] LayerNames = new string[5] { "共通", "共通サブ", "シナリオ1", "シナリオ1＆2", "シナリオ1＆3" }; //PlaceHolders
             List<string> LayerNames = new List<string>();
             Dictionary<string, Dictionary<string, List<LevelObj>>> _AllInfos = new Dictionary<string, Dictionary<string, List<LevelObj>>>();
-            List<string> keys = AllInfos.Keys.ToList();
-            keys.Sort(StringComparer.Ordinal);
-            foreach (string k in keys)
+            List<string> keys;
+            if (snddsgn == 0) 
             {
-                if (AllInfos[k].Count != 0)
+                 keys = MapInfos.Keys.ToList();
+            }
+            else if (snddsgn == 1)
+            {
+                keys = DesignInfos.Keys.ToList();
+            }
+            else 
+            { 
+                keys = SoundInfos.Keys.ToList(); 
+            }
+
+            keys.Sort(StringComparer.Ordinal);
+            if (snddsgn == 0)
+            {
+                foreach (string k in keys)
                 {
-                    _AllInfos.Add(k, new Dictionary<string, List<LevelObj>>());
-                    ProcessLayerNames( AllInfos[k], _AllInfos[k],  LayerNames);
+                    if (MapInfos[k].Count != 0)
+                    {
+                        _AllInfos.Add(k, new Dictionary<string, List<LevelObj>>());
+                        ProcessLayerNames(MapInfos[k], _AllInfos[k], LayerNames);
+                    }
+                }
+            }else if (snddsgn == 1)
+            {
+                foreach (string k in keys)
+                {
+                    if (DesignInfos[k].Count != 0)
+                    {
+                        _AllInfos.Add(k, new Dictionary<string, List<LevelObj>>());
+                        ProcessLayerNames(DesignInfos[k], _AllInfos[k], LayerNames);
+                    }
                 }
             }
+            else
+            {
+                foreach (string k in keys)
+                {
+                    if (SoundInfos[k].Count != 0)
+                    {
+                        _AllInfos.Add(k, new Dictionary<string, List<LevelObj>>());
+                        ProcessLayerNames(SoundInfos[k], _AllInfos[k], LayerNames);
+                    }
+                }
+            }
+
             for (int i = 0; i < LayerNames.Count; i++)
             {
                 xr.WriteStartElement("C1");
@@ -3312,7 +3636,10 @@ namespace The4Dimension
                 xr.WriteAttributeString("Name", "Infos");
                 foreach (string k in _AllInfos.Keys)
                 {
-                    if (_AllInfos[k].ContainsKey(LayerNames[i])) WriteOBJInfoSection(xr, k, _AllInfos[k][LayerNames[i]]);
+                    if (_AllInfos[k].ContainsKey(LayerNames[i]))
+                    {
+                        WriteOBJInfoSection(xr, k, _AllInfos[k][LayerNames[i]]);
+                    }
                 }
                 xr.WriteEndElement();
                 xr.WriteStartElement("A0");
@@ -3347,11 +3674,63 @@ namespace The4Dimension
             if (AllLayerNames.Count > 5) throw new Exception("Too many layer names !");
         }
 
-        void WriteOBJInfoSection(XmlWriter xr, string name, List<LevelObj> list, string startelement = "C0")
+        void WriteOBJInfoSection(XmlWriter xr, string name, List<LevelObj> list, string startelement = "C0", bool getobjs = false)
         {
+
+            Dictionary<string, LevelObj> delete = new Dictionary<string, LevelObj>();
             xr.WriteStartElement(startelement);
             xr.WriteAttributeString("Name", name);
-            foreach (LevelObj obj in list) WriteOBJ(xr, obj);
+            list = new List<LevelObj>(list);
+            foreach (LevelObj obj in list)
+            {
+                if (getobjs == true)
+                {
+                    string o = obj.ObjectData["name"].ToString().Substring(9);
+                    switch (o)
+                    {//AreaObjInfo ObjInfo
+                        case "FogArea":
+                            DesignInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        case "FogAreaCameraPos":
+                            DesignInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        case "LightArea":
+                            DesignInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        case "AudioVolumeSettingArea":
+                            SoundInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        case "AudioEffectChangeArea":
+                            SoundInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        case "BgmChangeArea":
+                            SoundInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        case "SoundEmitObj":
+                            SoundInfos["ObjInfo"].Add(obj);
+                            MapInfos["ObjInfo"].Remove(obj);
+                            break;
+                        case "SoundEmitArea":
+                            SoundInfos["AreaObjInfo"].Add(obj);
+                            MapInfos["AreaObjInfo"].Remove(obj);
+                            break;
+                        default:
+                            WriteOBJ(xr, obj);
+                            break;
+                    }
+                    
+                }
+                else
+                {
+                    WriteOBJ(xr, obj);
+                }
+            }
             xr.WriteEndElement();
         }
 

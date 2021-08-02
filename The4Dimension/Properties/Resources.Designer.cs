@@ -215,6 +215,30 @@ namespace The4Dimension.Properties {
         ///&lt;Root&gt;
         ///  &lt;isBigEndian Value=&quot;False&quot; /&gt;
         ///  &lt;BymlFormatVersion Value=&quot;1&quot; /&gt;
+        ///  &lt;C1&gt;
+        ///    &lt;D2 Name=&quot;ColorB&quot; StringValue=&quot;1&quot; /&gt;
+        ///    &lt;D2 Name=&quot;ColorG&quot; StringValue=&quot;1&quot; /&gt;
+        ///    &lt;D2 Name=&quot;ColorR&quot; StringValue=&quot;1&quot; /&gt;
+        ///    &lt;D2 Name=&quot;Density&quot; StringValue=&quot;0&quot; /&gt;
+        ///    &lt;C0 Name=&quot;FogAreas&quot;&gt;
+        ///		
+        ///    &lt;/C0&gt;
+        ///	&lt;A0 Name=&quot;FogType&quot; StringValue=&quot;&quot; /&gt;
+        ///    &lt;D1 Name=&quot;InterpFrame&quot; StringValue=&quot;0&quot; /&gt;
+        ///    &lt;D2 Name=&quot;MaxDepth&quot; StringValue=&quot;0&quot; /&gt;
+        ///    &lt;D2 Name=&quot;MinDepth&quot; StringValue=&quot;35000&quot;  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GenericFogParam {
+            get {
+                return ResourceManager.GetString("GenericFogParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;shift_jis&quot;?&gt;
+        ///&lt;Root&gt;
+        ///  &lt;isBigEndian Value=&quot;False&quot; /&gt;
+        ///  &lt;BymlFormatVersion Value=&quot;1&quot; /&gt;
         ///  &lt;C0&gt;
         ///    &lt;C1&gt;
         ///      &lt;A0 Name=&quot;Name&quot; StringValue=&quot;SePmShootFire&quot; /&gt;
@@ -363,12 +387,12 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon t4d {
+        internal static System.Drawing.Bitmap t4d {
             get {
                 object obj = ResourceManager.GetObject("t4d", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

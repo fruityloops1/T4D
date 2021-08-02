@@ -108,6 +108,7 @@ namespace ModelViewer
         public UserControl1()
         {
             InitializeComponent();
+            ModelView.Camera.NearPlaneDistance = 150;
             ModelViewer.SortingFrequency = 0.5;
             ModelView.Children.Add(ModelViewer);
             //ModelView.

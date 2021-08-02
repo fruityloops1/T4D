@@ -163,7 +163,7 @@ namespace The4Dimension.FormEditors
             }
             #endregion
 
-
+            checkBox1.Checked = Properties.Settings.Default.UseDesignSound;
             UDCamSpeed.Value = (decimal)Properties.Settings.Default.CamSpeed;
             UDCamDistance.Value = (decimal)Properties.Settings.Default.CamDistance;
             textBox1.Text = Properties.Settings.Default.GamePath;
@@ -234,6 +234,7 @@ namespace The4Dimension.FormEditors
             Properties.Settings.Default.CamSpeed = (double)UDCamSpeed.Value;
             rendera.CamDistance = (double)UDCamDistance.Value;
             Properties.Settings.Default.CamDistance = (double)UDCamDistance.Value;
+            Properties.Settings.Default.UseDesignSound = checkBox1.Checked;
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -276,6 +277,7 @@ namespace The4Dimension.FormEditors
             rendera.HasAA = Properties.Defaults.Default.HasAA;
             Properties.Settings.Default.TextFilter = Properties.Defaults.Default.TextFilter;
             rendera.TextureFilter = Properties.Defaults.Default.TextFilter;
+            Properties.Settings.Default.UseDesignSound = Properties.Defaults.Default.UseDesignSound;
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -332,6 +334,11 @@ namespace The4Dimension.FormEditors
             MessageBox.Show("This feature is experimental and will break children objects with decimal for position, rotation and scale, so use at your own risk");
         
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This will load and save Sound and Design files for levels, as long as it exists at the same folder as the opened Map file (on load) or your level has Design or Sound specific objects/areas (on save).");
         }
     }
 }

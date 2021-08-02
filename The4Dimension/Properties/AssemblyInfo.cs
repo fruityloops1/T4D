@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set di attributi. Modificare i valori di questi attributi per modificare le informazioni
 // associate a un assembly.
 [assembly: AssemblyTitle("The4Dimension")]
-[assembly: AssemblyDescription("The first super mario 3d land level editor !")]
+[assembly: AssemblyDescription("The first Super Mario 3d land level editor!")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Exelix11 & Luigi120s")]
+[assembly: AssemblyCompany("Exelix11 & Luigis")]
 [assembly: AssemblyProduct("The4Dimension")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // È possibile specificare tutti i valori oppure impostare valori predefiniti per i numeri relativi alla revisione e alla build 
 // usando l'asterisco '*' come illustrato di seguito:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.6.0")]
-[assembly: AssemblyFileVersion("0.9.6.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

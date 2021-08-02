@@ -73,6 +73,8 @@ namespace The4Dimension.FormEditors
             this.UDCamDistance = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.UDCamSpeed = new System.Windows.Forms.NumericUpDown();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotSenUpDown)).BeginInit();
@@ -430,12 +432,13 @@ namespace The4Dimension.FormEditors
             // 
             this.HasAA.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.HasAA.AutoSize = true;
-            this.HasAA.Location = new System.Drawing.Point(30, 286);
+            this.HasAA.Location = new System.Drawing.Point(285, 311);
             this.HasAA.Name = "HasAA";
             this.HasAA.Size = new System.Drawing.Size(126, 17);
             this.HasAA.TabIndex = 37;
             this.HasAA.Text = "Use anti aliasing (AA)";
             this.HasAA.UseVisualStyleBackColor = true;
+            this.HasAA.Visible = false;
             // 
             // TextFilter
             // 
@@ -559,6 +562,28 @@ namespace The4Dimension.FormEditors
             0,
             0});
             // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(31, 286);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(152, 17);
+            this.checkBox1.TabIndex = 49;
+            this.checkBox1.Text = "Enable unified level editing";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button3.Location = new System.Drawing.Point(180, 280);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(24, 23);
+            this.button3.TabIndex = 50;
+            this.button3.Text = "?";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -568,6 +593,8 @@ namespace The4Dimension.FormEditors
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(503, 538);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.UDCamSpeed);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.UDCamDistance);
@@ -666,5 +693,7 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.NumericUpDown UDCamDistance;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.NumericUpDown UDCamSpeed;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button3;
     }
 }

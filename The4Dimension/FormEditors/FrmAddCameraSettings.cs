@@ -220,12 +220,8 @@ namespace The4Dimension.FormEditors
                     case 0:
                         str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
                         break;
-                    case 1:
-                        break;
                     case 2:
                         str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        break;
-                    case 3:
                         break;
                     default:
                         break;

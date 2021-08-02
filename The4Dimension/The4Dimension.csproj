@@ -187,6 +187,12 @@
     <Compile Include="FormEditors\FrmAddCameraSettings.Designer.cs">
       <DependentUpon>FrmAddCameraSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditors\FrmAddFogSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditors\FrmAddFogSettings.Designer.cs">
+      <DependentUpon>FrmAddFogSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEditors\FrmAddObj.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -318,6 +324,9 @@
     <EmbeddedResource Include="FormEditors\FrmAddCameraSettings.resx">
       <DependentUpon>FrmAddCameraSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEditors\FrmAddFogSettings.resx">
+      <DependentUpon>FrmAddFogSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormEditors\FrmAddObj.resx">
       <DependentUpon>FrmAddObj.cs</DependentUpon>
     </EmbeddedResource>
@@ -427,7 +436,6 @@
     <Folder Include="EFEDlls\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon1.ico" />
     <None Include="Resources\gbatemp.png" />
     <Content Include="Properties\EN.xml" />
     <Content Include="Properties\LANG.xml" />

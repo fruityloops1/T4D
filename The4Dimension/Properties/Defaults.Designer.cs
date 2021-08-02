@@ -338,5 +338,17 @@ namespace The4Dimension.Properties {
                 this["CamDistance"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseDesignSound {
+            get {
+                return ((bool)(this["UseDesignSound"]));
+            }
+            set {
+                this["UseDesignSound"] = value;
+            }
+        }
     }
 }
