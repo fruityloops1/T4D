@@ -48,7 +48,7 @@
             this.openFromLevelNameWXXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oldsaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsSZSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.saveAsBymlToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,6 +121,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.IncType = new System.Windows.Forms.ComboBox();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -255,6 +256,7 @@
             this.openRecentToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.oldsaveAsToolStripMenuItem,
             this.toolStripSeparator2,
             this.bymlConverterToolStripMenuItem1,
             this.toolStripSeparator8,
@@ -302,24 +304,28 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // saveAsToolStripMenuItem
+            // oldsaveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oldsaveAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveAsSZSToolStripMenuItem,
             this.toolStripSeparator3,
             this.saveAsBymlToolStripMenuItem1,
             this.saveAsXmlToolStripMenuItem});
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
+            this.oldsaveAsToolStripMenuItem.Enabled = false;
+            this.oldsaveAsToolStripMenuItem.Name = "oldsaveAsToolStripMenuItem";
+            this.oldsaveAsToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.oldsaveAsToolStripMenuItem.Text = "Save as";
+            this.oldsaveAsToolStripMenuItem.Visible = false;
             // 
             // saveAsSZSToolStripMenuItem
             // 
+            this.saveAsSZSToolStripMenuItem.Enabled = false;
             this.saveAsSZSToolStripMenuItem.Name = "saveAsSZSToolStripMenuItem";
             this.saveAsSZSToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.saveAsSZSToolStripMenuItem.Text = "Save as Szs";
+            this.saveAsSZSToolStripMenuItem.Visible = false;
             this.saveAsSZSToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
@@ -363,14 +369,14 @@
             // bymlXmlToolStripMenuItem1
             // 
             this.bymlXmlToolStripMenuItem1.Name = "bymlXmlToolStripMenuItem1";
-            this.bymlXmlToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+            this.bymlXmlToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.bymlXmlToolStripMenuItem1.Text = "Byml -> Xml";
             this.bymlXmlToolStripMenuItem1.Click += new System.EventHandler(this.bymlXmlToolStripMenuItem_Click);
             // 
             // xmlBymlToolStripMenuItem1
             // 
             this.xmlBymlToolStripMenuItem1.Name = "xmlBymlToolStripMenuItem1";
-            this.xmlBymlToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+            this.xmlBymlToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.xmlBymlToolStripMenuItem1.Text = "Xml -> Byml";
             this.xmlBymlToolStripMenuItem1.Click += new System.EventHandler(this.xmlBymlToolStripMenuItem_Click);
             // 
@@ -1007,6 +1013,15 @@
             this.IncType.Size = new System.Drawing.Size(107, 21);
             this.IncType.TabIndex = 17;
             // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -1052,7 +1067,7 @@
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oldsaveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsSZSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsXmlToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -1140,6 +1155,7 @@
         private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectByNameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     }
 }
 

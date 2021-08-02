@@ -537,6 +537,7 @@ namespace The4Dimension
             if (Lock) ZoomCheckWarning.Start(); else ZoomCheckWarning.Stop();
             OtherLevelDataMenu.Enabled = Lock;
             saveAsSZSToolStripMenuItem.Enabled = Lock;
+            saveAsToolStripMenuItem.Enabled = Lock;
             generatePreloadFileListToolStripMenuItem.Enabled = Lock;
         }
 
@@ -604,7 +605,7 @@ namespace The4Dimension
                 {
                     Debug.Print("Size : " + (StageData.Length / 1024).ToString());
 
-                    OpenFile(BymlConverter.GetXml(StageData),"Map", (!File.Exists(DesignFile)&&!File.Exists(SoundFile)));
+                    OpenFile(BymlConverter.GetXml(StageData),"Map", ((!File.Exists(DesignFile)&&!File.Exists(SoundFile))||!Properties.Settings.Default.UseDesignSound));
                 }
                 else
                 {
