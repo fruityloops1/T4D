@@ -586,6 +586,7 @@ namespace The4Dimension
                 List<ToolStripMenuItem> OtherFiles = new List<ToolStripMenuItem>();
                 byte[] StageData = null;
                 opnfiles.Add(FilePath);
+                UseDesignSound = Properties.Settings.Default.UseDesignSound;
                 foreach (SFSFile f in SzsArch.ToFileSystem().Files)
                 {
                     if (f.FileName.ToLower() == "stagedata.byml") StageData = f.Data;
