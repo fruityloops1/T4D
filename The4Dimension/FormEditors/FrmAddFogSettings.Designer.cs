@@ -78,7 +78,7 @@
             // 
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.numericUpDown1.DecimalPlaces = 1;
-            this.numericUpDown1.Location = new System.Drawing.Point(201, 37);
+            this.numericUpDown1.Location = new System.Drawing.Point(256, 37);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(67, 20);
             this.numericUpDown1.TabIndex = 1;
@@ -100,7 +100,8 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(201, 63);
+            this.numericUpDown2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.numericUpDown2.Location = new System.Drawing.Point(256, 63);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(67, 20);
             this.numericUpDown2.TabIndex = 4;
@@ -117,13 +118,14 @@
             // 
             // numericUpDown3
             // 
+            this.numericUpDown3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.numericUpDown3.DecimalPlaces = 2;
             this.numericUpDown3.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.numericUpDown3.Location = new System.Drawing.Point(201, 89);
+            this.numericUpDown3.Location = new System.Drawing.Point(256, 89);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             35000,
             0,
@@ -150,13 +152,14 @@
             // 
             // numericUpDown4
             // 
+            this.numericUpDown4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.numericUpDown4.DecimalPlaces = 2;
             this.numericUpDown4.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.numericUpDown4.Location = new System.Drawing.Point(201, 115);
+            this.numericUpDown4.Location = new System.Drawing.Point(256, 115);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             35000,
             0,
@@ -195,7 +198,7 @@
             // 
             this.RedBar.Cursor = System.Windows.Forms.Cursors.Default;
             this.RedBar.LargeChange = 10;
-            this.RedBar.Location = new System.Drawing.Point(17, 207);
+            this.RedBar.Location = new System.Drawing.Point(35, 207);
             this.RedBar.Maximum = 255;
             this.RedBar.Name = "RedBar";
             this.RedBar.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -207,7 +210,7 @@
             // 
             // GreenUD
             // 
-            this.GreenUD.Location = new System.Drawing.Point(68, 342);
+            this.GreenUD.Location = new System.Drawing.Point(103, 342);
             this.GreenUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -222,7 +225,7 @@
             // 
             this.BlueBar.Cursor = System.Windows.Forms.Cursors.Default;
             this.BlueBar.LargeChange = 10;
-            this.BlueBar.Location = new System.Drawing.Point(119, 207);
+            this.BlueBar.Location = new System.Drawing.Point(173, 207);
             this.BlueBar.Maximum = 255;
             this.BlueBar.Name = "BlueBar";
             this.BlueBar.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -236,7 +239,7 @@
             // 
             this.GreenBar.Cursor = System.Windows.Forms.Cursors.Default;
             this.GreenBar.LargeChange = 10;
-            this.GreenBar.Location = new System.Drawing.Point(68, 207);
+            this.GreenBar.Location = new System.Drawing.Point(103, 207);
             this.GreenBar.Maximum = 255;
             this.GreenBar.Name = "GreenBar";
             this.GreenBar.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -248,7 +251,7 @@
             // 
             // BlueUD
             // 
-            this.BlueUD.Location = new System.Drawing.Point(119, 342);
+            this.BlueUD.Location = new System.Drawing.Point(173, 342);
             this.BlueUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -261,7 +264,7 @@
             // 
             // RedUD
             // 
-            this.RedUD.Location = new System.Drawing.Point(17, 342);
+            this.RedUD.Location = new System.Drawing.Point(35, 342);
             this.RedUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -277,7 +280,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Location = new System.Drawing.Point(190, 207);
+            this.panel1.Location = new System.Drawing.Point(245, 207);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(78, 155);
             this.panel1.TabIndex = 16;
@@ -294,7 +297,7 @@
             // Ok
             // 
             this.Ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Ok.Location = new System.Drawing.Point(193, 374);
+            this.Ok.Location = new System.Drawing.Point(248, 374);
             this.Ok.Name = "Ok";
             this.Ok.Size = new System.Drawing.Size(75, 23);
             this.Ok.TabIndex = 17;
@@ -333,7 +336,7 @@
             "FOG_UPDATER_TYPE_LINEAR"});
             this.comboBox1.Location = new System.Drawing.Point(75, 151);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(193, 21);
+            this.comboBox1.Size = new System.Drawing.Size(248, 21);
             this.comboBox1.TabIndex = 20;
             // 
             // FrmAddFogSettings
@@ -342,7 +345,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(284, 409);
+            this.ClientSize = new System.Drawing.Size(339, 409);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.Cancel);

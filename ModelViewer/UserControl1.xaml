@@ -8,15 +8,15 @@
              xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf.SharpDX;assembly=HelixToolkit.Wpf.SharpDX"
              xmlns:local="clr-namespace:ModelViewer"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="640" d:DesignWidth="800">
 
 
         <Grid>
-        <unused:HelixViewport3D x:Name="ModelView" Background="Transparent" AllowDrop="True" RenderOptions.EdgeMode="Unspecified"  ZoomExtentsWhenLoaded="False" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True">
+        <unused:HelixViewport3D x:Name="ModelView" Background="Transparent" AllowDrop="True" RenderOptions.EdgeMode="Unspecified"  ZoomExtentsWhenLoaded="False" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True" IsViewCubeEdgeClicksEnabled="True" ViewCubeHorizontalPosition="Left" ViewCubeVerticalPosition="Top">
             <!-- Remember to add light to the scene -->
             <unused:SunLight/>
 
-            <unused:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1" Fill="#FFD8D8D8"/>
+            <unused:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1" Fill="#FF929AB6"/>
         </unused:HelixViewport3D>
     </Grid>
 

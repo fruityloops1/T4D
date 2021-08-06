@@ -108,7 +108,7 @@ namespace ModelViewer
         public UserControl1()
         {
             InitializeComponent();
-            ModelView.Camera.NearPlaneDistance = 150;
+            ModelView.Camera.NearPlaneDistance = 300;
             ModelViewer.SortingFrequency = 0.5;
             ModelView.Children.Add(ModelViewer);
             //ModelView.
@@ -280,7 +280,6 @@ namespace ModelViewer
             }
             else Model = ImportedModels[path];
             Model.Transform = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 90));
-            //Model.CullMode = CullMode.None;
             Models[Type][at == -1 ? Models[Type].Count - 1: at].Content = Model;
             Transform3DGroup t = new Transform3DGroup();
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), RotX)));

@@ -28,7 +28,6 @@ namespace The4Dimension
     {
         public static string ObjectDbLink = "https://raw.githubusercontent.com/exelix11/TheFourthDimension/master/ObjectsDb.xml";
         public UserControl1 render = new UserControl1();
-        public UserControlNEW renderr = new UserControlNEW();
         public Dictionary<string, string> LevelNameNum = new Dictionary<string, string>(); //WX-X, stageName
         int APP_VER = Int32.Parse(Application.ProductVersion.Replace(".", ""));
         string LoadedFile = "";
@@ -356,9 +355,6 @@ namespace The4Dimension
                 render.Camspeed =Properties.Settings.Default.CamSpeed;
                 KeyPreview = true;
                 elementHost1.Child = render;
-                elementHost2.Visible = false;
-                elementHost2.Child = renderr;
-
                 /*  */
                     render.MouseLeftButtonDown += render_LeftClick;
                 render.MouseMove += render_MouseMove;
@@ -472,7 +468,7 @@ namespace The4Dimension
             //if (MessageBox.Show("Keep clipboard ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) clipboard = new List<ClipBoardItem>();
             LoadedFile = "";
             this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
-            otherToolStripMenuItem.DropDownItems.Clear();
+            OtherLevelDataMenu.DropDownItems.Clear();
             SetUiLock(false);
         }
 
@@ -1572,8 +1568,6 @@ namespace The4Dimension
                 {
                     if(DraggingAxis[0] == true)
                     {
-
-
                         ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop[type])[0] = (Single)NewPos.X;
                     }
                     if (DraggingAxis[1] == true)

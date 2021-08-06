@@ -161,6 +161,7 @@ namespace The4Dimension.FormEditors
                 strings.Add("unsure", "If unsure leave the default option (collision terrain/option no. 6)");
             }
             #endregion
+            if (Directory.Exists(Path.GetTempPath() + "TmpT4D")) { try { Directory.Delete(Path.GetTempPath() + "TmpT4D", true); } catch { } }
             OpenFileDialog opn = new OpenFileDialog();
             opn.Title = "Open a model file";
             opn.Filter = "Supported formats (.bcmdl, .obj)|*.bcmdl; *.obj";
@@ -202,6 +203,7 @@ namespace The4Dimension.FormEditors
                 foreach (var v in mod.Data.Textures)
                 {
                     if (!(v is ImageTextureCtr)) continue;
+                    if (File.Exists(tmpPath + "\\Tex\\" + v.Name + ".png")) continue;
                     ((ImageTextureCtr)v).GetBitmap().Save(tmpPath + "\\Tex\\" + v.Name + ".png");
                 }
                 modelPath = opn.FileName;
