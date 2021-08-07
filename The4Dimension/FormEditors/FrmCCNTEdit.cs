@@ -262,7 +262,7 @@ namespace The4Dimension.FormEditors
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Trim() == "" || textBox2.Text.Trim() == "" || textBox1.Text.Contains(" ")|| textBox2.Text.Contains(" "))
+            if (textBox1.Text.Trim() == "" || comboBox1.Text.Trim() == "" || textBox1.Text.Contains(" ")|| comboBox1.Text.Contains(" "))
             {
                 MessageBox.Show(strings["validname"]);
                 return;
@@ -272,14 +272,16 @@ namespace The4Dimension.FormEditors
                 MessageBox.Show(strings["listalready"]);
                 return;
             }
-            CCNT.Add(textBox1.Text, textBox2.Text);
+            CCNT.Add(textBox1.Text, comboBox1.Text.Trim());
             updateListbox();
             textBox1.Text = "";
-            textBox2.Text = "";
         }
 
         private void FrmCCNTEdit_Load(object sender, EventArgs e)
         {
+            string[] lines = Properties.Resources.ObjectClasses.Split(Environment.NewLine[0]);
+            comboBox1.Items.AddRange(lines);
+            comboBox1.SelectedIndex = 0;
             //TestCCNTEdit + add multi file stuff
         }
 

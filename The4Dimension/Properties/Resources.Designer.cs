@@ -298,6 +298,45 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FixMapParts
+        ///ClockMapParts
+        ///AoyagiEnemy
+        ///JumpFlipBoard
+        ///KeyMoveMapParts
+        ///LavaConveyer
+        ///LiftGeyserStep
+        ///NutLift
+        ///RailMoveMapParts
+        ///RollingReflectMapParts
+        ///RollingShakeMapParts
+        ///RotateMapParts
+        ///SeesawMapParts
+        ///SlideMapParts
+        ///SwingMapParts
+        ///SwitchRotateMapParts
+        ///SwitchSlideMapParts
+        ///VisibleSwitchMapParts
+        ///WheelMapParts
+        ///WobbleMapParts
+        ///AquariumSwimDebris
+        ///VisibleSwitchMapParts
+        ///AttackRevolvingPanel
+        ///AudioEffectChangeArea
+        ///AudioVolumeSettingArea
+        ///BalanceTruck
+        ///BeatBlock
+        ///BeatBlockHolder
+        ///BgmChangeArea
+        ///Bird
+        ///Bl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ObjectClasses {
+            get {
+                return ResourceManager.GetString("ObjectClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @echo off
         ///Title CCNT patcher
         ///cls

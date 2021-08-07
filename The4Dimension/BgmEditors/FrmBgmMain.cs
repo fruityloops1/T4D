@@ -353,5 +353,13 @@ namespace The4Dimension.BgmEditors
             listBox1.Items.Clear();
             listBox1.Items.AddRange(WorldLevelDict[comboBox2.SelectedIndex].ToArray());
         }
+
+        private void comboBox1_TextUpdate(object sender, EventArgs e)
+        {
+            if (comboBox1.Text != "")
+            {
+                Levels[LevelsNum[WorldLevelDict[comboBox2.SelectedIndex][listBox1.SelectedIndex]]] = comboBox1.Text;
+            }
+        }
     }
 }
