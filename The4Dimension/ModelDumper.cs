@@ -33,7 +33,7 @@ namespace The4Dimension
         {
             CommonOpenFileDialog fld = new CommonOpenFileDialog { IsFolderPicker = true };
             fld.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-            if (fld.ShowDialog() != CommonFileDialogResult.Ok) this.Close();
+            if (fld.ShowDialog() != CommonFileDialogResult.Ok){ this.Close();return;}
             Properties.Settings.Default.GamePath =  fld.FileName;
             ObjDataPath = fld.FileName + "\\ObjectData";
             Directory.CreateDirectory("models");

@@ -156,8 +156,7 @@ namespace The4Dimension.FormEditors
                 strings.Add("CC", "Remember you need to add the object to the CreatorClassNameTable to use the object in-game (Other modding -> CreatorClassNameTable editor)");
                 strings.Add("view1", "To view the model in the editor you must copy it in the models folder with the name ");
                 strings.Add("view2", ".obj or else you will see a blue box");
-                strings.Add("kclpa", "The kcl and pa files were saved in :");
-                strings.Add("rename", "\r\n Don't forget to rename them to your model name!");
+                strings.Add("kclpa", "The kcl and pa files were saved in:\r\n");
                 strings.Add("unsure", "If unsure leave the default option (collision terrain/option no. 6)");
             }
             #endregion
@@ -273,9 +272,9 @@ namespace The4Dimension.FormEditors
             if (File.Exists(ObjModelPath + ".kcl") && File.Exists(ObjModelPath + ".pa"))
             {
                 PaPath = ObjModelPath + ".pa";
-                label5.Text = strings["label5"] + filename + ".pa";
+                label5.Text = strings["label5"] + textBox1.Text + ".pa";
                 KclPath = ObjModelPath + ".kcl";
-                label4.Text = strings["label4"] + filename + ".kcl";
+                label4.Text = strings["label4"] + textBox1.Text + ".kcl";
                 button7.Enabled = true;
             }
             else MessageBox.Show(strings["notfound"]);
@@ -331,7 +330,7 @@ namespace The4Dimension.FormEditors
             File.WriteAllBytes(s.FileName, y.Compress(SzsArch.Write()));
             MessageBox.Show(strings["done"]);
             MessageBox.Show(strings["CC"]);
-            MessageBox.Show(strings["view2"] + textBox1.Text + strings["view2"]);
+            MessageBox.Show(strings["view1"] + textBox1.Text + strings["view2"]);
             this.Close();
         }
 
@@ -388,7 +387,7 @@ namespace The4Dimension.FormEditors
             File.WriteAllBytes(s.FileName, y.Compress(SzsArch.Write()));
             MessageBox.Show(strings["done"]);
             MessageBox.Show(strings["CC"]);
-            MessageBox.Show(strings["view2"] + textBox1.Text + strings["view2"]);
+            MessageBox.Show(strings["view1"] + textBox1.Text + strings["view2"]);
             this.Close();
         }
 
@@ -397,19 +396,19 @@ namespace The4Dimension.FormEditors
             CommonOpenFileDialog fld = new CommonOpenFileDialog { IsFolderPicker = true };
             fld.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             if (fld.ShowDialog() != CommonFileDialogResult.Ok) return;
-            if (File.Exists(fld.FileName + "\\pa.pa")!=true)
+            if (File.Exists(fld.FileName + "\\"+ textBox1.Text + ".pa")!=true)
             { 
-            File.Copy(PaPath, fld.FileName+"\\pa.pa");
-            File.Copy(KclPath, fld.FileName+"\\kcl.kcl");
+            File.Copy(PaPath, fld.FileName+"\\"+ textBox1.Text + ".pa");
+            File.Copy(KclPath, fld.FileName+ "\\"+ textBox1.Text +".kcl");
             }
             else 
             {
-                File.Delete(fld.FileName + "\\pa.pa");
-                File.Delete(fld.FileName + "\\kcl.kcl");
-                File.Copy(PaPath, fld.FileName + "\\pa.pa");
-                File.Copy(KclPath, fld.FileName + "\\kcl.kcl");
+                File.Delete(fld.FileName + "\\"+ textBox1.Text + ".pa");
+                File.Delete(fld.FileName + "\\"+ textBox1.Text+".kcl");
+                File.Copy(PaPath, fld.FileName + "\\"+ textBox1.Text+".pa");
+                File.Copy(KclPath, fld.FileName + "\\"+ textBox1.Text + ".kcl");
             }
-            MessageBox.Show(strings["kclpa"]+ fld.FileName+strings["rename"]);
+            MessageBox.Show(strings["kclpa"]+ fld.FileName);
         }
     }
 }
