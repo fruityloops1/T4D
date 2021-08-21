@@ -27,7 +27,7 @@ namespace The4Dimension.ObjectDB
 
         private void ObjectDBView_Load(object sender, EventArgs e)
         {
-
+            this.Text = entry.name;
             label1.Text = "";
             if (entry.Complete == 0) label1.Text += "(This object is not fully known)\r\n";
             label1.Text += entry.name + ":\r\n" + entry.notes;

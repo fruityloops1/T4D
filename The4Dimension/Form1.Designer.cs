@@ -331,7 +331,7 @@
             this.saveAsSZSToolStripMenuItem.Name = "saveAsSZSToolStripMenuItem";
             this.saveAsSZSToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.saveAsSZSToolStripMenuItem.Text = "Save as Szs";
             this.saveAsSZSToolStripMenuItem.Visible = false;
             this.saveAsSZSToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
@@ -339,14 +339,14 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(214, 6);
             this.toolStripSeparator3.Visible = false;
             // 
             // saveAsBymlToolStripMenuItem1
             // 
             this.saveAsBymlToolStripMenuItem1.Enabled = false;
             this.saveAsBymlToolStripMenuItem1.Name = "saveAsBymlToolStripMenuItem1";
-            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
+            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.saveAsBymlToolStripMenuItem1.Text = "Save as Byml";
             this.saveAsBymlToolStripMenuItem1.Visible = false;
             this.saveAsBymlToolStripMenuItem1.Click += new System.EventHandler(this.saveAsBymlToolStripMenuItem1_Click);
@@ -355,7 +355,7 @@
             // 
             this.saveAsXmlToolStripMenuItem.Enabled = false;
             this.saveAsXmlToolStripMenuItem.Name = "saveAsXmlToolStripMenuItem";
-            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.saveAsXmlToolStripMenuItem.Text = "Save as Xml";
             this.saveAsXmlToolStripMenuItem.Visible = false;
             this.saveAsXmlToolStripMenuItem.Click += new System.EventHandler(this.saveAsXmlToolStripMenuItem_Click);
@@ -600,53 +600,55 @@
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // hotkeysListToolStripMenuItem
             // 
             this.hotkeysListToolStripMenuItem.Name = "hotkeysListToolStripMenuItem";
-            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.hotkeysListToolStripMenuItem.Text = "Hotkeys list";
             this.hotkeysListToolStripMenuItem.Click += new System.EventHandler(this.hotkeysListToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(242, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(271, 6);
             // 
             // downloadLatestT4DToolStripMenuItem
             // 
             this.downloadLatestT4DToolStripMenuItem.Name = "downloadLatestT4DToolStripMenuItem";
-            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.downloadLatestT4DToolStripMenuItem.Text = "Download latest T4D";
             this.downloadLatestT4DToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestT4DToolStripMenuItem_Click);
             // 
             // downloadLatestObjectDatabaseToolStripMenuItem
             // 
             this.downloadLatestObjectDatabaseToolStripMenuItem.Name = "downloadLatestObjectDatabaseToolStripMenuItem";
-            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.downloadLatestObjectDatabaseToolStripMenuItem.Text = "Download latest object database";
             this.downloadLatestObjectDatabaseToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestObjectDatabaseToolStripMenuItem_Click);
             // 
             // objectsDatabaseToolStripMenuItem
             // 
             this.objectsDatabaseToolStripMenuItem.Name = "objectsDatabaseToolStripMenuItem";
-            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.objectsDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.objectsDatabaseToolStripMenuItem.Text = "View object database";
             this.objectsDatabaseToolStripMenuItem.Click += new System.EventHandler(this.objectsDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(242, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(271, 6);
             // 
             // gbatempThreadToolStripMenuItem
             // 
             this.gbatempThreadToolStripMenuItem.Image = global::The4Dimension.Properties.Resources.gbatemp;
             this.gbatempThreadToolStripMenuItem.Name = "gbatempThreadToolStripMenuItem";
-            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
             // 

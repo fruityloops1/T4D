@@ -21,6 +21,7 @@ namespace The4Dimension.FormEditors
 {
     public partial class FrmObjImport : Form
     {
+        string ffile = "";
         string filename = "";
         string modelPath = "";
         string ObjModelPath = "";
@@ -30,13 +31,15 @@ namespace The4Dimension.FormEditors
         string KclPath = "";
         string PaPath = "";
         private Dictionary<string, string> strings;
-        public FrmObjImport()
+        public FrmObjImport(string file = "")
         {
+
             strings = new Dictionary<string, string>();
             InitializeComponent();
             comboBox1.SelectedIndex = 5;
             elementHost1.Child = render;
             render.AddKey("Model");
+            ffile = file;
         }
 
         private void FrmObjImport_Load(object sender, EventArgs e)
@@ -160,17 +163,28 @@ namespace The4Dimension.FormEditors
                 strings.Add("unsure", "If unsure leave the default option (collision terrain/option no. 6)");
             }
             #endregion
-            if (Directory.Exists(Path.GetTempPath() + "TmpT4D")) { try { Directory.Delete(Path.GetTempPath() + "TmpT4D", true); } catch { } }
-            OpenFileDialog opn = new OpenFileDialog();
-            opn.Title = "Open a model file";
-            opn.Filter = "Supported formats (.bcmdl, .obj)|*.bcmdl; *.obj";
+            string opnfile;
             bool ok = true;
-            if (opn.ShowDialog() != DialogResult.OK) ok = false;
-            if (Path.GetExtension(opn.FileName).ToLower() == ".obj")
+            if (ffile != "")
+            {
+                opnfile = ffile;
+            }
+            else
+            {
+                if (Directory.Exists(Path.GetTempPath() + "TmpT4D")) { try { Directory.Delete(Path.GetTempPath() + "TmpT4D", true); } catch { } }
+                OpenFileDialog opn = new OpenFileDialog();
+                opn.Title = "Open a model file";
+                opn.Filter = "Supported formats (.bcmdl, .obj)|*.bcmdl; *.obj";
+                
+                if (opn.ShowDialog() != DialogResult.OK) ok = false;
+                opnfile = opn.FileName;
+
+            }
+            if (Path.GetExtension(opnfile).ToLower() == ".obj")
             {
                 if (MessageBox.Show(strings["objconvY"], "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    modelPath = opn.FileName;
+                    modelPath = opnfile;
                     ObjModelPath = modelPath;
                     IsObj = true;
                     render.addModel(modelPath, "Model", new System.Windows.Media.Media3D.Vector3D(0, 0, 0), new System.Windows.Media.Media3D.Vector3D(1, 1, 1), 0, 0, 0);
@@ -181,14 +195,14 @@ namespace The4Dimension.FormEditors
                     this.Close();
                 }
             }
-            else if (Path.GetExtension(opn.FileName).ToLower() == ".bcmdl")
+            else if (Path.GetExtension(opnfile).ToLower() == ".bcmdl")
             {
                 tmpPath = Path.GetTempPath() + "TmpT4D";
-                filename = Path.GetFileNameWithoutExtension(opn.FileName);
-                string Name = tmpPath + "\\"+Path.GetFileNameWithoutExtension(opn.FileName)+".obj";
+                filename = Path.GetFileNameWithoutExtension(opnfile);
+                string Name = tmpPath + "\\"+Path.GetFileNameWithoutExtension(opnfile) +".obj";
                 Directory.CreateDirectory(tmpPath);
                 CGFX mod = null;
-                mod = new _3DS.NintendoWare.GFX.CGFX(File.ReadAllBytes(opn.FileName));
+                mod = new _3DS.NintendoWare.GFX.CGFX(File.ReadAllBytes(opnfile));
                 CommonFiles.OBJ o = mod.Data.Models[0].ToOBJ();
                 o.MTLPath = Path.GetFileNameWithoutExtension(Name) + ".mtl";
                 MTL m = mod.Data.Models[0].ToMTL("Tex");
@@ -199,13 +213,17 @@ namespace The4Dimension.FormEditors
                 File.Create(Path.ChangeExtension(Name, "mtl")).Close();
                 File.WriteAllBytes(Path.ChangeExtension(Name, "mtl"), d2);
                 Directory.CreateDirectory(tmpPath + "\\Tex");
-                foreach (var v in mod.Data.Textures)
+                if (mod.Data.Textures != null)
                 {
-                    if (!(v is ImageTextureCtr)) continue;
-                    if (File.Exists(tmpPath + "\\Tex\\" + v.Name + ".png")) continue;
-                    ((ImageTextureCtr)v).GetBitmap().Save(tmpPath + "\\Tex\\" + v.Name + ".png");
+                    foreach (var v in mod.Data.Textures)
+                    {
+                        if (!(v is ImageTextureCtr)) continue;
+                        if (File.Exists(tmpPath + "\\Tex\\" + v.Name + ".png")) continue;
+                        ((ImageTextureCtr)v).GetBitmap().Save(tmpPath + "\\Tex\\" + v.Name + ".png");
+                    }
                 }
-                modelPath = opn.FileName;
+
+                modelPath = opnfile;
                 ObjModelPath = Name;
                 IsObj = false;
                 render.addModel(Name, "Model", new System.Windows.Media.Media3D.Vector3D(0, 0, 0), new System.Windows.Media.Media3D.Vector3D(1, 1, 1), 0, 0, 0);

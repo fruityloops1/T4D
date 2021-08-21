@@ -720,11 +720,17 @@ namespace The4Dimension
                 clr.Click += OpenRecentClear;
                 openRecentToolStripMenuItem.DropDownItems.Add(clr);
             }
+            else if (Path.GetExtension(FilePath).ToLower() == ".bcmdl"|| Path.GetExtension(FilePath).ToLower() == ".obj")
+            {
+                new FormEditors.FrmObjImport(FilePath).ShowDialog();
+                if (this.Text != "The 4th Dimension") { elementHost1.Show(); }
+            }
             else
             {
                 LoadedFile = "";
                 MessageBox.Show("File type not supported !");
-                SetUiLock(false);
+                if (this.Text != "The 4th Dimension") { elementHost1.Show(); }
+                //SetUiLock(false);
             }
             
         }
