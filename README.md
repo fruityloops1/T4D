@@ -9,9 +9,11 @@ This is a continuation of Exelix' [project](https://github.com/exelix11/TheFourt
   - Stage collision editor
   - Camera editor
   - Rail editor
+  - Fog editor
+  - Worldmap editor
   - Area editor
   - Music changer (assign a song to a level)
-- 3d Previews *(very bad ones rn)* of most assets
+- 3d Previews of most assets
 - byml <-> xml 
 # New features
 - Improvements to general user experience
@@ -41,9 +43,8 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 - [x] Translation (at least a base for it)
 
 ### Up to v 1.0.0.0
-- [ ] Improve objectdatabase
-- [ ] Fix rendering issues
-- [ ] Minor stuff?
+- [x] Fix rendering issues
+- [ ] General improvements like worldmap editor and better object database
 - [ ] Dark theme
 - [ ] Bugfixing
 
@@ -64,21 +65,20 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
   - [ ] Dark theme
   - [ ] Remove deprecated programs
   - [ ] Improve ObjectDB formatting and usage 
-- [x] Change old links (looking at you [neomariogalaxy](http://neomariogalaxy.bplaced.net/objectdb/3dl_download.php))
-- [ ] Change the model renderer or improve current one to fix clipping and rendering issues
+- [ ] Change old links 
+- [x] Change the model renderer or improve current one to fix clipping and rendering issues
 
 
 ## TODO->Long term
-- [ ] Better GFX (better renderer or better model support, bcmdl, dae, fbx...)
+- [ ] Better model support (bcmdl and fbx)
 - [ ] Better documentation for everything
-  - [ ] Finish documenting every object
-  - [ ] Camera functions
-  - [ ] Rail types
+  - [x] Finish documenting every object
+  - [x] Camera functions
+  - [x] Rail types
   - [ ] Rail arguments
-  - [ ] Layer usage
-  - [ ] Area usage
+  - [x] Layer usage
+  - [x] Area usage
   - [ ] Area arguments
-- [ ] More (?)
 
 
 ## Building
