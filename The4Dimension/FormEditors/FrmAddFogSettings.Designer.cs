@@ -372,6 +372,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmAddFogSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FogArea Settings";
             this.Load += new System.EventHandler(this.FrmAddFogSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

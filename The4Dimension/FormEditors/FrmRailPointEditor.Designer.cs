@@ -136,7 +136,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmRailPointEditor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit points";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.Load += new System.EventHandler(this.FrmObjEditor_Load);

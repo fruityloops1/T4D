@@ -4159,5 +4159,39 @@ namespace The4Dimension
             if (f.Res == null || (string)f.Res == "") return;
             FindIndex(comboBox1.Text, "name", (string)f.Res);
         }
+
+        private void WorldMapEd_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.GamePath.Trim() == "" && !File.Exists(@"GameSystemDataTable.szs"))
+            {
+                MessageBox.Show("You must set the game Romfs path first !");
+                return;
+            }
+            else if (!File.Exists(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs") && !File.Exists(@"GameSystemDataTable.szs"))
+            {
+                MessageBox.Show(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs not found !\r\nProbably your Romfs dump is incomplete or was modified.");
+                return;
+            }
+            else if (File.Exists(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs") && !File.Exists(@"GameSystemDataTable.szs"))
+            {
+                File.Copy(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs", @"GameSystemDataTable.szs");
+                if (!Directory.Exists(@"icons"))
+                {
+                    Directory.CreateDirectory("icons");
+                    File.WriteAllBytes(@"icons\Worldmap.zip", Properties.Resources.Worldmap);
+                    System.IO.Compression.ZipFile.ExtractToDirectory(@"icons\Worldmap.zip", @"icons");
+                    File.Delete(@"icons\Worldmap.zip");
+                }
+            }
+            if (!Directory.Exists(@"icons"))
+            {
+                Directory.CreateDirectory("icons");
+                File.WriteAllBytes(@"icons\Worldmap.zip", Properties.Resources.Worldmap);
+                System.IO.Compression.ZipFile.ExtractToDirectory(@"icons\Worldmap.zip", @"icons");
+                File.Delete(@"icons\Worldmap.zip");
+            }
+            FormEditors.FrmWorldEditor f = new FormEditors.FrmWorldEditor();
+            f.ShowDialog();
+        }
     }
 }

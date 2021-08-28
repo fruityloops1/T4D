@@ -606,6 +606,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmAddCameraSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add camera code";
             this.Load += new System.EventHandler(this.FrmAddCameraSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();

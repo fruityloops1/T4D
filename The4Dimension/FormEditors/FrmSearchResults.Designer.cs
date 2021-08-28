@@ -54,6 +54,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmSearchResults";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Search results";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.FrmSearchResults_Load);

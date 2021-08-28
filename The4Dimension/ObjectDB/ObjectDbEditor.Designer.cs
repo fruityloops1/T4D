@@ -191,6 +191,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(580, 474);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox2);
@@ -200,6 +202,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(569, 484);
             this.Name = "ObjectDbEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View object database";
             this.Load += new System.EventHandler(this.ObjectDbEditor_Load);
             this.groupBox1.ResumeLayout(false);

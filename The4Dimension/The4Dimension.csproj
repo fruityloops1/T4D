@@ -247,6 +247,12 @@
     <Compile Include="FormEditors\FrmStringInput.Designer.cs">
       <DependentUpon>FrmStringInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditors\FrmWorldEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditors\FrmWorldEditor.Designer.cs">
+      <DependentUpon>FrmWorldEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEditors\FrmXmlEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +360,9 @@
     <EmbeddedResource Include="FormEditors\FrmStringInput.resx">
       <DependentUpon>FrmStringInput.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEditors\FrmWorldEditor.resx">
+      <DependentUpon>FrmWorldEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormEditors\FrmXmlEditor.resx">
       <DependentUpon>FrmXmlEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -410,6 +419,7 @@
     </Compile>
     <None Include="Resources\BaseModels.zip" />
     <None Include="Resources\BCSTMtools.zip" />
+    <None Include="Resources\Worldmap.zip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -151,6 +151,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(278, 319);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.button4);
@@ -161,7 +163,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmObjEditor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit object";
             this.Load += new System.EventHandler(this.FrmObjEditor_Load);
             this.ClipBoardMenu.ResumeLayout(false);

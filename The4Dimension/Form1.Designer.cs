@@ -64,6 +64,7 @@
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelImporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creatorClassNameTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.WorldMapEd = new System.Windows.Forms.ToolStripMenuItem();
             this.stagesBgmEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oggToBcstmConverterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -412,6 +413,7 @@
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelImporterToolStripMenuItem,
             this.creatorClassNameTableEditorToolStripMenuItem,
+            this.WorldMapEd,
             this.stagesBgmEditorToolStripMenuItem,
             this.oggToBcstmConverterToolStripMenuItem,
             this.toolStripSeparator5,
@@ -435,6 +437,13 @@
             this.creatorClassNameTableEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.creatorClassNameTableEditorToolStripMenuItem.Text = "CreatorClassNameTable editor";
             this.creatorClassNameTableEditorToolStripMenuItem.Click += new System.EventHandler(this.creatorClassNameTableEditorToolStripMenuItem_Click);
+            // 
+            // WorldMapEd
+            // 
+            this.WorldMapEd.Name = "WorldMapEd";
+            this.WorldMapEd.Size = new System.Drawing.Size(234, 22);
+            this.WorldMapEd.Text = "Worldmap editor";
+            this.WorldMapEd.Click += new System.EventHandler(this.WorldMapEd_Click);
             // 
             // stagesBgmEditorToolStripMenuItem
             // 
@@ -1142,6 +1151,6 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectByNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem WorldMapEd;
     }
 }
-

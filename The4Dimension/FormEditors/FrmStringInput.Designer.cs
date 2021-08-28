@@ -95,6 +95,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmStringInput";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add object type";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.FrmStringInput_Load);

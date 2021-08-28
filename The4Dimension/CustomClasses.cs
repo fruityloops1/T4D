@@ -13,7 +13,17 @@ using System.Diagnostics;
 
 namespace The4Dimension
 {
-
+    public class Level : Object
+    {
+        public int lvlnodeid = 0;
+        public Dictionary<string, string> lvlparamslist = new Dictionary<string, string>();
+    }
+    public class World : Object
+    {
+        public int wid = 0;
+        public string wtype = "";
+        public Level[] wlvls = new Level[8];
+    }
     class CustomStringWriter : System.IO.StringWriter
     {
         private readonly Encoding encoding;

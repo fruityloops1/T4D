@@ -81,7 +81,7 @@ namespace The4Dimension
                                         RenderBase.OModelGroup mdl = new Ohana.CGFX().load(new MemoryStream(file.Data));
                                         new Ohana.OBJ().export(mdl, Name, 0);
                                     }
-                                    else if (Path.GetFileNameWithoutExtension(Name).ToLower() == "karon") ConvertEFE(file.Data, Name);
+                                    else if (Path.GetFileNameWithoutExtension(Name).ToLower() == "karon" || Path.GetFileNameWithoutExtension(Name).ToLower().StartsWith("demo")) ConvertEFE(file.Data, Name);
                                 }
                             }
                             catch
