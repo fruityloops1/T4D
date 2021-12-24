@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="Shift-JIS"?>
+
+<database version="0.0">
+<categories>
+		<category id="1" name="Main stage elements"/>
+		<category id="2" name="Decorations and effects"/>
+		<category id="3" name="Enemies"/>
+		<category id="4" name="NPCs"/>
+		<category id="5" name="Areas"/>
+		<category id="6" name="Special events"/>
+		<category id="7" name="Misc."/>
+		<category id="0" name="Uncategorized / Unused"/>
+</categories>
+<types>
+	<type id="1" name="ObjInfo"/>
+	<type id="2" name="StartInfo"/>
+	<type id="3" name="AreaObjInfo"/>
+	<type id="4" name="CameraAreaInfo"/>
+	<type id="5" name="GoalObjInfo"/>
+	<type id="6" name="StartEventObjInfo"/>
+	<type id="7" name="DemoSceneObjInfo"/>
+</types>
+
+
+<objects>
+	<object id="Mario" name="Mario" category="1" type="2" extra="It's-a me, Mario!">
+		<model>Mario</model>
+	</object>
+	<object id="Kuribo" name="Goomba" category="3" type="1" extra="The most generic npc in video game history!">
+		<model>Kuribo</model>
+		<bool arg="0" name="Move when Mario's not around" default="false" info="Move when outside the camera's view"/>
+		<bool arg="7" name="Drop +10s" default="false" info="Add 10 seconds instead of dropping a coin"/>
+	</object>
+	<object id="Wanwan" name="Chain Chomp" category="3" type="1" extra="Mario world's second best dog-acting creature." child1="WanwanChain" child2="WanwanRoot">
+		<model>Wanwan</model>
+	</object>
+	<object id="Kinopio" name="Toad" category="4" type="1" extra="An anthropomorphic mushroom from the mushroom kingdom, the loyalest to the princess Peach!">
+		<model>Kinopio</model>
+		<option arg="0" name="Colour" default="-1" info="Toad's head and shirt colour">
+			<op name="Red" value="-1"/>
+			<op name="Blue" value="2"/>
+			<op name="Yellow" value="3"/>
+			<op name="Green" value="4"/>
+			<op name="Purple" value="5"/>
+		</option>	
+		<bool arg="1" name="Is jumping" default="false" info="Determines whether toad is jumping or not" />
+		<int arg="3" name="Star coin id" max="2" min="-1" default="0" info="ID of the starcoin dropped by toad if told to do so by Object to spawn" />
+		<bool arg="5" name="Has propeller" default="false" info="Determines whether toad spawns with a propeller suit or not" />
+		<option arg="6" name="Unknown" info="??" default="-1">
+			<op name="-1" value="-1"/>
+			<op name="20" value="20"/>
+		</option>
+		<option arg="7" name="Object to spawn" info="Object for toad to spawn" default="-1">
+			<op name="Nothing" value="-1"/>
+			<op name="1-UP" value="1"/>
+			<op name="Super mushroom" value="4"/>
+			<op name="Star coin" value="2"/>
+			<op name="Kills toad" value="3"/>
+			<op name="Scares toad" value="0"/>
+		</option>
+	</object>
+	<object id="GrassMike" name="Dandelion"  category="2" type="1" extra="A dandelion found in a lot of levels, has different colour options and can spawn powerups">
+		<model>GrassMike</model>
+		<option arg="0" name="Colour" default="-1" info="If you select the red option after getting an item it won't blow away" >
+			<op name="White" value="-1"/>
+			<op name="Yellow" value="1"/>
+			<op name="Red" value="2"/>
+		</option>
+		<option arg="1" name="Object to spawn" default="-1" info="Object to spawn when the dandelion is blown away" >
+			<op name="Nothing" value="-1"/>
+			<op name="1-Up" value="1"/>
+			<op name="Fire Flower" value="2"/>			
+			<op name="Super Leaf" value="3"/>
+			<op name="Star" value="4"/>
+			<op name="Poison Mushroom" value="5"/>			
+			<op name="Boomerang Flower" value="6"/>
+			<op name="Stone Leaf" value="7"/>
+			<op name="Mushroom" value="8"/>
+			<op name="Mushroom(repeat)" value="9"/>
+			<op name="1-Up(repeat)" value="10"/>
+			<op name="Crash" value="11"/>
+		</option>
+		<option arg="2" name="Spawn direction" default="-1" info="Direction for the object to spawn" >
+			<op name="Front" value="-1"/>
+			<op name="Right" value="0"/>
+			<op name="Back" value="1"/>			
+			<op name="Left" value="2"/>
+		</option>
+	</object>
+	
+	
+</objects>
+
+
+
+<properties>
+
+	<property name="Action1" data_type="string" default="-" text="First action" info="Action to do during the first scene"/>
+	<property name="Action2" data_type="string" default="-" text="Second action" info="Action to do during the second scene"/>
+	<property name="Action3" data_type="string" default="-" text="Third action" info="Action to do during the third scene"/>
+	<property name="Action4" data_type="string" default="-" text="Fourth action" info="Action to do during the fourth scene"/>
+	<property name="Action5" data_type="string" default="-" text="Last action" info="Action to do during the last scene"/>
+	<property name="LuigiType" data_type="string_option" default="Common" text="Unknown" info="">
+		<op name="Default" value="Common"/>
+		<op name="Luigi" value="Luigi"/>
+		<op name="Mario" value="Mario"/>
+		<op name="Only mini" value="MiniOnly"/>
+	</property>	
+	<property name="MarioType" data_type="string_option" default="Common" text="Unknown" info="">
+		<op name="Default" value="Common"/>
+		<op name="Luigi" value="Luigi"/>
+		<op name="Mario" value="Mario"/>
+		<op name="Only mini" value="MiniOnly"/>
+	</property>	
+	<property name="SuffixName" data_type="string" default="-" text="Unknown:" info=""/>
+	<property name="ModelName" data_type="string" default="-" text="Object to use as actor:" info="Each object has its own actions"/>
+	<property name="CameraId" data_type="int" default="-1" text="Camera ID:" info="Determines the camera code to use from CameraParams.byml when it's used in a CameraArea and similar. Unused in everything else."/>
+	<property name="ClippingGroupId" data_type="int" default="-1" text="Clipping group ID:" info="Determines the clipping group"/>
+	<property name="GenerateParent" data_type="int" default="-1" text="Parent ID:" info="ID of this object's parent, not needed"/>
+	<property name="AreaParent" data_type="int" default="-1" text="Parent ID:" info="ID of this area's parent, not needed"/>
+	<property name="LayerName" data_type="string" default="共通" text="Layer name:" info="Name of the layer where this object's located (Unknown use)"/>
+	<property name="MultiFileName" data_type="string" default="StageData_tool" text="Unknown" info="Unknown use"/>
+	<property name="name" data_type="string" default="Kuribo" text="Object name:" info="The name used by the game to recognise this object"/>
+	<property name="ShapeModelNo" data_type="int" default="-1" text="Unknown:" info="Unknown"/>
+	<property name="SwitchA" data_type="int" default="-1" text="Switch A:" info="When you do something it activates the given switch (Some objects use SwitchA to activate, using it like SwitchAppear)"/>
+	<property name="SwitchB" data_type="int" default="-1" text="Switch B:" info="When you do something else it activates the given switch"/>
+	<property name="SwitchKill" data_type="int" default="-1" text="Die on switch:" info="Gets killed on given switch"/>
+	<property name="SwitchAppear" data_type="int" default="-1" text="Appear on:" info="Appears on given switch"/>
+	<property name="SwitchDeadOn" data_type="int" default="-1" text="Activate on death switch:" info="Activates if this object is killed"/>
+	<property name="ViewId" data_type="int" default="-1" text="ViewCtrlArea ID:" info="ID of the area where this object will be loaded (with -1 it's loaded all the time)"/>
+	<property name="l_id" data_type="int" default="-1" text="Object ID:" info="ID of this object in the level"/>
+	<property name="pos" data_type="float_array" text="Position:" info="Object's position">
+		<entry name="X" value="0"/>
+		<entry name="Y" value="0"/>
+		<entry name="Z" value="0"/>
+	</property>	
+	<property name="dir" data_type="float_array" text="Rotation:" info="Object's rotation">
+		<entry name="X" value="0"/>
+		<entry name="Y" value="0"/>
+		<entry name="Z" value="0"/>
+	</property>	
+	<property name="scale" data_type="float_array" text="Scale:" info="Object's scale">
+		<entry name="X" value="1"/>
+		<entry name="Y" value="1"/>
+		<entry name="Z" value="1"/>
+	</property>	
+	<property name="Priority" data_type="int" default="-1" text="Priority:" info="This area's priority over other areas of the same type, the higher the value the higher in the hierarchy it'll be"/>
+	<property name="GenerateChildren" data_type="C0List" text="Children objects:" info="A list of the children objects of this object"/>
+	<property name="ChildrenArea" data_type="C0List" text="Children areas:" info="A list of the children of this object"/>
+	<property name="Rail" data_type="Rail" text="Rail:" info="A rail used by this object"/>
+	
+</properties>
+
+</database>

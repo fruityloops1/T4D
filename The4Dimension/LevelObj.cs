@@ -23,12 +23,47 @@ namespace The4Dimension
                 return "Unknown name LevelObj";
             }
             if (Prop.ContainsKey("name"))
+            {
                 return Prop["name"].ToString().Substring("String : ".Length);
+            }
             else
             {
                 if (Prop.ContainsKey("l_id")) return "LevelObj id: " + Prop["l_id"].ToString();
                 else return "LevelObj";
             }
+        }
+        public string GetName(bool dbname = false)
+        {
+            if (Prop == null)
+            {
+                Prop = new Dictionary<string, object>();
+                return "Unknown name LevelObj";
+            }
+            if (dbname)
+            {
+                if (Prop.ContainsKey("dbname"))
+                {
+                    return Prop["dbname"].ToString();
+                }
+                else
+                {
+                    if (Prop.ContainsKey("name")) return Prop["name"].ToString().Substring("String : ".Length);
+                    else return "LevelObj";
+                }
+            }
+            else
+            {
+                if (Prop.ContainsKey("name"))
+                {
+                    return Prop["name"].ToString().Substring("String : ".Length);
+                }
+                else
+                {
+                    if (Prop.ContainsKey("l_id")) return "LevelObj id: " + Prop["l_id"].ToString();
+                    else return "LevelObj";
+                }
+            }
+
         }
 
         public LevelObj Clone()

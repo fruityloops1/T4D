@@ -139,6 +139,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
@@ -216,6 +217,12 @@
     </Compile>
     <Compile Include="FormEditors\FrmObjImport.Designer.cs">
       <DependentUpon>FrmObjImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditors\FrmRailEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditors\FrmRailEditor.Designer.cs">
+      <DependentUpon>FrmRailEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="FormEditors\FrmRailPointEditor.cs">
       <SubType>Form</SubType>
@@ -344,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditors\FrmObjImport.resx">
       <DependentUpon>FrmObjImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditors\FrmRailEditor.resx">
+      <DependentUpon>FrmRailEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditors\FrmRailPointEditor.resx">
       <DependentUpon>FrmRailPointEditor.cs</DependentUpon>

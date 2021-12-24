@@ -35,6 +35,8 @@ namespace The4Dimension
         bool AddObjectOrigin = false;
         public static int ReleaseId = 11;
         private Dictionary<string, string> strings;
+        public PropertyPanel Panell1 = new PropertyPanel();
+        public bool fullrefresh = true;
         public Form1(string FileLoad = "")
         {
             string setlng;
@@ -400,10 +402,18 @@ namespace The4Dimension
         public static List<ClipBoardItem> clipboard = new List<ClipBoardItem>();
         public static Encoding DefEnc = Encoding.GetEncoding("Shift-JIS");
         public ObjectDb ObjectDatabase = null;
+        public NewDb NewObjectDatabase = null;
         List<String> CustomModels = new List<string>();
+        public Dictionary<string, TabPage> PropertyTabs = new Dictionary<string, TabPage>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Panell1.panel = panel2;
+            Panell1.owner = this;
+            foreach (TabPage tab in SelectedProperties.TabPages)
+            {
+                PropertyTabs.Add(tab.Name, tab);
+            }
             if (!Directory.Exists("models"))
             {
                 if (MessageBox.Show("You must convert every model from the game before you can use the editor, convert now ? (you need to have the extracted ROMFS of the game on your pc)", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -424,7 +434,21 @@ namespace The4Dimension
                     MessageBox.Show("You won't be able to see any model, to do the procedure delete the models folder");
                 }
             }
-            if (!Properties.Settings.Default.DownloadDb) LoadObjectDatabase();
+            if (!Properties.Settings.Default.DownloadDb)/* LoadObjectDatabase();*/ LoadNewDatabase();
+            List<string> remove = new List<string>(PropertyTabs.Keys);
+            RefreshTabs(remove, null);
+            ObjectName.Text = "No object selected";
+            if (Panell1.known == null)
+            {
+                Panell1.known = new Dictionary<string, NewDb.EntryProperty>();
+                if (NewObjectDatabase != null)
+                {
+                    foreach (NewDb.EntryProperty property in NewObjectDatabase.KnownProperties)
+                    {
+                        Panell1.known.Add(property.name, property);
+                    }
+                }
+            }
             LoadCreatorClassNameTable();
             if (LoadedFile != "") LoadFile(LoadedFile);
             else SetUiLock(false);
@@ -465,6 +489,10 @@ namespace The4Dimension
             comboBox1.Items.Clear();
             ObjectsListBox.Items.Clear();
             propertyGrid1.SelectedObject = null;
+
+            Panell1.Obj = null;
+            Panell1.Rail = null;
+            Panell1.panel.Controls.Clear();
             //if (MessageBox.Show("Keep clipboard ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) clipboard = new List<ClipBoardItem>();
             LoadedFile = "";
             this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
@@ -690,35 +718,7 @@ namespace The4Dimension
 
                 SetUiLock(true);
 
-                if (!Properties.Settings.Default.OpenRecent.Contains(LoadedFile))
-                {
-                    Properties.Settings.Default.OpenRecent.Add(LoadedFile);
-                    while (Properties.Settings.Default.OpenRecent.Count>9)
-                    {
-                        Properties.Settings.Default.OpenRecent.RemoveAt(0);
-                    }
-                    int d = Properties.Settings.Default.OpenRecent.Count;
-                }
-                else
-                {
-                    Properties.Settings.Default.OpenRecent.RemoveAt(Properties.Settings.Default.OpenRecent.IndexOf(LoadedFile));
-                    Properties.Settings.Default.OpenRecent.Add(LoadedFile);
-                }
-                openRecentToolStripMenuItem.DropDownItems.Clear();
-                for (int i = Properties.Settings.Default.OpenRecent.Count; i > 0; i--)
-                {
-                    ToolStripMenuItem btn = new ToolStripMenuItem();
-                    btn.Name = "OpnRec" + (Properties.Settings.Default.OpenRecent.Count - i + 1);
-                    btn.Text = (Properties.Settings.Default.OpenRecent.Count - i + 1).ToString() + ". " + Properties.Settings.Default.OpenRecent[i - 1];
-                    btn.Click += OpenRecent_click;
-                    openRecentToolStripMenuItem.DropDownItems.Add(btn);
-
-                }
-                ToolStripMenuItem clr = new ToolStripMenuItem();
-                clr.Name = "OpnRecClr";
-                clr.Text = "Clear";
-                clr.Click += OpenRecentClear;
-                openRecentToolStripMenuItem.DropDownItems.Add(clr);
+                AddRecentOpen(LoadedFile);
             }
             else if (Path.GetExtension(FilePath).ToLower() == ".bcmdl"|| Path.GetExtension(FilePath).ToLower() == ".obj")
             {
@@ -770,6 +770,21 @@ namespace The4Dimension
                 try { ObjectDatabase = ObjectDb.FromXml(File.ReadAllText(@"objectdb.xml")); }
                 catch (Exception ex) { MessageBox.Show("Could't load the objects database: \r\n\r\n" + ex.Message); }
             }
+        }
+        public void LoadNewDatabase()
+        {
+            NewObjectDatabase = null;
+            if (!File.Exists(@"newobjdb.xml"))
+            {
+                MessageBox.Show("The object database wasn't found, some objects may not appear, and you won't be able to get informations about how to use objects, you can download the database from Help -> Download latest object database");
+                return;
+            }
+            else
+            {
+                try { NewObjectDatabase = NewDb.FromXml(File.ReadAllText(@"newobjdb.xml")); }
+                catch (Exception ex) { MessageBox.Show("Could't load the objects database: \r\n\r\n" + ex.Message + ex.StackTrace); }
+            }
+            Panell1.newDb = NewObjectDatabase;
         }
 
         public void LoadCreatorClassNameTable()
@@ -879,7 +894,15 @@ namespace The4Dimension
         {
             for (int i = 0; i < Source.Count; i++)
             {
-                string Path = GetModelname(Source[i].ToString());
+                if (!Source[i].Prop.ContainsKey("dbname")) 
+                {
+                    if (NewObjectDatabase != null && NewObjectDatabase.IdtoDB.ContainsKey(Source[i].ToString()))
+                    {
+                        Source[i].Prop.Add("dbname", NewObjectDatabase.IdtoDB[Source[i].ToString()]);
+                    }
+
+                }
+                string Path = GetModelname(Source[i].GetName(true));//db name
                 if (!System.IO.File.Exists(Path)) Path = PlaceHolderMod;
                 Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ, A, B, C;
                 Single[] scale_XDD;
@@ -987,7 +1010,15 @@ namespace The4Dimension
                     string Path;
                     if (area) Path = "models\\UnkYellow.obj"; else
                     {
-                        Path = GetModelname(o.ToString());
+                        if (!o.Prop.ContainsKey("dbname"))
+                        {
+                            if (NewObjectDatabase != null&& NewObjectDatabase.IdtoDB.ContainsKey(o.ToString()))
+                            {
+                                o.Prop.Add("dbname", NewObjectDatabase.IdtoDB[o.ToString()]);
+                            }
+
+                        }
+                        Path = GetModelname(o.GetName(true));//db name
                         if (!System.IO.File.Exists(Path)) Path = "models\\UnkRed.obj";
                     }
                     Single X, Y, Z, ScaleX, ScaleY, ScaleZ, RotX, RotY, RotZ, A, B, C;
@@ -1078,11 +1109,31 @@ namespace The4Dimension
             }
         }
 
-        string GetModelname(string ObjName)
+        public string GetModelname(string ObjName)
         {
             if (CustomModels.Contains(ObjName)) return "CustomModels\\" + ObjName + ".obj";
-            else if (ObjectDatabase != null && ObjectDatabase.IdToModel.ContainsKey(ObjName)) return "models\\" + ObjectDatabase.IdToModel[ObjName] + ".obj";
+            //else if (ObjectDatabase != null && ObjectDatabase.IdToModel.ContainsKey(ObjName)) return "models\\" + ObjectDatabase.IdToModel[ObjName] + ".obj";
+            
+            else if (NewObjectDatabase != null) 
+            {
+                string id = "";
+
+                if (NewObjectDatabase.DBtoId.TryGetValue(ObjName, out id))
+                {
+                    if (NewObjectDatabase.IdToModel.ContainsKey(id))
+                    {
+                        return @"models\" + NewObjectDatabase.IdToModel[id] + ".obj";
+                    }
+                }
+                else if (NewObjectDatabase.IdToModel.ContainsKey(ObjName))
+                {
+                    return @"models\" + NewObjectDatabase.IdToModel[ObjName] + ".obj";
+                }
+                else return "models\\" + ObjName + ".obj";
+            }
+
             else return "models\\" + ObjName + ".obj";
+            return "models\\UnkBlue.obj";
         }
 
         void ProcessAllInfos(XmlNodeList xml)
@@ -1242,31 +1293,39 @@ namespace The4Dimension
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-         /*   if (comboBox1.Text != "AllRailInfos")
-            {
-                if (ObjectsListBox.Items.Count < )
-                {
-                    panel1.Visible = false;
-                    panel1.Enabled = false;
-                }
-                else
-                {
-                    panel1.Visible = true;
-                    panel1.Enabled = true;
-                }
-            }
-            else
-            {*/
-                panel1.Visible = false;
-                panel1.Enabled = false;
+            /*   if (comboBox1.Text != "AllRailInfos")
+               {
+                   if (ObjectsListBox.Items.Count < )
+                   {
+                       panel1.Visible = false;
+                       panel1.Enabled = false;
+                   }
+                   else
+                   {
+                       panel1.Visible = true;
+                       panel1.Enabled = true;
+                   }
+               }
+               else
+               {*/
+            ObjectsListBox.SelectedIndex = -1;
+            panel1.Visible = false;
+            panel1.Enabled = false;
             button4.Visible = false;
             button5.Visible = false;
             /*  }*/
+            index = -2;
+            Panell1.ClearObjs();
+            Panell1.ClearRails();
+            Panell1.panel.Controls.Clear();
+
             IncType.SelectedIndex = 0;
             IncAxis.SelectedIndex = 0;
             btn_cameraCode.Visible = false;
             ObjectsListBox.Items.Clear();
             propertyGrid1.SelectedObject = null;
+            List<string> remove;
+            List<string> add;
             if (!AllInfos.ContainsKey(comboBox1.Text))
             {
                 if (comboBox1.Text == "AllRailInfos")
@@ -1274,13 +1333,31 @@ namespace The4Dimension
                     checkBox1.Visible = false;
                     checkBox2.Visible = false;
                     for (int i = 0; i < AllRailInfos.Count; i++) ObjectsListBox.Items.Add(AllRailInfos[i].ToString());
+                    /* propertyGrid1.Enabled = true;
+                     propertyGrid1.Visible = true;
+                     Panell1.panel.Enabled = false;
+                     Panell1.panel.Visible = false;*/
+                    remove = new List<string>
+                    {
+                        "General",
+                        "Extra",
+                        "DemoExtra",
+                        "StartGeneral",
+                        "Args",
+                        "DefArgs"
+
+                    };
+                    add = new List<string>();
+                    add.Add("Rail");
+                    add.Add("Args");
+                    //RefreshTabs(remove, add);
                 }
                 ObjectsListBox.SelectionMode = SelectionMode.One;
                 return;
             }
             else
             {
-                ObjectsListBox.SelectionMode = SelectionMode.MultiExtended;
+                ObjectsListBox.SelectionMode = SelectionMode.One; //ObjectsListBox.SelectionMode = SelectionMode.MultiExtended;
                 if (comboBox1.Text == "AreaObjInfo" || comboBox1.Text == "CameraAreaInfo")
                 {
                     checkBox1.Visible = true;
@@ -1292,8 +1369,68 @@ namespace The4Dimension
                     checkBox1.Visible = false;
                     checkBox2.Visible = true;
                 }
+
+                /*
+                propertyGrid1.Enabled = false;
+                propertyGrid1.Visible = false;
+                Panell1.panel.Enabled = true;
+                Panell1.panel.Visible = true;*/
             }
-            for (int i = 0; i < CurrentAllInfosSection.Count; i++) ObjectsListBox.Items.Add(CurrentAllInfosSection[i].ToString());
+            if (comboBox1.Text == "StartInfo")
+            {
+                remove = new List<string>
+                    {
+                        "General",
+                        "Extra",
+                        "DemoExtra",
+                        "Rail",
+                        "Args",
+                        "DefArgs"
+                    };
+                add = new List<string>() {"StartGeneral"};
+            }
+            else if (comboBox1.Text == "DemoSceneObjInfo")
+            {
+                remove = new List<string>
+                    {
+                        "General",
+                        "Extra",
+                        "StartGeneral",
+                        "Rail",
+                        "Args",
+                        "DefArgs"
+                    };
+                add = new List<string>() { "DemoExtra" };
+
+            }
+            else
+            {
+                remove = new List<string>
+                    {
+                        "StartGeneral",
+                        "DemoExtra",
+                        "Rail",
+                        "Args",
+                        "DefArgs"
+                    };
+                add = new List<string>() { "General", "Extra" };
+            }
+            if (NewObjectDatabase != null && ObjectsListBox.SelectedItem!=null)
+            {
+                if (comboBox1.Text != "StartInfo")
+                {
+                    if (NewObjectDatabase.Entries.ContainsKey(ObjectsListBox.SelectedItem.ToString()))
+                    {
+                        add.Add("Args");
+                    }
+                    else
+                    {
+                        add.Add("DefArgs");
+                    }
+                }
+            }
+            //RefreshTabs(remove, add);
+            for (int i = 0; i < CurrentAllInfosSection.Count; i++) ObjectsListBox.Items.Add(CurrentAllInfosSection[i].GetName(true));//db name
         }
 
         private void render_LeftClick(object sender, MouseButtonEventArgs e)
@@ -1313,7 +1450,8 @@ namespace The4Dimension
                 if (DraggingAxis[1] == true) { return; }
                 if (DraggingAxis[2] == true) { return; }
                 if ((string)indexes[0] != "C0EditingListObjs") comboBox1.SelectedIndex = comboBox1.Items.IndexOf((string)indexes[0]);
-                ObjectsListBox.ClearSelected();
+                if (ObjectsListBox.SelectedIndices.Count >1) ObjectsListBox.ClearSelected();
+                //ObjectsListBox.ClearSelected();
                 ObjectsListBox.SelectedIndex = (int)indexes[1];
             }
         }
@@ -1442,6 +1580,7 @@ namespace The4Dimension
             {
                 if (IsEditingC0List) C0ListEditorGoBack();
             }
+            
             if (ObjectsListBox.SelectedIndex == -1) return;
             if (comboBox1.Text == "AllRailInfos")
             {
@@ -1468,6 +1607,9 @@ namespace The4Dimension
                 ((Single[])GetListByName(type)[id].Prop["pos"])[1] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[1]) / 100d, 0) * 100);
                 ((Single[])GetListByName(type)[id].Prop["pos"])[2] = ((Single)Math.Round((((Single[])GetListByName(type)[id].Prop["pos"])[2]) / 100d, 0) * 100);
                 UpdateOBJPos(id, GetListByName(type), type);
+                Panell1.Obj = GetListByName(type)[id];
+                RefreshProperties();
+                Panell1.Refresh();
                 propertyGrid1.Refresh();
             }
             else if (e.Key == Key.C && comboBox1.Text != "AllRailInfos" && ObjectsListBox.SelectedItems.Count == 1)
@@ -1593,6 +1735,8 @@ namespace The4Dimension
 
         void endDragging()
         {
+
+            SelectCorrectProperty();
             if (DraggingArgs[0] == null || DraggingArgs[1] == null || DraggingArgs[2] == null) return;
             if (IsEditingC0List && (string)DraggingArgs[0] != "C0EditingListObjs") return;
 
@@ -1629,7 +1773,7 @@ namespace The4Dimension
                     ((Single[])((C0List)type[id].Prop["GenerateChildren"]).List[idInList].Prop["pos"])[2]= (Single)pos.Z;
                     propertyGrid1.Refresh();
                 };
-                Undo.Push(new UndoAction("Moved children object of: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, ObjectsListBox.SelectedIndex, (int)DraggingArgs[1] , StartPos }, act));
+                Undo.Push(new UndoAction("Moved children object of: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, ObjectsListBox.SelectedIndex, (int)DraggingArgs[1] , StartPos }, act));
             }
             else if ((string)DraggingArgs[0] != "AllRailInfos")
             {
@@ -1651,8 +1795,21 @@ namespace The4Dimension
                     if (ObjectsListBox.SelectedIndex == id) RefreshTmpChildrenObjects();
                     propertyGrid1.Refresh();
                 };
-                Undo.Push(new UndoAction("Moved object : " + GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].ToString(), new object[] { GetListByName((string)DraggingArgs[0]), DraggingArgs[1], StartPos, DraggingArgs[0] }, act));
+                Undo.Push(new UndoAction("Moved object : " + GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].GetName(true)/*db name*/, new object[] { GetListByName((string)DraggingArgs[0]), DraggingArgs[1], StartPos, DraggingArgs[0] }, act));
             }
+            if (CurrentAllInfosSectionName != "AllRailInfos")
+            {
+                Panell1.Obj = CurrentAllInfosSection[ObjectsListBox.SelectedIndex];
+                Panell1.Rail = null;
+            }
+            else
+            {
+                Panell1.Obj = null;
+                Panell1.Rail = AllRailInfos[ObjectsListBox.SelectedIndex];
+            }
+            index = ObjectsListBox.SelectedIndex;
+            RefreshProperties();
+            //Panell1.Refresh();
         }
 
         private void render_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -1744,32 +1901,134 @@ namespace The4Dimension
 
         int AreaObjOldSelection = -1;
         int CameraAreaOldSelection = -1;
+        int index = -2;
+        private void SelectCorrectProperty()
+        {
+            List<string> remove;
+            List<string> add;
 
+            if (comboBox1.Text == "StartInfo")
+            {
+                remove = new List<string>
+                    {
+                        "General",
+                        "Extra",
+                        "DemoExtra",
+                        "Rail",
+                        "Args",
+                        "DefArgs"
+                    };
+                add = new List<string>() { "StartGeneral" };
+            }
+            else if (comboBox1.Text == "AllRailInfos")
+            {
+                remove = new List<string>
+                    {
+                        "General",
+                        "Extra",
+                        "DemoExtra",
+                        "StartGeneral",
+                        "Args",
+                        "DefArgs"
+
+                    };
+                add = new List<string>();
+                add.Add("Rail");
+            }
+            else if (comboBox1.Text == "DemoSceneObjInfo")
+            {
+                remove = new List<string>
+                    {
+                        "General",
+                        "Extra",
+                        "StartGeneral",
+                        "Rail"
+                    };
+                add = new List<string>() { "DemoExtra" };
+            }
+            else
+            {
+                remove = new List<string>
+                    {
+                        "StartGeneral",
+                        "DemoExtra",
+                        "Rail"
+                    };
+                add = new List<string>() { "General", "Extra" };
+            }
+            if (NewObjectDatabase != null)
+            {
+                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "AllRailInfos" && comboBox1.Text != "CameraAreaInfo")
+                {
+                    if (NewObjectDatabase.DBtoId.ContainsKey(ObjectsListBox.SelectedItem.ToString()))
+                    {
+                        remove.Add("DefArgs");
+                        remove.Add("Args");
+                        add.Add("Args");
+                    }
+                    else
+                    {
+                        remove.Add("Args");
+                        add.Add("DefArgs");
+                    }
+                }
+            }
+            else
+            {
+                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "AllRailInfos" && comboBox1.Text != "CameraAreaInfo")
+                {
+                    remove.Add("Args");
+                    add.Add("DefArgs");
+                }
+            }
+            RefreshTabs(remove, add);
+
+        }
         private void ObjectsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (index != -2)
+            {
+                if (index == ObjectsListBox.SelectedIndex)
+                {
+                    return;
+                }
+            }
+
             btn_cameraCode.Visible = false;
             render.ClearTmpObjects();
             render.UnselectRail();
             render.ClearSelection();
             lblDescription.Text = "";
             lblDescription.Tag = -1;
+
             if (ObjectsListBox.SelectedIndex < 0)
             {
-                panel1.Visible = false;
-                button4.Visible = false;
-                button5.Visible = false;
+                if (DraggingArgs == null)
+                {
+                    index = -1;
+                    List<string> remove = new List<string>();
+                    foreach (TabPage tab in PropertyTabs.Values)
+                    {
+                        remove.Add(tab.Name);
+                    }
+                    RefreshTabs(remove, null);
+                    panel1.Visible = false;
+                    button4.Visible = false;
+                    button5.Visible = false;
+                    ObjectName.Text = "No object selected";
+                }
                 return;
             }
             else
             {
-                if (comboBox1.SelectedItem != "AllRailInfos")
-                {
-                    panel1.Visible = true;
-                    panel1.Enabled = true;
+                if (comboBox1.SelectedItem.ToString() != "AllRailInfos")
+                {//panel1
+                    panel1.Visible = false;
+                    panel1.Enabled = false;
                 }
 
-                button4.Visible = true;
-                button5.Visible = true;
+               // button4.Visible = true;
+               // button5.Visible = true;
             }
             if (ObjectsListBox.SelectedItems.Count > 1)
             {
@@ -1787,15 +2046,36 @@ namespace The4Dimension
                     render.SelectObjs(CurrentAllInfosSectionName, ObjectsListBox.SelectedIndices);
                 }
                 else propertyGrid1.SelectedObject = null;
+                index = -2;
                 return;
             }
             else
             {
+                if (fullrefresh)
+                {
+                    if (CurrentAllInfosSectionName != "AllRailInfos")
+                    {
+                        //UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, CurrentAllInfosSectionName);
+                        Panell1.Obj = CurrentAllInfosSection[ObjectsListBox.SelectedIndex];
+                        Panell1.ClearRails();
+                    }
+                    else
+                    {
+                        Panell1.ClearObjs();
+                        Panell1.Rail = AllRailInfos[ObjectsListBox.SelectedIndex];
+                    }
+                }
                 Btn_CopyObjs.Visible = false;
                 Btn_Duplicate.Visible = true;
-                button4.Enabled = true;
+                //button4.Enabled = true;
                 btn_delObj.Text = "Delete object";
-                if (ObjectDatabase != null) UpdateHint();
+                index = ObjectsListBox.SelectedIndex;
+                //if (ObjectDatabase != null) UpdateHint();
+                if (DraggingArgs == null)
+                {
+                    SelectCorrectProperty();
+                }
+
             }
 
             if (comboBox1.Text == "AreaObjInfo")
@@ -1807,8 +2087,16 @@ namespace The4Dimension
                     UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, comboBox1.Text);
                 }
                 AreaObjOldSelection = ObjectsListBox.SelectedIndex;
-                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "FogArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit fog area"; }
-
+                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName()/*internal name*/ == "FogArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit fog area"; }
+                RefreshProperties();
+                if (fullrefresh)
+                {
+                    Panell1.Refresh();
+                }
+                else
+                {
+                    Panell1.ArgRefresh();
+                }
                 return;
             }
             else if (comboBox1.Text == "CameraAreaInfo")
@@ -1820,7 +2108,16 @@ namespace The4Dimension
                     UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, comboBox1.Text);
                 }
                 CameraAreaOldSelection = ObjectsListBox.SelectedIndex;
-                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "CameraArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit camera code"; }
+                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName()/*internal name*/ == "CameraArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit camera code"; }
+                RefreshProperties();
+                if (fullrefresh)
+                {
+                    Panell1.Refresh();
+                }
+                else
+                {
+                    Panell1.ArgRefresh();
+                }
                 return;
             }
             else if (comboBox1.Text == "AllRailInfos")
@@ -1828,11 +2125,29 @@ namespace The4Dimension
                 propertyGrid1.SelectedObject = AllRailInfos[ObjectsListBox.SelectedIndex];
                 UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
                 render.SelectRail(AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
-             }
+                RefreshProperties();
+                if (fullrefresh)
+                {
+                    Panell1.Refresh();
+                }
+                else
+                {
+                    Panell1.ArgRefresh();
+                }
+            }
             else
             {
                 render.SelectObjs(CurrentAllInfosSectionName, ObjectsListBox.SelectedIndices);
                 propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
+                RefreshProperties();
+                if (fullrefresh)
+                {
+                    Panell1.Refresh();
+                }
+                else
+                {
+                    Panell1.ArgRefresh();
+                }
                 RefreshTmpChildrenObjects();
             }
         }
@@ -2020,6 +2335,8 @@ namespace The4Dimension
                 ObjectsListBox.ClearSelected();
                 ObjectsListBox.SelectedIndex = -1;
                 propertyGrid1.SelectedObject = null;
+                Panell1.Obj = null;
+                Panell1.panel.Controls.Clear();
             }
         }
 
@@ -2029,7 +2346,7 @@ namespace The4Dimension
         }
 
         private void objectsDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {/*
             if (ObjectDatabase == null)
             {
                 MessageBox.Show("The database was not loaded, this is normal if it's being downloaded, wait until it's done");
@@ -2043,7 +2360,7 @@ namespace The4Dimension
             }
             ObjectDbEditor d = new ObjectDbEditor(ObjectDatabase);
             d.Show();
-            //LoadObjectDatabase();
+            //LoadObjectDatabase();*/
         }
 
         private void generate2DSectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2066,7 +2383,7 @@ namespace The4Dimension
 
         private void lblDescription_Click(object sender, EventArgs e)
         {
-            if (lblDescription.Tag.ToString() != "-1") new ObjectDB.ObjectDBView(ObjectDatabase.Entries[ObjectsListBox.SelectedItem.ToString()], ObjectsListBox.SelectedItem.ToString()).Show();
+            //if (lblDescription.Tag.ToString() != "-1") new ObjectDB.ObjectDBView(ObjectDatabase.Entries[ObjectsListBox.SelectedItem.ToString()], ObjectsListBox.SelectedItem.ToString()).Show();
         }
 
         private void oggToBcstmConverterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2086,7 +2403,8 @@ namespace The4Dimension
             try
             {
                 new WebClient().DownloadFile(Properties.Settings.Default.DownloadDbLink == "" ? ObjectDbLink : Properties.Settings.Default.DownloadDbLink, "objectdb.xml");
-                LoadObjectDatabase();
+                //LoadObjectDatabase();
+                LoadNewDatabase();
                 File.Delete("objectdb.xml.bak");
                 MessageBox.Show("Done !");
             }
@@ -2120,14 +2438,13 @@ namespace The4Dimension
             List<string> ProcessedItems = new List<string>();
             foreach (LevelObj o in AllInfos["ObjInfo"])
             {
-                if (ProcessedItems.Contains(o.ToString())) continue;
-                ProcessedItems.Add(o.ToString());
-                if (ObjectDatabase.Entries.ContainsKey(o.ToString()) && ObjectDatabase.Entries[o.ToString()].files != "")
+                if (ProcessedItems.Contains(o.GetName())) continue;//internal name
+                ProcessedItems.Add(o.GetName());//internal name
+                if (NewObjectDatabase.Entries.ContainsKey(o.GetName()) && NewObjectDatabase.Entries[o.GetName()].filename != "")//internal name
                 {
-                    foreach (string s in ObjectDatabase.Entries[o.ToString()].files.Split("\r\n"[0]))
+                    foreach (string s in NewObjectDatabase.Entries[o.GetName()].children)//internal name
                     {
-                        if (s.StartsWith("/ObjectData") && s.EndsWith(".szs"))
-                            ObjsList += "<C1>\r\n<A0 Name=\"Path\" StringValue=\"" + s + "\" />\r\n<A0 Name=\"Type\" StringValue=\"Archive\" />\r\n</C1>";
+                            ObjsList += "<C1>\r\n<A0 Name=\"Path\" StringValue=\"" + "/ObjectData" + s + ".szs" + "\" />\r\n<A0 Name=\"Type\" StringValue=\"Archive\" />\r\n</C1>";
                     }
                 }
             }
@@ -2151,7 +2468,7 @@ namespace The4Dimension
         Stack<int> SelectionIndex = new Stack<int>();
         int InitialAllInfosSection = -1;
         List<LevelObj> dummyList = new List<LevelObj>();
-        private List<LevelObj> CurrentAllInfosSection
+        public List<LevelObj> CurrentAllInfosSection
         {
             get
             {
@@ -2161,7 +2478,7 @@ namespace The4Dimension
             }
         }
 
-        private string CurrentAllInfosSectionName
+        public string CurrentAllInfosSectionName
         {
             get
             {
@@ -2201,7 +2518,11 @@ namespace The4Dimension
             ObjectsListBox.Items.Clear();
             if (!higestID.ContainsKey("C0EditingListObjs")) higestID.Add("C0EditingListObjs", 0); else higestID["C0EditingListObjs"] = 0;
             foreach (LevelObj o in list) if (o.Prop.ContainsKey("l_id")) if (Int32.Parse(((Node)o.Prop["l_id"]).StringValue) > higestID["C0EditingListObjs"]) higestID["C0EditingListObjs"] = Int32.Parse(((Node)o.Prop["l_id"]).StringValue);
-            ObjectsListBox.Items.AddRange(list.ToArray());;
+            foreach (LevelObj o in list)
+            {
+                ObjectsListBox.Items.Add(o.GetName(true));
+            }
+            //ObjectsListBox.Items.AddRange(list.ToArray());
             propertyGrid1.SelectedObject = null;
         }
 
@@ -2222,6 +2543,7 @@ namespace The4Dimension
                 C0ListEditingStack.Pop();
                 EditC0List(C0ListEditingStack.Peek(), false);
             }
+            Panell1.ClearObjs();
             ObjectsListBox.SelectedIndex = SelectionIndex.Pop();
             fileToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
@@ -2240,7 +2562,7 @@ namespace The4Dimension
 
         private void CameraCode_click(object sender, EventArgs e)
         {
-            if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString().Contains("Fog"))
+            if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName().Contains("Fog"))//internal name
             {
                 int fogid = ((int)((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[0]);
                 if (fogid < 0)
@@ -2300,7 +2622,7 @@ namespace The4Dimension
                     }
                 }
             }
-            else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString() == "CameraArea")
+            else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName() == "CameraArea")//internal name
             {
                 int cameraId = int.Parse(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue);
                 if (cameraId < 0)
@@ -2374,6 +2696,7 @@ namespace The4Dimension
         bool warningShow = false;
         private void propertyGridChange(object s, PropertyValueChangedEventArgs e)
         {
+            
             if (ObjectsListBox.SelectedIndex < 0) { MessageBox.Show("No object selected in the list"); return; }
             if (comboBox1.Text == "AllRailInfos")
             {
@@ -2409,10 +2732,10 @@ namespace The4Dimension
                         MessageBox.Show("You shouldn't mess up with the name or the l_id property of the objects, you should add a new object instead and copy the position from this object to the new one.\r\nYou can undo this action from the undo button", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         warningShow = true;
                     }
-                    string path = GetModelname(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString());
+                    string path = GetModelname(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true));//db name
                     if (!System.IO.File.Exists(path)) path = "models\\UnkBlue.obj";
                     if (name == "name") {
-                      foreach(int i in ObjectsListBox.SelectedIndices)  render.ChangeModel(CurrentAllInfosSectionName, i, path);
+                      foreach(int i in ObjectsListBox.SelectedIndices) render.ChangeModel(CurrentAllInfosSectionName, i, path);
                     }
                 }
                 
@@ -2437,10 +2760,10 @@ namespace The4Dimension
                         if (type.GetHashCode() == CurrentAllInfosSection.GetHashCode()) UpdateOBJPos(id, type, TypeName,true);
                         if (propName == "name")
                         {
-                            string path = GetModelname(type[id].ToString());
+                            string path = GetModelname(type[id].GetName(true));//db name
                             if (!System.IO.File.Exists(path)) path = "models\\UnkBlue.obj";
                             if (name == "name") render.ChangeModel(TypeName, id, path);
-                            ObjectsListBox.Items[id] = type[id].ToString();
+                            ObjectsListBox.Items[id] = type[id].GetName(true);//db name
                         }
                         }
                         else
@@ -2464,15 +2787,15 @@ namespace The4Dimension
                     };
                     if (pname == null)
                     {
-                        Undo.Push(new UndoAction("Changed value: " + name + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
+                        Undo.Push(new UndoAction("Changed value: " + name + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
                     }
                     else
                     {
-                        Undo.Push(new UndoAction("Changed value: " + name + " of array "+ pname +" of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
+                        Undo.Push(new UndoAction("Changed value: " + name + " of array "+ pname +" of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
                     }
                 }
 
-                ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString();
+                ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true);/*db name*/
 
             }
         }
@@ -2509,6 +2832,10 @@ namespace The4Dimension
 
         public void UpdateOBJPos(int id, List<LevelObj> Source, string Type, bool isUndo = false)
         {
+            if (Type == "AllRailInfos")
+            {
+                return;
+            }
             string setlng;
             if (Properties.Settings.Default.DotComma != true) { setlng = "de-DE"; } else { setlng = "en-UK"; }
             Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
@@ -2712,7 +3039,7 @@ namespace The4Dimension
                         for (int i = 0; i < t.Length; i++) AddObj(t[i], type, (string)args[3], false, index[i], type.GetHashCode());
                         RefreshTmpChildrenObjects();
                     };
-                    string name = (indexes.Length == 1) ? "Removed object: " + tmp[0].ToString() : "Removed " + indexes.Length.ToString() + " objects";
+                    string name = (indexes.Length == 1) ? "Removed object: " + tmp[0].GetName(true)/*db name*/ : "Removed " + indexes.Length.ToString() + " objects";
                     Undo.Push(new UndoAction(name, new object[] {CurrentAllInfosSection, indexes, tmp.ToArray(), CurrentAllInfosSectionName }, action));
                 }
                 foreach (int i in indexes)
@@ -2768,11 +3095,19 @@ namespace The4Dimension
             LevelObj obj = new LevelObj();
             if (clone) obj = inobj.Clone(); else obj = inobj;
             if (obj.Prop.ContainsKey("l_id")) obj.Prop["l_id"] = new Node(higestID[name].ToString(), "D1");
-            if (inobj.ToString() == "CameraArea") obj.Prop["CameraId"] = new Node(higestID[name].ToString(), "D1");
+            if (inobj.GetName()/*internal name*/ == "CameraArea") obj.Prop["CameraId"] = new Node(higestID[name].ToString(), "D1");
             if (at == -1) list.Add(obj); else list.Insert(at, obj);
             if (UndoHash == -1 || CurrentAllInfosSection.GetHashCode() == UndoHash)
             {
-                if (at == -1) ObjectsListBox.Items.Add(obj.ToString()); else ObjectsListBox.Items.Insert(at, obj.ToString());
+                if (!obj.Prop.ContainsKey("dbname"))
+                {
+                    if (NewObjectDatabase!= null && NewObjectDatabase.IdtoDB.ContainsKey(obj.ToString()))
+                    {
+                        obj.Prop.Add("dbname", NewObjectDatabase.IdtoDB[obj.ToString()]);
+                    }
+
+                }
+                if (at == -1) ObjectsListBox.Items.Add(obj.GetName(true))/*db name*/; else ObjectsListBox.Items.Insert(at, obj.GetName(true))/*db name*/;
                 List<LevelObj> tmp = new List<LevelObj>();
                 tmp.Add(obj);
                 if (name == "AreaObjInfo") LoadModels(tmp, name, "models\\UnkYellow.obj", at);
@@ -2797,7 +3132,7 @@ namespace The4Dimension
                     }
                     render.ClearTmpObjects();
                 };
-                Undo.Push(new UndoAction("added object: " + obj.ToString(), new object[] { CurrentAllInfosSection, ObjectsListBox.Items.Count - 1, CurrentAllInfosSectionName }, action));
+                Undo.Push(new UndoAction("added object: " + obj.GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, ObjectsListBox.Items.Count - 1, CurrentAllInfosSectionName }, action));
             }
         }  
 
@@ -2811,7 +3146,7 @@ namespace The4Dimension
             }
             else
             {
-                FrmAddObj frm = new FrmAddObj(CreatorClassNameTable.Keys.ToArray(), ObjectDatabase, comboBox1.Text,pos );
+                FrmAddObj frm = new FrmAddObj(CreatorClassNameTable.Keys.ToArray(), NewObjectDatabase, comboBox1.Text,pos );
                 frm.ShowDialog();
                 if (frm.Value == null) return;
                 AddObj(frm.Value,  CurrentAllInfosSection, CurrentAllInfosSectionName);
@@ -3076,6 +3411,15 @@ namespace The4Dimension
             }
             if (comboBox1.Text == "AllRailInfos" && !(clipboard[index].Type == ClipBoardItem.ClipboardType.Rail || clipboard[index].Type == ClipBoardItem.ClipboardType.IntArray)) return;
             PasteValue(ObjectsListBox.SelectedIndex, CurrentAllInfosSection,CurrentAllInfosSectionName, clipboard[index]);
+            if (SenderName.Contains("Arg"))
+            {
+                Panell1.ArgRefresh();
+            }
+            else
+            {
+                Panell1.Refresh();
+            }
+            RefreshProperties();
         }
 
         public void PasteValue(int index, List<LevelObj> type, string TypeName, ClipBoardItem itm)
@@ -3155,7 +3499,7 @@ namespace The4Dimension
                 if (index < 0 || propertyGrid1.SelectedObject == null) AddObj(itm.Objs[0],  type, TypeName, true);
                 else
                 {
-                    string name = itm.Objs[0].ToString();
+                    string name = itm.Objs[0].GetName();/*internal name*/
                     if (name == "ObjectChildArea" || name == "SwitchKeepOnArea" || name == "SwitchOnArea")
                     {
                         if (!type[index].Prop.ContainsKey("ChildrenArea")) type[index].Prop.Add("ChildrenArea", new C0List());
@@ -3176,7 +3520,7 @@ namespace The4Dimension
                     if (index < 0 || propertyGrid1.SelectedObject == null) foreach (LevelObj o in itm.Objs) AddObj(o, type, TypeName, true);
                     foreach (LevelObj o in itm.Objs)
                     {
-                        string name = o.ToString();
+                        string name = o.GetName();/*internal name*/
                         if (name == "ObjectChildArea" || name == "SwitchKeepOnArea" || name == "SwitchOnArea")
                         {
                             if (!type[index].Prop.ContainsKey("ChildrenArea")) type[index].Prop.Add("ChildrenArea", new C0List());
@@ -3213,14 +3557,14 @@ namespace The4Dimension
                     {
                         if (((Rail)GetListByName(type)[i].Prop[PropertyName]).Name.ToLower() == Value.ToLower())
                         {
-                            HitsNames.Add(GetListByName(type)[i].ToString()); HitsIndexes.Add(i);
+                            HitsNames.Add(GetListByName(type)[i].GetName(true));/*db name*/ HitsIndexes.Add(i);
                         }
                     }
                     else if (GetListByName(type)[i].Prop.ContainsKey(PropertyName))
                     {
                         if (((Node)GetListByName(type)[i].Prop[PropertyName]).StringValue.ToLower().Contains(Value.ToLower()))
                         {
-                            HitsNames.Add(GetListByName(type)[i].ToString()); HitsIndexes.Add(i);
+                            HitsNames.Add(GetListByName(type)[i].GetName(true));/*db name*/ HitsIndexes.Add(i);
                         }
                     }
                     if (GetListByName(type)[i].Prop.ContainsKey("GenerateChildren"))
@@ -3232,14 +3576,14 @@ namespace The4Dimension
                             {
                                 if (((Rail)children.List[ii].Prop[PropertyName]).Name.ToLower() == Value.ToLower())
                                 {
-                                    HitsNames.Add(children.List[ii].ToString() + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); 
+                                    HitsNames.Add(children.List[ii].GetName(true)/*db name*/ + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); 
                                 }
                             }
                             else if (children.List[ii].Prop.ContainsKey(PropertyName))
                             {
                                 if (((Node)children.List[ii].Prop[PropertyName]).StringValue.ToLower().Contains(Value.ToLower()))
                                 {
-                                    HitsNames.Add(children.List[ii].ToString() + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i);
+                                    HitsNames.Add(children.List[ii].GetName(true)/*db name*/ + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i);
                                 }
                             }
                         }
@@ -3277,7 +3621,7 @@ namespace The4Dimension
                 {
                     if (GetListByName(type)[i].Prop.ContainsKey(PropertyName) && GetListByName(type)[i].Prop[PropertyName] is Node && ((Node)GetListByName(type)[i].Prop[PropertyName]).NodeType == Node.NodeTypes.Int)
                     {
-                        if (((Node)GetListByName(type)[i].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(GetListByName(type)[i].ToString()); HitsIndexes.Add(i); }
+                        if (((Node)GetListByName(type)[i].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(GetListByName(type)[i].GetName(true));/*db name*/ HitsIndexes.Add(i); }
                     }
                     if (GetListByName(type)[i].Prop.ContainsKey("GenerateChildren"))
                     {
@@ -3286,7 +3630,7 @@ namespace The4Dimension
                         {
                             if (children.List[ii].Prop.ContainsKey(PropertyName) && children.List[ii].Prop[PropertyName] is Node && ((Node)children.List[ii].Prop[PropertyName]).NodeType == Node.NodeTypes.Int)
                             {
-                                if (((Node)children.List[ii].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(children.List[ii].ToString() + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); }
+                                if (((Node)children.List[ii].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(children.List[ii].GetName(true)/*db name*/ + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); }
                             }
                         }
                     }
@@ -3334,6 +3678,38 @@ namespace The4Dimension
                 }
             }
         }
+        public void AddRecentOpen(string Filename)
+        {
+            if (!Properties.Settings.Default.OpenRecent.Contains(Filename))
+            {
+                Properties.Settings.Default.OpenRecent.Add(Filename);
+                while (Properties.Settings.Default.OpenRecent.Count > 9)
+                {
+                    Properties.Settings.Default.OpenRecent.RemoveAt(0);
+                }
+                int d = Properties.Settings.Default.OpenRecent.Count;
+            }
+            else
+            {
+                Properties.Settings.Default.OpenRecent.RemoveAt(Properties.Settings.Default.OpenRecent.IndexOf(Filename));
+                Properties.Settings.Default.OpenRecent.Add(Filename);
+            }
+            openRecentToolStripMenuItem.DropDownItems.Clear();
+            for (int i = Properties.Settings.Default.OpenRecent.Count; i > 0; i--)
+            {
+                ToolStripMenuItem btn = new ToolStripMenuItem();
+                btn.Name = "OpnRec" + (Properties.Settings.Default.OpenRecent.Count - i + 1);
+                btn.Text = (Properties.Settings.Default.OpenRecent.Count - i + 1).ToString() + ". " + Properties.Settings.Default.OpenRecent[i - 1];
+                btn.Click += OpenRecent_click;
+                openRecentToolStripMenuItem.DropDownItems.Add(btn);
+
+            }
+            ToolStripMenuItem clr = new ToolStripMenuItem();
+            clr.Name = "OpnRecClr";
+            clr.Text = "Clear";
+            clr.Click += OpenRecentClear;
+            openRecentToolStripMenuItem.DropDownItems.Add(clr);
+        }
         public Dictionary<string, AllInfoSection> DesignInfos = new Dictionary<string, AllInfoSection>();
         public Dictionary<string, AllInfoSection> SoundInfos = new Dictionary<string, AllInfoSection>();
         public Dictionary<string, AllInfoSection> MapInfos = new Dictionary<string, AllInfoSection>();
@@ -3349,7 +3725,7 @@ namespace The4Dimension
             foreach (string section in AllInfos.Keys)
             {
 
-                    MapInfos[section].AddRange(AllInfos[section]);
+                MapInfos[section].AddRange(AllInfos[section]);
                 
             }
             //MapInfos = new Dictionary<string, AllInfoSection>(AllInfos);
@@ -3407,6 +3783,7 @@ namespace The4Dimension
                     SzsArch.FromFileSystem(snddir);
                     File.WriteAllBytes(SoundFile, y.Compress(SzsArch.Write()));
                 }
+                AddRecentOpen(filename);
                 MessageBox.Show("Done !");
             }
             else
@@ -3425,6 +3802,9 @@ namespace The4Dimension
                 dir.Files.Add(StgData);
                 SzsArch.FromFileSystem(dir);
                 File.WriteAllBytes(filename, y.Compress(SzsArch.Write()));
+
+                AddRecentOpen(filename);
+
                 MessageBox.Show("Done !");
             }
         }
@@ -3739,7 +4119,7 @@ namespace The4Dimension
         void WriteOBJ(XmlWriter xr, LevelObj obj)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
-            if (obj.ToString().StartsWith("@")) return; //for @CameraPositionHelper
+            if (obj.GetName(true).StartsWith("@")) return; //for @CameraPositionHelper /*db name*/
             xr.WriteStartElement("C1");
             List<string> Keys = obj.Prop.Keys.ToList();
             Keys.Sort(StringComparer.Ordinal);
@@ -3801,16 +4181,19 @@ namespace The4Dimension
                 }
                 else
                 {
-                    Node tmp = (Node)node;
-                    string startelement = tmp._StringNodeType;
-                    if (tmp.NodeType == Node.NodeTypes.Empty) startelement = "A1";
-                    else if (tmp.NodeType == Node.NodeTypes.String) startelement = "A0";
-                    else if (tmp.NodeType == Node.NodeTypes.Int) startelement = "D1";
-                    else if (tmp.NodeType == Node.NodeTypes.Single) startelement = "D2";
-                    xr.WriteStartElement(startelement);
-                    xr.WriteAttributeString("Name", Key);
-                    xr.WriteAttributeString("StringValue", tmp.StringValue);
-                    xr.WriteEndElement();
+                    if (NewObjectDatabase == null || !NewObjectDatabase.DBtoId.ContainsKey(node.ToString()))
+                    {
+                        Node tmp = (Node)node;
+                        string startelement = tmp._StringNodeType;
+                        if (tmp.NodeType == Node.NodeTypes.Empty) startelement = "A1";
+                        else if (tmp.NodeType == Node.NodeTypes.String) startelement = "A0";
+                        else if (tmp.NodeType == Node.NodeTypes.Int) startelement = "D1";
+                        else if (tmp.NodeType == Node.NodeTypes.Single) startelement = "D2";
+                        xr.WriteStartElement(startelement);
+                        xr.WriteAttributeString("Name", Key);
+                        xr.WriteAttributeString("StringValue", tmp.StringValue);
+                        xr.WriteEndElement();
+                    }
                 }
             }
             xr.WriteEndElement();
@@ -3964,7 +4347,8 @@ namespace The4Dimension
             StatusLbl.Text = "";
             StatusLbl.Visible = false;
             downloadLatestObjectDatabaseToolStripMenuItem.Enabled = true;
-            if (ObjectDatabase == null) LoadObjectDatabase();
+            //if (ObjectDatabase == null) LoadObjectDatabase();
+            if (NewObjectDatabase == null) LoadNewDatabase();
         }
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4046,7 +4430,7 @@ namespace The4Dimension
                     if (typ.GetHashCode() == CurrentAllInfosSection.GetHashCode()) UpdateOBJPos(ido, typ, TypeName, true);
                 
             };
-            Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
+            Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
             UpdateOBJPos(id, GetListByName(type), type);
             propertyGrid1.Update();
             propertyGrid1.Refresh();
@@ -4116,7 +4500,7 @@ namespace The4Dimension
                     if (type.GetHashCode() == CurrentAllInfosSection.GetHashCode()) UpdateOBJPos(id, type, TypeName, true);
                 
             };
-            Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].ToString(), new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
+            Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
             UpdateOBJPos(ido, GetListByName(typo), typo);
             propertyGrid1.Update();
             propertyGrid1.Refresh();
@@ -4192,6 +4576,853 @@ namespace The4Dimension
             }
             FormEditors.FrmWorldEditor f = new FormEditors.FrmWorldEditor();
             f.ShowDialog();
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            Panell1.Refresh();
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            Panell1.Resize();
+        }
+        private void RefreshTabs(List<string> remove, List<string> add)
+        {
+            if (remove != null)
+            {
+                foreach (string s in remove)
+                {
+                    if (SelectedProperties.TabPages.Contains(PropertyTabs[s]))
+                    {
+                        SelectedProperties.TabPages.Remove(PropertyTabs[s]);
+                    }
+
+                }
+            }
+            if (add != null)
+            {
+                foreach (string s in add)
+                {
+                    if (!SelectedProperties.TabPages.Contains(PropertyTabs[s]))
+                    {
+                        SelectedProperties.TabPages.Add(PropertyTabs[s]);
+                    }
+                }
+            }
+        }
+        bool refreshdone = false;
+        private void RefreshProperties()
+        {
+            refreshdone = false;
+            if (CurrentAllInfosSection.Count > 0)
+            {
+                ClippingGroupId.Enabled = false;
+                Priority.Enabled = false;
+                ClippingGroupIdChck.Checked = false;
+                PriorityChck.Checked = false;
+                foreach (KeyValuePair<string, TabPage> tabs in PropertyTabs)
+                {
+                    foreach (KeyValuePair<string, object> prop in CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop)
+                    {
+
+                        string tabidentifier = "";
+                        if (SelectedProperties.TabPages.Contains(tabs.Value))
+                        {
+                            if (tabs.Key == "General")
+                            {
+                                tabidentifier = "Gen";
+                                CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
+                                //break;
+                            }
+                            else if (tabs.Key == "Extra")
+                            {
+                                if (prop.Key == "ClippingGroupId" || prop.Key == "Priority")
+                                {
+                                    ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
+                                    ((CheckBox)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key+"Chck")]).Checked = true;
+                                    ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Enabled = true;
+                                }
+                                else if (prop.Key == "GenerateChildren" || prop.Key == "AreaChildren")
+                                {
+
+                                }
+                                else if (prop.Key == "Rail")
+                                {
+                                    ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).Text = "Edit Rail : "+ prop.Value.ToString();
+                                    if (prop.Value.ToString().Contains("Unk Type (FF)"))
+                                    {
+                                        ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).Text = "Fix Rail : " + prop.Value.ToString();
+                                        ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).BackColor = Color.Red;
+                                    }
+                                    else
+                                    {
+                                        ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).BackColor = default;
+                                    }
+
+                                }
+                                if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("Rail"))
+                                {
+                                    ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).BackColor = default;
+                                    ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).Text = "Add Rail";
+                                }
+                            }
+                            else if (tabs.Key == "StartGeneral")
+                            {
+                                tabidentifier = "Mario";
+                                CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
+                                //break;
+                            }
+                            else if (tabs.Key == "DemoExtra")
+                            {
+                                tabidentifier = "Demo";
+                                CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
+                                //break;
+                            }
+                            else if (tabs.Key == "Args" || tabs.Key == "DefArgs")
+                            {
+                                if (prop.Key == "Arg") 
+                                { 
+                                    RefreshArgs(); 
+                                }
+                                
+                                //break;
+                            }
+                        }
+
+                    }
+                }
+            }
+            else if (AllRailInfos.Count > 0)
+            {
+                foreach (KeyValuePair<string, TabPage> tabs in PropertyTabs)
+                {
+                    Rail prop = AllRailInfos[ObjectsListBox.SelectedIndex];
+                    string tabidentifier = "";
+                    if (SelectedProperties.TabPages.Contains(tabs.Value))
+                    {
+                        if (tabs.Key == "Rail")
+                        {
+                            tabidentifier = "Rail";
+                            RailName.Text = prop.Name;
+                            Raill_id.Value = prop.l_id;
+                            RailLayerName.Text = prop.LayerName;
+                            Railno.Value = prop.no;
+                            RailClosed.Checked = prop.Closed;
+                            RailType.SelectedIndex = RailType.Items.IndexOf(prop.Type);
+                            EditRailBtn.Tag = prop.Points;
+                            ObjectName.Text = "Rail : " + prop.Name;
+                        }
+                        else if (tabs.Key == "Args" || tabs.Key == "DefArgs")
+                        {
+                            RefreshArgs();
+                        }
+                    }
+                }
+            }
+            refreshdone = true;
+        }
+        private void CurrentProperty(string tabidentifier, KeyValuePair<string, object> prop, KeyValuePair<string, TabPage> tabs, Dictionary<string,object> objprop)
+        {
+            if (SelectedProperties.TabPages[tabs.Key].Controls.IndexOfKey(tabidentifier + prop.Key) != -1 || SelectedProperties.TabPages[tabs.Key].Controls.IndexOfKey(tabidentifier + prop.Key + 0) != -1)
+            {
+                if (prop.Value.GetType() == typeof(Node))
+                {
+                    if (((Node)prop.Value).NodeType == Node.NodeTypes.String)
+                    {
+                        SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key)].Text = prop.Value.ToString().Substring(9);
+                        if (prop.Key == "name")
+                        {
+                            if (objprop.ContainsKey("dbname"))
+                            {
+                                ObjectName.Text = objprop["dbname"].ToString();
+                                if (NewObjectDatabase.Entries[objprop["name"].ToString().Substring(9)].extra != null && NewObjectDatabase.Entries[objprop["name"].ToString().Substring(9)].extra != "")
+                                {
+                                    toolTip1.SetToolTip(ObjectName, NewObjectDatabase.Entries[objprop["name"].ToString().Substring(9)].extra);
+                                }
+                                else
+                                {
+                                    toolTip1.SetToolTip(ObjectName, "No info available for this object.");
+                                }
+                            }
+                            else
+                            {
+                                ObjectName.Text = objprop["name"].ToString().Substring(9) + " - (Undocumented object)";
+                                toolTip1.SetToolTip(ObjectName, "No info available for this object.");
+                            }
+                        }
+                    }
+                    else if (((Node)prop.Value).NodeType == Node.NodeTypes.Int)
+                    {
+                        ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
+                    }
+                }
+                else if ((prop.Value).GetType() == typeof(Single[]))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key + i)]).Value = (decimal)((Single[])prop.Value)[i];
+                    }
+                }
+            }
+        }
+        private void RefreshArgs()
+        {
+            if (comboBox1.SelectedItem.ToString() == "StartInfo" || comboBox1.SelectedItem.ToString() == "CameraAreaInfo" || comboBox1.SelectedItem.ToString() == "AllRailInfos")
+            {
+                return;
+            }
+            if (SelectedProperties.TabPages.ContainsKey("DefArgs"))
+            {
+                for(int i = 0; i < ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length; i++)
+                {
+                    ((NumericUpDown)DefArgs.Controls["Defarg_int" + i.ToString()]).Value = ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[i];
+                }
+                return;
+            }
+            NewDb newDb = new NewDb();
+            if (NewObjectDatabase != null)
+            {
+                newDb = NewObjectDatabase;
+            }
+            if (CurrentAllInfosSection.Count > 0)
+            {
+                int y = 0;
+                int x = 0;
+                List<Control> args = new List<Control>();
+                foreach (Control contrl in SelectedProperties.TabPages["Args"].Controls)
+                {
+                    args.Add(contrl);
+                    if (contrl.Name == "ArgSection")
+                    {
+                        y = contrl.Top + 20;
+                    }
+                }
+                foreach (Control control in args)
+                {
+                    if (control.Name.Contains("arg"))
+                    {
+                        SelectedProperties.TabPages["Args"].Controls.Remove(control);
+                    }
+                }
+                foreach (KeyValuePair<string, object> prop in CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop)
+                {
+                    if (prop.Key == "Arg")
+                    {
+                        object objname;
+                        CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.TryGetValue("name", out objname);
+                        y += 10;
+                        int indie = 0;
+                        if (newDb != null && newDb.Entries.ContainsKey(((Node)objname).StringValue))
+                        {
+                            foreach (NewDb.EntryArg arg in ((NewDb.NewDbEntry)newDb.Entries[((Node)objname).StringValue]).args)
+                            {
+                                if (arg.type == "bool")
+                                {
+                                    CheckBox check = new CheckBox();
+                                    var valuee = prop.Value;
+                                    int value;
+                                    if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
+                                    {
+                                        value = (((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id]);
+                                    }
+                                    else
+                                    {
+                                        value = -1;
+                                    }
+                                    if (value == -1)
+                                    {
+                                        check.Checked = false;
+                                    }
+                                    else
+                                    {
+                                        check.Checked = true;
+                                    }
+                                    ToolTip labeltt = new ToolTip();
+                                    labeltt.SetToolTip(check, newDb.Entries[((Node)objname).StringValue].args[indie].info);
+                                    check.Enabled = true;
+                                    check.Visible = true;
+                                    check.Top = y;
+                                    check.Left = 10;
+                                    check.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
+                                    check.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                    check.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                    check.Name = "arg_bool" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
+                                    check.CheckedChanged += new System.EventHandler(this.checkupdated);
+                                    SelectedProperties.TabPages["Args"].Controls.Add(check);
+                                    y += 25;
+                                }
+                                else if (arg.type == "option")
+                                {
+                                    x = 0;
+                                    ComboBox combobox = new ComboBox();
+                                    foreach (string option in arg.options.Keys)
+                                    {
+                                        combobox.Items.Add(option);
+                                    }
+                                    var valuee = prop.Value;
+                                    int value = 0;
+                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].revoptions.ContainsKey(((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()))
+                                    {
+                                        if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
+                                        {
+                                            value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()]);
+                                        }
+                                        else
+                                        {
+                                            value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[newDb.Entries[((Node)objname).StringValue].args[indie].default_value]);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[newDb.Entries[((Node)objname).StringValue].args[indie].default_value]);
+                                    }
+                                    combobox.SelectedIndex = value;
+                                    combobox.DropDownStyle = ComboBoxStyle.DropDownList;
+                                    combobox.Name = "arg_option" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
+
+                                    combobox.Tag = indie;
+                                    combobox.SelectedIndexChanged += new System.EventHandler(this.comboboxupdated);
+
+                                    Label label = new Label();
+                                    label.Height = 15;
+                                    label.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
+                                    label.Top = y;
+                                    label.Left = x;
+                                    label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+                                    label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                    label.Width = label.Width - 10;
+                                    x += 100;
+                                    combobox.Top = y;
+                                    combobox.Left = x;
+                                    ToolTip labeltt = new ToolTip();
+                                    labeltt.SetToolTip(label, newDb.Entries[((Node)objname).StringValue].args[indie].info);
+                                    label.Name = "lbl_arg" + indie;
+                                    SelectedProperties.TabPages["Args"].Controls.Add(combobox);
+                                    SelectedProperties.TabPages["Args"].Controls.Add(label);
+                                    
+                                    y += 25;
+                                    //newDb.Entries[(string)objname].args[indie].revoptions[((int[])valuee)[newDb.Entries["Kinopio"].args[indie].arg_id]];
+                                }
+                                else if (arg.type == "int")
+                                {
+                                    x = 0;
+                                    var valuee = prop.Value;
+                                    int value;
+                                    if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
+                                    {
+                                        value = (((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id]);
+                                    }
+                                    else
+                                    {
+                                        value = -1;
+                                    }
+                                    NumericUpDown upDown = new NumericUpDown();
+                                    upDown.DecimalPlaces = 0;
+                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].min != 0)
+                                    {
+                                        upDown.Minimum = newDb.Entries[((Node)objname).StringValue].args[indie].min;
+                                    }
+                                    else
+                                    {
+                                        upDown.Minimum = -1;
+                                    }
+                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].max != 0)
+                                    {
+                                        upDown.Maximum = newDb.Entries[((Node)objname).StringValue].args[indie].max;
+                                    }
+                                    else
+                                    {
+                                        upDown.Maximum = 1000;
+                                    }
+
+                                    upDown.Name = "arg_int" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
+                                    upDown.Value = value;
+                                    upDown.Enabled = true;
+                                    upDown.Visible = true;
+                                    upDown.ValueChanged += new System.EventHandler(this.numupdownupdated);
+                                    Label label = new Label();
+                                    label.Height = 15;
+                                    label.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
+                                    label.Top = y;
+                                    label.Left = x;
+                                    label.Name = "lbl_arg" + indie;
+                                    label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+                                    label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                    ToolTip labeltt = new ToolTip();
+                                    labeltt.SetToolTip(label, newDb.Entries[((Node)objname).StringValue].args[indie].info);
+                                    label.Width = label.Width - 10;
+                                    x += 100;
+                                    upDown.Top = y;
+                                    upDown.Left = x;
+                                    SelectedProperties.TabPages["Args"].Controls.Add(label);
+                                    SelectedProperties.TabPages["Args"].Controls.Add(upDown);
+                                    y += 25;
+                                }
+                                indie++;
+                            }
+                            y += 10;
+                            break;
+                        }
+                        else
+                        {
+                            int z = 0;
+                            foreach (int i in (int[])prop.Value)
+                            {
+
+
+                                /*
+                                x = 0;
+                                int value = i;
+                                NumericUpDown upDown = new NumericUpDown();
+                                upDown.DecimalPlaces = 0;
+                                upDown.Minimum = -1;
+                                upDown.Maximum = 1000;
+                                upDown.Name = "arg_int" + z;
+                                upDown.Value = value;
+                                upDown.Enabled = true;
+                                upDown.Visible = true;
+                                upDown.ValueChanged += new System.EventHandler(this.numupdownupdated);
+                                Label label = new Label();
+                                label.Height = 15;
+                                label.Text = "Arg[" + z.ToString() + "] :";
+                                label.Name = "lbl_arg" + z;
+                                label.Top = y;
+                                label.Left = x;
+                                label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+                                label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                label.Width = label.Width - 10;
+                                x += 100;
+                                upDown.Top = y;
+                                upDown.Left = x;
+                                SelectedProperties.TabPages["Args"].Controls.Add(label);
+                                SelectedProperties.TabPages["Args"].Controls.Add(upDown);
+                                y += 25;
+                                z++;*/
+                            }
+                            y += 10;
+                            break;
+                        }
+
+
+                    }
+                }
+            }
+            else if (AllRailInfos.Count > 0)
+            {
+                
+            }
+        }
+        private void numupdownupdated(object sender, EventArgs e)
+        {
+            if (refreshdone == false) return;
+            if (((NumericUpDown)sender).Name.ToLower().Contains("arg"))
+            {
+                if (((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length < 10)
+                {
+                    int z = 0;
+                    int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+                    foreach (int iii in (int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])
+                    {
+                        array[z] = iii;
+                        z++;
+                    }
+                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"] = array;
+                }
+                ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[int.Parse(((NumericUpDown)sender).Name.Substring(((NumericUpDown)sender).Name.Length-1))] = (int)((NumericUpDown)sender).Value;
+
+            }
+            else
+            {
+                string tabidentifier = "";
+                
+                if (CurrentAllInfosSection.Count > 0)
+                {
+                    if (SelectedProperties.SelectedTab.Name == "General")
+                    {
+                        tabidentifier = "Gen";
+                        
+                    }
+                    else if (SelectedProperties.SelectedTab.Name == "Extra")
+                    {
+                        
+                    }
+                    else if (SelectedProperties.SelectedTab.Name == "StartGeneral")
+                    {
+                        tabidentifier = "Mario";
+                    }
+                    else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
+                    {
+                        tabidentifier = "Demo";
+                    }
+                    string property = ((NumericUpDown)sender).Name.Substring(tabidentifier.Length);
+                    property = property;
+                    int index = 0;
+                    string numbered = "";
+                    if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(property))
+                    {
+                        index = int.Parse(property.Substring(property.Length - 1));
+                        numbered = property.Substring(0, property.Length - 1);
+                        if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(numbered))
+                        {
+                            CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
+                            return;
+                        }
+                        else
+                        {
+                            property = numbered;
+                        }
+                    }
+                    if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property].GetType() == typeof(Node))
+                    {
+                        ((Node)(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property])).StringValue = ((NumericUpDown)sender).Value.ToString();
+                    }
+                    else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[numbered].GetType() == typeof(Single[]))
+                    {
+
+                        ((Single[])(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[numbered]))[index] = (Single)((NumericUpDown)sender).Value;
+                        UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, CurrentAllInfosSectionName);
+                    }
+                    //selectedobject.prop[property] = ((NumericUpDown)sender).Value;
+                }
+                else if (AllRailInfos.Count > 0)
+                {
+                    tabidentifier = "Rail";
+                    string property = ((NumericUpDown)sender).Name.ToLower().Substring(tabidentifier.Length);
+                    AllRailInfos[ObjectsListBox.SelectedIndex][property] = (Int32)(((NumericUpDown)sender).Value);
+                }
+
+            }
+        }
+        private void checkupdated(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Name.ToLower().Contains("arg"))
+            {
+                if (CurrentAllInfosSection.Count > 0)
+                {
+                    if (((int[])(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])).Length < 10)
+                    {
+                        int z = 0;
+                        int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+                        foreach (int iii in (int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])
+                        {
+                            array[z] = iii;
+                            z++;
+                        }
+                        CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"] = array;
+                    }
+                    int value;
+                    if (((CheckBox)sender).Checked)
+                    {
+                        value = 1;
+                    }
+                    else
+                    {
+                        value = -1;
+                    }
+                ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[int.Parse(((CheckBox)sender).Name.Substring(8))] = value;
+
+                }
+                else if (AllRailInfos.Count > 0)
+                {
+
+                    if ((AllRailInfos[ObjectsListBox.SelectedIndex].Arg).Count < 10)
+                    {
+                        int z = 0;
+                        int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+                        foreach (int iii in (AllRailInfos[ObjectsListBox.SelectedIndex].Arg))
+                        {
+                            array[z] = iii;
+                            z++;
+                        }
+                        AllRailInfos[ObjectsListBox.SelectedIndex].Arg = array.ToList();
+                    }
+                    int value;
+                    if (((CheckBox)sender).Checked)
+                    {
+                        value = 1;
+                    }
+                    else
+                    {
+                        value = -1;
+                    }
+                (AllRailInfos[ObjectsListBox.SelectedIndex].Arg)[int.Parse(((CheckBox)sender).Name.Substring(8))] = value;
+
+                }
+            }
+            else
+            {
+                if (CurrentAllInfosSection.Count > 0)
+                {
+
+                }
+                else if (AllRailInfos.Count > 0)
+                {
+                    if (((CheckBox)sender).Checked)
+                    {
+                        (AllRailInfos[ObjectsListBox.SelectedIndex].Closed) = true;
+                    }
+                    else
+                    {
+                        (AllRailInfos[ObjectsListBox.SelectedIndex].Closed) = false;
+                    }
+                }
+            }
+        }
+        private void comboboxupdated(object sender, EventArgs e)
+        {
+            if (((ComboBox)sender).Name.ToLower().Contains("arg"))
+            {
+                if (!int.TryParse(((Control)sender).Tag.ToString(), out _))
+                {
+                    string a;
+                    ((NewDb.EntryProperty)((ComboBox)sender).Tag).options.TryGetValue(((ComboBox)sender).SelectedItem.ToString(), out a);
+                    //a = newDb.KnownProperties[].options;
+                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[((Control)sender).Name] = new Node(a, "A0");
+                }
+                else
+                {
+                    if (((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length < 10)
+                    {
+                        int z = 0;
+                        int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+                        foreach (int iii in (int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])
+                        {
+                            array[z] = iii;
+                            z++;
+                        }
+                        CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"] = array;
+                    }
+                    string aaa = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"].ToString().Substring(9);
+                    string addaa = ((ComboBox)sender).Name.Substring(10);
+                    string omg = ((ComboBox)sender).SelectedItem.ToString();
+                    int value = int.Parse(NewObjectDatabase.Entries[aaa].args[(int)(((ComboBox)sender).Tag)].options[omg]);
+                    ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[int.Parse(((ComboBox)sender).Name.Substring(10))] = value;
+                }
+            }
+            else
+            {
+                if (CurrentAllInfosSection.Count > 0)
+                {
+                    string start = "";
+                    if (SelectedProperties.SelectedTab.Name == "DemoExtra")
+                    {
+                        start = "Demo";
+                    }
+                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[((ComboBox)sender).Name.Substring(start.Length)] = ((ComboBox)sender).SelectedText;
+                }
+                else if (AllRailInfos.Count > 0)
+                {
+                    AllRailInfos[ObjectsListBox.SelectedIndex].Type = ((ComboBox)sender).Text;
+                }
+            }
+        }
+
+        private void EditChildrenBtn_Click(object sender, EventArgs e)
+        {
+            if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey((string)((Control)sender).Tag))
+            {
+                EditC0List(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[(string)((Control)sender).Tag] as C0List);
+            }
+            else
+            {
+                if (MessageBox.Show("This object doesn't have a "+(string)((Control)sender).Tag + " property, do you want to add it now?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add((string)((Control)sender).Tag, new C0List());
+                }
+            }
+        }
+
+        private void EditRailBtn_Click(object sender, EventArgs e)
+        {
+            if (((Button)sender).Text.Contains("Fix")|| ((Button)sender).Text.Contains("Add"))
+            {
+                CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"] = new Rail();
+                EditRailBtn.Text = "Edit Rail : " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"].ToString();
+                EditRailBtn.BackColor = default;
+                return;
+            }
+            else
+            {
+                FrmRailEditor Form = new FrmRailEditor((Rail)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"]);
+                Form.Text = "Rail : "+CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"].ToString();
+                Form.ShowDialog();
+                if (Form.edited != null)
+                {
+                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"] = Form.edited;
+                    EditRailBtn.Text = "Edit Rail : " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"].ToString();
+                }
+
+            }
+        }
+
+        private void RailPointsBtn_Click(object sender, EventArgs e)
+        {
+            FrmRailPointEditor Form = new FrmRailPointEditor(((Rail)AllRailInfos[ObjectsListBox.SelectedIndex]).Points);
+            Form.ShowDialog();
+        }
+
+        private void PropertyTBox_Validated(object sender, EventArgs e)
+        {
+            string tabidentifier = "";
+            if (((TextBox)sender).Text == "")
+            {
+                ((TextBox)sender).Text = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[((TextBox)sender).Name].ToString().Substring(9);
+            }
+            if (SelectedProperties.SelectedTab.Name == "General")
+            {
+                tabidentifier = "Gen";
+
+            }
+            else if (SelectedProperties.SelectedTab.Name == "Extra")
+            {
+            }
+            else if (SelectedProperties.SelectedTab.Name == "StartGeneral")
+            {
+                tabidentifier = "Mario";
+            }
+            else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
+            {
+                tabidentifier = "Demo";
+            }
+            else if (SelectedProperties.SelectedTab.Name == "Rail")
+            {
+                tabidentifier = "Rail";
+                string railprop = ((TextBox)sender).Name.Substring(tabidentifier.Length);
+                (AllRailInfos[ObjectsListBox.SelectedIndex][railprop]) = ((TextBox)sender).Text;
+                if (railprop == "Name")
+                {
+                    ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = AllRailInfos[ObjectsListBox.SelectedIndex].Name;
+                    ObjectName.Text = "Rail : " + AllRailInfos[ObjectsListBox.SelectedIndex].Name;
+                }
+
+                return;
+            }
+
+            string property = ((TextBox)sender).Name.Substring(tabidentifier.Length);
+            property = property;
+            if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(property))
+            {
+                CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(property, new Node(((TextBox)sender).Text, "A0"));
+            }
+            if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property].GetType() == typeof(Node))
+            {
+                ((Node)(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property])).StringValue = ((TextBox)sender).Text;
+            }
+            if (property == "name")
+            {/*
+                if (((TextBox)sender).Text == (string)((TextBox)sender).Tag)
+                {
+                    return;
+                }
+                else
+                {
+                    ((TextBox)sender).Tag = ((TextBox)sender).Text;
+                }
+                obj.Prop[((TextBox)sender).Name] = new Node(((TextBox)sender).Text, "A0");*/
+                NewDb newDb = new NewDb();
+                newDb = NewObjectDatabase;
+                if (newDb != null)
+                {
+                    if (newDb.Entries.ContainsKey(((TextBox)sender).Text))
+                    {
+                        if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("dbname"))
+                        {
+                            CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["dbname"] = newDb.IdtoDB[((TextBox)sender).Text];
+                        }
+                        else
+                        {
+                            CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add("dbname", newDb.IdtoDB[((TextBox)sender).Text]);
+                        }
+                    }
+                    else
+                    {
+                        if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("dbname"))
+                        {
+                            CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Remove("dbname");
+                            //CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["dbname"] =CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"].ToString().Substring(9);
+                        }
+                        else
+                        {
+                            //CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add("dbname", CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"].ToString().Substring(9));
+
+                        }
+                    }
+                }
+                string path = GetModelname(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true));//db name
+                if (!System.IO.File.Exists(path)) path = "models\\UnkBlue.obj";
+                foreach (int i in ObjectsListBox.SelectedIndices) render.ChangeModel(CurrentAllInfosSectionName, i, path);
+                UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, CurrentAllInfosSectionName);
+
+                fullrefresh = false;
+                if (newDb != null && newDb.IdtoDB.ContainsKey(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"].ToString().Substring(9)))
+                {
+                    ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["dbname"].ToString();
+                }
+                else
+                {
+                    ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"].ToString().Substring(9);
+                }
+
+                fullrefresh = true;
+
+
+                RefreshProperties();
+            }
+        }
+
+        private void EnableDisableCheck(object sender, EventArgs e)
+        {
+            if (!refreshdone) return;
+            if (((CheckBox)sender).Checked == true)
+            {
+                SelectedProperties.TabPages[SelectedProperties.SelectedTab.Name].Controls[(string)((CheckBox)sender).Tag].Enabled = true;
+                
+                AddRemoveProp(sender, (string)((CheckBox)sender).Tag, new Node("-1", "D1"));
+
+            }
+            else
+            {
+                SelectedProperties.TabPages[SelectedProperties.SelectedTab.Name].Controls[(string)((CheckBox)sender).Tag].Enabled = false;
+                AddRemoveProp(sender, (string)((CheckBox)sender).Tag);
+            }
+        }
+        private void AddRemoveProp(object sender, string propname = null , Node property = null)
+        {
+            string tabidentifier = "";
+            if (SelectedProperties.SelectedTab.Name == "General")
+            {
+                tabidentifier = "Gen";
+            }
+            else if (SelectedProperties.SelectedTab.Name == "StartGeneral")
+            {
+                tabidentifier = "Mario";
+            }
+            else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
+            {
+                tabidentifier = "Demo";
+            }
+           string prop = SelectedProperties.TabPages[SelectedProperties.SelectedTab.Name].Controls[(string)((CheckBox)sender).Tag].Name.Substring(tabidentifier.Length);
+            if ((object)property != null)
+            {
+                CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[prop] = property;
+
+            }
+            else
+            {
+                CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Remove(prop);
+            }
+            return;
+        }
+
+        private void PropertyTbox_Enter(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                PropertyTBox_Validated(sender, null);
+                
+            }
+            return;
         }
     }
 }
