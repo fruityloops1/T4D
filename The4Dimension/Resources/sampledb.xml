@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="Shift-JIS"?>
+
+<database version="0.0">
+<categories>
+		<category id="1" name="Main stage elements"/>
+		<category id="2" name="Decorations and effects"/>
+		<category id="3" name="Enemies"/>
+		<category id="4" name="NPCs"/>
+		<category id="5" name="Areas"/>
+		<category id="6" name="Special events"/>
+		<category id="7" name="Misc."/>
+		<category id="0" name="Uncategorized / Unused"/>
+</categories>
+<types>
+	<type id="1" name="ObjInfo"/>
+	<type id="2" name="StartInfo"/>
+	<type id="3" name="AreaObjInfo"/>
+	<type id="4" name="CameraAreaInfo"/>
+	<type id="5" name="GoalObjInfo"/>
+	<type id="6" name="StartEventObjInfo"/>
+	<type id="7" name="DemoSceneObjInfo"/>
+</types>
+
+<objects>
+	<object id="Mario" name="Mario" category="1" type="2" extra="It's-a me, Mario!">
+		<model>Mario</model>
+	</object>	
+</objects>
+
+<properties>
+	<property name="Action1" data_type="string" default="-" text="First action" info="Action to do during the first scene"/>
+	<property name="Action2" data_type="string" default="-" text="Second action" info="Action to do during the second scene"/>
+	<property name="Action3" data_type="string" default="-" text="Third action" info="Action to do during the third scene"/>
+	<property name="Action4" data_type="string" default="-" text="Fourth action" info="Action to do during the fourth scene"/>
+	<property name="Action5" data_type="string" default="-" text="Last action" info="Action to do during the last scene"/>
+	<property name="LuigiType" data_type="string_option" default="Common" text="Unknown" info="">
+		<op name="Default" value="Common"/>
+		<op name="Luigi" value="Luigi"/>
+		<op name="Mario" value="Mario"/>
+		<op name="Only mini" value="MiniOnly"/>
+	</property>	
+	<property name="MarioType" data_type="string_option" default="Common" text="Unknown" info="">
+		<op name="Default" value="Common"/>
+		<op name="Luigi" value="Luigi"/>
+		<op name="Mario" value="Mario"/>
+		<op name="Only mini" value="MiniOnly"/>
+	</property>	
+	<property name="SuffixName" data_type="string" default="-" text="Unknown:" info=""/>
+	<property name="ModelName" data_type="string" default="-" text="Object to use as actor:" info="Each object has its own actions"/>
+	<property name="CameraId" data_type="int" default="-1" text="Camera ID:" info="Determines the camera code to use from CameraParams.byml when it's used in a CameraArea and similar. Unused in everything else."/>
+	<property name="ClippingGroupId" data_type="int" default="-1" text="Clipping group ID:" info="Determines the clipping group"/>
+	<property name="GenerateParent" data_type="int" default="-1" text="Parent ID:" info="ID of this object's parent, not needed"/>
+	<property name="AreaParent" data_type="int" default="-1" text="Parent ID:" info="ID of this area's parent, not needed"/>
+	<property name="LayerName" data_type="string" default="‹¤’Ê" text="Layer name:" info="Name of the layer where this object's located (Unknown use)"/>
+	<property name="MultiFileName" data_type="string" default="StageData_tool" text="Unknown" info="Unknown use"/>
+	<property name="name" data_type="string" default="Kuribo" text="Object name:" info="The name used by the game to recognise this object"/>
+	<property name="ShapeModelNo" data_type="int" default="-1" text="Unknown:" info="Unknown"/>
+	<property name="SwitchA" data_type="int" default="-1" text="Switch A:" info="When you do something it activates the given switch (Some objects use SwitchA to activate, using it like SwitchAppear)"/>
+	<property name="SwitchB" data_type="int" default="-1" text="Switch B:" info="When you do something else it activates the given switch"/>
+	<property name="SwitchKill" data_type="int" default="-1" text="Die on switch:" info="Gets killed on given switch"/>
+	<property name="SwitchAppear" data_type="int" default="-1" text="Appear on:" info="Appears on given switch"/>
+	<property name="SwitchDeadOn" data_type="int" default="-1" text="Activate on death switch:" info="Activates if this object is killed"/>
+	<property name="ViewId" data_type="int" default="-1" text="ViewCtrlArea ID:" info="ID of the area where this object will be loaded (with -1 it's loaded all the time)"/>
+	<property name="l_id" data_type="int" default="-1" text="Object ID:" info="ID of this object in the level"/>
+	<property name="pos" data_type="float_array" text="Position:" info="Object's position">
+		<entry name="X" value="0"/>
+		<entry name="Y" value="0"/>
+		<entry name="Z" value="0"/>
+	</property>	
+	<property name="dir" data_type="float_array" text="Rotation:" info="Object's rotation">
+		<entry name="X" value="0"/>
+		<entry name="Y" value="0"/>
+		<entry name="Z" value="0"/>
+	</property>	
+	<property name="scale" data_type="float_array" text="Scale:" info="Object's scale">
+		<entry name="X" value="1"/>
+		<entry name="Y" value="1"/>
+		<entry name="Z" value="1"/>
+	</property>	
+	<property name="Priority" data_type="int" default="-1" text="Priority:" info="This area's priority over other areas of the same type, the higher the value the higher in the hierarchy it'll be"/>
+	<property name="GenerateChildren" data_type="C0List" text="Children objects:" info="A list of the children objects of this object"/>
+	<property name="ChildrenArea" data_type="C0List" text="Children areas:" info="A list of the children of this object"/>
+	<property name="Rail" data_type="Rail" text="Rail:" info="A rail used by this object"/>
+</properties>
+</database>

@@ -239,7 +239,10 @@ namespace The4Dimension.BgmEditors
                     else if (n.Attributes["Name"].Value == "StageName") name = n.Attributes["StringValue"].Value;
                     else if (n.Attributes["Name"].Value == "BgmLabel") music = n.Attributes["StringValue"].Value;
                 }
-                name = name + "Map" + scenario.ToString() + ".szs";
+                if (name != "SkyChikuwaSp2Stage")
+                {
+                    name = name + "Map" + scenario.ToString() + ".szs";
+                }
                 Levels.Add(name, music);
                 if (!Music.Contains(music)) Music.Add(music);
             }
@@ -269,8 +272,15 @@ namespace The4Dimension.BgmEditors
                 return;
             }
             comboBox1.Enabled = true;
-
-            comboBox1.Text = Levels[LevelsNum[WorldLevelDict[comboBox2.SelectedIndex][listBox1.SelectedIndex]]];
+            if (LevelsNum[WorldLevelDict[comboBox2.SelectedIndex][listBox1.SelectedIndex]].Equals("SkyChikuwaStageMap2.szs"))
+            {
+                comboBox1.Text = Levels["SkyChikuwaSp2Stage"];
+            }
+            else
+            {
+                comboBox1.Text = Levels[LevelsNum[WorldLevelDict[comboBox2.SelectedIndex][listBox1.SelectedIndex]]];
+            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

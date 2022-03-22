@@ -500,8 +500,23 @@ namespace The4Dimension
         public List<EntryProperty> KnownProperties = new List<EntryProperty>();
         public Dictionary<string, string> DBtoId = new Dictionary<string, string>();//Goomba, Kuribo
         public Dictionary<string, string> IdtoDB = new Dictionary<string, string>();//Kuribo, Goomba
-        public Dictionary<string, string> IdToModel = new Dictionary<string, string>();//
+        public Dictionary<string, string> IdToModel = new Dictionary<string, string>();// Wanwan, Wanwan
         public decimal version;
+        public decimal docpercent(Dictionary<string, string> CCNT)
+        {
+            decimal ret = 0;
+            int doc = 0;
+            decimal accnt = CCNT.Count; 
+            foreach(NewDbEntry entry in Entries.Values)
+            {
+                if (CCNT.ContainsKey(entry.filename))
+                {
+                    doc += 1;
+                }
+            }
+            ret = Math.Round((doc / accnt)*100, 2);
+            return ret;
+        }
         public static NewDb FromXml(string xml)
         {
             NewDb res = new NewDb();
@@ -681,6 +696,21 @@ namespace The4Dimension
             public Dictionary<string, string> options = new Dictionary<string, string>();
             public Dictionary<string, string> revoptions = new Dictionary<string, string>();
             public Dictionary<string, string> array = new Dictionary<string, string>();
+        }
+        public NewDb Copy()
+        {
+            NewDb newdatabase = new NewDb();
+
+            newdatabase.Categories = new Dictionary<int, string>(Categories);
+            newdatabase.Entries = new Dictionary<string, NewDbEntry>(Entries);
+            newdatabase.DBtoId = new Dictionary<string, string>(DBtoId);
+            newdatabase.IdtoDB = new Dictionary<string, string>(IdtoDB);
+            newdatabase.IdToModel = new Dictionary<string, string>(IdToModel);
+            newdatabase.Types = new Dictionary<int, string>(Types);
+            newdatabase.KnownProperties = new List<EntryProperty>(KnownProperties);
+            newdatabase.version = version;
+
+            return newdatabase;
         }
     }
     public class DbCategory

@@ -15,37 +15,75 @@ namespace The4Dimension
     public partial class ObjectDbEditor : Form
     {
         ObjectDb database;
-
+        NewDb ndb;
+        public NewDb NewDatabase;
+        public Dictionary<string, string> CCNT = new Dictionary<string, string>();
         public ObjectDbEditor(ObjectDb db)
         {
             InitializeComponent();
             database = db;
         }
-
-        private void ObjectDbEditor_Load(object sender, EventArgs e)
+        public ObjectDbEditor(NewDb db)
         {
-            listView1.MultiSelect = Debugger.IsAttached;
-            button1.Visible = Debugger.IsAttached;
-            textBox2.Visible = Debugger.IsAttached;
-            comboBox1.Items.AddRange(database.Categories.Values.ToArray());
-            comboBox1.Text = "All";
-            listView1.View = View.Details;
-            listView1.HeaderStyle = ColumnHeaderStyle.None;
-            UpdateResults();
+            InitializeComponent();
+            ndb = db;
         }
 
-        void UpdateResults()
+        bool firstdelete = true;
+        private void ObjectDbEditor_Load(object sender, EventArgs e)
         {
+            listView1.MultiSelect = false;
+            comboBox1.Items.AddRange(ndb.Categories.Values.ToArray());
+            comboBox2.Items.AddRange(ndb.Categories.Values.ToArray());
+            comboBox3.Items.AddRange(ndb.Types.Values.ToArray());
+            comboBox1.Text = "All";
+            listView1.View = View.Details;
+            //listView1.HeaderStyle = ColumnHeaderStyle.None;
+            UpdateResults();
+            groupBox2.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
+        }
+
+        void fromCCNT()
+        {
+            foreach (string ccntentry in CCNT.Keys)
+            {
+                if (!ndb.Entries.ContainsKey(ccntentry))
+                {
+                    NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
+                    entry.filename = ccntentry;
+                    entry.dbname = "DB"+ccntentry;
+                    entry.modelname = "";
+                    entry.type = 1;
+                    entry.category = 0;
+                    ndb.Entries.Add(entry.filename, entry);
+                    ndb.IdtoDB.Add(entry.filename, entry.dbname);
+                    ndb.DBtoId.Add(entry.dbname, entry.filename);
+                    ndb.IdToModel.Add(entry.filename, entry.modelname);
+                }
+            }
+            UpdateResults();
+        }
+        void UpdateResults(bool clear = true)
+        {
+            groupBox2.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
             int Category;
             if (comboBox1.Text == "All") Category = -1;
-            else Category = database.Categories.Keys.ToArray()[database.Categories.Values.ToList().IndexOf(comboBox1.Text)];
+            else Category = ndb.Categories.Keys.ToArray()[ndb.Categories.Values.ToList().IndexOf(comboBox1.Text)];
             List<string> Results = new List<string>();
-            if (textBox1.Text.Trim() == "") Results = database.Entries.Keys.ToList();
+            if (textBox1.Text.Trim() == "") Results = ndb.Entries.Keys.ToList();
             else
             {
-                foreach (string s in database.Entries.Keys.ToArray())
+                foreach (string s in ndb.Entries.Keys.ToArray())
                 {
                     if (s.ToLower().StartsWith(textBox1.Text.Trim().ToLower()) || s.ToLower() == textBox1.Text.Trim().ToLower()) Results.Add(s);
+                    else if (ndb.IdtoDB[s].ToLower().StartsWith(textBox1.Text.Trim().ToLower()) || ndb.IdtoDB[s].ToLower() == textBox1.Text.Trim().ToLower()) Results.Add(s);
+                    else if(s.ToLower().Contains(textBox1.Text.Trim().ToLower())) Results.Add(s);
+                    else if(ndb.IdtoDB[s].ToLower().Contains(textBox1.Text.Trim().ToLower())) Results.Add(s);
+
                 }
             }
             if (Category != -1)
@@ -53,22 +91,44 @@ namespace The4Dimension
                 List<string> _Results = new List<string>();
                 foreach (string s in Results)
                 {
-                    if (database.Entries[s].Category == Category) _Results.Add(s);
+                    if (ndb.Entries[s].category == Category) _Results.Add(s);
                 }
                 Results = _Results;
             }
-            listView1.Items.Clear();
-            foreach (string s in Results)
+            if (clear)
             {
-                listView1.Items.Add(s);
-                Color c = Color.Red;
-                if (database.Entries[s].Known == 1) c = database.Entries[s].Complete == 0 ? Color.Orange : Color.Green;
-                listView1.Items[listView1.Items.Count - 1].ForeColor = c;
+                listView1.Items.Clear();
+                foreach (string s in Results)
+                {
+                    listView1.Items.Add(ndb.IdtoDB[s]).Name = ndb.IdtoDB[s];
+                    listView1.Items[ndb.IdtoDB[s]].SubItems.Add(s);
+                    Color c = Color.Red;
+                    //if (database.Entries[s].Known == 1) c = ndb.Entries[s].Complete == 0 ? Color.Orange : Color.Green;
+                    //listView1.Items[listView1.Items.Count - 1].ForeColor = c;
+                }
+            }
+            else
+            {
+                foreach (string s in Results)
+                {
+                    if (!listView1.Items.ContainsKey(ndb.IdtoDB[s]))
+                    {
+                        listView1.Items.Add(ndb.IdtoDB[s]).Name = ndb.IdtoDB[s];
+                        listView1.Items[ndb.IdtoDB[s]].SubItems.Add(s);
+                        Color c = Color.Red;
+                        //if (database.Entries[s].Known == 1) c = ndb.Entries[s].Complete == 0 ? Color.Orange : Color.Green;
+                        //listView1.Items[listView1.Items.Count - 1].ForeColor = c;
+                    }
+                }
             }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            groupBox2.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
+            ArgList.Items.Clear();
             UpdateResults();
         }
 
@@ -79,17 +139,43 @@ namespace The4Dimension
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            label4.Text = "";
-            if (listView1.SelectedItems.Count != 1) return;
-            ObjectDb.ObjectDbEntry entry = database.Entries[listView1.SelectedItems[0].Text];
-            if (entry.Known == 0)
+            if (listView1.SelectedItems.Count != 1)
             {
-                label4.Text += "This object is not documented";
+                groupBox2.Enabled = false;
+                button2.Enabled = false;
+                button3.Enabled = false;
+                ArgList.Items.Clear();
                 return;
             }
-            if (entry.Complete == 0) label4.Text += "(This object is not fully known)\r\n";
-            label4.Text += entry.name + ":\r\n" + entry.notes;
-            if (entry.Fields.Count > 0)
+            groupBox2.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
+            //ObjectDb.ObjectDbEntry entry = database.Entries[listView1.SelectedItems[0].Text];
+            NewDb.NewDbEntry dbEntry = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text];
+            if (dbEntry.category == 0)
+            {
+                //label4.Text += "This object is not documented";
+                //return;
+            }
+            //if (entry.Complete == 0) label4.Text += "(This object is not fully known)\r\n";
+            Txt_filename.Text = dbEntry.filename;
+            Txt_dbname.Text = dbEntry.dbname;
+            Txt_extra.Text = dbEntry.extra;
+            Txt_model.Text = dbEntry.modelname;
+            comboBox2.SelectedItem = ndb.Categories[dbEntry.category];
+            comboBox3.SelectedItem = ndb.Types[dbEntry.type];
+
+            ArgList.Items.Clear();
+            foreach (NewDb.EntryArg arg in dbEntry.args)
+            {
+                ArgList.Items.Add(arg.arg_id.ToString()).Name = arg.arg_id.ToString();
+                ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.name);
+                ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.type);
+                ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.info);
+            }
+
+
+           /* if (dbEntry.Fields.Count > 0)
             {
                 label4.Text += "\r\n\r\nArgs:";
                 for (int i = 0; i < entry.Fields.Count; i++)
@@ -97,18 +183,257 @@ namespace The4Dimension
                     label4.Text += "\r\nArg[" + entry.Fields[i].id + "] Name: " + entry.Fields[i].name + "  Type: " + entry.Fields[i].type + "\r\n  Notes:" + entry.Fields[i].notes + "\r\n  Values:" + entry.Fields[i].values;
                 }
             }
-            label4.Text += "\r\n\r\nFiles:" + entry.files + "\r\n\r\nObject category: " + database.Categories[entry.Category];
+            label4.Text += "\r\n\r\nFiles:" + entry.files + "\r\n\r\nObject category: " + database.Categories[entry.Category];*/
+        }
+        private void listView1_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = ((ListView)sender).Columns[e.ColumnIndex].Width;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {//this is for generating the switch for From1.GetModelname(string ObjName)
-            string s = "";
-            for (int i = 0; i < listView1.SelectedItems.Count; i++)
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //Add a blank object to the database 
+            NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
+            entry.filename = "NewObject";
+            entry.dbname = "New Object";
+            entry.modelname = "";
+            entry.type = 1;
+            entry.category = 0;
+            ndb.Entries.Add(entry.filename, entry);
+            ndb.IdtoDB.Add(entry.filename, entry.dbname);
+            ndb.DBtoId.Add(entry.dbname, entry.filename);
+            ndb.IdToModel.Add(entry.filename, entry.modelname);
+            UpdateResults();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //remove selected object from database after warning
+            if (( !firstdelete || MessageBox.Show("Are you sure you want to remove this object from the database? (you will still be able to access it after saving the database in the backup file)","Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)&&listView1.SelectedItems.Count > 0)
             {
-                s += "case \"" + listView1.SelectedItems[i].Text + "\":\r\n";
+                int index = ndb.Entries.Keys.ToList().IndexOf(listView1.SelectedItems[0].SubItems[1].Text);
+                ndb.Entries.Remove(listView1.SelectedItems[0].SubItems[1].Text);
+                string tempdb = ndb.IdtoDB.Values.ToList()[index];
+                string temp = ndb.DBtoId.Values.ToList()[index];
+                ndb.IdToModel.Remove(temp);
+                ndb.IdtoDB.Remove(temp);
+                ndb.DBtoId.Remove(tempdb);
+                listView1.Items.Remove(listView1.SelectedItems[0]);
+
+                UpdateResults();
+                if (index > 0)
+                {
+                    listView1.Items[index - 1].Selected = true;
+                }
+                firstdelete = false;
             }
-            s += "return \"models\\" + textBox2.Text + "\";";
-            Clipboard.SetText(s);
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //duplicate
+            NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
+            entry.filename = listView1.SelectedItems[0].SubItems[1].Text + "_copy";
+            entry.dbname = listView1.SelectedItems[0].Text + "_Duplicate";
+            entry.modelname = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].modelname;
+
+            foreach (NewDb.EntryArg arga in ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args)
+            {
+                entry.args.Add(arga);
+            }            
+            entry.type = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].type;
+            entry.category = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].category;
+            entry.extra = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].extra;
+            ndb.Entries.Add(entry.filename, entry);
+            ndb.IdtoDB.Add(entry.filename, entry.dbname);
+            ndb.DBtoId.Add(entry.dbname, entry.filename);
+            ndb.IdToModel.Add(entry.filename, entry.modelname);
+
+            UpdateResults(false);
+
+            listView1.Items[listView1.Items.IndexOfKey(entry.dbname)].Selected = true;
+
+            groupBox2.Enabled = true;
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
+        }
+
+        private void textBox4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                textBox4_Validated(sender, null);
+            }
+        }
+
+        private void textBox4_Validated(object sender, EventArgs e)
+        {
+            if (((TextBox)sender).Name.Substring(4) == "filename")
+            {
+                if (ndb.Entries.ContainsKey(((TextBox)sender).Text))
+                {
+                    if (((TextBox)sender).Focused)
+                    {
+                        MessageBox.Show("An object with this filename already exists!");
+                    }
+                    ((TextBox)sender).Text = listView1.SelectedItems[0].SubItems[1].Text;
+                }
+                else
+                {
+                    NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
+                    entry.filename = ((TextBox)sender).Text;
+                    entry.dbname = listView1.SelectedItems[0].Text;
+                    entry.modelname = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].modelname;
+                    entry.args = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args;
+                    entry.type = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].type;
+                    entry.category = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].category;
+                    entry.extra = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].extra;
+                    ndb.Entries.Add(entry.filename, entry);
+                    int index = ndb.Entries.Keys.ToList().IndexOf(listView1.SelectedItems[0].SubItems[1].Text);
+                    ndb.Entries.Remove(listView1.SelectedItems[0].SubItems[1].Text);
+                    string tempdb = ndb.IdtoDB.Values.ToList()[index];
+                    string temp = ndb.DBtoId.Values.ToList()[index];
+                    ndb.IdToModel.Remove(temp);
+                    ndb.IdtoDB.Remove(temp);
+                    ndb.DBtoId.Remove(tempdb);
+                    ndb.IdtoDB.Add(entry.filename, entry.dbname);
+                    ndb.DBtoId.Add(entry.dbname, entry.filename);
+                    ndb.IdToModel.Add(entry.filename, entry.modelname);
+                    //remove old entry, add again with new info
+                    listView1.SelectedItems[0].SubItems[1].Text = ((TextBox)sender).Text; listView1.SelectedItems[0].SubItems[1].Name = ((TextBox)sender).Text;
+
+                }
+
+            }
+            else if (((TextBox)sender).Name.Substring(4) == "dbname")
+            {
+                if (ndb.DBtoId.ContainsKey(((TextBox)sender).Text))
+                {
+                    if (((TextBox)sender).Focused)
+                    {
+                        MessageBox.Show("An object with this database name already exists!");
+                    }
+                    ((TextBox)sender).Text = listView1.SelectedItems[0].Text;
+                }
+                else
+                {
+                    NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
+                    entry.filename = listView1.SelectedItems[0].SubItems[1].Text;
+                    entry.dbname = ((TextBox)sender).Text;
+                    entry.modelname = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].modelname;
+                    entry.args = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args;
+                    entry.type = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].type;
+                    entry.category = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].category;
+                    entry.extra = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].extra;
+                    ndb.Entries.Remove(listView1.SelectedItems[0].SubItems[1].Text);
+                    ndb.Entries.Add(entry.filename, entry);
+                    int index = ndb.Entries.Keys.ToList().IndexOf(listView1.SelectedItems[0].SubItems[1].Text);
+                    string tempdb = ndb.IdtoDB.Values.ToList()[index];
+                    string temp = ndb.DBtoId.Values.ToList()[index];
+                    ndb.IdtoDB.Remove(temp);
+                    ndb.DBtoId.Remove(tempdb);
+                    ndb.IdtoDB.Add(entry.filename, entry.dbname);
+                    ndb.DBtoId.Add(entry.dbname, entry.filename);
+                    //remove old entry, add again with new info
+                    listView1.SelectedItems[0].Text = ((TextBox)sender).Text;
+                }
+            }
+            else if (((TextBox)sender).Name.Substring(4) == "extra")
+            {
+                ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].extra = ((TextBox)sender).Text;
+            }
+            else if (((TextBox)sender).Name.Substring(4) == "model")
+            {
+                ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].modelname = ((TextBox)sender).Text;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //save database from database contents
+            NewDatabase = ndb;
+            Close();
+        }
+
+        private void Args_DoubleClick(object sender, EventArgs e)
+        {
+            //open arg editor window and edit current arg
+            ObjectDB.ArgEditor A = new ObjectDB.ArgEditor(ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args, ArgList.SelectedItems[0].Index);
+            A.ShowDialog();
+            if (A.arg == null) return;
+            ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.RemoveAt(ArgList.SelectedItems[0].Index);
+            ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.Add(A.arg);
+            NewDb.EntryArg arg = A.arg;
+
+            ArgList.SelectedItems[0].Remove();
+            ArgList.Items.Add(arg.arg_id.ToString()).Name = arg.arg_id.ToString();
+            ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.name);
+            ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.type);
+            ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.info);
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //object category
+
+            ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].type = comboBox3.SelectedIndex+1;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //object type 
+
+            ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].category = comboBox2.SelectedIndex;
+        }
+
+        private void addArgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ObjectDB.ArgEditor A = new ObjectDB.ArgEditor(ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args);
+            A.ShowDialog();
+
+            if (A.arg == null) return;
+            ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.Add(A.arg);
+            NewDb.EntryArg arg = A.arg;
+            ArgList.Items.Add(arg.arg_id.ToString()).Name = arg.arg_id.ToString();
+            ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.name);
+            ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.type);
+            ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.info);
+        }
+
+        private void removeArgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ArgList.SelectedItems.Count < 1) return;
+            int indx = ArgList.SelectedItems[0].Index;
+            ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.RemoveAt(ArgList.SelectedItems[0].Index);
+            ArgList.SelectedItems[0].Remove();
+            if (indx > 0)
+            {
+                ArgList.Items[indx - 1].Selected = true;
+            }
+        }
+
+        private void ArgList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                removeArgToolStripMenuItem_Click(null, null);
+            }
+        }
+
+        private void listView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                button2_Click(null, null);
+            }
+        }
+
+        private void CCNT_Click(object sender, EventArgs e)
+        {
+            fromCCNT();
         }
     }
 }

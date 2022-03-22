@@ -17,13 +17,14 @@ namespace The4Dimension.FormEditors
         string XmlFile;
         int FogID;
         int TextInsertIndex = -1;
-        Form1 owner;
-        public FrmAddFogSettings(string Base, int ID, Form1 own)
+        int FogScenario = 0; //0 common, 1 2 3 scenario
+        public List<byte> fogparamfilenew;
+        public FrmAddFogSettings(string Base, int ID, int scenario)
         {
             InitializeComponent();
             XmlFile = Base;
             FogID = ID;
-            owner = own;
+            FogScenario = scenario;
             panel2.BackColor = Color.FromArgb(255,255,255);
             label2.Text = label2.Text + " " + FogID.ToString();
             comboBox1.SelectedIndex = 0;
@@ -100,15 +101,12 @@ namespace The4Dimension.FormEditors
             str += "<D2 Name=\"MaxDepth\" StringValue=\"" + numericUpDown3.Value.ToString() + "\" />\r\n";
             str += "<D2 Name=\"MinDepth\" StringValue=\"" + numericUpDown4.Value.ToString() + "\" />\r\n";
             str += "</C1>\r\n";
-            
-            
-            
-            
-            
+
+
             XmlFile = XmlFile.Insert(TextInsertIndex, str);
             TextInsertIndex = XmlFile.IndexOf("<A0 Name=\"FogType\" StringValue=\"");
             XmlFile = XmlFile.Insert(TextInsertIndex+32, comboBox1.Text);
-            owner.SzsFiles["FogParam1.byml"] = BymlConverter.GetByml(XmlFile);
+            fogparamfilenew = BymlConverter.GetByml(XmlFile).ToList();
             this.Close();
         }
     }

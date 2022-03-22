@@ -101,6 +101,8 @@ namespace ModelViewer
 
         }
 
+        public bool AutoCam = true;
+
         void test()
         {
         }
@@ -111,6 +113,8 @@ namespace ModelViewer
             ModelView.Camera.NearPlaneDistance = 40;
             ModelViewer.SortingFrequency = 0.5;
             ModelView.Children.Add(ModelViewer);
+            ModelViewer.CheckForOpaqueVisuals = true;
+            ModelViewer.Method = SortingMethod.BoundingBoxCenter;
             //ModelView.
         }
 
@@ -318,6 +322,14 @@ namespace ModelViewer
             }
         }
 
+        public void HideScenario(string Layer)
+        {
+            for (int i = 0; i < Positions[Layer].Count; i++)
+            {
+                ChangeTransform(Layer, i, Positions[Layer][i], new Vector3D(0, 0, 0), 0, 0, 0, false);
+            }
+        }
+
         public void LookAt(Vector3D p)
         {
             ModelView.Camera.LookAt(p.ToPoint3D(), CameraDist, CameraTime);
@@ -329,9 +341,50 @@ namespace ModelViewer
             if (Positions[Type].Count <= index) return;
             Vector3D pos = Positions[Type][index];
             Point3D point3 = new Point3D(Math.Truncate(pos.X * 100) / 100, Math.Truncate(pos.Y * 100) / 100, Math.Truncate(pos.Z * 100) / 100);
+            point3 = Models[Type][index].FindBounds(Transform3D.Identity).Location;
+            point3.X = point3.X + Models[Type][index].FindBounds(Transform3D.Identity).SizeX / 2;
+            point3.Y = point3.Y + Models[Type][index].FindBounds(Transform3D.Identity).SizeY / 2;
+            point3.Z = point3.Z + Models[Type][index].FindBounds(Transform3D.Identity).SizeZ / 2;
+            if (AutoCam)
+            {
+                CameraDist = Math.Sqrt(Math.Pow(Models[Type][index].FindBounds(Transform3D.Identity).SizeX, 2) + Math.Pow(Models[Type][index].FindBounds(Transform3D.Identity).SizeY, 2) + Math.Pow(Models[Type][index].FindBounds(Transform3D.Identity).SizeZ, 2));
+                if (CameraDist < 400)
+                {
+                    CameraDist *= 5;
+                }
+                else if (CameraDist < 1000)
+                {
+                    CameraDist *= 3;
+                }
+                else if (CameraDist < 5000)
+                {
+                    CameraDist *= 2;
+                }
+                else if (CameraDist < 6000)
+                {
+                    CameraDist *= 1.5;
+                }
+                else if (CameraDist < 12000)
+                {
+                    CameraDist /= 2;
+                }
+                else
+                {
+                    CameraDist /= 4;
+                }
+
+                double percent = ActualWidth / 506;
+                CameraDist *= percent;
+                CameraTime = 200;
+            }
             ModelView.Camera.LookAt(point3, CameraDist, CameraTime);
             Vector3D vec3 = new Vector3D(Math.Truncate(pos.X * 100) / 100, Math.Truncate(pos.Y * 100) / 100, Math.Truncate(pos.Z * 100) / 100);
             CameraTarget = vec3;
+        }
+
+        public void CameraToPoint()
+        {
+
         }
 
         public void SetCameraDirection(int x, int y, int z)
@@ -368,17 +421,18 @@ namespace ModelViewer
         public void ChangeTransform(string Type, int index, Vector3D pos, Vector3D scale, Single RotX, Single RotY, Single RotZ, bool SelectedObj)
         {
             Transform3DGroup t = new Transform3DGroup();
+            t.Children.Add(new ScaleTransform3D(scale));
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), RotX)));
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), RotY)));
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), RotZ)));
-            t.Children.Add(new ScaleTransform3D(scale));
             t.Children.Add(new TranslateTransform3D(pos));
             Positions[Type][index] = pos;
             Models[Type][index].Transform = t;
             if (SelectedObj)
             {
                 if (Models["SelectionLayer"].Count == 0) return;
-                ((BoundingBoxVisual3D)Models["SelectionLayer"][0]).BoundingBox = Models[Type][index].FindBounds(Transform3D.Identity);
+                if (Models["SelectionLayer"].Count == 1)((BoundingBoxVisual3D)Models["SelectionLayer"][0]).BoundingBox = Models[Type][index].FindBounds(Transform3D.Identity);
+
             }
         }
 
@@ -475,6 +529,11 @@ namespace ModelViewer
             ClearType("SelectionLayer");
             ClearTmpObjects(false);
             ModelView.UpdateLayout();
+        }
+
+        public void UpdateSelected(int selectedindex, int modelindex,  string Type)
+        {
+            ((BoundingBoxVisual3D)Models["SelectionLayer"][selectedindex]).BoundingBox = Models[Type][modelindex].FindBounds(Transform3D.Identity);
         }
     }
 }

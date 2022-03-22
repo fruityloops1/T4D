@@ -182,6 +182,9 @@ namespace The4Dimension.FormEditors
             dotcomma.Checked = Properties.Settings.Default.DotComma;
             HasAA.Checked = Properties.Settings.Default.HasAA;
             TextFilter.SelectedIndex = Properties.Settings.Default.TextFilter;
+            experimental.Checked  = Properties.Settings.Default.ExperimentalFeatures;
+            checkBox2.Checked = Properties.Settings.Default.UseCamSettings;
+            ShowChildren.Checked = Properties.Settings.Default.ShowChildren;
         }
         private void SetDefaultUrl_Click(object sender, EventArgs e)
         {
@@ -230,11 +233,18 @@ namespace The4Dimension.FormEditors
             rendera.HasAA = HasAA.Checked;
             Properties.Settings.Default.TextFilter = TextFilter.SelectedIndex;
             rendera.TextureFilter = TextFilter.SelectedIndex;
-            rendera.Camspeed = (double)UDCamSpeed.Value;
-            Properties.Settings.Default.CamSpeed = (double)UDCamSpeed.Value;
-            rendera.CamDistance = (double)UDCamDistance.Value;
-            Properties.Settings.Default.CamDistance = (double)UDCamDistance.Value;
+
             Properties.Settings.Default.UseDesignSound = checkBox1.Checked;
+            Properties.Settings.Default.ExperimentalFeatures = experimental.Checked;
+            Properties.Settings.Default.UseCamSettings = checkBox2.Checked;
+            Properties.Settings.Default.ShowChildren = ShowChildren.Checked;
+            if (!checkBox2.Checked)
+            {
+                rendera.Camspeed = (double)UDCamSpeed.Value;
+                Properties.Settings.Default.CamSpeed = (double)UDCamSpeed.Value;
+                rendera.CamDistance = (double)UDCamDistance.Value;
+                Properties.Settings.Default.CamDistance = (double)UDCamDistance.Value;
+            }
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -339,6 +349,35 @@ namespace The4Dimension.FormEditors
         private void button3_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This will load and save Sound and Design files for levels, as long as it exists at the same folder as the opened Map file (on load) or your level has Design or Sound specific objects/areas (on save).");
+        }
+
+        private void experimental_CheckedChanged(object sender, EventArgs e)
+        {
+            if (experimental.Checked == true &&!Properties.Settings.Default.ExperimentalFeatures)
+            {
+                MessageBox.Show("This will enable experimental features like the worldmap editor and the transparentwall generator, so use at your own risk");
+
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                label14.Enabled = false;
+                label16.Enabled = false;
+                UDCamDistance.Enabled = false;
+                UDCamSpeed.Enabled = false;
+
+            }
+            else
+            {
+                label14.Enabled = true;
+                label16.Enabled = true;
+                UDCamDistance.Enabled = true;
+                UDCamSpeed.Enabled = true;
+
+            }
         }
     }
 }

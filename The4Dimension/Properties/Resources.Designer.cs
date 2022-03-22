@@ -361,6 +361,30 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a &lt;?xml version=&quot;1.0&quot; encoding=&quot;Shift-JIS&quot;?&gt;
+        ///
+        ///&lt;database version=&quot;0.0&quot;&gt;
+        ///&lt;categories&gt;
+        ///		&lt;category id=&quot;1&quot; name=&quot;Main stage elements&quot;/&gt;
+        ///		&lt;category id=&quot;2&quot; name=&quot;Decorations and effects&quot;/&gt;
+        ///		&lt;category id=&quot;3&quot; name=&quot;Enemies&quot;/&gt;
+        ///		&lt;category id=&quot;4&quot; name=&quot;NPCs&quot;/&gt;
+        ///		&lt;category id=&quot;5&quot; name=&quot;Areas&quot;/&gt;
+        ///		&lt;category id=&quot;6&quot; name=&quot;Special events&quot;/&gt;
+        ///		&lt;category id=&quot;7&quot; name=&quot;Misc.&quot;/&gt;
+        ///		&lt;category id=&quot;0&quot; name=&quot;Uncategorized / Unused&quot;/&gt;
+        ///&lt;/categories&gt;
+        ///&lt;types&gt;
+        ///	&lt;type id=&quot;1&quot; name=&quot;ObjInfo&quot;/&gt;
+        ///	&lt;type id=&quot;2&quot; name=&quot;StartInfo&quot;/ [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        internal static string sampledb {
+            get {
+                return ResourceManager.GetString("sampledb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a &lt;?xml version=&quot;1.0&quot; encoding=&quot;shift_jis&quot;?&gt;
         ///&lt;Root&gt;
         ///  &lt;isBigEndian Value=&quot;False&quot; /&gt;

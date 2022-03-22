@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAddCameraSettings));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -51,8 +52,6 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.FixedTypeBox = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.FixX2 = new System.Windows.Forms.NumericUpDown();
             this.FixY2 = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
@@ -63,6 +62,16 @@
             this.label15 = new System.Windows.Forms.Label();
             this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ClipBoardMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ClipBoardMenu_Paste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ClipBoardMenu_CopyPos = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
@@ -76,6 +85,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.FixZ2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.ClipBoardMenu.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -210,7 +223,7 @@
             0,
             0,
             65536});
-            this.FixZ.Location = new System.Drawing.Point(84, 250);
+            this.FixZ.Location = new System.Drawing.Point(45, 73);
             this.FixZ.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -228,7 +241,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(52, 200);
+            this.label5.Location = new System.Drawing.Point(13, 23);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 13);
             this.label5.TabIndex = 14;
@@ -237,7 +250,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(52, 226);
+            this.label6.Location = new System.Drawing.Point(13, 49);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(17, 13);
             this.label6.TabIndex = 15;
@@ -246,7 +259,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(52, 252);
+            this.label7.Location = new System.Drawing.Point(13, 75);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(17, 13);
             this.label7.TabIndex = 16;
@@ -294,7 +307,7 @@
             0,
             0,
             65536});
-            this.FixY.Location = new System.Drawing.Point(84, 224);
+            this.FixY.Location = new System.Drawing.Point(45, 47);
             this.FixY.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -318,7 +331,7 @@
             0,
             0,
             65536});
-            this.FixX.Location = new System.Drawing.Point(84, 198);
+            this.FixX.Location = new System.Drawing.Point(45, 21);
             this.FixX.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -379,24 +392,6 @@
             this.FixedTypeBox.TabIndex = 26;
             this.FixedTypeBox.SelectedIndexChanged += new System.EventHandler(this.ShowHideXYZ2);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(52, 173);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(73, 13);
-            this.label9.TabIndex = 27;
-            this.label9.Text = "Point position:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(234, 173);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(73, 13);
-            this.label11.TabIndex = 34;
-            this.label11.Text = "Point position:";
-            // 
             // FixX2
             // 
             this.FixX2.DecimalPlaces = 2;
@@ -406,7 +401,7 @@
             0,
             0,
             65536});
-            this.FixX2.Location = new System.Drawing.Point(266, 198);
+            this.FixX2.Location = new System.Drawing.Point(48, 21);
             this.FixX2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -430,7 +425,7 @@
             0,
             0,
             65536});
-            this.FixY2.Location = new System.Drawing.Point(266, 224);
+            this.FixY2.Location = new System.Drawing.Point(48, 47);
             this.FixY2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -448,7 +443,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(234, 252);
+            this.label12.Location = new System.Drawing.Point(16, 75);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(17, 13);
             this.label12.TabIndex = 31;
@@ -457,7 +452,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(234, 226);
+            this.label13.Location = new System.Drawing.Point(16, 49);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(17, 13);
             this.label13.TabIndex = 30;
@@ -466,7 +461,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(234, 200);
+            this.label14.Location = new System.Drawing.Point(16, 23);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(17, 13);
             this.label14.TabIndex = 29;
@@ -481,7 +476,7 @@
             0,
             0,
             65536});
-            this.FixZ2.Location = new System.Drawing.Point(266, 250);
+            this.FixZ2.Location = new System.Drawing.Point(48, 73);
             this.FixZ2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -560,6 +555,96 @@
             this.label16.Text = "Max dash zoom out offset:";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.ContextMenuStrip = this.ClipBoardMenu;
+            this.groupBox1.Controls.Add(this.FixX);
+            this.groupBox1.Controls.Add(this.FixZ);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.FixY);
+            this.groupBox1.Location = new System.Drawing.Point(40, 170);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(171, 106);
+            this.groupBox1.TabIndex = 39;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Camera Position:";
+            // 
+            // ClipBoardMenu
+            // 
+            this.ClipBoardMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ClipBoardMenu_Paste,
+            this.toolStripSeparator1,
+            this.ClipBoardMenu_CopyPos});
+            this.ClipBoardMenu.Name = "ClipBoardMenu";
+            this.ClipBoardMenu.Size = new System.Drawing.Size(149, 54);
+            this.ClipBoardMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ClipBoardMenu_opening);
+            // 
+            // ClipBoardMenu_Paste
+            // 
+            this.ClipBoardMenu_Paste.Name = "ClipBoardMenu_Paste";
+            this.ClipBoardMenu_Paste.Size = new System.Drawing.Size(148, 22);
+            this.ClipBoardMenu_Paste.Text = "Paste";
+            this.ClipBoardMenu_Paste.Click += new System.EventHandler(this.pasteValueToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
+            // 
+            // ClipBoardMenu_CopyPos
+            // 
+            this.ClipBoardMenu_CopyPos.Name = "ClipBoardMenu_CopyPos";
+            this.ClipBoardMenu_CopyPos.Size = new System.Drawing.Size(148, 22);
+            this.ClipBoardMenu_CopyPos.Text = "Copy Position";
+            this.ClipBoardMenu_CopyPos.Click += new System.EventHandler(this.ClipBoardMenu_CopyPos_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.ContextMenuStrip = this.contextMenuStrip1;
+            this.groupBox2.Controls.Add(this.FixX2);
+            this.groupBox2.Controls.Add(this.FixZ2);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.FixY2);
+            this.groupBox2.Location = new System.Drawing.Point(225, 170);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(175, 106);
+            this.groupBox2.TabIndex = 39;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Point Position:";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripSeparator2,
+            this.toolStripMenuItem2});
+            this.contextMenuStrip1.Name = "ClipBoardMenu";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 76);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ClipBoardMenu2_opening);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Paste";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.pasteValueToolStripMenuItem2_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "Copy Position";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.ClipBoardMenu2_CopyPos_Click);
+            // 
             // FrmAddCameraSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -571,26 +656,12 @@
             this.Controls.Add(this.label16);
             this.Controls.Add(this.numericUpDown5);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.FixX2);
-            this.Controls.Add(this.FixY2);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.FixZ2);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.FixedTypeBox);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.FixX);
-            this.Controls.Add(this.FixY);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.RailId);
             this.Controls.Add(this.ChckBxRailCam);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.FixZ);
             this.Controls.Add(this.ChckBxFixCam);
             this.Controls.Add(this.numericUpDown4);
             this.Controls.Add(this.numericUpDown3);
@@ -601,6 +672,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -622,6 +695,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.FixZ2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ClipBoardMenu.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -651,8 +730,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox FixedTypeBox;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown FixX2;
         private System.Windows.Forms.NumericUpDown FixY2;
         private System.Windows.Forms.Label label12;
@@ -663,5 +740,15 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.NumericUpDown numericUpDown6;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ContextMenuStrip ClipBoardMenu;
+        private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_Paste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_CopyPos;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }

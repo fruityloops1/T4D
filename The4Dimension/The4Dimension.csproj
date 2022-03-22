@@ -292,6 +292,12 @@
     <Compile Include="ModelDumper.Designer.cs">
       <DependentUpon>ModelDumper.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectDB\ArgEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjectDB\ArgEditor.Designer.cs">
+      <DependentUpon>ArgEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectDB\GameObjectDumper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -388,6 +394,9 @@
     <EmbeddedResource Include="ModelDumper.resx">
       <DependentUpon>ModelDumper.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ObjectDB\ArgEditor.resx">
+      <DependentUpon>ArgEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectDB\GameObjectDumper.resx">
       <DependentUpon>GameObjectDumper.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -459,6 +468,7 @@
     <None Include="Resources\gbatemp.png" />
     <Content Include="Properties\EN.xml" />
     <Content Include="Properties\LANG.xml" />
+    <None Include="Resources\sampledb.xml" />
     <Content Include="t4d.ico" />
     <Content Include="t4d.png" />
   </ItemGroup>

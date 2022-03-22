@@ -315,38 +315,177 @@ namespace The4Dimension.FormEditors
         {
             switch (FixedTypeBox.SelectedIndex)
             {
-                case 0://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = strings["campos"];
-                    label11.Text = strings["pointpos"];
-                    FixX2.Enabled = true;
-                    FixY2.Enabled = true;
-                    FixZ2.Enabled = true;
+                case 0://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
+                    groupBox1.Text = strings["campos"];
+                    groupBox2.Text = strings["pointpos"];
+                    groupBox2.Enabled = true;
+                    //FixX2.Enabled = true;
+                    //FixY2.Enabled = true;
+                    //FixZ2.Enabled = true;
                     break;
-                case 1://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = strings["boxV1"];
-                    label11.Text = strings["boxV2"];
-                    FixX2.Enabled = true;
-                    FixY2.Enabled = true;
-                    FixZ2.Enabled = true;
+                case 1://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
+                    groupBox1.Text = strings["boxV1"];
+                    groupBox2.Text = strings["boxV2"];
+                    groupBox2.Enabled = true;
+                    // FixX2.Enabled = true;
+                    // FixY2.Enabled = true;
+                    //FixZ2.Enabled = true;
                     break;
-                case 2://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = strings["campos"];
-                    label11.Text = strings["unused"];
-                    FixX2.Enabled = false;
-                    FixY2.Enabled = false;
-                    FixZ2.Enabled = false;
+                case 2://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
+                    groupBox1.Text = strings["campos"];
+                    groupBox2.Text = strings["unused"];
+                    groupBox2.Enabled = false;
+                    // FixX2.Enabled = false;
+                    // FixY2.Enabled = false;
+                    // FixZ2.Enabled = false;
                     break;
-                case 3://first label is for CamPos, second for Point position (LookAtPos) label9 and label11
-                    label9.Text = strings["rotcent"];
-                    label11.Text = strings["unused"];
-                    FixX2.Enabled = false;
-                    FixY2.Enabled = false;
-                    FixZ2.Enabled = false;
+                case 3://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
+                    groupBox1.Text = strings["rotcent"];
+                    groupBox2.Text = strings["unused"];
+                    groupBox2.Enabled = false;
+                   // FixX2.Enabled = false;
+                    //FixY2.Enabled = false;
+                   // FixZ2.Enabled = false;
                     break;
                 default:
                     FixedTypeBox.SelectedIndex = 0;
                     break;
             }
+        }
+        private void pasteValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteValue(Form1.clipboard[Form1.clipboard.Count - 1]);
+            ClipBoardMenu.Close();
+        }
+
+        void CopyValue(string value, bool groupbox2)
+        {
+            ClipBoardItem cl = new ClipBoardItem();
+            if (value == "pos")
+            {
+                cl.Type = ClipBoardItem.ClipboardType.Position;
+
+                Single[] ds = new Single[] { 0, 0, 0 };
+                if (!groupbox2)
+                {
+                    ds = new Single[] { (Single)FixX.Value, (Single)FixY.Value, (Single)FixZ.Value };
+                }
+                else
+                {
+                    ds = new Single[] { (Single)FixX2.Value, (Single)FixY2.Value, (Single)FixZ2.Value };
+                }
+                cl.Pos = ds;
+            }
+            Form1.clipboard.Add(cl);
+            if (Form1.clipboard.Count > 10) Form1.clipboard.RemoveAt(0);
+            ClipBoardMenu_Paste.DropDownItems.Clear();
+            List<ToolStripMenuItem> Items = new List<ToolStripMenuItem>();
+            for (int i = 0; i < Form1.clipboard.Count; i++)
+            {
+                ToolStripMenuItem btn = new ToolStripMenuItem();
+                btn.Name = "ClipboardN" + i.ToString();
+                btn.Text = Form1.clipboard[i].ToString();
+                if (!groupbox2)
+                {
+                    btn.Click += QuickClipboardItem_Click;
+                }
+                else
+                {
+                    btn.Click += QuickClipboardItem2_Click;
+                }
+                Items.Add(btn);
+            }
+            Items.Reverse();
+            ClipBoardMenu_Paste.DropDownItems.AddRange(Items.ToArray());
+        }
+
+        private void QuickClipboardItem2_Click(object sender, EventArgs e)
+        {
+            string SenderName = ((ToolStripMenuItem)sender).Name;
+            int index = int.Parse(SenderName.Substring("ClipboardN".Length));
+            PasteValue2(Form1.clipboard[index]);
+        }
+
+        void PasteValue2(ClipBoardItem itm)
+        {
+            if (itm.Type == ClipBoardItem.ClipboardType.Position)
+            {
+                FixX2.Value = (decimal)itm.Pos[0];
+                FixY2.Value = (decimal)itm.Pos[1];
+                FixZ2.Value = (decimal)itm.Pos[2];
+            }
+            else
+            {
+                MessageBox.Show("Can't paste this!");
+                return;
+            }
+        }
+        private void QuickClipboardItem_Click(object sender, EventArgs e)
+        {
+            string SenderName = ((ToolStripMenuItem)sender).Name;
+            int index = int.Parse(SenderName.Substring("ClipboardN".Length));
+            PasteValue(Form1.clipboard[index]);
+        }
+
+        void PasteValue(ClipBoardItem itm)
+        {
+            if (itm.Type == ClipBoardItem.ClipboardType.Position)
+            {
+                FixX.Value = (decimal)itm.Pos[0];
+                FixY.Value = (decimal)itm.Pos[1];
+                FixZ.Value = (decimal)itm.Pos[2];
+            }
+            else
+            {
+                MessageBox.Show("Can't paste this!");
+                return;
+            }
+        }
+
+        private void ClipBoardMenu_opening(object sender, CancelEventArgs e)
+        {
+            ClipBoardMenu_Paste.DropDownItems.Clear();
+            List<ToolStripMenuItem> Items = new List<ToolStripMenuItem>();
+            for (int i = 0; i < Form1.clipboard.Count; i++)
+            {
+                ToolStripMenuItem btn = new ToolStripMenuItem();
+                btn.Name = "ClipboardN" + i.ToString();
+                btn.Text = Form1.clipboard[i].ToString();
+                btn.Click += QuickClipboardItem_Click;
+                Items.Add(btn);
+            }
+            Items.Reverse();
+            ClipBoardMenu_Paste.DropDownItems.AddRange(Items.ToArray());
+        }
+        private void ClipBoardMenu2_opening(object sender, CancelEventArgs e)
+        {
+            toolStripMenuItem1.DropDownItems.Clear();
+            List<ToolStripMenuItem> Items = new List<ToolStripMenuItem>();
+            for (int i = 0; i < Form1.clipboard.Count; i++)
+            {
+                ToolStripMenuItem btn = new ToolStripMenuItem();
+                btn.Name = "ClipboardN" + i.ToString();
+                btn.Text = Form1.clipboard[i].ToString();
+                btn.Click += QuickClipboardItem2_Click;
+                Items.Add(btn);
+            }
+            Items.Reverse();
+            toolStripMenuItem1.DropDownItems.AddRange(Items.ToArray());
+        }
+
+        private void ClipBoardMenu_CopyPos_Click(object sender, EventArgs e)
+        {
+            CopyValue("pos", false);
+        }
+        private void ClipBoardMenu2_CopyPos_Click(object sender, EventArgs e)
+        {
+            CopyValue("pos", true);
+        }
+
+        private void pasteValueToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            PasteValue2(Form1.clipboard[Form1.clipboard.Count - 1]);
+            contextMenuStrip1.Close();
         }
     }
 }

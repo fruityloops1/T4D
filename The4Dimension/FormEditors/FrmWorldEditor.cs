@@ -400,6 +400,7 @@ namespace The4Dimension.FormEditors
             textBox1.Text = "";
             textBox2.Text = "";
             comboBox2.SelectedIndex = -1;
+            comboBox2.Enabled = false;
             textBox1.Enabled = false;
             textBox2.Enabled = false;
             checkBox1.Enabled = false;
@@ -506,7 +507,6 @@ namespace The4Dimension.FormEditors
                     break;
                 case "kinopiohousepresent":
                     textBox1.Text = "MiniatureKinopioHouse";
-                    textBox2.Text = "KinopioHouseItemPresentStage";
                     checkBox1.Enabled = true;
                     textBox1.Enabled = true;
                     textBox2.Enabled = true;

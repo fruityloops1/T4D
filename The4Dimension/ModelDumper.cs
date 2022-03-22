@@ -55,6 +55,7 @@ namespace The4Dimension
             int Total, actual;
             var files = Directory.GetFiles(ObjDataPath);
             Total = files.Length;
+            string ERROR = "";
             for (int i = 0; i < files.Length; i++)
             {
                 actual = i;
@@ -67,30 +68,46 @@ namespace The4Dimension
                     {
                         if (file.FileName.Contains(".bcmdl"))
                         {
+                            if (file.FileName.Contains("DemoObjectCourseStartPrison") || file.FileName.Contains("Gyro"))
+                            {
+                                int o = 0;
+                            }
+                            string Name = Application.StartupPath + @"\models\" + file.FileName.Remove(file.FileName.Length - 6, 6) + ".obj";
+
                             try
                             {
-                                string Name = Application.StartupPath + @"\models\" + file.FileName.Remove(file.FileName.Length - 6, 6) + ".obj";
-                                if (UseEFE)
+                                if (i != 241 && i != 470)
                                 {
-                                    ConvertEFE(file.Data, Name);
+                                    RenderBase.OModelGroup mdl = new Ohana.CGFX().load(new MemoryStream(file.Data));
+                                    new Ohana.OBJ().export(mdl, Name, 0);
+                                    ERROR += file.FileName + ": Dumped using Ohana \r\n";
                                 }
                                 else
                                 {
-                                    if (!Path.GetFileNameWithoutExtension(Name).ToLower().StartsWith("demo") && Path.GetFileNameWithoutExtension(Name).ToLower() != "karon")
-                                    {
-                                        RenderBase.OModelGroup mdl = new Ohana.CGFX().load(new MemoryStream(file.Data));
-                                        new Ohana.OBJ().export(mdl, Name, 0);
-                                    }
-                                    else if (Path.GetFileNameWithoutExtension(Name).ToLower() == "karon" || Path.GetFileNameWithoutExtension(Name).ToLower().StartsWith("demo")) ConvertEFE(file.Data, Name);
+                                    ConvertEFE(file.Data, Name);
+                                    ERROR += file.FileName + ": Dumped using EFE (out of memory alternative) \r\n";
                                 }
                             }
                             catch
                             {
-                                Debug.Print(@"\models\" + file.FileName.Remove(file.FileName.Length - 6, 6) + ".obj");                            }
+                                try
+                                {
+                                    
+                                    ConvertEFE(file.Data, Name);
+                                    ERROR += file.FileName + ": Dumped using EFE (Ohana didn't work) \r\n";
+                                }
+                                catch
+                                {
+                                    Debug.Print(@"\models\" + file.FileName.Remove(file.FileName.Length - 6, 6) + ".obj");
+
+                                    ERROR += file.FileName + " : Not dumped \r\n";
+                                }
+                            }
                         }
                     }
                 }
             }
+            File.WriteAllText(@"MODEL_DUMP_LOG.TXT", ERROR);
         }
 
         void RemoveTextureAlpha(string path)
@@ -109,6 +126,7 @@ namespace The4Dimension
         void ConvertEFE(byte[] Data, string Name)
         {
             _3DS.NintendoWare.GFX.CGFX mod = new _3DS.NintendoWare.GFX.CGFX(Data);
+            if (mod.Data.Models == null) return; //camera objects, photo objects etc
             CommonFiles.OBJ o = mod.Data.Models[0].ToOBJ();
             o.MTLPath = Path.GetFileNameWithoutExtension(Name) + ".mtl";
             MTL m = mod.Data.Models[0].ToMTL("Tex");

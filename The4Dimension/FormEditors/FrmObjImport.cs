@@ -174,7 +174,7 @@ namespace The4Dimension.FormEditors
                 if (Directory.Exists(Path.GetTempPath() + "TmpT4D")) { try { Directory.Delete(Path.GetTempPath() + "TmpT4D", true); } catch { } }
                 OpenFileDialog opn = new OpenFileDialog();
                 opn.Title = "Open a model file";
-                opn.Filter = "Supported formats (.bcmdl, .obj)|*.bcmdl; *.obj";
+                opn.Filter = "Supported formats |*.bcmdl; *.bcres; *.obj";
                 
                 if (opn.ShowDialog() != DialogResult.OK) ok = false;
                 opnfile = opn.FileName;
@@ -200,6 +200,42 @@ namespace The4Dimension.FormEditors
                 tmpPath = Path.GetTempPath() + "TmpT4D";
                 filename = Path.GetFileNameWithoutExtension(opnfile);
                 string Name = tmpPath + "\\"+Path.GetFileNameWithoutExtension(opnfile) +".obj";
+                Directory.CreateDirectory(tmpPath);
+                CGFX mod = null;
+                mod = new _3DS.NintendoWare.GFX.CGFX(File.ReadAllBytes(opnfile));
+                CommonFiles.OBJ o = mod.Data.Models[0].ToOBJ();
+                o.MTLPath = Path.GetFileNameWithoutExtension(Name) + ".mtl";
+                MTL m = mod.Data.Models[0].ToMTL("Tex");
+                byte[] d = o.Write();
+                byte[] d2 = m.Write();
+                File.Create(Name).Close();
+                File.WriteAllBytes(Name, d);
+                File.Create(Path.ChangeExtension(Name, "mtl")).Close();
+                File.WriteAllBytes(Path.ChangeExtension(Name, "mtl"), d2);
+                Directory.CreateDirectory(tmpPath + "\\Tex");
+                if (mod.Data.Textures != null)
+                {
+                    foreach (var v in mod.Data.Textures)
+                    {
+                        if (!(v is ImageTextureCtr)) continue;
+                        if (File.Exists(tmpPath + "\\Tex\\" + v.Name + ".png")) continue;
+                        ((ImageTextureCtr)v).GetBitmap().Save(tmpPath + "\\Tex\\" + v.Name + ".png");
+                    }
+                }
+
+                modelPath = opnfile;
+                ObjModelPath = Name;
+                IsObj = false;
+                render.addModel(Name, "Model", new System.Windows.Media.Media3D.Vector3D(0, 0, 0), new System.Windows.Media.Media3D.Vector3D(1, 1, 1), 0, 0, 0);
+                textBox1.Text = mod.Data.Models[0].Name;
+                textBox1.Enabled = false;
+                render.SetSortFrequency(0);
+            }
+            else if (Path.GetExtension(opnfile).ToLower() == ".bcres")
+            {
+                tmpPath = Path.GetTempPath() + "TmpT4D";
+                filename = Path.GetFileNameWithoutExtension(opnfile);
+                string Name = tmpPath + "\\" + Path.GetFileNameWithoutExtension(opnfile) + ".obj";
                 Directory.CreateDirectory(tmpPath);
                 CGFX mod = null;
                 mod = new _3DS.NintendoWare.GFX.CGFX(File.ReadAllBytes(opnfile));
