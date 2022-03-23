@@ -241,7 +241,7 @@ namespace The4Dimension
                 }
                 Dictionary<string, string> aaa = new Dictionary<string, string>();
                 aaa.Add("", "");//Goomba, Kuribo
-                objdb[ndb.Entries["Kuribo"].category - 2] = "";
+                //objdb[ndb.Entries["Mario"].category - 2] = "";
                 //Dictionary<int, string> categories = new Dictionary<int, string>(ndb.Categories);
                 DbCategory all = new DbCategory();
                 all.name = "All";

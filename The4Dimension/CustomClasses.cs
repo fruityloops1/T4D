@@ -181,6 +181,32 @@ namespace The4Dimension
     public class AllInfoSection : List<LevelObj>
     {
         public bool IsHidden = false;
+        int GetById(int id)
+        {
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (this[i].Prop.ContainsKey("l_id") && ((Node)this[i].Prop["l_id"]).StringValue == id.ToString())
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
+    public class AllRailInfoSection : List<Rail>
+    {
+        public int GetById(int id)
+        {
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (this[i].l_id == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 
     class DictionaryPropertyGridAdapter : ICustomTypeDescriptor

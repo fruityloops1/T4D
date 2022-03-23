@@ -111,6 +111,8 @@
             this.ObjectName = new System.Windows.Forms.Label();
             this.SelectedProperties = new System.Windows.Forms.TabControl();
             this.General = new System.Windows.Forms.TabPage();
+            this.GenIncrement = new System.Windows.Forms.NumericUpDown();
+            this.label85 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.NameChangeTest = new System.Windows.Forms.Button();
             this.Genscale2 = new System.Windows.Forms.NumericUpDown();
@@ -146,6 +148,7 @@
             this.Extra = new System.Windows.Forms.TabPage();
             this.ViewIdChck = new System.Windows.Forms.CheckBox();
             this.CameraIdChck = new System.Windows.Forms.CheckBox();
+            this.RailChck = new System.Windows.Forms.CheckBox();
             this.PriorityChck = new System.Windows.Forms.CheckBox();
             this.ClippingGroupIdChck = new System.Windows.Forms.CheckBox();
             this.EditRailBtn = new System.Windows.Forms.Button();
@@ -156,12 +159,16 @@
             this.ViewId = new System.Windows.Forms.NumericUpDown();
             this.label81 = new System.Windows.Forms.Label();
             this.CameraId = new System.Windows.Forms.NumericUpDown();
+            this.Rail = new System.Windows.Forms.NumericUpDown();
             this.label80 = new System.Windows.Forms.Label();
+            this.label91 = new System.Windows.Forms.Label();
             this.Priority = new System.Windows.Forms.NumericUpDown();
             this.label32 = new System.Windows.Forms.Label();
             this.ClippingGroupId = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
             this.StartGeneral = new System.Windows.Forms.TabPage();
+            this.MarioIncrement = new System.Windows.Forms.NumericUpDown();
+            this.label84 = new System.Windows.Forms.Label();
             this.MarioMultiFileName = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.Marioscale2 = new System.Windows.Forms.NumericUpDown();
@@ -183,6 +190,8 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.DemoExtra = new System.Windows.Forms.TabPage();
+            this.DemoIncrement = new System.Windows.Forms.NumericUpDown();
+            this.label86 = new System.Windows.Forms.Label();
             this.DemoSwitchDeadOn = new System.Windows.Forms.NumericUpDown();
             this.DemoSwitchKill = new System.Windows.Forms.NumericUpDown();
             this.DemoSwitchAppear = new System.Windows.Forms.NumericUpDown();
@@ -231,7 +240,7 @@
             this.label40 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
-            this.Rail = new System.Windows.Forms.TabPage();
+            this.RailTab = new System.Windows.Forms.TabPage();
             this.RailType = new System.Windows.Forms.ComboBox();
             this.RailPointsBtn = new System.Windows.Forms.Button();
             this.RailClosed = new System.Windows.Forms.CheckBox();
@@ -268,6 +277,19 @@
             this.label41 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.GroupGen = new System.Windows.Forms.TabPage();
+            this.GrpSwitchDeadOn = new System.Windows.Forms.NumericUpDown();
+            this.GrpSwitchKill = new System.Windows.Forms.NumericUpDown();
+            this.GrpSwitchAppear = new System.Windows.Forms.NumericUpDown();
+            this.GrpSwitchB = new System.Windows.Forms.NumericUpDown();
+            this.GrpSwitchA = new System.Windows.Forms.NumericUpDown();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label88 = new System.Windows.Forms.Label();
+            this.label89 = new System.Windows.Forms.Label();
+            this.label90 = new System.Windows.Forms.Label();
+            this.GrpIncrement = new System.Windows.Forms.NumericUpDown();
+            this.label87 = new System.Windows.Forms.Label();
+            this.IsRelative = new System.Windows.Forms.CheckBox();
             this.GrpViewIdChck = new System.Windows.Forms.CheckBox();
             this.GrpCameraIdChck = new System.Windows.Forms.CheckBox();
             this.GrpPriorityChck = new System.Windows.Forms.CheckBox();
@@ -284,13 +306,9 @@
             this.Grpscale1 = new System.Windows.Forms.NumericUpDown();
             this.Grpdir2 = new System.Windows.Forms.NumericUpDown();
             this.Grpdir1 = new System.Windows.Forms.NumericUpDown();
-            this.GrpViewId2 = new System.Windows.Forms.NumericUpDown();
-            this.GrpCameraId2 = new System.Windows.Forms.NumericUpDown();
             this.Grpscale0 = new System.Windows.Forms.NumericUpDown();
             this.Grppos2 = new System.Windows.Forms.NumericUpDown();
-            this.label63 = new System.Windows.Forms.Label();
             this.Grpdir0 = new System.Windows.Forms.NumericUpDown();
-            this.label66 = new System.Windows.Forms.Label();
             this.Grppos1 = new System.Windows.Forms.NumericUpDown();
             this.Grppos0 = new System.Windows.Forms.NumericUpDown();
             this.label67 = new System.Windows.Forms.Label();
@@ -333,15 +351,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.IncType = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.IsRelative = new System.Windows.Forms.CheckBox();
-            this.label84 = new System.Windows.Forms.Label();
-            this.MarioIncrement = new System.Windows.Forms.NumericUpDown();
-            this.GenIncrement = new System.Windows.Forms.NumericUpDown();
-            this.label85 = new System.Windows.Forms.Label();
-            this.DemoIncrement = new System.Windows.Forms.NumericUpDown();
-            this.label86 = new System.Windows.Forms.Label();
-            this.GrpIncrement = new System.Windows.Forms.NumericUpDown();
-            this.label87 = new System.Windows.Forms.Label();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -351,6 +360,7 @@
             this.C0EditingPanel.SuspendLayout();
             this.SelectedProperties.SuspendLayout();
             this.General.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GenIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genscale2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genscale1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gendir2)).BeginInit();
@@ -369,9 +379,11 @@
             this.Extra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ViewId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CameraId)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Rail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Priority)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClippingGroupId)).BeginInit();
             this.StartGeneral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MarioIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mariodir2)).BeginInit();
@@ -383,6 +395,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Mariopos0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MarioMarioNo)).BeginInit();
             this.DemoExtra.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchDeadOn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchKill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchAppear)).BeginInit();
@@ -398,7 +411,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Demodir0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Demopos1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Demopos0)).BeginInit();
-            this.Rail.SuspendLayout();
+            this.RailTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Railno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Raill_id)).BeginInit();
             this.DefArgs.SuspendLayout();
@@ -413,6 +426,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int0)).BeginInit();
             this.GroupGen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchDeadOn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchKill)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchAppear)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchA)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpViewId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpCameraId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpPriority)).BeginInit();
@@ -421,8 +440,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Grpscale1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpdir2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpdir1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpViewId2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpCameraId2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpscale0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grppos2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpdir0)).BeginInit();
@@ -440,10 +457,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Grparg_int1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grparg_int0)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MarioIncrement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GenIncrement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpIncrement)).BeginInit();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -521,13 +534,16 @@
             // 
             // ClipBoardMenu_CopyFull
             // 
+            this.ClipBoardMenu_CopyFull.Enabled = false;
             this.ClipBoardMenu_CopyFull.Name = "ClipBoardMenu_CopyFull";
             this.ClipBoardMenu_CopyFull.Size = new System.Drawing.Size(133, 22);
             this.ClipBoardMenu_CopyFull.Text = "Copy full object";
+            this.ClipBoardMenu_CopyFull.Visible = false;
             this.ClipBoardMenu_CopyFull.Click += new System.EventHandler(this.ClipBoardMenu_CopyFull_Click);
             // 
             // ClipBoardMenu_CopyRail
             // 
+            this.ClipBoardMenu_CopyRail.Enabled = false;
             this.ClipBoardMenu_CopyRail.Name = "ClipBoardMenu_CopyRail";
             this.ClipBoardMenu_CopyRail.Size = new System.Drawing.Size(133, 22);
             this.ClipBoardMenu_CopyRail.Text = "Copy rail";
@@ -649,7 +665,7 @@
             this.saveAsSZSToolStripMenuItem.Name = "saveAsSZSToolStripMenuItem";
             this.saveAsSZSToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.saveAsSZSToolStripMenuItem.Text = "Save as Szs";
             this.saveAsSZSToolStripMenuItem.Visible = false;
             this.saveAsSZSToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
@@ -657,14 +673,14 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(214, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(200, 6);
             this.toolStripSeparator3.Visible = false;
             // 
             // saveAsBymlToolStripMenuItem1
             // 
             this.saveAsBymlToolStripMenuItem1.Enabled = false;
             this.saveAsBymlToolStripMenuItem1.Name = "saveAsBymlToolStripMenuItem1";
-            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
+            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
             this.saveAsBymlToolStripMenuItem1.Text = "Save as Byml";
             this.saveAsBymlToolStripMenuItem1.Visible = false;
             this.saveAsBymlToolStripMenuItem1.Click += new System.EventHandler(this.saveAsBymlToolStripMenuItem1_Click);
@@ -673,7 +689,7 @@
             // 
             this.saveAsXmlToolStripMenuItem.Enabled = false;
             this.saveAsXmlToolStripMenuItem.Name = "saveAsXmlToolStripMenuItem";
-            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.saveAsXmlToolStripMenuItem.Text = "Save as Xml";
             this.saveAsXmlToolStripMenuItem.Visible = false;
             this.saveAsXmlToolStripMenuItem.Click += new System.EventHandler(this.saveAsXmlToolStripMenuItem_Click);
@@ -737,28 +753,28 @@
             this.generatePreloadFileListToolStripMenuItem,
             this.generate2DSectionToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.otherToolStripMenuItem.Text = "Tools";
             // 
             // modelImporterToolStripMenuItem
             // 
             this.modelImporterToolStripMenuItem.Name = "modelImporterToolStripMenuItem";
             this.modelImporterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.modelImporterToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.modelImporterToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
             this.modelImporterToolStripMenuItem.Text = "Model importer";
             this.modelImporterToolStripMenuItem.Click += new System.EventHandler(this.modelImporterToolStripMenuItem_Click);
             // 
             // creatorClassNameTableEditorToolStripMenuItem
             // 
             this.creatorClassNameTableEditorToolStripMenuItem.Name = "creatorClassNameTableEditorToolStripMenuItem";
-            this.creatorClassNameTableEditorToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.creatorClassNameTableEditorToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
             this.creatorClassNameTableEditorToolStripMenuItem.Text = "CreatorClassNameTable editor";
             this.creatorClassNameTableEditorToolStripMenuItem.Click += new System.EventHandler(this.creatorClassNameTableEditorToolStripMenuItem_Click);
             // 
             // stagesBgmEditorToolStripMenuItem
             // 
             this.stagesBgmEditorToolStripMenuItem.Name = "stagesBgmEditorToolStripMenuItem";
-            this.stagesBgmEditorToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.stagesBgmEditorToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
             this.stagesBgmEditorToolStripMenuItem.Text = "Change stages BGM";
             this.stagesBgmEditorToolStripMenuItem.Click += new System.EventHandler(this.stagesBgmEditorToolStripMenuItem_Click);
             // 
@@ -766,7 +782,7 @@
             // 
             this.oggToBcstmConverterToolStripMenuItem.Enabled = false;
             this.oggToBcstmConverterToolStripMenuItem.Name = "oggToBcstmConverterToolStripMenuItem";
-            this.oggToBcstmConverterToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.oggToBcstmConverterToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
             this.oggToBcstmConverterToolStripMenuItem.Text = "Ogg to Bcstm converter";
             this.oggToBcstmConverterToolStripMenuItem.Visible = false;
             this.oggToBcstmConverterToolStripMenuItem.Click += new System.EventHandler(this.oggToBcstmConverterToolStripMenuItem_Click);
@@ -774,26 +790,26 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(277, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(276, 6);
             // 
             // WorldMapEd
             // 
             this.WorldMapEd.Name = "WorldMapEd";
-            this.WorldMapEd.Size = new System.Drawing.Size(280, 22);
+            this.WorldMapEd.Size = new System.Drawing.Size(279, 22);
             this.WorldMapEd.Text = "Worldmap editor (Experimental)";
             this.WorldMapEd.Click += new System.EventHandler(this.WorldMapEd_Click);
             // 
             // generatePreloadFileListToolStripMenuItem
             // 
             this.generatePreloadFileListToolStripMenuItem.Name = "generatePreloadFileListToolStripMenuItem";
-            this.generatePreloadFileListToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.generatePreloadFileListToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
             this.generatePreloadFileListToolStripMenuItem.Text = "Generate PreloadFileList (Experimental)";
             this.generatePreloadFileListToolStripMenuItem.Click += new System.EventHandler(this.generatePreloadFileListToolStripMenuItem_Click);
             // 
             // generate2DSectionToolStripMenuItem
             // 
             this.generate2DSectionToolStripMenuItem.Name = "generate2DSectionToolStripMenuItem";
-            this.generate2DSectionToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.generate2DSectionToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
             this.generate2DSectionToolStripMenuItem.Text = "Add TransparentWalls (Experimental)";
             this.generate2DSectionToolStripMenuItem.Click += new System.EventHandler(this.generate2DSectionToolStripMenuItem_Click);
             // 
@@ -926,33 +942,33 @@
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // hotkeysListToolStripMenuItem
             // 
             this.hotkeysListToolStripMenuItem.Name = "hotkeysListToolStripMenuItem";
-            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.hotkeysListToolStripMenuItem.Text = "Hotkeys list";
             this.hotkeysListToolStripMenuItem.Click += new System.EventHandler(this.hotkeysListToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(252, 6);
             // 
             // downloadLatestT4DToolStripMenuItem
             // 
             this.downloadLatestT4DToolStripMenuItem.Name = "downloadLatestT4DToolStripMenuItem";
-            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.downloadLatestT4DToolStripMenuItem.Text = "Download latest T4D";
             this.downloadLatestT4DToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestT4DToolStripMenuItem_Click);
             // 
             // downloadLatestObjectDatabaseToolStripMenuItem
             // 
             this.downloadLatestObjectDatabaseToolStripMenuItem.Name = "downloadLatestObjectDatabaseToolStripMenuItem";
-            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.downloadLatestObjectDatabaseToolStripMenuItem.Text = "Download latest object database";
             this.downloadLatestObjectDatabaseToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestObjectDatabaseToolStripMenuItem_Click);
             // 
@@ -961,20 +977,20 @@
             this.objectsDatabaseToolStripMenuItem.Name = "objectsDatabaseToolStripMenuItem";
             this.objectsDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.objectsDatabaseToolStripMenuItem.Text = "Edit object database";
             this.objectsDatabaseToolStripMenuItem.Click += new System.EventHandler(this.objectsDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(252, 6);
             // 
             // gbatempThreadToolStripMenuItem
             // 
             this.gbatempThreadToolStripMenuItem.Image = global::The4Dimension.Properties.Resources.gbatemp;
             this.gbatempThreadToolStripMenuItem.Name = "gbatempThreadToolStripMenuItem";
-            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
             // 
@@ -1193,7 +1209,7 @@
             this.SelectedProperties.Controls.Add(this.Extra);
             this.SelectedProperties.Controls.Add(this.StartGeneral);
             this.SelectedProperties.Controls.Add(this.DemoExtra);
-            this.SelectedProperties.Controls.Add(this.Rail);
+            this.SelectedProperties.Controls.Add(this.RailTab);
             this.SelectedProperties.Controls.Add(this.Args);
             this.SelectedProperties.Controls.Add(this.DefArgs);
             this.SelectedProperties.Controls.Add(this.GroupGen);
@@ -1248,6 +1264,40 @@
             this.General.TabIndex = 0;
             this.General.Text = "General";
             this.General.UseVisualStyleBackColor = true;
+            // 
+            // GenIncrement
+            // 
+            this.GenIncrement.Location = new System.Drawing.Point(148, 62);
+            this.GenIncrement.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.GenIncrement.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.GenIncrement.Name = "GenIncrement";
+            this.GenIncrement.Size = new System.Drawing.Size(120, 20);
+            this.GenIncrement.TabIndex = 24;
+            this.toolTip1.SetToolTip(this.GenIncrement, "This only affects how much you change coordinates in the editor!");
+            this.GenIncrement.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.GenIncrement.ValueChanged += new System.EventHandler(this.GenIncrement_ValueChanged);
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Location = new System.Drawing.Point(49, 64);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(96, 13);
+            this.label85.TabIndex = 23;
+            this.label85.Text = "Position increment:";
+            this.toolTip1.SetToolTip(this.label85, "This only affects how much you change coordinates in the editor!");
             // 
             // comboBox2
             // 
@@ -1750,6 +1800,7 @@
             // 
             this.Extra.Controls.Add(this.ViewIdChck);
             this.Extra.Controls.Add(this.CameraIdChck);
+            this.Extra.Controls.Add(this.RailChck);
             this.Extra.Controls.Add(this.PriorityChck);
             this.Extra.Controls.Add(this.ClippingGroupIdChck);
             this.Extra.Controls.Add(this.EditRailBtn);
@@ -1760,7 +1811,9 @@
             this.Extra.Controls.Add(this.ViewId);
             this.Extra.Controls.Add(this.label81);
             this.Extra.Controls.Add(this.CameraId);
+            this.Extra.Controls.Add(this.Rail);
             this.Extra.Controls.Add(this.label80);
+            this.Extra.Controls.Add(this.label91);
             this.Extra.Controls.Add(this.Priority);
             this.Extra.Controls.Add(this.label32);
             this.Extra.Controls.Add(this.ClippingGroupId);
@@ -1795,6 +1848,17 @@
             this.CameraIdChck.UseVisualStyleBackColor = true;
             this.CameraIdChck.CheckedChanged += new System.EventHandler(this.EnableDisableCheck);
             // 
+            // RailChck
+            // 
+            this.RailChck.AutoSize = true;
+            this.RailChck.Location = new System.Drawing.Point(135, 78);
+            this.RailChck.Name = "RailChck";
+            this.RailChck.Size = new System.Drawing.Size(15, 14);
+            this.RailChck.TabIndex = 6;
+            this.RailChck.Tag = "Rail";
+            this.RailChck.UseVisualStyleBackColor = true;
+            this.RailChck.CheckedChanged += new System.EventHandler(this.EnableDisableCheck);
+            // 
             // PriorityChck
             // 
             this.PriorityChck.AutoSize = true;
@@ -1819,9 +1883,9 @@
             // 
             // EditRailBtn
             // 
-            this.EditRailBtn.Location = new System.Drawing.Point(9, 105);
+            this.EditRailBtn.Location = new System.Drawing.Point(173, 73);
             this.EditRailBtn.Name = "EditRailBtn";
-            this.EditRailBtn.Size = new System.Drawing.Size(280, 23);
+            this.EditRailBtn.Size = new System.Drawing.Size(104, 23);
             this.EditRailBtn.TabIndex = 5;
             this.EditRailBtn.Text = "Edit rail";
             this.EditRailBtn.UseVisualStyleBackColor = true;
@@ -1829,9 +1893,9 @@
             // 
             // EditAreasBtn
             // 
-            this.EditAreasBtn.Location = new System.Drawing.Point(9, 76);
+            this.EditAreasBtn.Location = new System.Drawing.Point(20, 131);
             this.EditAreasBtn.Name = "EditAreasBtn";
-            this.EditAreasBtn.Size = new System.Drawing.Size(142, 23);
+            this.EditAreasBtn.Size = new System.Drawing.Size(257, 23);
             this.EditAreasBtn.TabIndex = 5;
             this.EditAreasBtn.Tag = "AreaChildren";
             this.EditAreasBtn.Text = "Edit children areas";
@@ -1841,7 +1905,7 @@
             // button10
             // 
             this.button10.Enabled = false;
-            this.button10.Location = new System.Drawing.Point(157, 134);
+            this.button10.Location = new System.Drawing.Point(157, 160);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(116, 23);
             this.button10.TabIndex = 5;
@@ -1852,7 +1916,7 @@
             // button9
             // 
             this.button9.Enabled = false;
-            this.button9.Location = new System.Drawing.Point(20, 134);
+            this.button9.Location = new System.Drawing.Point(20, 160);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(121, 23);
             this.button9.TabIndex = 5;
@@ -1862,9 +1926,9 @@
             // 
             // EditChildrenBtn
             // 
-            this.EditChildrenBtn.Location = new System.Drawing.Point(157, 76);
+            this.EditChildrenBtn.Location = new System.Drawing.Point(20, 102);
             this.EditChildrenBtn.Name = "EditChildrenBtn";
-            this.EditChildrenBtn.Size = new System.Drawing.Size(132, 23);
+            this.EditChildrenBtn.Size = new System.Drawing.Size(257, 23);
             this.EditChildrenBtn.TabIndex = 5;
             this.EditChildrenBtn.Tag = "GenerateChildren";
             this.EditChildrenBtn.Text = "Edit children objects";
@@ -1919,6 +1983,25 @@
             this.CameraId.TabIndex = 4;
             this.CameraId.ValueChanged += new System.EventHandler(this.numupdownupdated);
             // 
+            // Rail
+            // 
+            this.Rail.Enabled = false;
+            this.Rail.Location = new System.Drawing.Point(88, 76);
+            this.Rail.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.Rail.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.Rail.Name = "Rail";
+            this.Rail.Size = new System.Drawing.Size(41, 20);
+            this.Rail.TabIndex = 4;
+            this.Rail.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
             // label80
             // 
             this.label80.AutoSize = true;
@@ -1928,6 +2011,16 @@
             this.label80.Size = new System.Drawing.Size(58, 13);
             this.label80.TabIndex = 3;
             this.label80.Text = "Camera Id:";
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(17, 78);
+            this.label91.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(65, 13);
+            this.label91.TabIndex = 3;
+            this.label91.Text = "Rail Id (l_id):";
             // 
             // Priority
             // 
@@ -2018,6 +2111,40 @@
             this.StartGeneral.TabIndex = 4;
             this.StartGeneral.Text = "Mario Properties";
             this.StartGeneral.UseVisualStyleBackColor = true;
+            // 
+            // MarioIncrement
+            // 
+            this.MarioIncrement.Location = new System.Drawing.Point(152, 58);
+            this.MarioIncrement.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.MarioIncrement.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.MarioIncrement.Name = "MarioIncrement";
+            this.MarioIncrement.Size = new System.Drawing.Size(120, 20);
+            this.MarioIncrement.TabIndex = 22;
+            this.toolTip1.SetToolTip(this.MarioIncrement, "This only affects how much you change coordinates in the editor!");
+            this.MarioIncrement.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.MarioIncrement.ValueChanged += new System.EventHandler(this.MarioIncrement_ValueChanged);
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Location = new System.Drawing.Point(53, 60);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(96, 13);
+            this.label84.TabIndex = 21;
+            this.label84.Text = "Position increment:";
+            this.toolTip1.SetToolTip(this.label84, "This only affects how much you change coordinates in the editor!");
             // 
             // MarioMultiFileName
             // 
@@ -2406,6 +2533,40 @@
             this.DemoExtra.TabIndex = 3;
             this.DemoExtra.Text = "Cutscene Object Properties";
             this.DemoExtra.UseVisualStyleBackColor = true;
+            // 
+            // DemoIncrement
+            // 
+            this.DemoIncrement.Location = new System.Drawing.Point(152, 58);
+            this.DemoIncrement.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.DemoIncrement.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.DemoIncrement.Name = "DemoIncrement";
+            this.DemoIncrement.Size = new System.Drawing.Size(120, 20);
+            this.DemoIncrement.TabIndex = 35;
+            this.toolTip1.SetToolTip(this.DemoIncrement, "This only affects how much you change coordinates in the editor!");
+            this.DemoIncrement.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.DemoIncrement.ValueChanged += new System.EventHandler(this.DemoIncrement_ValueChanged);
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Location = new System.Drawing.Point(53, 60);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(96, 13);
+            this.label86.TabIndex = 34;
+            this.label86.Text = "Position increment:";
+            this.toolTip1.SetToolTip(this.label86, "This only affects how much you change coordinates in the editor!");
             // 
             // DemoSwitchDeadOn
             // 
@@ -3025,27 +3186,27 @@
             this.label39.TabIndex = 3;
             this.label39.Text = "Name:";
             // 
-            // Rail
+            // RailTab
             // 
-            this.Rail.AutoScroll = true;
-            this.Rail.Controls.Add(this.RailType);
-            this.Rail.Controls.Add(this.RailPointsBtn);
-            this.Rail.Controls.Add(this.RailClosed);
-            this.Rail.Controls.Add(this.label33);
-            this.Rail.Controls.Add(this.Railno);
-            this.Rail.Controls.Add(this.label31);
-            this.Rail.Controls.Add(this.Raill_id);
-            this.Rail.Controls.Add(this.label28);
-            this.Rail.Controls.Add(this.RailLayerName);
-            this.Rail.Controls.Add(this.RailName);
-            this.Rail.Controls.Add(this.label29);
-            this.Rail.Controls.Add(this.label30);
-            this.Rail.Location = new System.Drawing.Point(4, 22);
-            this.Rail.Name = "Rail";
-            this.Rail.Size = new System.Drawing.Size(292, 218);
-            this.Rail.TabIndex = 5;
-            this.Rail.Text = "Rail Properties";
-            this.Rail.UseVisualStyleBackColor = true;
+            this.RailTab.AutoScroll = true;
+            this.RailTab.Controls.Add(this.RailType);
+            this.RailTab.Controls.Add(this.RailPointsBtn);
+            this.RailTab.Controls.Add(this.RailClosed);
+            this.RailTab.Controls.Add(this.label33);
+            this.RailTab.Controls.Add(this.Railno);
+            this.RailTab.Controls.Add(this.label31);
+            this.RailTab.Controls.Add(this.Raill_id);
+            this.RailTab.Controls.Add(this.label28);
+            this.RailTab.Controls.Add(this.RailLayerName);
+            this.RailTab.Controls.Add(this.RailName);
+            this.RailTab.Controls.Add(this.label29);
+            this.RailTab.Controls.Add(this.label30);
+            this.RailTab.Location = new System.Drawing.Point(4, 22);
+            this.RailTab.Name = "RailTab";
+            this.RailTab.Size = new System.Drawing.Size(292, 218);
+            this.RailTab.TabIndex = 5;
+            this.RailTab.Text = "Rail Properties";
+            this.RailTab.UseVisualStyleBackColor = true;
             // 
             // RailType
             // 
@@ -3505,6 +3666,16 @@
             // 
             // GroupGen
             // 
+            this.GroupGen.Controls.Add(this.GrpSwitchDeadOn);
+            this.GroupGen.Controls.Add(this.GrpSwitchKill);
+            this.GroupGen.Controls.Add(this.GrpSwitchAppear);
+            this.GroupGen.Controls.Add(this.GrpSwitchB);
+            this.GroupGen.Controls.Add(this.GrpSwitchA);
+            this.GroupGen.Controls.Add(this.label63);
+            this.GroupGen.Controls.Add(this.label66);
+            this.GroupGen.Controls.Add(this.label88);
+            this.GroupGen.Controls.Add(this.label89);
+            this.GroupGen.Controls.Add(this.label90);
             this.GroupGen.Controls.Add(this.GrpIncrement);
             this.GroupGen.Controls.Add(this.label87);
             this.GroupGen.Controls.Add(this.IsRelative);
@@ -3524,13 +3695,9 @@
             this.GroupGen.Controls.Add(this.Grpscale1);
             this.GroupGen.Controls.Add(this.Grpdir2);
             this.GroupGen.Controls.Add(this.Grpdir1);
-            this.GroupGen.Controls.Add(this.GrpViewId2);
-            this.GroupGen.Controls.Add(this.GrpCameraId2);
             this.GroupGen.Controls.Add(this.Grpscale0);
             this.GroupGen.Controls.Add(this.Grppos2);
-            this.GroupGen.Controls.Add(this.label63);
             this.GroupGen.Controls.Add(this.Grpdir0);
-            this.GroupGen.Controls.Add(this.label66);
             this.GroupGen.Controls.Add(this.Grppos1);
             this.GroupGen.Controls.Add(this.Grppos0);
             this.GroupGen.Controls.Add(this.label67);
@@ -3543,10 +3710,195 @@
             this.GroupGen.Text = "Group Properties";
             this.GroupGen.UseVisualStyleBackColor = true;
             // 
+            // GrpSwitchDeadOn
+            // 
+            this.GrpSwitchDeadOn.Location = new System.Drawing.Point(194, 192);
+            this.GrpSwitchDeadOn.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.GrpSwitchDeadOn.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.GrpSwitchDeadOn.Name = "GrpSwitchDeadOn";
+            this.GrpSwitchDeadOn.Size = new System.Drawing.Size(41, 20);
+            this.GrpSwitchDeadOn.TabIndex = 39;
+            this.GrpSwitchDeadOn.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
+            // GrpSwitchKill
+            // 
+            this.GrpSwitchKill.Location = new System.Drawing.Point(246, 167);
+            this.GrpSwitchKill.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.GrpSwitchKill.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.GrpSwitchKill.Name = "GrpSwitchKill";
+            this.GrpSwitchKill.Size = new System.Drawing.Size(41, 20);
+            this.GrpSwitchKill.TabIndex = 40;
+            this.GrpSwitchKill.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
+            // GrpSwitchAppear
+            // 
+            this.GrpSwitchAppear.Location = new System.Drawing.Point(163, 167);
+            this.GrpSwitchAppear.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.GrpSwitchAppear.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.GrpSwitchAppear.Name = "GrpSwitchAppear";
+            this.GrpSwitchAppear.Size = new System.Drawing.Size(41, 20);
+            this.GrpSwitchAppear.TabIndex = 41;
+            this.GrpSwitchAppear.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
+            // GrpSwitchB
+            // 
+            this.GrpSwitchB.Location = new System.Drawing.Point(57, 193);
+            this.GrpSwitchB.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.GrpSwitchB.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.GrpSwitchB.Name = "GrpSwitchB";
+            this.GrpSwitchB.Size = new System.Drawing.Size(41, 20);
+            this.GrpSwitchB.TabIndex = 42;
+            this.GrpSwitchB.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
+            // GrpSwitchA
+            // 
+            this.GrpSwitchA.Location = new System.Drawing.Point(57, 167);
+            this.GrpSwitchA.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.GrpSwitchA.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.GrpSwitchA.Name = "GrpSwitchA";
+            this.GrpSwitchA.Size = new System.Drawing.Size(41, 20);
+            this.GrpSwitchA.TabIndex = 43;
+            this.GrpSwitchA.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(98, 194);
+            this.label63.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(95, 13);
+            this.label63.TabIndex = 34;
+            this.label63.Text = "On death activate:";
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Location = new System.Drawing.Point(204, 169);
+            this.label66.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(41, 13);
+            this.label66.TabIndex = 35;
+            this.label66.Text = "Die on:";
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = true;
+            this.label88.Location = new System.Drawing.Point(104, 169);
+            this.label88.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(59, 13);
+            this.label88.TabIndex = 36;
+            this.label88.Text = "Appear on:";
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = true;
+            this.label89.Location = new System.Drawing.Point(5, 195);
+            this.label89.Name = "label89";
+            this.label89.Size = new System.Drawing.Size(52, 13);
+            this.label89.TabIndex = 37;
+            this.label89.Text = "Switch B:";
+            // 
+            // label90
+            // 
+            this.label90.AutoSize = true;
+            this.label90.Location = new System.Drawing.Point(5, 169);
+            this.label90.Name = "label90";
+            this.label90.Size = new System.Drawing.Size(52, 13);
+            this.label90.TabIndex = 38;
+            this.label90.Text = "Switch A:";
+            // 
+            // GrpIncrement
+            // 
+            this.GrpIncrement.Location = new System.Drawing.Point(177, 5);
+            this.GrpIncrement.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.GrpIncrement.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.GrpIncrement.Name = "GrpIncrement";
+            this.GrpIncrement.Size = new System.Drawing.Size(99, 20);
+            this.GrpIncrement.TabIndex = 33;
+            this.toolTip1.SetToolTip(this.GrpIncrement, "This only affects how much you change coordinates in the editor!");
+            this.GrpIncrement.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.GrpIncrement.ValueChanged += new System.EventHandler(this.GrpIncrement_ValueChanged);
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Location = new System.Drawing.Point(81, 8);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(96, 13);
+            this.label87.TabIndex = 32;
+            this.label87.Text = "Position increment:";
+            this.toolTip1.SetToolTip(this.label87, "This only affects how much you change coordinates in the editor!");
+            // 
+            // IsRelative
+            // 
+            this.IsRelative.AutoSize = true;
+            this.IsRelative.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.IsRelative.Checked = true;
+            this.IsRelative.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IsRelative.Location = new System.Drawing.Point(10, 7);
+            this.IsRelative.Name = "IsRelative";
+            this.IsRelative.Size = new System.Drawing.Size(71, 17);
+            this.IsRelative.TabIndex = 31;
+            this.IsRelative.Text = "Relative?";
+            this.IsRelative.UseVisualStyleBackColor = true;
+            // 
             // GrpViewIdChck
             // 
             this.GrpViewIdChck.AutoSize = true;
-            this.GrpViewIdChck.Location = new System.Drawing.Point(268, 158);
+            this.GrpViewIdChck.Location = new System.Drawing.Point(268, 143);
             this.GrpViewIdChck.Name = "GrpViewIdChck";
             this.GrpViewIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpViewIdChck.TabIndex = 27;
@@ -3557,7 +3909,7 @@
             // GrpCameraIdChck
             // 
             this.GrpCameraIdChck.AutoSize = true;
-            this.GrpCameraIdChck.Location = new System.Drawing.Point(268, 132);
+            this.GrpCameraIdChck.Location = new System.Drawing.Point(268, 117);
             this.GrpCameraIdChck.Name = "GrpCameraIdChck";
             this.GrpCameraIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpCameraIdChck.TabIndex = 28;
@@ -3568,7 +3920,7 @@
             // GrpPriorityChck
             // 
             this.GrpPriorityChck.AutoSize = true;
-            this.GrpPriorityChck.Location = new System.Drawing.Point(131, 158);
+            this.GrpPriorityChck.Location = new System.Drawing.Point(131, 143);
             this.GrpPriorityChck.Name = "GrpPriorityChck";
             this.GrpPriorityChck.Size = new System.Drawing.Size(15, 14);
             this.GrpPriorityChck.TabIndex = 29;
@@ -3579,7 +3931,7 @@
             // GrpClippingGroupIdChck
             // 
             this.GrpClippingGroupIdChck.AutoSize = true;
-            this.GrpClippingGroupIdChck.Location = new System.Drawing.Point(131, 132);
+            this.GrpClippingGroupIdChck.Location = new System.Drawing.Point(131, 117);
             this.GrpClippingGroupIdChck.Name = "GrpClippingGroupIdChck";
             this.GrpClippingGroupIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpClippingGroupIdChck.TabIndex = 30;
@@ -3590,7 +3942,7 @@
             // GrpViewId
             // 
             this.GrpViewId.Enabled = false;
-            this.GrpViewId.Location = new System.Drawing.Point(221, 156);
+            this.GrpViewId.Location = new System.Drawing.Point(221, 141);
             this.GrpViewId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3609,7 +3961,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(169, 158);
+            this.label15.Location = new System.Drawing.Point(169, 143);
             this.label15.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(45, 13);
@@ -3619,7 +3971,7 @@
             // GrpCameraId
             // 
             this.GrpCameraId.Enabled = false;
-            this.GrpCameraId.Location = new System.Drawing.Point(221, 130);
+            this.GrpCameraId.Location = new System.Drawing.Point(221, 115);
             this.GrpCameraId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3638,7 +3990,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(158, 132);
+            this.label18.Location = new System.Drawing.Point(158, 117);
             this.label18.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(58, 13);
@@ -3648,7 +4000,7 @@
             // GrpPriority
             // 
             this.GrpPriority.Enabled = false;
-            this.GrpPriority.Location = new System.Drawing.Point(84, 156);
+            this.GrpPriority.Location = new System.Drawing.Point(84, 141);
             this.GrpPriority.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3667,7 +4019,7 @@
             // label82
             // 
             this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(13, 158);
+            this.label82.Location = new System.Drawing.Point(13, 143);
             this.label82.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(65, 13);
@@ -3677,7 +4029,7 @@
             // GrpClippingGroupId
             // 
             this.GrpClippingGroupId.Enabled = false;
-            this.GrpClippingGroupId.Location = new System.Drawing.Point(84, 130);
+            this.GrpClippingGroupId.Location = new System.Drawing.Point(84, 115);
             this.GrpClippingGroupId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3696,7 +4048,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(2, 132);
+            this.label83.Location = new System.Drawing.Point(2, 117);
             this.label83.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(77, 13);
@@ -3711,7 +4063,7 @@
             0,
             0,
             131072});
-            this.Grpscale2.Location = new System.Drawing.Point(208, 98);
+            this.Grpscale2.Location = new System.Drawing.Point(208, 83);
             this.Grpscale2.Maximum = new decimal(new int[] {
             300,
             0,
@@ -3730,7 +4082,7 @@
             0,
             0,
             131072});
-            this.Grpscale1.Location = new System.Drawing.Point(134, 98);
+            this.Grpscale1.Location = new System.Drawing.Point(134, 83);
             this.Grpscale1.Maximum = new decimal(new int[] {
             300,
             0,
@@ -3749,7 +4101,7 @@
             0,
             0,
             0});
-            this.Grpdir2.Location = new System.Drawing.Point(208, 72);
+            this.Grpdir2.Location = new System.Drawing.Point(208, 57);
             this.Grpdir2.Maximum = new decimal(new int[] {
             360,
             0,
@@ -3773,7 +4125,7 @@
             0,
             0,
             0});
-            this.Grpdir1.Location = new System.Drawing.Point(134, 72);
+            this.Grpdir1.Location = new System.Drawing.Point(134, 57);
             this.Grpdir1.Maximum = new decimal(new int[] {
             360,
             0,
@@ -3789,42 +4141,6 @@
             this.Grpdir1.TabIndex = 11;
             this.Grpdir1.ValueChanged += new System.EventHandler(this.numupdownupdated);
             // 
-            // GrpViewId2
-            // 
-            this.GrpViewId2.Location = new System.Drawing.Point(79, 192);
-            this.GrpViewId2.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.GrpViewId2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.GrpViewId2.Name = "GrpViewId2";
-            this.GrpViewId2.Size = new System.Drawing.Size(41, 20);
-            this.GrpViewId2.TabIndex = 12;
-            this.GrpViewId2.ValueChanged += new System.EventHandler(this.numupdownupdated);
-            // 
-            // GrpCameraId2
-            // 
-            this.GrpCameraId2.Location = new System.Drawing.Point(228, 192);
-            this.GrpCameraId2.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.GrpCameraId2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.GrpCameraId2.Name = "GrpCameraId2";
-            this.GrpCameraId2.Size = new System.Drawing.Size(41, 20);
-            this.GrpCameraId2.TabIndex = 13;
-            this.GrpCameraId2.ValueChanged += new System.EventHandler(this.numupdownupdated);
-            // 
             // Grpscale0
             // 
             this.Grpscale0.DecimalPlaces = 2;
@@ -3833,7 +4149,7 @@
             0,
             0,
             131072});
-            this.Grpscale0.Location = new System.Drawing.Point(60, 98);
+            this.Grpscale0.Location = new System.Drawing.Point(60, 83);
             this.Grpscale0.Maximum = new decimal(new int[] {
             300,
             0,
@@ -3852,7 +4168,7 @@
             0,
             0,
             0});
-            this.Grppos2.Location = new System.Drawing.Point(208, 46);
+            this.Grppos2.Location = new System.Drawing.Point(208, 31);
             this.Grppos2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -3868,15 +4184,6 @@
             this.Grppos2.TabIndex = 15;
             this.Grppos2.ValueChanged += new System.EventHandler(this.numupdownupdated);
             // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(31, 194);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(45, 13);
-            this.label63.TabIndex = 3;
-            this.label63.Text = "View Id:";
-            // 
             // Grpdir0
             // 
             this.Grpdir0.DecimalPlaces = 2;
@@ -3885,7 +4192,7 @@
             0,
             0,
             0});
-            this.Grpdir0.Location = new System.Drawing.Point(60, 72);
+            this.Grpdir0.Location = new System.Drawing.Point(60, 57);
             this.Grpdir0.Maximum = new decimal(new int[] {
             360,
             0,
@@ -3901,15 +4208,6 @@
             this.Grpdir0.TabIndex = 16;
             this.Grpdir0.ValueChanged += new System.EventHandler(this.numupdownupdated);
             // 
-            // label66
-            // 
-            this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(165, 194);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(58, 13);
-            this.label66.TabIndex = 4;
-            this.label66.Text = "Camera Id:";
-            // 
             // Grppos1
             // 
             this.Grppos1.DecimalPlaces = 2;
@@ -3918,7 +4216,7 @@
             0,
             0,
             0});
-            this.Grppos1.Location = new System.Drawing.Point(134, 46);
+            this.Grppos1.Location = new System.Drawing.Point(134, 31);
             this.Grppos1.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -3942,7 +4240,7 @@
             0,
             0,
             0});
-            this.Grppos0.Location = new System.Drawing.Point(60, 46);
+            this.Grppos0.Location = new System.Drawing.Point(60, 31);
             this.Grppos0.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -3961,7 +4259,7 @@
             // label67
             // 
             this.label67.AutoSize = true;
-            this.label67.Location = new System.Drawing.Point(25, 100);
+            this.label67.Location = new System.Drawing.Point(25, 85);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(37, 13);
             this.label67.TabIndex = 5;
@@ -3970,7 +4268,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(10, 74);
+            this.label68.Location = new System.Drawing.Point(10, 59);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(50, 13);
             this.label68.TabIndex = 6;
@@ -3979,7 +4277,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(12, 48);
+            this.label69.Location = new System.Drawing.Point(12, 33);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(50, 13);
             this.label69.TabIndex = 7;
@@ -4463,155 +4761,6 @@
             this.IncType.Size = new System.Drawing.Size(107, 21);
             this.IncType.TabIndex = 17;
             // 
-            // IsRelative
-            // 
-            this.IsRelative.AutoSize = true;
-            this.IsRelative.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.IsRelative.Checked = true;
-            this.IsRelative.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IsRelative.Location = new System.Drawing.Point(142, 3);
-            this.IsRelative.Name = "IsRelative";
-            this.IsRelative.Size = new System.Drawing.Size(134, 17);
-            this.IsRelative.TabIndex = 31;
-            this.IsRelative.Text = "Use relative transform?";
-            this.IsRelative.UseVisualStyleBackColor = true;
-            // 
-            // label84
-            // 
-            this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(53, 60);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(96, 13);
-            this.label84.TabIndex = 21;
-            this.label84.Text = "Position increment:";
-            this.toolTip1.SetToolTip(this.label84, "This only affects how much you change coordinates in the editor!");
-            // 
-            // MarioIncrement
-            // 
-            this.MarioIncrement.Location = new System.Drawing.Point(152, 58);
-            this.MarioIncrement.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.MarioIncrement.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.MarioIncrement.Name = "MarioIncrement";
-            this.MarioIncrement.Size = new System.Drawing.Size(120, 20);
-            this.MarioIncrement.TabIndex = 22;
-            this.toolTip1.SetToolTip(this.MarioIncrement, "This only affects how much you change coordinates in the editor!");
-            this.MarioIncrement.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.MarioIncrement.ValueChanged += new System.EventHandler(this.MarioIncrement_ValueChanged);
-            // 
-            // GenIncrement
-            // 
-            this.GenIncrement.Location = new System.Drawing.Point(148, 62);
-            this.GenIncrement.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.GenIncrement.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.GenIncrement.Name = "GenIncrement";
-            this.GenIncrement.Size = new System.Drawing.Size(120, 20);
-            this.GenIncrement.TabIndex = 24;
-            this.toolTip1.SetToolTip(this.GenIncrement, "This only affects how much you change coordinates in the editor!");
-            this.GenIncrement.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.GenIncrement.ValueChanged += new System.EventHandler(this.GenIncrement_ValueChanged);
-            // 
-            // label85
-            // 
-            this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(49, 64);
-            this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(96, 13);
-            this.label85.TabIndex = 23;
-            this.label85.Text = "Position increment:";
-            this.toolTip1.SetToolTip(this.label85, "This only affects how much you change coordinates in the editor!");
-            // 
-            // DemoIncrement
-            // 
-            this.DemoIncrement.Location = new System.Drawing.Point(152, 58);
-            this.DemoIncrement.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.DemoIncrement.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.DemoIncrement.Name = "DemoIncrement";
-            this.DemoIncrement.Size = new System.Drawing.Size(120, 20);
-            this.DemoIncrement.TabIndex = 35;
-            this.toolTip1.SetToolTip(this.DemoIncrement, "This only affects how much you change coordinates in the editor!");
-            this.DemoIncrement.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.DemoIncrement.ValueChanged += new System.EventHandler(this.DemoIncrement_ValueChanged);
-            // 
-            // label86
-            // 
-            this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(53, 60);
-            this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(96, 13);
-            this.label86.TabIndex = 34;
-            this.label86.Text = "Position increment:";
-            this.toolTip1.SetToolTip(this.label86, "This only affects how much you change coordinates in the editor!");
-            // 
-            // GrpIncrement
-            // 
-            this.GrpIncrement.Location = new System.Drawing.Point(156, 20);
-            this.GrpIncrement.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.GrpIncrement.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.GrpIncrement.Name = "GrpIncrement";
-            this.GrpIncrement.Size = new System.Drawing.Size(120, 20);
-            this.GrpIncrement.TabIndex = 33;
-            this.toolTip1.SetToolTip(this.GrpIncrement, "This only affects how much you change coordinates in the editor!");
-            this.GrpIncrement.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.GrpIncrement.ValueChanged += new System.EventHandler(this.GrpIncrement_ValueChanged);
-            // 
-            // label87
-            // 
-            this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(57, 22);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(96, 13);
-            this.label87.TabIndex = 32;
-            this.label87.Text = "Position increment:";
-            this.toolTip1.SetToolTip(this.label87, "This only affects how much you change coordinates in the editor!");
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -4656,6 +4805,7 @@
             this.SelectedProperties.ResumeLayout(false);
             this.General.ResumeLayout(false);
             this.General.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GenIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genscale2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genscale1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gendir2)).EndInit();
@@ -4675,10 +4825,12 @@
             this.Extra.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ViewId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CameraId)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Rail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Priority)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClippingGroupId)).EndInit();
             this.StartGeneral.ResumeLayout(false);
             this.StartGeneral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MarioIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mariodir2)).EndInit();
@@ -4691,6 +4843,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.MarioMarioNo)).EndInit();
             this.DemoExtra.ResumeLayout(false);
             this.DemoExtra.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchDeadOn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchKill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchAppear)).EndInit();
@@ -4706,8 +4859,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Demodir0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Demopos1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Demopos0)).EndInit();
-            this.Rail.ResumeLayout(false);
-            this.Rail.PerformLayout();
+            this.RailTab.ResumeLayout(false);
+            this.RailTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Railno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Raill_id)).EndInit();
             this.DefArgs.ResumeLayout(false);
@@ -4724,6 +4877,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int0)).EndInit();
             this.GroupGen.ResumeLayout(false);
             this.GroupGen.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchDeadOn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchKill)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchAppear)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchA)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpViewId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpCameraId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpPriority)).EndInit();
@@ -4732,8 +4891,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Grpscale1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpdir2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpdir1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpViewId2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpCameraId2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpscale0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grppos2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Grpdir0)).EndInit();
@@ -4753,10 +4910,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Grparg_int0)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MarioIncrement)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GenIncrement)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpIncrement)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4887,7 +5040,7 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox GenMultiFileName;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TabPage Rail;
+        private System.Windows.Forms.TabPage RailTab;
         private System.Windows.Forms.NumericUpDown Genl_id;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox GenLayerName;
@@ -5013,13 +5166,9 @@
         private System.Windows.Forms.NumericUpDown Grpscale1;
         private System.Windows.Forms.NumericUpDown Grpdir2;
         private System.Windows.Forms.NumericUpDown Grpdir1;
-        private System.Windows.Forms.NumericUpDown GrpViewId2;
-        private System.Windows.Forms.NumericUpDown GrpCameraId2;
         private System.Windows.Forms.NumericUpDown Grpscale0;
         private System.Windows.Forms.NumericUpDown Grppos2;
-        private System.Windows.Forms.Label label63;
         private System.Windows.Forms.NumericUpDown Grpdir0;
-        private System.Windows.Forms.Label label66;
         private System.Windows.Forms.NumericUpDown Grppos1;
         private System.Windows.Forms.NumericUpDown Grppos0;
         private System.Windows.Forms.Label label67;
@@ -5075,5 +5224,18 @@
         private System.Windows.Forms.Label label86;
         private System.Windows.Forms.NumericUpDown GrpIncrement;
         private System.Windows.Forms.Label label87;
+        private System.Windows.Forms.NumericUpDown GrpSwitchDeadOn;
+        private System.Windows.Forms.NumericUpDown GrpSwitchKill;
+        private System.Windows.Forms.NumericUpDown GrpSwitchAppear;
+        private System.Windows.Forms.NumericUpDown GrpSwitchB;
+        private System.Windows.Forms.NumericUpDown GrpSwitchA;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Label label88;
+        private System.Windows.Forms.Label label89;
+        private System.Windows.Forms.Label label90;
+        private System.Windows.Forms.CheckBox RailChck;
+        private System.Windows.Forms.NumericUpDown Rail;
+        private System.Windows.Forms.Label label91;
     }
 }

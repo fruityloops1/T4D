@@ -396,7 +396,7 @@ namespace The4Dimension
         public bool UseDesignSound = Properties.Settings.Default.UseDesignSound;
         public Dictionary<string, byte[]> SzsFiles = null;
         public Dictionary<string, AllInfoSection> AllInfos = new Dictionary<string, AllInfoSection>();
-        public List<Rail> AllRailInfos = new List<Rail>();
+        public AllRailInfoSection AllRailInfos = new AllRailInfoSection();
         public Dictionary<string, int> higestID = new Dictionary<string, int>();
         public Dictionary<string, string> CreatorClassNameTable = new Dictionary<string, string>();
         public CustomStack<UndoAction> Undo = new CustomStack<UndoAction>();
@@ -493,7 +493,7 @@ namespace The4Dimension
             C0EditingPanel.Visible = false;
 
             AllInfos = new Dictionary<string, AllInfoSection>();
-            AllRailInfos = new List<Rail>();
+            AllRailInfos = new AllRailInfoSection();
             higestID = new Dictionary<string, int>();
             Undo = new CustomStack<UndoAction>();
             comboBox1.Items.Clear();
@@ -908,7 +908,7 @@ namespace The4Dimension
             }
         }
 
-        void LoadRailsModels(List<Rail> source)
+        void LoadRailsModels(AllRailInfoSection source)
         {
             foreach (Rail r in source)
             {
@@ -1261,12 +1261,12 @@ namespace The4Dimension
                     if (xNode.Attributes["Name"].Value.StartsWith("Arg")) Args.Add(Int32.Parse(xNode.Attributes["StringValue"].Value));
                     else
                     {
-                        if (xNode.Name == "C1")
+                        if (xNode.Name == "C1") // Rail editing
                         {
-                            if (xNode.Attributes["Name"].Value == "Rail") Ret.Prop.Add("Rail", LoadRail(xNode.ChildNodes, "AllRailInfos"));
+                            if (xNode.Attributes["Name"].Value == "Rail") if (LoadRail(xNode.ChildNodes, "AllRailInfos").l_id != null) Ret.Prop.Add("Rail", LoadRail(xNode.ChildNodes, "AllRailInfos").l_id);
                             else throw new Exception("C1 type not implemented :(");
                         }
-                        else if (xNode.Name == "C0")
+                        else if (xNode.Name == "C0")//C0 List editing
                         {
                             C0List c0Section = new C0List();
                             XmlNodeList objList = xNode.ChildNodes;
@@ -1276,7 +1276,7 @@ namespace The4Dimension
                             }
                             Ret.Prop.Add(xNode.Attributes["Name"].Value, c0Section);
                         }
-                        else
+                        else if (xNode.Attributes["Name"].Value != "Rail")
                             Ret.Prop.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
                         if (xNode.Attributes["Name"].Value == "l_id") if (Int32.Parse(xNode.Attributes["StringValue"].Value) > higestID[Type]) higestID[Type] = Int32.Parse(xNode.Attributes["StringValue"].Value);
                     }
@@ -1388,7 +1388,7 @@ namespace The4Dimension
 
                     };
                     add = new List<string>();
-                    add.Add("Rail");
+                    add.Add("RailTab");
                     add.Add("Args");
 
                     //RefreshTabs(remove, add);
@@ -1481,7 +1481,7 @@ namespace The4Dimension
         private void render_LeftClick(object sender, MouseButtonEventArgs e)
         {
             if ((ModifierKeys & Keys.Control) == Keys.Control || RenderIsDragging) return;
-            object[] indexes = render.GetOBJ(sender, e); //indexes[0] string, [1] int
+            object[] indexes = render.GetOBJ(sender, e); //indexes[0] Allinfos name, [1] int index of the object
             if (indexes[0] == null) return; //this means indexes[0] = -1
             if ((string)indexes[0] == "SelectedRail" || (string)indexes[0] == "TmpChildrenObjs" || (string)indexes[0] == "TmpAreaChildrenObjs" || (IsEditingC0List && (string)indexes[0] != "C0EditingListObjs")) return;
             if ((ModifierKeys & Keys.Shift) == Keys.Shift && (string)indexes[0] == CurrentAllInfosSectionName)
@@ -1968,7 +1968,7 @@ namespace The4Dimension
                         "General",
                         "Extra",
                         "DemoExtra",
-                        "Rail",
+                        "RailTab",
                         "Args",
                         "DefArgs"
                     };
@@ -1987,7 +1987,7 @@ namespace The4Dimension
 
                     };
                 add = new List<string>();
-                add.Add("Rail");
+                add.Add("RailTab");
             }
             else if (comboBox1.Text == "DemoSceneObjInfo")
             {
@@ -1996,7 +1996,7 @@ namespace The4Dimension
                         "Extra",
                         "General",
                         "StartGeneral",
-                        "Rail"
+                        "RailTab"
                     };
                 add = new List<string>() { "DemoExtra" };
             }
@@ -2006,7 +2006,7 @@ namespace The4Dimension
                     {
                         "StartGeneral",
                         "DemoExtra",
-                        "Rail"
+                        "RailTab"
                     };
                 add = new List<string>() { "General", "Extra" };
             }
@@ -2058,7 +2058,7 @@ namespace The4Dimension
                         "DemoExtra",
                         "General",
                         "StartGeneral",
-                        "Rail"
+                        "RailTab"
                 };
                 add = new List<string>()
                 {
@@ -3298,10 +3298,17 @@ namespace The4Dimension
             }
         }
 
-        void AddRail(Rail r, int at = -1, bool IsUndo = false)
+        void AddRail(Rail r, int at = -1, bool IsUndo = false, int l_id = -1)
         {
             higestID["AllRailInfos"]++;
-            r.l_id = higestID["AllRailInfos"];
+            if (l_id == -1)
+            {
+                r.l_id = higestID["AllRailInfos"];
+            }
+            else
+            {
+                r.l_id = l_id;
+            }
             LoadRailsModels(r, at);
             if (at == -1) AllRailInfos.Add(r); else AllRailInfos.Insert(at, r);
             if (at == -1) ObjectsListBox.Items.Add(r.ToString()); else ObjectsListBox.Items.Insert(at, r.ToString());
@@ -3563,8 +3570,8 @@ namespace The4Dimension
             }
             else if (value == "Rail")
             {
-                cl.Type = ClipBoardItem.ClipboardType.Rail;
-                cl.Rail = ((Rail)GetListByName(type)[index].Prop["Rail"]).Clone();
+                //cl.Type = ClipBoardItem.ClipboardType.Rail;
+                //cl.Rail = ((Rail)GetListByName(type)[index].Prop["Rail"]).Clone();
             }
             clipboard.Add(cl);
             if (clipboard.Count > 10) clipboard.RemoveAt(0);
@@ -4398,16 +4405,24 @@ namespace The4Dimension
                         }
                     }
                     else if (node is C0List)
-                {
+                {// for each object in the allinfos of this object that has this object as parent -> if they're areas they go into generateareas, otherwise generatechildren
                     C0List tmp = (C0List)node;
                     xr.WriteStartElement("C0");
                     xr.WriteAttributeString("Name", Key);
                     foreach (LevelObj o in tmp.List) WriteOBJ(xr, o);
                     xr.WriteEndElement();
                 }
-                else if (node is Rail)
+                /*else if (node is Rail)
                 {
                     Rail tmp = (Rail)node;
+                    xr.WriteStartElement("C1");
+                    xr.WriteAttributeString("Name", Key);
+                    WriteRail(xr, tmp);
+                    xr.WriteEndElement();
+                }*/
+                else if (Key == "Rail")
+                {
+                    Rail tmp = (Rail)AllRailInfos[AllRailInfos.GetById((int)node)];
                     xr.WriteStartElement("C1");
                     xr.WriteAttributeString("Name", Key);
                     WriteRail(xr, tmp);
@@ -4855,6 +4870,8 @@ namespace The4Dimension
                 Priority.Enabled = false;
                 CameraId.Enabled = false;
                 ViewId.Enabled = false;
+                Rail.Enabled = false;
+                RailChck.Checked = false;
                 ClippingGroupIdChck.Checked = false;
                 PriorityChck.Checked = false;
                 CameraIdChck.Checked = false;
@@ -4875,17 +4892,27 @@ namespace The4Dimension
                             }
                             else if (tabs.Key == "Extra")
                             {
-                                if (prop.Key == "ClippingGroupId" || prop.Key == "Priority" || prop.Key == "CameraId" || prop.Key == "ViewId")
+                                if (prop.Key == "ClippingGroupId" || prop.Key == "Priority" || prop.Key == "CameraId" || prop.Key == "ViewId" || prop.Key == "Rail")
                                 {
-                                    ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
                                     ((CheckBox)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key + "Chck")]).Checked = true;
                                     ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Enabled = true;
+                                    if (prop.Key == "Rail")
+                                    {
+                                        EditRailBtn.Enabled = true;
+                                        EditRailBtn.Text = "Edit Rail";
+                                        ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = (int)prop.Value;
+                                    }
+                                    else
+                                    {
+
+                                        ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
+                                    }
                                 }
                                 else if (prop.Key == "GenerateChildren" || prop.Key == "AreaChildren")
                                 {
 
                                 }
-                                else if (prop.Key == "Rail")
+                                /*else if (prop.Key == "Rail")
                                 {
                                     ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).Text = "Edit Rail : " + prop.Value.ToString();
                                     if (prop.Value.ToString().Contains("Unk Type (FF)"))
@@ -4898,11 +4925,10 @@ namespace The4Dimension
                                         ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).BackColor = default;
                                     }
 
-                                }
+                                }*/
                                 if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("Rail"))
                                 {
-                                    ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).BackColor = default;
-                                    ((Button)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey("EditRailBtn")]).Text = "Add Rail";
+                                    EditRailBtn.Enabled = false;
                                 }
                             }
                             else if (tabs.Key == "StartGeneral")
@@ -4945,7 +4971,7 @@ namespace The4Dimension
                     string tabidentifier = "";
                     if (SelectedProperties.TabPages.Contains(tabs.Value))
                     {
-                        if (tabs.Key == "Rail")
+                        if (tabs.Key == "RailTab")
                         {
                             tabidentifier = "Rail";
                             RailName.Text = prop.Name;
@@ -5497,6 +5523,21 @@ namespace The4Dimension
                         //oldvalue = int.Parse(((Node)(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property])).StringValue);
                         ((Node)(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property])).StringValue = ((NumericUpDown)sender).Value.ToString();
                     }
+                    else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property].GetType() == typeof(int))
+                    {
+                        CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property] = (int)((NumericUpDown)sender).Value;
+                        if (property == "Rail")
+                        {
+                            if (AllRailInfos.GetById((int)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property]) != -1)
+                            {
+                                EditRailBtn.Text = "Edit Rail";
+                            }
+                            else
+                            {
+                                EditRailBtn.Text = "Add Rail";
+                            }
+                        }
+                    }
                     else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[numbered].GetType() == typeof(Single[]))
                     {
                         //name = numbered;
@@ -5687,24 +5728,28 @@ namespace The4Dimension
 
         private void EditRailBtn_Click(object sender, EventArgs e)
         {
-            if (((Button)sender).Text.Contains("Fix")|| ((Button)sender).Text.Contains("Add"))
-            {
-                CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"] = new Rail();
-                EditRailBtn.Text = "Edit Rail : " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"].ToString();
-                EditRailBtn.BackColor = default;
-                return;
+            if (((Button)sender).Text.Contains("Add"))
+            {// get the highest rail id set the object's rail id to that, create a new rail with that id
+                
+                int id = (int)Rail.Value;
+                Vector3D pos = new Vector3D(((Single[])AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["pos"])[0], -((Single[])AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["pos"])[2],((Single[])AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["pos"])[1]);
+                if (AllRailInfos.GetById(id) != -1 || id == -1)
+                {
+                    id = higestID["AllRailInfos"] + 1;
+                    AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["Rail"] = id;
+                }
+                if (AutoMoveCam) render.LookAt(pos);
+                comboBox1.SelectedIndex = comboBox1.Items.IndexOf("AllRailInfos");
+
+                AddRail(new Rail(true, pos), -1, default, id);
+
+                ObjectsListBox.SelectedIndex = AllRailInfos.GetById(id);
             }
             else
-            {
-                FrmRailEditor Form = new FrmRailEditor((Rail)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"]);
-                Form.Text = "Rail : "+CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"].ToString();
-                Form.ShowDialog();
-                if (Form.edited != null)
-                {
-                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"] = Form.edited;
-                    EditRailBtn.Text = "Edit Rail : " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"].ToString();
-                }
-
+            {// change to AllRailInfos and select the rail with the given id
+                int id = (int)Rail.Value;
+                comboBox1.SelectedIndex = comboBox1.Items.IndexOf("AllRailInfos");
+                ObjectsListBox.SelectedIndex = AllRailInfos.GetById(id);
             }
         }
 
@@ -5737,7 +5782,7 @@ namespace The4Dimension
             {
                 tabidentifier = "Demo";
             }
-            else if (SelectedProperties.SelectedTab.Name == "Rail")
+            else if (SelectedProperties.SelectedTab.Name == "RailTab")
             {
                 tabidentifier = "Rail";
                 string railprop = ((TextBox)sender).Name.Substring(tabidentifier.Length);
@@ -5855,7 +5900,19 @@ namespace The4Dimension
                 {
                     SelectedProperties.TabPages[SelectedProperties.SelectedTab.Name].Controls[(string)((CheckBox)sender).Tag].Enabled = true;
 
-                    AddRemoveProp(sender, (string)((CheckBox)sender).Tag, new Node("-1", "D1"));
+                    
+                    if (((CheckBox)sender).Name.Contains("Rail"))
+                    {
+                        EditRailBtn.Enabled = true;
+                        EditRailBtn.Text = "Add Rail";
+                        Rail.Enabled = true;
+                        Rail.Value = -1;
+                        CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Rail"] = -1;
+                    }
+                    else
+                    {
+                        AddRemoveProp(sender, (string)((CheckBox)sender).Tag, new Node("-1", "D1"));
+                    }
                 }
 
             }
@@ -5870,6 +5927,10 @@ namespace The4Dimension
                 {
                     SelectedProperties.TabPages[SelectedProperties.SelectedTab.Name].Controls[(string)((CheckBox)sender).Tag].Enabled = false;
                     AddRemoveProp(sender, (string)((CheckBox)sender).Tag);
+                    if (((CheckBox)sender).Name.Contains("Rail"))
+                    {
+                        EditRailBtn.Enabled = false;
+                    }
                 }
             }
         }

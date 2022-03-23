@@ -43,6 +43,12 @@ namespace The4Dimension
             groupBox2.Enabled = false;
             button2.Enabled = false;
             button3.Enabled = false;
+            if (Properties.Settings.Default.ExperimentalFeatures)
+            {
+                button5.Enabled = true;
+                button5.Visible = true;
+
+            }
         }
 
         void fromCCNT()
