@@ -2424,7 +2424,7 @@ namespace The4Dimension
                 NewObjectDatabase = d.NewDatabase;
                 DBtoXML(NewObjectDatabase);
             }
-            MessageBox.Show(NewObjectDatabase.docpercent(CreatorClassNameTable).ToString("G2", new CultureInfo("en-us")));
+            if (Properties.Settings.Default.ExperimentalFeatures) MessageBox.Show("CreatorClassNameTable "+NewObjectDatabase.docpercent(CreatorClassNameTable).ToString("G2", new CultureInfo("en-us")) + "% documented.");
             //get db from form
             //LoadObjectDatabase();*/
             LoadNewDatabase();
