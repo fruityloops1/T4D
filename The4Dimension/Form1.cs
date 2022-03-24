@@ -1263,7 +1263,7 @@ namespace The4Dimension
                     {
                         if (xNode.Name == "C1") // Rail editing
                         {
-                            if (xNode.Attributes["Name"].Value == "Rail") if (LoadRail(xNode.ChildNodes, "AllRailInfos").l_id != null) Ret.Prop.Add("Rail", LoadRail(xNode.ChildNodes, "AllRailInfos").l_id);
+                            if (xNode.Attributes["Name"].Value == "Rail") Ret.Prop.Add("Rail", LoadRail(xNode.ChildNodes, "AllRailInfos").l_id);
                             else throw new Exception("C1 type not implemented :(");
                         }
                         else if (xNode.Name == "C0")//C0 List editing
@@ -1364,8 +1364,8 @@ namespace The4Dimension
             btn_cameraCode.Visible = false;
             ObjectsListBox.Items.Clear();
             propertyGrid1.SelectedObject = null;
-            List<string> remove;
-            List<string> add;
+            List<string> remove = new List<string>();
+            List<string> add = new List<string>();
             if (!AllInfos.ContainsKey(comboBox1.Text))
             {
                 if (comboBox1.Text == "AllRailInfos")
@@ -1373,17 +1373,13 @@ namespace The4Dimension
                     checkBox1.Visible = false;
                     checkBox2.Visible = false;
                     for (int i = 0; i < AllRailInfos.Count; i++) ObjectsListBox.Items.Add(AllRailInfos[i].ToString());
-                    /* propertyGrid1.Enabled = true;
-                     propertyGrid1.Visible = true;
-                     Panell1.panel.Enabled = false;
-                     Panell1.panel.Visible = false;*/
                     remove = new List<string>
                     {
                         "General",
                         "Extra",
                         "DemoExtra",
                         "StartGeneral",
-                        "Args",
+                        "Args", 
                         "DefArgs"
 
                     };
@@ -1421,6 +1417,68 @@ namespace The4Dimension
             }
             if (selecting) return;
             if (ObjectsListBox.SelectedIndex != -1) SelectCorrectProperty();
+            if (ObjectsListBox.SelectedIndices.Count == 1)
+            {
+                if (NewObjectDatabase != null)
+                {
+                    if (comboBox1.Text != "StartInfo" && comboBox1.Text != "CameraAreaInfo")
+                    {
+                        if (NewObjectDatabase.DBtoId.ContainsKey(ObjectsListBox.SelectedItem.ToString()))
+                        {
+                            remove.Insert(0, "GroupArgs");
+                            remove.Insert(0, "DefArgs");
+                            remove.Insert(0, "Args");
+                            remove.Add("GroupGen");
+                            add.Add("Args");
+                        }
+                        else
+                        {
+                            remove.Insert(0, "DefArgs");
+                            remove.Insert(0, "GroupArgs");
+                            remove.Insert(0, "Args");
+                            remove.Add("GroupGen");
+                            add.Add("DefArgs");
+                            if (comboBox1.Text == "AllRailInfos")
+                            {
+
+                                label14.Text = "";
+                            }
+                            else
+                            {
+                                label14.Text = "This object's args are undocumented!";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        remove.Insert(0, "GroupArgs");
+                        remove.Insert(0, "DefArgs");
+                        remove.Insert(0, "Args");
+                        remove.Add("GroupGen");
+                    }
+                }
+                else
+                {
+                    if (comboBox1.Text != "StartInfo" && comboBox1.Text != "CameraAreaInfo")
+                    {
+                        remove.Add("DefArgs");
+                        remove.Insert(0, "GroupArgs");
+                        remove.Insert(0, "Args");
+                        remove.Add("GroupGen");
+                        add.Add("DefArgs");
+                        if (comboBox1.Text == "AllRailInfos")
+                        {
+                            label14.Text = "";
+                        }
+                        else
+                        {
+                            label14.Text = "This object's args are undocumented!";
+                        }
+                    }
+                }
+            }
+
+
             /*if (comboBox1.Text == "StartInfo")
             {
                 remove = new List<string>
@@ -1478,6 +1536,7 @@ namespace The4Dimension
         }
 
         bool selecting = false;
+        bool changedAllInfos = false;
         private void render_LeftClick(object sender, MouseButtonEventArgs e)
         {
             if ((ModifierKeys & Keys.Control) == Keys.Control || RenderIsDragging) return;
@@ -1490,20 +1549,27 @@ namespace The4Dimension
             }
             else
             {
-                if (RenderIsDragging == true) { return; }
+                if (RenderIsDragging == true){ return; }
                 if (DraggingAxis[0] == true) { return; }
                 if (DraggingAxis[1] == true) { return; }
                 if (DraggingAxis[2] == true) { return; }
                 selecting = true;
-                if ((string)indexes[0] != "C0EditingListObjs") comboBox1.SelectedIndex = comboBox1.Items.IndexOf((string)indexes[0]);
-
+                if ((string)indexes[0] != "C0EditingListObjs") 
+                {
+                    if (comboBox1.Text != (string)indexes[0])
+                    {
+                        comboBox1.SelectedIndex = comboBox1.Items.IndexOf((string)indexes[0]);
+                        changedAllInfos = true;
+                    }
+                }
                 if (ObjectsListBox.SelectedIndices.Count > 0) { ObjectsListBox.ClearSelected(); }
                 selecting = false;
+                
                 //ObjectsListBox.ClearSelected();
                 ObjectsListBox.SelectedIndex = (int)indexes[1];
+                changedAllInfos = false;
             }
         }
-
         bool RenderIsDragging = false;
         object[] DraggingArgs = null;
         bool[] DraggingAxis = new bool[5];
@@ -1982,8 +2048,7 @@ namespace The4Dimension
                         "Extra",
                         "DemoExtra",
                         "StartGeneral",
-                        "Args",
-                        "DefArgs"
+                        "Args"
 
                     };
                 add = new List<string>();
@@ -2012,13 +2077,13 @@ namespace The4Dimension
             }
             if (NewObjectDatabase != null)
             {
-                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "AllRailInfos" && comboBox1.Text != "CameraAreaInfo")
+                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "CameraAreaInfo")
                 {
                     if (NewObjectDatabase.DBtoId.ContainsKey(ObjectsListBox.SelectedItem.ToString()))
                     {
                         remove.Insert(0,"GroupArgs");
                         remove.Insert(0, "DefArgs");
-                        remove.Insert(0, "Args");
+                        //remove.Insert(0, "Args");
                         remove.Add("GroupGen");
                         add.Add("Args");
                     }
@@ -2028,6 +2093,15 @@ namespace The4Dimension
                         remove.Insert(0, "Args");
                         remove.Add("GroupGen");
                         add.Add("DefArgs");
+                        if (comboBox1.Text == "AllRailInfos")
+                        {
+
+                            label14.Text = "";
+                        }
+                        else
+                        {
+                            label14.Text = "This object's args are undocumented!";
+                        }
                     }
                 }
                 else
@@ -2040,12 +2114,20 @@ namespace The4Dimension
             }
             else
             {
-                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "AllRailInfos" && comboBox1.Text != "CameraAreaInfo")
+                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "CameraAreaInfo")
                 {
                     remove.Insert(0, "GroupArgs");
                     remove.Insert(0, "Args");
                     remove.Add("GroupGen");
                     add.Add("DefArgs");
+                    if (comboBox1.Text == "AllRailInfos")
+                    {
+                        label14.Text = "";
+                    }
+                    else
+                    {
+                        label14.Text = "This object's args are undocumented!";
+                    }
                 }
             }
             if (ObjectsListBox.SelectedItems.Count > 1)
@@ -2088,12 +2170,13 @@ namespace The4Dimension
             //lblDescription.Text = "";
             //lblDescription.Tag = -1;
 
+            List<string> remove = new List<string>();
+            List<string> add = new List<string>();
             if (ObjectsListBox.SelectedIndex < 0)
             {
                 if (DraggingArgs == null)
                 {
                     index = -1;
-                    List<string> remove = new List<string>();
                     foreach (string tab in PropertyTabs.Keys.Reverse())
                     {
                         remove.Add(tab);
@@ -2164,6 +2247,70 @@ namespace The4Dimension
                 if (DraggingArgs == null)
                 {
                     SelectCorrectProperty();
+                    if (changedAllInfos)
+                    {
+                        if (ObjectsListBox.SelectedIndices.Count == 1)
+                        {
+                            if (NewObjectDatabase != null)
+                            {
+                                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "CameraAreaInfo")
+                                {
+                                    if (NewObjectDatabase.DBtoId.ContainsKey(ObjectsListBox.SelectedItem.ToString()))
+                                    {
+                                        remove.Insert(0, "GroupArgs");
+                                        remove.Insert(0, "DefArgs");
+                                        remove.Insert(0, "Args");
+                                        remove.Add("GroupGen");
+                                        add.Add("Args");
+                                    }
+                                    else
+                                    {
+                                        remove.Insert(0, "DefArgs");
+                                        remove.Insert(0, "GroupArgs");
+                                        remove.Insert(0, "Args");
+                                        remove.Add("GroupGen");
+                                        add.Add("DefArgs");
+                                        if (comboBox1.Text == "AllRailInfos")
+                                        {
+
+                                            label14.Text = "";
+                                        }
+                                        else
+                                        {
+                                            label14.Text = "This object's args are undocumented!";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    remove.Insert(0, "GroupArgs");
+                                    remove.Insert(0, "DefArgs");
+                                    remove.Insert(0, "Args");
+                                    remove.Add("GroupGen");
+                                }
+                            }
+                            else
+                            {
+                                if (comboBox1.Text != "StartInfo" && comboBox1.Text != "CameraAreaInfo")
+                                {
+                                    remove.Add("DefArgs");
+                                    remove.Insert(0, "GroupArgs");
+                                    remove.Insert(0, "Args");
+                                    remove.Add("GroupGen");
+                                    add.Add("DefArgs");
+                                    if (comboBox1.Text == "AllRailInfos")
+                                    {
+                                        label14.Text = "";
+                                    }
+                                    else
+                                    {
+                                        label14.Text = "This object's args are undocumented!";
+                                    }
+                                }
+                            }
+                            RefreshTabs(remove, add);
+                        }
+                    }
                 }
 
             }
@@ -2518,7 +2665,10 @@ namespace The4Dimension
                     xr.WriteEndElement();
                     xr.Close();
                 }
-
+                if (File.Exists(@"newobjdb.xml.bak"))
+                {
+                    File.Delete(@"newobjdb.xml.bak");
+                }
                 File.Copy(@"newobjdb.xml", @"newobjdb.xml.bak");
                 File.WriteAllText("newobjdb.xml", DefEnc.GetString(stream.ToArray()));
             }
@@ -5110,15 +5260,26 @@ namespace The4Dimension
         }
         private void RefreshArgs()
         {
-            if (comboBox1.SelectedItem.ToString() == "StartInfo" || comboBox1.SelectedItem.ToString() == "CameraAreaInfo" || comboBox1.SelectedItem.ToString() == "AllRailInfos")
+            if (comboBox1.SelectedItem.ToString() == "StartInfo" || comboBox1.SelectedItem.ToString() == "CameraAreaInfo")
             {
                 return;
             }
             if (SelectedProperties.TabPages.ContainsKey("DefArgs"))
             {
-                for (int i = 0; i < ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length; i++)
+                if (comboBox1.Text == "AllRailInfos")
                 {
-                    ((NumericUpDown)DefArgs.Controls["Defarg_int" + i.ToString()]).Value = ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[i];
+                    for (int i = 0; i < AllRailInfos[ObjectsListBox.SelectedIndex].Arg.Count; i++)
+                    {
+                        ((NumericUpDown)DefArgs.Controls["Defarg_int" + i.ToString()]).Value = (AllRailInfos[ObjectsListBox.SelectedIndex].Arg)[i];
+                    }
+                }
+                else
+                {
+
+                    for (int i = 0; i < ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length; i++)
+                    {
+                        ((NumericUpDown)DefArgs.Controls["Defarg_int" + i.ToString()]).Value = ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[i];
+                    }
                 }
                 return;
             }
@@ -5456,26 +5617,42 @@ namespace The4Dimension
             }
             if (((NumericUpDown)sender).Name.ToLower().Contains("arg"))
             {
-                if (((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length < 10)
+
+                if (comboBox1.Text == "AllRailInfos")
                 {
-                    int z = 0;
-                    int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-                    foreach (int iii in (int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])
+                    if (AllRailInfos[ObjectsListBox.SelectedIndex].Arg.Count < 10)
                     {
-                        array[z] = iii;
-                        z++;
+                        int z = 0;
+                        int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+                        foreach (int iii in AllRailInfos[ObjectsListBox.SelectedIndex].Arg)
+                        {
+                            array[z] = iii;
+                            z++;
+                        }
+                        AllRailInfos[ObjectsListBox.SelectedIndex].Arg = array.ToList();
+
                     }
-                    CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"] = array;
+                AllRailInfos[ObjectsListBox.SelectedIndex].Arg[int.Parse(((NumericUpDown)sender).Name.Substring(((NumericUpDown)sender).Name.Length - 1))] = (int)((NumericUpDown)sender).Value;
                 }
+                else
+                {
+                    if (((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"]).Length < 10)
+                    {
+                        int z = 0;
+                        int[] array = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+                        foreach (int iii in (int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])
+                        {
+                            array[z] = iii;
+                            z++;
+                        }
+                        CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"] = array;
+                    }
                 //idx = int.Parse(((NumericUpDown)sender).Name.Substring(((NumericUpDown)sender).Name.Length - 1));
                 //oldvalue = ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[idx];
-                ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[int.Parse(((NumericUpDown)sender).Name.Substring(((NumericUpDown)sender).Name.Length-1))] = (int)((NumericUpDown)sender).Value;
-                //name = "Arg";
+                ((int[])CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["Arg"])[int.Parse(((NumericUpDown)sender).Name.Substring(((NumericUpDown)sender).Name.Length - 1))] = (int)((NumericUpDown)sender).Value;
+                    //name = "Arg";
 
-
-
-
-
+                }
             }
             else
             {

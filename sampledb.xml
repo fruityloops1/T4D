@@ -2,6 +2,7 @@
 
 <database version="0.0">
 <categories>
+		<category id="0" name="Uncategorized / Unused"/>
 		<category id="1" name="Main stage elements"/>
 		<category id="2" name="Decorations and effects"/>
 		<category id="3" name="Enemies"/>
@@ -9,7 +10,6 @@
 		<category id="5" name="Areas"/>
 		<category id="6" name="Special events"/>
 		<category id="7" name="Misc."/>
-		<category id="0" name="Uncategorized / Unused"/>
 </categories>
 <types>
 	<type id="1" name="ObjInfo"/>
