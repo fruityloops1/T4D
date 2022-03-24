@@ -4422,11 +4422,22 @@ namespace The4Dimension
                 }*/
                 else if (Key == "Rail")
                 {
-                    Rail tmp = (Rail)AllRailInfos[AllRailInfos.GetById((int)node)];
-                    xr.WriteStartElement("C1");
-                    xr.WriteAttributeString("Name", Key);
-                    WriteRail(xr, tmp);
-                    xr.WriteEndElement();
+                    if (AllRailInfos.GetById((int)node) == -1)
+                    {
+                        xr.WriteStartElement("FF");
+                        xr.WriteAttributeString("Name", Key);
+                        xr.WriteAttributeString("StringValue", "00000000");
+                        xr.WriteEndElement();
+                    }
+                    else
+                    {
+                        Rail tmp = (Rail)AllRailInfos[AllRailInfos.GetById((int)node)];
+                        xr.WriteStartElement("C1");
+                        xr.WriteAttributeString("Name", Key);
+                        WriteRail(xr, tmp);
+                        xr.WriteEndElement();
+
+                    }
                 }
                 else
                 {
