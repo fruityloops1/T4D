@@ -1267,14 +1267,23 @@ namespace The4Dimension
                             else throw new Exception("C1 type not implemented :(");
                         }
                         else if (xNode.Name == "C0")//C0 List editing
-                        {
+                        {// instead of adding as children to the current object we add every children as their own objects
                             C0List c0Section = new C0List();
                             XmlNodeList objList = xNode.ChildNodes;
                             foreach (XmlNode Object in objList)
                             {
-                                c0Section.List.Add(LoadOBJECT(Object.ChildNodes, Type));
+                                //c0Section.List.Add(LoadOBJECT(Object.ChildNodes, Type));
+                                if (xNode.Attributes["Name"].Value == "AreaChildren")
+                                {
+                                    GetListByName("AreaObjInfo").Add(LoadOBJECT(Object.ChildNodes, Type));
+                                }
+                                else
+                                {
+
+                                    GetListByName(Type).Add(LoadOBJECT(Object.ChildNodes, Type));
+                                }
                             }
-                            Ret.Prop.Add(xNode.Attributes["Name"].Value, c0Section);
+                            //Ret.Prop.Add(xNode.Attributes["Name"].Value, c0Section);
                         }
                         else if (xNode.Attributes["Name"].Value != "Rail")
                             Ret.Prop.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
@@ -4494,24 +4503,32 @@ namespace The4Dimension
                             MapInfos["AreaObjInfo"].Remove(obj);
                             break;
                         default:
-                            WriteOBJ(xr, obj);
+                            WriteOBJ(xr, obj, name);
                             break;
                     }
                     
                 }
                 else
                 {
-                    WriteOBJ(xr, obj);
+                    WriteOBJ(xr, obj, name);
                 }
             }
             xr.WriteEndElement();
         }
 
-        void WriteOBJ(XmlWriter xr, LevelObj obj)
+        void WriteOBJ(XmlWriter xr, LevelObj obj, string Infos, bool rec = false)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             if (obj.GetName(true).StartsWith("@")) return; //for @CameraPositionHelper /*db name*/
+            if (obj.Prop.ContainsKey("GenerateParent") && ((Node)obj.Prop["GenerateParent"]).StringValue != "-1"&& !rec) return;// we ignore every object that has a parent id different than -1 (which means it is a child of another object) unless it's being processed by a parent
+            if (obj.Prop.ContainsKey("AreaParent") && ((Node)obj.Prop["AreaParent"]).StringValue != "-1"&& !rec) return;
             xr.WriteStartElement("C1");
+            if (Infos == "ObjInfo")
+            {
+                if (AllInfos.ContainsKey("AreaObjInfo") && AllInfos["AreaObjInfo"].GetByParentId(int.Parse(((Node)obj.Prop["l_id"]).StringValue)).Count > 0 && !obj.Prop.ContainsKey("AreaChildren")) { obj.Prop.Add("AreaChildren", null); }
+                if (AllInfos.ContainsKey("ObjInfo") && AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)obj.Prop["l_id"]).StringValue)).Count > 0 && !obj.Prop.ContainsKey("GenerateChildren")) { obj.Prop.Add("GenerateChildren", null); }
+
+            }
             List<string> Keys = obj.Prop.Keys.ToList();
             Keys.Sort(StringComparer.Ordinal);
             foreach (string Key in Keys)
@@ -4554,12 +4571,27 @@ namespace The4Dimension
                             xr.WriteEndElement();
                         }
                     }
-                    else if (node is C0List)
+                else if (node is C0List)
                 {// for each object in the allinfos of this object that has this object as parent -> if they're areas they go into generateareas, otherwise generatechildren
                     C0List tmp = (C0List)node;
                     xr.WriteStartElement("C0");
                     xr.WriteAttributeString("Name", Key);
-                    foreach (LevelObj o in tmp.List) WriteOBJ(xr, o);
+                    foreach (LevelObj o in tmp.List) WriteOBJ(xr, o, Infos);
+                    xr.WriteEndElement();
+                }
+                else if (Key == "AreaChildren")
+                {
+
+                    xr.WriteStartElement("C0");
+                    xr.WriteAttributeString("Name", Key);
+                    foreach (LevelObj o in AllInfos["AreaObjInfo"].GetByParentId(int.Parse(((Node)obj.Prop["l_id"]).StringValue))) WriteOBJ(xr, o, "AreaObjInfo", true);
+                    xr.WriteEndElement();
+                }
+                else if (Key == "GenerateChildren")
+                {
+                    xr.WriteStartElement("C0");
+                    xr.WriteAttributeString("Name", Key);
+                    foreach (LevelObj o in AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)obj.Prop["l_id"]).StringValue))) WriteOBJ(xr, o, "ObjInfo", true);
                     xr.WriteEndElement();
                 }
                 /*else if (node is Rail)
@@ -5069,9 +5101,17 @@ namespace The4Dimension
                                         ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
                                     }
                                 }
-                                else if (prop.Key == "GenerateChildren" || prop.Key == "AreaChildren")
+                                else if (prop.Key == "GenerateParent" || prop.Key == "AreaParent")
                                 {
-
+                                    Parent.Value = int.Parse(((Node)prop.Value).StringValue);
+                                    if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
+                                    {
+                                        button10.Enabled = true;
+                                    }
+                                    else
+                                    {
+                                        button10.Enabled = false;
+                                    }
                                 }
                                 /*else if (prop.Key == "Rail")
                                 {
@@ -6366,6 +6406,64 @@ namespace The4Dimension
             Genpos0.Increment = GenIncrement.Value;
             Genpos1.Increment = GenIncrement.Value;
             Genpos2.Increment = GenIncrement.Value;
+        }
+
+        private void Parentupdownupdated(object sender, EventArgs e)
+        {
+
+            if (refreshdone == false) return;
+            if (comboBox1.Text == "AreaObjInfo")
+            {
+                ((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["AreaParent"]).StringValue = Parent.Value.ToString();
+                if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
+                {
+                    button10.Enabled = true;
+                }
+                else
+                {
+                    button10.Enabled = false;
+                }
+            }else if (comboBox1.Text == "ObjInfo")
+            {
+                ((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["GenerateParent"]).StringValue = Parent.Value.ToString();
+                if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1&& (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
+                {
+                    button10.Enabled = true;
+                }
+                else
+                {
+                    button10.Enabled = false;
+                }
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            selecting = true;
+            if (comboBox1.SelectedIndex != comboBox1.Items.IndexOf("ObjInfo"))
+            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("ObjInfo");
+            ObjectsListBox.ClearSelected();
+
+            selecting = false;
+            ObjectsListBox.SetSelected(AllInfos["ObjInfo"].GetById((int)Parent.Value),true);
+            //ObjectsListBox.SelectedIndex = AllInfos["ObjInfo"].GetById();
+            render.CameraToObj("ObjInfo", ObjectsListBox.SelectedIndex);
+        }
+
+        private void Children_Click(object sender, EventArgs e)
+        {
+           /* int selid = ObjectsListBox.SelectedIndex;
+
+            selecting = true;
+            if (comboBox1.SelectedIndex != comboBox1.Items.IndexOf("ObjInfo"))
+                comboBox1.SelectedIndex = comboBox1.Items.IndexOf("ObjInfo");
+            ObjectsListBox.ClearSelected();
+
+            selecting = false;
+            foreach (LevelObj o in AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)AllInfos["ObjInfo"][selid].Prop["l_id"]).StringValue)))
+            {
+                ObjectsListBox.SelectedIndex = AllInfos["ObjInfo"].GetById(int.Parse(((Node)o.Prop["l_id"]).StringValue));
+            }*/
         }
     }
 }

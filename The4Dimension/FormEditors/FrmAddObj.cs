@@ -382,7 +382,10 @@ namespace The4Dimension
             LevelObj obj = new LevelObj();
             string name = null;
             ndb.DBtoId.TryGetValue(!usingdb ? comboBox1.Text : listView1.Items[listView1.SelectedIndices[0]].Text, out name); // ndb.DBtoId.TryGetValue(listView1.Items[listView1.SelectedIndices[0]].Text, out name);
-            if (InfosName == "ObjInfo" || InfosName == "GoalObjInfo") { obj.Prop.Add("ClippingGroupId", new Node("-1", "D1")); }
+            if (InfosName == "ObjInfo" || InfosName == "GoalObjInfo") { obj.Prop.Add("ClippingGroupId", new Node("-1", "D1"));
+                obj.Prop.Add("GenerateParent", new Node("-1", "D1"));
+            }
+            if (InfosName == "AreaObjInfo") { obj.Prop.Add("AreaParent", new Node("-1", "D1")); }
             if (InfosName == "DemoSceneObjInfo")
             {
                 obj.Prop.Add("Action1", new Node("-", "A0"));

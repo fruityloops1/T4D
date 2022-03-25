@@ -181,7 +181,7 @@ namespace The4Dimension
     public class AllInfoSection : List<LevelObj>
     {
         public bool IsHidden = false;
-        int GetById(int id)
+        public int GetById(int id)
         {
             for (int i = 0; i < this.Count; i++)
             {
@@ -191,6 +191,28 @@ namespace The4Dimension
                 }
             }
             return -1;
+        }
+        public List<LevelObj> GetByParentId(int id)//gets a list of all the children of a given parent
+        {
+            List<LevelObj> Ret = new List<LevelObj>();
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (this[i].Prop.ContainsKey("AreaParent")) // AreaChildren
+                {
+                    if (((Node)this[i].Prop["AreaParent"]).StringValue == id.ToString())
+                    {
+                        Ret.Add(this[i]);
+                    }
+                }else if (this[i].Prop.ContainsKey("GenerateParent")) // GenerateChildren
+                {
+                    if (((Node)this[i].Prop["GenerateParent"]).StringValue == id.ToString())
+                    {
+                        Ret.Add(this[i]);
+                    }
+                }
+
+            }
+            return Ret;
         }
     }
 
