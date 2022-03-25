@@ -5080,8 +5080,34 @@ namespace The4Dimension
                             if (tabs.Key == "General")
                             {
                                 tabidentifier = "Gen";
-                                CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
                                 //break;
+                                if (prop.Key == "GenerateParent" || prop.Key == "AreaParent")
+                                {
+                                    Parent.Value = int.Parse(((Node)prop.Value).StringValue);
+                                    if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
+                                    {
+                                        button10.Enabled = true;
+                                    }
+                                    else
+                                    {
+                                        button10.Enabled = false;
+                                    }
+                                }
+                                else 
+                                {
+                                    CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
+                                    if (prop.Key == "l_id")
+                                    {
+                                        if (comboBox1.Text == "ObjInfo" && AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
+                                        {
+                                            button2.Enabled = true;
+                                        }
+                                        else
+                                        {
+                                            button2.Enabled = false;
+                                        }
+                                    }
+                                }
                             }
                             else if (tabs.Key == "Extra")
                             {
@@ -5099,18 +5125,6 @@ namespace The4Dimension
                                     {
 
                                         ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
-                                    }
-                                }
-                                else if (prop.Key == "GenerateParent" || prop.Key == "AreaParent")
-                                {
-                                    Parent.Value = int.Parse(((Node)prop.Value).StringValue);
-                                    if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
-                                    {
-                                        button10.Enabled = true;
-                                    }
-                                    else
-                                    {
-                                        button10.Enabled = false;
                                     }
                                 }
                                 /*else if (prop.Key == "Rail")
@@ -5157,6 +5171,9 @@ namespace The4Dimension
                             {
                                 tabidentifier = "Grp";
                                 GroupProperty(tabidentifier, prop, tabs, CurrentAllInfosSelection);//list<LevelObj> CurrentAllInfosSelection[0].Prop this 
+
+
+
                                 //break;
                             }
                         }
@@ -5199,6 +5216,7 @@ namespace The4Dimension
             //add checkbox so we can determine if all objects should use the same coordinates or if the coordinates should be relative (default is relative)
             bool isrelative = true;
 
+            string property = "";
 
             if (SelectedProperties.TabPages[tabs.Key].Controls.IndexOfKey(tabidentifier + prop.Key) != -1 || SelectedProperties.TabPages[tabs.Key].Controls.IndexOfKey(tabidentifier + prop.Key + 0) != -1)
             {
@@ -5224,7 +5242,27 @@ namespace The4Dimension
                     }
                 }
             }
+            else if (prop.Key.Equals("AreaParent")) { property = "AreaParent"; }
+            else if (prop.Key.Equals("GenerateParent")) { property = "GenerateParent"; }
+            if (property != "")
+            {
+                int a = int.Parse(((Node)CurrentAllInfosSelection[0].Prop[property]).StringValue);
+                for (int i = 1; i < CurrentAllInfosSelection.Count; i++)
+                {
+                    if (int.Parse(((Node)CurrentAllInfosSelection[i].Prop[property]).StringValue) != a) { a = -1; break; }
+                }
+                GrpParent.Value = a;
 
+                if (AllInfos["ObjInfo"].GetById((int)GrpParent.Value) != -1)
+                {
+                    GrpParentBtn.Enabled = true;
+                }
+                else
+                {
+                    GrpParentBtn.Enabled = false;
+                }
+
+            }
 
 
 
@@ -5567,7 +5605,7 @@ namespace The4Dimension
         }
         private void numupdownupdated(object sender, EventArgs e)
         {
-            if (refreshdone == false) return;
+            if (!refreshdone) return;
 
             //object oldvalue = null;
             //int idx = -1;
@@ -5750,6 +5788,17 @@ namespace The4Dimension
                         //name = property;
                         //oldvalue = int.Parse(((Node)(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property])).StringValue);
                         ((Node)(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property])).StringValue = ((NumericUpDown)sender).Value.ToString();
+                        if (property == "l_id")
+                        {
+                            if (comboBox1.Text == "ObjInfo" && AllInfos["ObjInfo"].GetByParentId((int)((NumericUpDown)sender).Value).Count > 0)
+                            {
+                                button2.Enabled = true;
+                            }
+                            else
+                            {
+                                button2.Enabled = false;
+                            }
+                        }
                     }
                     else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property].GetType() == typeof(int))
                     {
@@ -6358,9 +6407,18 @@ namespace The4Dimension
         {
             increased = false;
             GenIncrement.Value = val;
-            MarioIncrement.Value = val;
-            DemoIncrement.Value = val;
-            GrpIncrement.Value = val;
+            Demopos0.Increment = val;
+            Demopos1.Increment = val;
+            Demopos2.Increment = val;
+            Mariopos0.Increment = val;
+            Mariopos1.Increment = val;
+            Mariopos2.Increment = val;
+            Grppos0.Increment = val;
+            Grppos1.Increment = val;
+            Grppos2.Increment = val;
+            Genpos0.Increment = val;
+            Genpos1.Increment = val;
+            Genpos2.Increment = val;
             increased = true;
         }
 
@@ -6386,7 +6444,7 @@ namespace The4Dimension
             Mariopos2.Increment = MarioIncrement.Value;
         }
 
-        private void GrpIncrement_ValueChanged(object sender, EventArgs e)
+        /*private void GrpIncrement_ValueChanged(object sender, EventArgs e)
         {
             if (increased)
             {
@@ -6395,7 +6453,7 @@ namespace The4Dimension
             Grppos0.Increment = GrpIncrement.Value;
             Grppos1.Increment = GrpIncrement.Value;
             Grppos2.Increment = GrpIncrement.Value;
-        }
+        }*/
 
         private void GenIncrement_ValueChanged(object sender, EventArgs e)
         {
@@ -6445,14 +6503,21 @@ namespace The4Dimension
             ObjectsListBox.ClearSelected();
 
             selecting = false;
-            ObjectsListBox.SetSelected(AllInfos["ObjInfo"].GetById((int)Parent.Value),true);
+            if (((Button)sender).Name.Contains("Grp"))
+            {
+                ObjectsListBox.SetSelected(AllInfos["ObjInfo"].GetById((int)GrpParent.Value), true);
+            }
+            else
+            {
+                ObjectsListBox.SetSelected(AllInfos["ObjInfo"].GetById((int)Parent.Value), true);
+            }
             //ObjectsListBox.SelectedIndex = AllInfos["ObjInfo"].GetById();
             render.CameraToObj("ObjInfo", ObjectsListBox.SelectedIndex);
         }
 
         private void Children_Click(object sender, EventArgs e)
         {
-           /* int selid = ObjectsListBox.SelectedIndex;
+            int selid = ObjectsListBox.SelectedIndex;
 
             selecting = true;
             if (comboBox1.SelectedIndex != comboBox1.Items.IndexOf("ObjInfo"))
@@ -6463,7 +6528,42 @@ namespace The4Dimension
             foreach (LevelObj o in AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)AllInfos["ObjInfo"][selid].Prop["l_id"]).StringValue)))
             {
                 ObjectsListBox.SelectedIndex = AllInfos["ObjInfo"].GetById(int.Parse(((Node)o.Prop["l_id"]).StringValue));
-            }*/
+            }
+
+            render.CameraToObj("ObjInfo", ObjectsListBox.SelectedIndex);
+        }
+
+        private void GrpParentUpdwn(object sender, EventArgs e)
+        {
+            if (!refreshdone) return;
+            for (int i = 0; i < CurrentAllInfosSelection.Count; i++)
+            {
+                string property = "";
+                if (comboBox1.Text == "ObjInfo")
+                {
+                    property = "GenerateParent";
+                }else if (comboBox1.Text == "AreaObjInfo")
+                {
+                    property = "AreaParent";
+                }
+                if (!CurrentAllInfosSelection[i].Prop.ContainsKey(property))
+                {
+                    CurrentAllInfosSelection[i].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
+                }
+                else
+                {
+                    ((Node)CurrentAllInfosSelection[i].Prop[property]).StringValue = ((NumericUpDown)sender).Value.ToString();
+                }
+
+            }
+            if (AllInfos["ObjInfo"].GetById((int)GrpParent.Value) != -1)
+            {
+                GrpParentBtn.Enabled = true;
+            }
+            else
+            {
+                GrpParentBtn.Enabled = false;
+            }
         }
     }
 }

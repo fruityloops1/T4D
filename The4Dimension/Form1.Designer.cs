@@ -168,6 +168,8 @@
             this.ClippingGroupId = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
             this.StartGeneral = new System.Windows.Forms.TabPage();
+            this.DemoIncrement = new System.Windows.Forms.NumericUpDown();
+            this.label86 = new System.Windows.Forms.Label();
             this.MarioIncrement = new System.Windows.Forms.NumericUpDown();
             this.label84 = new System.Windows.Forms.Label();
             this.MarioMultiFileName = new System.Windows.Forms.TextBox();
@@ -191,8 +193,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.DemoExtra = new System.Windows.Forms.TabPage();
-            this.DemoIncrement = new System.Windows.Forms.NumericUpDown();
-            this.label86 = new System.Windows.Forms.Label();
             this.DemoSwitchDeadOn = new System.Windows.Forms.NumericUpDown();
             this.DemoSwitchKill = new System.Windows.Forms.NumericUpDown();
             this.DemoSwitchAppear = new System.Windows.Forms.NumericUpDown();
@@ -278,6 +278,9 @@
             this.label41 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.GroupGen = new System.Windows.Forms.TabPage();
+            this.GrpParentBtn = new System.Windows.Forms.Button();
+            this.GrpParent = new System.Windows.Forms.NumericUpDown();
+            this.label87 = new System.Windows.Forms.Label();
             this.GrpSwitchDeadOn = new System.Windows.Forms.NumericUpDown();
             this.GrpSwitchKill = new System.Windows.Forms.NumericUpDown();
             this.GrpSwitchAppear = new System.Windows.Forms.NumericUpDown();
@@ -288,8 +291,6 @@
             this.label88 = new System.Windows.Forms.Label();
             this.label89 = new System.Windows.Forms.Label();
             this.label90 = new System.Windows.Forms.Label();
-            this.GrpIncrement = new System.Windows.Forms.NumericUpDown();
-            this.label87 = new System.Windows.Forms.Label();
             this.IsRelative = new System.Windows.Forms.CheckBox();
             this.GrpViewIdChck = new System.Windows.Forms.CheckBox();
             this.GrpCameraIdChck = new System.Windows.Forms.CheckBox();
@@ -386,6 +387,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Priority)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClippingGroupId)).BeginInit();
             this.StartGeneral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MarioIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale1)).BeginInit();
@@ -398,7 +400,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Mariopos0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MarioMarioNo)).BeginInit();
             this.DemoExtra.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchDeadOn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchKill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchAppear)).BeginInit();
@@ -429,12 +430,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int0)).BeginInit();
             this.GroupGen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpParent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchDeadOn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchKill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchAppear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchA)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpViewId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpCameraId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpPriority)).BeginInit();
@@ -1764,7 +1765,7 @@
             // 
             this.Genname.AcceptsReturn = true;
             this.Genname.Enabled = false;
-            this.Genname.Location = new System.Drawing.Point(239, 258);
+            this.Genname.Location = new System.Drawing.Point(-1, 169);
             this.Genname.Name = "Genname";
             this.Genname.Size = new System.Drawing.Size(30, 20);
             this.Genname.TabIndex = 1;
@@ -2127,6 +2128,44 @@
             this.StartGeneral.TabIndex = 4;
             this.StartGeneral.Text = "Mario Properties";
             this.StartGeneral.UseVisualStyleBackColor = true;
+            // 
+            // DemoIncrement
+            // 
+            this.DemoIncrement.Enabled = false;
+            this.DemoIncrement.Location = new System.Drawing.Point(157, 166);
+            this.DemoIncrement.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.DemoIncrement.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.DemoIncrement.Name = "DemoIncrement";
+            this.DemoIncrement.Size = new System.Drawing.Size(120, 20);
+            this.DemoIncrement.TabIndex = 35;
+            this.toolTip1.SetToolTip(this.DemoIncrement, "This only affects how much you change coordinates in the editor!");
+            this.DemoIncrement.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.DemoIncrement.Visible = false;
+            this.DemoIncrement.ValueChanged += new System.EventHandler(this.DemoIncrement_ValueChanged);
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Enabled = false;
+            this.label86.Location = new System.Drawing.Point(58, 168);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(96, 13);
+            this.label86.TabIndex = 34;
+            this.label86.Text = "Position increment:";
+            this.toolTip1.SetToolTip(this.label86, "This only affects how much you change coordinates in the editor!");
+            this.label86.Visible = false;
             // 
             // MarioIncrement
             // 
@@ -2551,44 +2590,6 @@
             this.DemoExtra.TabIndex = 3;
             this.DemoExtra.Text = "Cutscene Object Properties";
             this.DemoExtra.UseVisualStyleBackColor = true;
-            // 
-            // DemoIncrement
-            // 
-            this.DemoIncrement.Enabled = false;
-            this.DemoIncrement.Location = new System.Drawing.Point(157, 166);
-            this.DemoIncrement.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.DemoIncrement.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.DemoIncrement.Name = "DemoIncrement";
-            this.DemoIncrement.Size = new System.Drawing.Size(120, 20);
-            this.DemoIncrement.TabIndex = 35;
-            this.toolTip1.SetToolTip(this.DemoIncrement, "This only affects how much you change coordinates in the editor!");
-            this.DemoIncrement.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.DemoIncrement.Visible = false;
-            this.DemoIncrement.ValueChanged += new System.EventHandler(this.DemoIncrement_ValueChanged);
-            // 
-            // label86
-            // 
-            this.label86.AutoSize = true;
-            this.label86.Enabled = false;
-            this.label86.Location = new System.Drawing.Point(58, 168);
-            this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(96, 13);
-            this.label86.TabIndex = 34;
-            this.label86.Text = "Position increment:";
-            this.toolTip1.SetToolTip(this.label86, "This only affects how much you change coordinates in the editor!");
-            this.label86.Visible = false;
             // 
             // DemoSwitchDeadOn
             // 
@@ -3688,6 +3689,10 @@
             // 
             // GroupGen
             // 
+            this.GroupGen.AutoScroll = true;
+            this.GroupGen.Controls.Add(this.GrpParentBtn);
+            this.GroupGen.Controls.Add(this.GrpParent);
+            this.GroupGen.Controls.Add(this.label87);
             this.GroupGen.Controls.Add(this.GrpSwitchDeadOn);
             this.GroupGen.Controls.Add(this.GrpSwitchKill);
             this.GroupGen.Controls.Add(this.GrpSwitchAppear);
@@ -3698,8 +3703,6 @@
             this.GroupGen.Controls.Add(this.label88);
             this.GroupGen.Controls.Add(this.label89);
             this.GroupGen.Controls.Add(this.label90);
-            this.GroupGen.Controls.Add(this.GrpIncrement);
-            this.GroupGen.Controls.Add(this.label87);
             this.GroupGen.Controls.Add(this.IsRelative);
             this.GroupGen.Controls.Add(this.GrpViewIdChck);
             this.GroupGen.Controls.Add(this.GrpCameraIdChck);
@@ -3732,9 +3735,47 @@
             this.GroupGen.Text = "Group Properties";
             this.GroupGen.UseVisualStyleBackColor = true;
             // 
+            // GrpParentBtn
+            // 
+            this.GrpParentBtn.Location = new System.Drawing.Point(212, 4);
+            this.GrpParentBtn.Name = "GrpParentBtn";
+            this.GrpParentBtn.Size = new System.Drawing.Size(59, 23);
+            this.GrpParentBtn.TabIndex = 46;
+            this.GrpParentBtn.Text = "Parent";
+            this.GrpParentBtn.UseVisualStyleBackColor = true;
+            this.GrpParentBtn.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // GrpParent
+            // 
+            this.GrpParent.Location = new System.Drawing.Point(147, 6);
+            this.GrpParent.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.GrpParent.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.GrpParent.Name = "GrpParent";
+            this.GrpParent.Size = new System.Drawing.Size(58, 20);
+            this.GrpParent.TabIndex = 45;
+            this.GrpParent.ValueChanged += new System.EventHandler(this.GrpParentUpdwn);
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Location = new System.Drawing.Point(89, 8);
+            this.label87.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(53, 13);
+            this.label87.TabIndex = 44;
+            this.label87.Text = "Parent Id:";
+            // 
             // GrpSwitchDeadOn
             // 
-            this.GrpSwitchDeadOn.Location = new System.Drawing.Point(194, 192);
+            this.GrpSwitchDeadOn.Location = new System.Drawing.Point(200, 225);
             this.GrpSwitchDeadOn.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3752,7 +3793,7 @@
             // 
             // GrpSwitchKill
             // 
-            this.GrpSwitchKill.Location = new System.Drawing.Point(246, 167);
+            this.GrpSwitchKill.Location = new System.Drawing.Point(200, 199);
             this.GrpSwitchKill.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3770,7 +3811,7 @@
             // 
             // GrpSwitchAppear
             // 
-            this.GrpSwitchAppear.Location = new System.Drawing.Point(163, 167);
+            this.GrpSwitchAppear.Location = new System.Drawing.Point(200, 171);
             this.GrpSwitchAppear.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3788,7 +3829,7 @@
             // 
             // GrpSwitchB
             // 
-            this.GrpSwitchB.Location = new System.Drawing.Point(57, 193);
+            this.GrpSwitchB.Location = new System.Drawing.Point(94, 197);
             this.GrpSwitchB.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3806,7 +3847,7 @@
             // 
             // GrpSwitchA
             // 
-            this.GrpSwitchA.Location = new System.Drawing.Point(57, 167);
+            this.GrpSwitchA.Location = new System.Drawing.Point(94, 171);
             this.GrpSwitchA.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3825,7 +3866,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(98, 194);
+            this.label63.Location = new System.Drawing.Point(104, 227);
             this.label63.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(95, 13);
@@ -3835,7 +3876,7 @@
             // label66
             // 
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(204, 169);
+            this.label66.Location = new System.Drawing.Point(154, 203);
             this.label66.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(41, 13);
@@ -3845,7 +3886,7 @@
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(104, 169);
+            this.label88.Location = new System.Drawing.Point(141, 173);
             this.label88.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(59, 13);
@@ -3855,7 +3896,7 @@
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(5, 195);
+            this.label89.Location = new System.Drawing.Point(42, 199);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(52, 13);
             this.label89.TabIndex = 37;
@@ -3864,49 +3905,11 @@
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(5, 169);
+            this.label90.Location = new System.Drawing.Point(42, 173);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(52, 13);
             this.label90.TabIndex = 38;
             this.label90.Text = "Switch A:";
-            // 
-            // GrpIncrement
-            // 
-            this.GrpIncrement.Enabled = false;
-            this.GrpIncrement.Location = new System.Drawing.Point(177, 5);
-            this.GrpIncrement.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.GrpIncrement.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.GrpIncrement.Name = "GrpIncrement";
-            this.GrpIncrement.Size = new System.Drawing.Size(99, 20);
-            this.GrpIncrement.TabIndex = 33;
-            this.toolTip1.SetToolTip(this.GrpIncrement, "This only affects how much you change coordinates in the editor!");
-            this.GrpIncrement.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.GrpIncrement.Visible = false;
-            this.GrpIncrement.ValueChanged += new System.EventHandler(this.GrpIncrement_ValueChanged);
-            // 
-            // label87
-            // 
-            this.label87.AutoSize = true;
-            this.label87.Enabled = false;
-            this.label87.Location = new System.Drawing.Point(81, 8);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(96, 13);
-            this.label87.TabIndex = 32;
-            this.label87.Text = "Position increment:";
-            this.toolTip1.SetToolTip(this.label87, "This only affects how much you change coordinates in the editor!");
-            this.label87.Visible = false;
             // 
             // IsRelative
             // 
@@ -3924,7 +3927,7 @@
             // GrpViewIdChck
             // 
             this.GrpViewIdChck.AutoSize = true;
-            this.GrpViewIdChck.Location = new System.Drawing.Point(268, 143);
+            this.GrpViewIdChck.Location = new System.Drawing.Point(247, 147);
             this.GrpViewIdChck.Name = "GrpViewIdChck";
             this.GrpViewIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpViewIdChck.TabIndex = 27;
@@ -3935,7 +3938,7 @@
             // GrpCameraIdChck
             // 
             this.GrpCameraIdChck.AutoSize = true;
-            this.GrpCameraIdChck.Location = new System.Drawing.Point(268, 117);
+            this.GrpCameraIdChck.Location = new System.Drawing.Point(247, 121);
             this.GrpCameraIdChck.Name = "GrpCameraIdChck";
             this.GrpCameraIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpCameraIdChck.TabIndex = 28;
@@ -3946,7 +3949,7 @@
             // GrpPriorityChck
             // 
             this.GrpPriorityChck.AutoSize = true;
-            this.GrpPriorityChck.Location = new System.Drawing.Point(131, 143);
+            this.GrpPriorityChck.Location = new System.Drawing.Point(116, 147);
             this.GrpPriorityChck.Name = "GrpPriorityChck";
             this.GrpPriorityChck.Size = new System.Drawing.Size(15, 14);
             this.GrpPriorityChck.TabIndex = 29;
@@ -3957,7 +3960,7 @@
             // GrpClippingGroupIdChck
             // 
             this.GrpClippingGroupIdChck.AutoSize = true;
-            this.GrpClippingGroupIdChck.Location = new System.Drawing.Point(131, 117);
+            this.GrpClippingGroupIdChck.Location = new System.Drawing.Point(116, 121);
             this.GrpClippingGroupIdChck.Name = "GrpClippingGroupIdChck";
             this.GrpClippingGroupIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpClippingGroupIdChck.TabIndex = 30;
@@ -3968,7 +3971,7 @@
             // GrpViewId
             // 
             this.GrpViewId.Enabled = false;
-            this.GrpViewId.Location = new System.Drawing.Point(221, 141);
+            this.GrpViewId.Location = new System.Drawing.Point(200, 145);
             this.GrpViewId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -3987,7 +3990,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(169, 143);
+            this.label15.Location = new System.Drawing.Point(148, 147);
             this.label15.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(45, 13);
@@ -3997,7 +4000,7 @@
             // GrpCameraId
             // 
             this.GrpCameraId.Enabled = false;
-            this.GrpCameraId.Location = new System.Drawing.Point(221, 115);
+            this.GrpCameraId.Location = new System.Drawing.Point(200, 119);
             this.GrpCameraId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4016,7 +4019,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(158, 117);
+            this.label18.Location = new System.Drawing.Point(137, 121);
             this.label18.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(58, 13);
@@ -4026,7 +4029,7 @@
             // GrpPriority
             // 
             this.GrpPriority.Enabled = false;
-            this.GrpPriority.Location = new System.Drawing.Point(84, 141);
+            this.GrpPriority.Location = new System.Drawing.Point(69, 145);
             this.GrpPriority.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4045,7 +4048,7 @@
             // label82
             // 
             this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(13, 143);
+            this.label82.Location = new System.Drawing.Point(-2, 147);
             this.label82.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(65, 13);
@@ -4055,7 +4058,7 @@
             // GrpClippingGroupId
             // 
             this.GrpClippingGroupId.Enabled = false;
-            this.GrpClippingGroupId.Location = new System.Drawing.Point(84, 115);
+            this.GrpClippingGroupId.Location = new System.Drawing.Point(69, 119);
             this.GrpClippingGroupId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4074,7 +4077,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(2, 117);
+            this.label83.Location = new System.Drawing.Point(-13, 121);
             this.label83.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(77, 13);
@@ -4089,7 +4092,7 @@
             0,
             0,
             131072});
-            this.Grpscale2.Location = new System.Drawing.Point(208, 83);
+            this.Grpscale2.Location = new System.Drawing.Point(203, 87);
             this.Grpscale2.Maximum = new decimal(new int[] {
             300,
             0,
@@ -4108,7 +4111,7 @@
             0,
             0,
             131072});
-            this.Grpscale1.Location = new System.Drawing.Point(134, 83);
+            this.Grpscale1.Location = new System.Drawing.Point(129, 87);
             this.Grpscale1.Maximum = new decimal(new int[] {
             300,
             0,
@@ -4127,7 +4130,7 @@
             0,
             0,
             0});
-            this.Grpdir2.Location = new System.Drawing.Point(208, 57);
+            this.Grpdir2.Location = new System.Drawing.Point(203, 61);
             this.Grpdir2.Maximum = new decimal(new int[] {
             360,
             0,
@@ -4151,7 +4154,7 @@
             0,
             0,
             0});
-            this.Grpdir1.Location = new System.Drawing.Point(134, 57);
+            this.Grpdir1.Location = new System.Drawing.Point(129, 61);
             this.Grpdir1.Maximum = new decimal(new int[] {
             360,
             0,
@@ -4175,7 +4178,7 @@
             0,
             0,
             131072});
-            this.Grpscale0.Location = new System.Drawing.Point(60, 83);
+            this.Grpscale0.Location = new System.Drawing.Point(55, 87);
             this.Grpscale0.Maximum = new decimal(new int[] {
             300,
             0,
@@ -4194,7 +4197,7 @@
             0,
             0,
             0});
-            this.Grppos2.Location = new System.Drawing.Point(208, 31);
+            this.Grppos2.Location = new System.Drawing.Point(203, 35);
             this.Grppos2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -4218,7 +4221,7 @@
             0,
             0,
             0});
-            this.Grpdir0.Location = new System.Drawing.Point(60, 57);
+            this.Grpdir0.Location = new System.Drawing.Point(55, 61);
             this.Grpdir0.Maximum = new decimal(new int[] {
             360,
             0,
@@ -4242,7 +4245,7 @@
             0,
             0,
             0});
-            this.Grppos1.Location = new System.Drawing.Point(134, 31);
+            this.Grppos1.Location = new System.Drawing.Point(129, 35);
             this.Grppos1.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -4266,7 +4269,7 @@
             0,
             0,
             0});
-            this.Grppos0.Location = new System.Drawing.Point(60, 31);
+            this.Grppos0.Location = new System.Drawing.Point(55, 35);
             this.Grppos0.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -4285,7 +4288,7 @@
             // label67
             // 
             this.label67.AutoSize = true;
-            this.label67.Location = new System.Drawing.Point(25, 85);
+            this.label67.Location = new System.Drawing.Point(20, 89);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(37, 13);
             this.label67.TabIndex = 5;
@@ -4294,7 +4297,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(10, 59);
+            this.label68.Location = new System.Drawing.Point(5, 63);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(50, 13);
             this.label68.TabIndex = 6;
@@ -4303,7 +4306,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(12, 33);
+            this.label69.Location = new System.Drawing.Point(7, 37);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(50, 13);
             this.label69.TabIndex = 7;
@@ -4894,6 +4897,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ClippingGroupId)).EndInit();
             this.StartGeneral.ResumeLayout(false);
             this.StartGeneral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MarioIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marioscale1)).EndInit();
@@ -4907,7 +4911,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.MarioMarioNo)).EndInit();
             this.DemoExtra.ResumeLayout(false);
             this.DemoExtra.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DemoIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchDeadOn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchKill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemoSwitchAppear)).EndInit();
@@ -4941,12 +4944,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int0)).EndInit();
             this.GroupGen.ResumeLayout(false);
             this.GroupGen.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GrpParent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchDeadOn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchKill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchAppear)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpSwitchA)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrpIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpViewId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpCameraId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrpPriority)).EndInit();
@@ -5286,8 +5289,6 @@
         private System.Windows.Forms.Label label84;
         private System.Windows.Forms.NumericUpDown DemoIncrement;
         private System.Windows.Forms.Label label86;
-        private System.Windows.Forms.NumericUpDown GrpIncrement;
-        private System.Windows.Forms.Label label87;
         private System.Windows.Forms.NumericUpDown GrpSwitchDeadOn;
         private System.Windows.Forms.NumericUpDown GrpSwitchKill;
         private System.Windows.Forms.NumericUpDown GrpSwitchAppear;
@@ -5305,5 +5306,8 @@
         private System.Windows.Forms.Label label92;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.NumericUpDown GrpParent;
+        private System.Windows.Forms.Label label87;
+        private System.Windows.Forms.Button GrpParentBtn;
     }
 }
