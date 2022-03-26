@@ -1036,6 +1036,7 @@ namespace The4Dimension
 
         public void AddChildrenModels(C0List tmp, bool area)
         {
+            if (tmp == null) return;
             string setlng;
             if (Properties.Settings.Default.DotComma != true) { setlng = "de-DE"; } else { setlng = "en-UK"; }
             Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
@@ -1253,6 +1254,8 @@ namespace The4Dimension
             if (!higestID.ContainsKey(Type)) higestID.Add(Type, 0);
             LevelObj Ret = new LevelObj();
             List<int> Args = new List<int>();
+            AllInfoSection Children = new AllInfoSection();
+            AllInfoSection AreaChildren = new AllInfoSection();
             for (int i = 0; i < xml.Count; i++)
             {
                 XmlNode xNode = xml[i];
@@ -1275,23 +1278,61 @@ namespace The4Dimension
                                 //c0Section.List.Add(LoadOBJECT(Object.ChildNodes, Type));
                                 if (xNode.Attributes["Name"].Value == "AreaChildren")
                                 {
-                                    GetListByName("AreaObjInfo").Add(LoadOBJECT(Object.ChildNodes, Type));
+                                    //GetListByName("AreaObjInfo").Add(LoadOBJECT(Object.ChildNodes, Type));
+                                    AreaChildren.Add(LoadOBJECT(Object.ChildNodes, Type));
                                 }
                                 else
                                 {
 
-                                    GetListByName(Type).Add(LoadOBJECT(Object.ChildNodes, Type));
+                                    //GetListByName(Type).Add(LoadOBJECT(Object.ChildNodes, Type));
+                                    Children.Add(LoadOBJECT(Object.ChildNodes, Type));
                                 }
                             }
                             //Ret.Prop.Add(xNode.Attributes["Name"].Value, c0Section);
                         }
                         else if (xNode.Attributes["Name"].Value != "Rail")
                             Ret.Prop.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
-                        if (xNode.Attributes["Name"].Value == "l_id") if (Int32.Parse(xNode.Attributes["StringValue"].Value) > higestID[Type]) higestID[Type] = Int32.Parse(xNode.Attributes["StringValue"].Value);
+                        if (xNode.Attributes["Name"].Value == "l_id")
+                        {
+                            if (Int32.Parse(xNode.Attributes["StringValue"].Value) > higestID[Type]) higestID[Type] = Int32.Parse(xNode.Attributes["StringValue"].Value);
+                            if (Children.Count >0)
+                            {
+                                foreach (LevelObj o in Children)
+                                {
+                                    if (!o.Prop.ContainsKey("GenerateParent"))
+                                    {
+                                        o.Prop.Add("GenerateParent", new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                                    }
+                                    GetListByName(Type).Add(o);
+                                }
+                            }
+                            if (AreaChildren.Count > 0)
+                            {
+                                foreach (LevelObj o in AreaChildren)
+                                {
+                                    if (!o.Prop.ContainsKey("AreaParent"))
+                                    {
+                                        o.Prop.Add("AreaParent", new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                                    }
+                                    GetListByName("AreaObjInfo").Add(o);
+                                }
+                            }
+                        }
                     }
                 }
             }
             if (Args.Count != 0) Ret.Prop.Add("Arg", Args.ToArray());
+            if (!Ret.Prop.ContainsKey("GenerateParent")&& !Ret.Prop.ContainsKey("AreaParent"))
+            {
+                if (Type == "AreaObjInfo") Ret.Prop.Add("AreaParent", new Node("-1", "D1"));
+                else Ret.Prop.Add("GenerateParent", new Node("-1", "D1"));
+            }
+
+            if (Type != "AllRailInfos" && Type != "StartInfo" && AllInfos[Type].GetById(int.Parse(((Node)Ret.Prop["l_id"]).StringValue)) != -1)// if an object already contains this id then change this id to highest + 1
+            {
+                ((Node)Ret.Prop["l_id"]).StringValue = (higestID[Type] + 1).ToString();
+                higestID[Type] += 1;
+            }
             return Ret;
         }
         #endregion
@@ -4019,17 +4060,17 @@ namespace The4Dimension
                     {
                         if (((Node)GetListByName(type)[i].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(GetListByName(type)[i].GetName(true));/*db name*/ HitsIndexes.Add(i); }
                     }
-                    if (GetListByName(type)[i].Prop.ContainsKey("GenerateChildren"))
+                    /*if (GetListByName(type)[i].Prop.ContainsKey("GenerateChildren"))
                     {
                         C0List children = (C0List)GetListByName(type)[i].Prop["GenerateChildren"];
                         for (int ii = 0; ii < children.List.Count; ii++)
                         {
                             if (children.List[ii].Prop.ContainsKey(PropertyName) && children.List[ii].Prop[PropertyName] is Node && ((Node)children.List[ii].Prop[PropertyName]).NodeType == Node.NodeTypes.Int)
                             {
-                                if (((Node)children.List[ii].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(children.List[ii].GetName(true)/*db name*/ + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); }
+                                if (((Node)children.List[ii].Prop[PropertyName]).StringValue == Value.ToString()) { HitsNames.Add(children.List[ii].GetName(true) + " In GenerateChildren[" + ii.ToString() + "]"); HitsIndexes.Add(i); }
                             }
                         }
-                    }
+                    } */
                 }
             }
             if (HitsIndexes.Count == 0) { MessageBox.Show("Not found"); return; }
@@ -6472,6 +6513,7 @@ namespace The4Dimension
             if (refreshdone == false) return;
             if (comboBox1.Text == "AreaObjInfo")
             {
+                if (!AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.ContainsKey("AreaParent")) { AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.Add("AreaParent",new Node("-1", "D1")); }
                 ((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["AreaParent"]).StringValue = Parent.Value.ToString();
                 if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
                 {
@@ -6483,6 +6525,8 @@ namespace The4Dimension
                 }
             }else if (comboBox1.Text == "ObjInfo")
             {
+                if (!AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.ContainsKey("GenerateParent")) { AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.Add("GenerateParent", new Node("-1", "D1")); }
+
                 ((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["GenerateParent"]).StringValue = Parent.Value.ToString();
                 if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1&& (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
                 {
