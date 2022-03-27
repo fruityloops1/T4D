@@ -745,6 +745,7 @@
             this.OtherLevelDataMenu.Name = "OtherLevelDataMenu";
             this.OtherLevelDataMenu.Size = new System.Drawing.Size(70, 20);
             this.OtherLevelDataMenu.Text = "Level files";
+            this.OtherLevelDataMenu.Click += new System.EventHandler(this.OtherLevelDataMenu_Click);
             // 
             // otherToolStripMenuItem
             // 

@@ -76,7 +76,7 @@ namespace The4Dimension
 
                             try
                             {
-                                if (i != 241 && i != 470)
+                                if (!file.FileName.Contains("Karon") && !file.FileName.Contains("DemoObjectDemoKoopaDown"))
                                 {
                                     RenderBase.OModelGroup mdl = new Ohana.CGFX().load(new MemoryStream(file.Data));
                                     new Ohana.OBJ().export(mdl, Name, 0);

@@ -1328,7 +1328,7 @@ namespace The4Dimension
                 else Ret.Prop.Add("GenerateParent", new Node("-1", "D1"));
             }
 
-            if (Type != "AllRailInfos" && Type != "StartInfo" && AllInfos[Type].GetById(int.Parse(((Node)Ret.Prop["l_id"]).StringValue)) != -1)// if an object already contains this id then change this id to highest + 1
+            if (Ret.Prop.ContainsKey("l_id") && AllInfos[Type].GetById(int.Parse(((Node)Ret.Prop["l_id"]).StringValue)) != -1)// if an object already contains this id then change this id to highest + 1
             {
                 ((Node)Ret.Prop["l_id"]).StringValue = (higestID[Type] + 1).ToString();
                 higestID[Type] += 1;
@@ -2969,7 +2969,7 @@ namespace The4Dimension
                     }
 
                     SzsFiles.Add(ParamFile, BymlConverter.GetByml(TmpFogParam));
-                    FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, Scenario);
+                    FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, Scenario, true);
                     f.ShowDialog();
                     SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
                     OtherLevelDataMenu.DropDownItems.Clear();
@@ -2990,7 +2990,7 @@ namespace The4Dimension
                         DialogResult r = MessageBox.Show("The FogParam from this szs can't be used, do you want to generate a new FogParam ?", ParamFile, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                         if (r == DialogResult.Yes)
                         {
-                            FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, Scenario);
+                            FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, Scenario, true);
                             f.ShowDialog();
                             SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
                         }
@@ -2998,14 +2998,19 @@ namespace The4Dimension
                     }
                     else
                     {
-                        if (FogParam.Contains("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"))
-                        {
+                        if (FogParam.Contains("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"))// Add Fog editor loading the fog properties instead of  creating a new one
+                        { //edits already existing area
+                            /*
                             FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(SzsFiles[ParamFile]), ParamFile, false, FogParam.IndexOf("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"));
                             frm.ShowDialog();
                             if (frm.XmlRes != null) SzsFiles[ParamFile] = BymlConverter.GetByml(frm.XmlRes);
+                            */
+                            FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, Scenario, FogParam.IndexOf("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"));
+                            f.ShowDialog();
+                            if (f.fogparamfilenew != null) SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
                         }
                         else
-                        {
+                        { //adds the area to the file
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, Scenario);
                             f.ShowDialog();
                             SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
@@ -6608,6 +6613,11 @@ namespace The4Dimension
             {
                 GrpParentBtn.Enabled = false;
             }
+        }
+
+        private void OtherLevelDataMenu_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
