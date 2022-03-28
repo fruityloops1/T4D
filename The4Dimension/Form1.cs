@@ -2046,12 +2046,14 @@ namespace The4Dimension
         #region Hiding layers
         void HideLayer(string layerName)
         {
+            if (layerName == "" || layerName == null) return; 
             AllInfos[layerName].IsHidden = true;
             render.HideGroup(layerName);
         }
 
         void ShowLayer(string layerName)
         {
+            if (layerName == "" || layerName == null) return;
             AllInfos[layerName].IsHidden = false;
             for (int i = 0; i < AllInfos[layerName].Count; i++) UpdateOBJPos(i, AllInfos[layerName], layerName);
         }
