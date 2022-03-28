@@ -5130,7 +5130,7 @@ namespace The4Dimension
                                 if (prop.Key == "GenerateParent" || prop.Key == "AreaParent")
                                 {
                                     Parent.Value = int.Parse(((Node)prop.Value).StringValue);
-                                    if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
+                                    if (AllInfos.ContainsKey("ObjInfo") && AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
                                     {
                                         button10.Enabled = true;
                                     }
@@ -5299,7 +5299,7 @@ namespace The4Dimension
                 }
                 GrpParent.Value = a;
 
-                if (AllInfos["ObjInfo"].GetById((int)GrpParent.Value) != -1)
+                if (AllInfos.ContainsKey("ObjInfo") && AllInfos["ObjInfo"].GetById((int)GrpParent.Value) != -1)
                 {
                     GrpParentBtn.Enabled = true;
                 }
@@ -6520,7 +6520,7 @@ namespace The4Dimension
             {
                 if (!AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.ContainsKey("AreaParent")) { AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.Add("AreaParent",new Node("-1", "D1")); }
                 ((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["AreaParent"]).StringValue = Parent.Value.ToString();
-                if (AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
+                if (AllInfos.ContainsKey("ObjInfo") && AllInfos["ObjInfo"].GetById((int)Parent.Value) != -1 && (int)Parent.Value != int.Parse(((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["l_id"]).StringValue))
                 {
                     button10.Enabled = true;
                 }
@@ -6552,7 +6552,7 @@ namespace The4Dimension
             ObjectsListBox.ClearSelected();
 
             selecting = false;
-            if (((Button)sender).Name.Contains("Grp"))
+            if (((Button)sender).Name.Contains("Grp") && AllInfos.ContainsKey("ObjInfo"))
             {
                 ObjectsListBox.SetSelected(AllInfos["ObjInfo"].GetById((int)GrpParent.Value), true);
             }
@@ -6605,7 +6605,7 @@ namespace The4Dimension
                 }
 
             }
-            if (AllInfos["ObjInfo"].GetById((int)GrpParent.Value) != -1)
+            if (AllInfos.ContainsKey("ObjInfo") && AllInfos["ObjInfo"].GetById((int)GrpParent.Value) != -1)
             {
                 GrpParentBtn.Enabled = true;
             }

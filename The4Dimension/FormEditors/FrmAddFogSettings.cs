@@ -148,7 +148,7 @@ namespace The4Dimension.FormEditors
             {
                 int endAt = -1;
                 
-                XmlP1 = XmlFile.Substring(0, startAt);
+                XmlP1 = XmlFile.Substring(0, startAt-20);
 
                 for (int i = 0; i < 10000; i++)
                 {
@@ -156,7 +156,7 @@ namespace The4Dimension.FormEditors
                     if ((a > startAt&& a<endAt) || (a>startAt && endAt==-1)) endAt = a;
                 }
                 //if (endAt > -1) endAt -= ("</C1>\r\n" + "<C1>\r\n").Length;
-                XmlP2 = XmlFile.Substring((endAt != -1) ? endAt : (XmlFile.LastIndexOf("<A0 Name=\"FogType\"")- ("</C1>\r\n" + "<C1>\r\n").Length));
+                XmlP2 = XmlFile.Substring((endAt != -1) ? endAt-20 : (XmlFile.LastIndexOf("<A0 Name=\"FogType\"")- ("</C1>\r\n" + "<C1>\r\n").Length));
 
                 XmlFile = XmlP1 + XmlP2;
             }
