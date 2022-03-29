@@ -1470,7 +1470,7 @@ namespace The4Dimension
                     checkBox2.Visible = false;
                 }
 
-                if (comboBox1.Text == "CameraAreaInfo" || comboBox1.Text == "DemoSceneObjInfo" || comboBox1.Text == "StartInfo") ObjectsListBox.SelectionMode = SelectionMode.One;
+                if (comboBox1.Text == "CameraAreaInfo" || comboBox1.Text == "DemoSceneObjInfo" || comboBox1.Text == "StartInfo" || comboBox1.Text == "StartEventObjInfo") ObjectsListBox.SelectionMode = SelectionMode.One;
                 for (int i = 0; i < CurrentAllInfosSection.Count; i++) ObjectsListBox.Items.Add(CurrentAllInfosSection[i].GetName(true));//db name
 
                 /*
@@ -2113,6 +2113,7 @@ namespace The4Dimension
                         "Extra",
                         "DemoExtra",
                         "RailTab",
+                        "StartEvent",
                         "Args",
                         "DefArgs"
                     };
@@ -2126,6 +2127,7 @@ namespace The4Dimension
                         "Extra",
                         "DemoExtra",
                         "StartGeneral",
+                        "StartEvent",
                         "Args"
 
                     };
@@ -2139,9 +2141,22 @@ namespace The4Dimension
                         "Extra",
                         "General",
                         "StartGeneral",
+                        "StartEvent",
                         "RailTab"
                     };
                 add = new List<string>() { "DemoExtra" };
+            }
+            else if (comboBox1.Text == "StartEventObjInfo")
+            {
+                remove = new List<string>
+                    {
+                        "Extra",
+                        "General",
+                        "StartGeneral",
+                        "RailTab",
+                        "DemoExtra"
+                    };
+                add = new List<string>() { "StartEvent" };
             }
             else
             {
@@ -2149,6 +2164,7 @@ namespace The4Dimension
                     {
                         "StartGeneral",
                         "DemoExtra",
+                        "StartEvent",
                         "RailTab"
                     };
                 add = new List<string>() { "General", "Extra" };
@@ -5269,6 +5285,12 @@ SaveChangeLabel();
                                 CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
                                 //break;
                             }
+                            else if (tabs.Key == "StartEvent")
+                            {
+                                tabidentifier = "StrtEv";
+                                CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
+                                //break;
+                            }
                             else if (tabs.Key == "DemoExtra")
                             {
                                 tabidentifier = "Demo";
@@ -5865,11 +5887,15 @@ SaveChangeLabel();
                     }
                     else if (SelectedProperties.SelectedTab.Name == "Extra")
                     {
-                        
+
                     }
                     else if (SelectedProperties.SelectedTab.Name == "StartGeneral")
                     {
                         tabidentifier = "Mario";
+                    }
+                    else if (SelectedProperties.SelectedTab.Name == "StartEvent")
+                    {
+                        tabidentifier = "StrtEv";
                     }
                     else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
                     {
@@ -6112,14 +6138,14 @@ SaveChangeLabel();
                 }
             }
 
-SaveChangeLabel();
+        SaveChangeLabel();
 
 
         }
 
         private void SaveChangeLabel()
         {
-            //if (SzsFiles.GetHashCode() != LoadedLevelHash)
+            //if (SzsFiles.GetHashCode() != LoadedLevelHash) //Check for level hash if it's different add *
             this.Text = this.Text + ((!this.Text.Contains("*")) ? " *" : "");
             labelStatus.Text = "";
             return;
@@ -6192,6 +6218,10 @@ SaveChangeLabel();
             else if (SelectedProperties.SelectedTab.Name == "StartGeneral")
             {
                 tabidentifier = "Mario";
+            }
+            else if (SelectedProperties.SelectedTab.Name == "StartEvent")
+            {
+                tabidentifier = "StrtEv";
             }
             else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
             {
@@ -6368,6 +6398,10 @@ SaveChangeLabel();
             {
                 tabidentifier = "Mario";
             }
+            else if (SelectedProperties.SelectedTab.Name == "StartEvent")
+            {
+                tabidentifier = "StrtEv";
+            }
             else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
             {
                 tabidentifier = "Demo";
@@ -6457,6 +6491,10 @@ SaveChangeLabel();
             else if (SelectedProperties.SelectedTab.Name == "DemoExtra")
             {
                 tabidentifier = "Demo";
+            }
+            else if (SelectedProperties.SelectedTab.Name == "StartEvent")
+            {
+                tabidentifier = "StrtEv";
             }
             string property = "name";
             if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(property))
@@ -6569,6 +6607,9 @@ SaveChangeLabel();
             Genpos0.Increment = val;
             Genpos1.Increment = val;
             Genpos2.Increment = val;
+            StrtEvpos0.Increment = val;
+            StrtEvpos1.Increment = val;
+            StrtEvpos2.Increment = val;
             increased = true;
         }
 
