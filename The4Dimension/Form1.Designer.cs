@@ -355,6 +355,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.IncType = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.labelStatus = new System.Windows.Forms.Label();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -4827,12 +4828,24 @@
             this.IncType.Size = new System.Drawing.Size(107, 21);
             this.IncType.TabIndex = 17;
             // 
+            // labelStatus
+            // 
+            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.BackColor = System.Drawing.Color.White;
+            this.labelStatus.ForeColor = System.Drawing.Color.DarkGreen;
+            this.labelStatus.Location = new System.Drawing.Point(703, 6);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(0, 13);
+            this.labelStatus.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 575);
+            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.GenIncrement);
@@ -5310,5 +5323,6 @@
         private System.Windows.Forms.NumericUpDown GrpParent;
         private System.Windows.Forms.Label label87;
         private System.Windows.Forms.Button GrpParentBtn;
+        private System.Windows.Forms.Label labelStatus;
     }
 }

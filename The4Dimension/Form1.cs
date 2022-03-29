@@ -485,7 +485,7 @@ namespace The4Dimension
         {
             render.UnloadLevel();
             SzsFiles = null;
-
+            SaveChangeLabel();
             C0ListEditingStack = new Stack<List<LevelObj>>();
             IsEditingC0List = false;
             SelectionIndex = new Stack<int>();
@@ -1295,13 +1295,28 @@ namespace The4Dimension
                         if (xNode.Attributes["Name"].Value == "l_id")
                         {
                             if (Int32.Parse(xNode.Attributes["StringValue"].Value) > higestID[Type]) higestID[Type] = Int32.Parse(xNode.Attributes["StringValue"].Value);
+
+                            if (Ret.Prop.ContainsKey("l_id") && AllInfos[Type].GetById(int.Parse(((Node)Ret.Prop["l_id"]).StringValue)) != -1)// if an object already contains this id then change this id to highest + 1
+                            {
+                                ((Node)Ret.Prop["l_id"]).StringValue = (higestID[Type] + 1).ToString();
+                                higestID[Type] += 1;
+                            }
                             if (Children.Count >0)
                             {
                                 foreach (LevelObj o in Children)
                                 {
                                     if (!o.Prop.ContainsKey("GenerateParent"))
                                     {
-                                        o.Prop.Add("GenerateParent", new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                                        o.Prop.Add("GenerateParent", new Node(((Node)Ret.Prop["l_id"]).StringValue, xNode.Name));
+                                    }
+                                    else if (((Node)o.Prop["GenerateParent"]).StringValue != ((Node)Ret.Prop["l_id"]).StringValue)
+                                    {
+                                        ((Node)o.Prop["GenerateParent"]).StringValue = ((Node)Ret.Prop["l_id"]).StringValue;
+                                    }
+                                    if (o.Prop.ContainsKey("l_id") && ((Node)o.Prop["l_id"]).StringValue == ((Node)Ret.Prop["l_id"]).StringValue)// if an object already contains this id then change this id to highest + 1
+                                    {
+                                        ((Node)o.Prop["l_id"]).StringValue = (higestID[Type] + 1).ToString();
+                                        higestID[Type] += 1;
                                     }
                                     GetListByName(Type).Add(o);
                                 }
@@ -1312,7 +1327,11 @@ namespace The4Dimension
                                 {
                                     if (!o.Prop.ContainsKey("AreaParent"))
                                     {
-                                        o.Prop.Add("AreaParent", new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                                        o.Prop.Add("AreaParent", new Node(((Node)Ret.Prop["l_id"]).StringValue, xNode.Name));
+                                    }
+                                    else if (((Node)o.Prop["AreaParent"]).StringValue != ((Node)Ret.Prop["l_id"]).StringValue)
+                                    {
+                                        ((Node)o.Prop["AreaParent"]).StringValue = ((Node)Ret.Prop["l_id"]).StringValue;
                                     }
                                     GetListByName("AreaObjInfo").Add(o);
                                 }
@@ -1328,11 +1347,6 @@ namespace The4Dimension
                 else Ret.Prop.Add("GenerateParent", new Node("-1", "D1"));
             }
 
-            if (Ret.Prop.ContainsKey("l_id") && AllInfos[Type].GetById(int.Parse(((Node)Ret.Prop["l_id"]).StringValue)) != -1)// if an object already contains this id then change this id to highest + 1
-            {
-                ((Node)Ret.Prop["l_id"]).StringValue = (higestID[Type] + 1).ToString();
-                higestID[Type] += 1;
-            }
             return Ret;
         }
         #endregion
@@ -1919,6 +1933,10 @@ namespace The4Dimension
                     propertyGrid1.Refresh();
                 };
                 Undo.Push(new UndoAction("Moved " + ObjectsListBox.SelectedItem.ToString() + "'s point[" + DraggingArgs[1].ToString() + "] : ", new object[] { ObjectsListBox.SelectedIndex, (int)DraggingArgs[1], StartPos }, act));
+
+    SaveChangeLabel();
+
+
             }
             else if ((string)DraggingArgs[0] == "TmpChildrenObjs")
             {
@@ -1938,6 +1956,10 @@ namespace The4Dimension
                     propertyGrid1.Refresh();
                 };
                 Undo.Push(new UndoAction("Moved children object of: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, ObjectsListBox.SelectedIndex, (int)DraggingArgs[1] , StartPos }, act));
+
+    SaveChangeLabel();
+
+
             }
             else if ((string)DraggingArgs[0] != "AllRailInfos")
             {
@@ -1960,6 +1982,10 @@ namespace The4Dimension
                     propertyGrid1.Refresh();
                 };
                 Undo.Push(new UndoAction("Moved object : " + GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].GetName(true)/*db name*/, new object[] { GetListByName((string)DraggingArgs[0]), DraggingArgs[1], StartPos, DraggingArgs[0] }, act));
+
+    SaveChangeLabel();
+
+
             }
             if (CurrentAllInfosSectionName != "AllRailInfos")
             {
@@ -2770,7 +2796,7 @@ namespace The4Dimension
                 //LoadObjectDatabase();
                 LoadNewDatabase();
                 File.Delete("objectdb.xml.bak");
-                MessageBox.Show("Done !");
+                MessageBox.Show("Done!");
             }
             catch (Exception ex)
             {
@@ -2790,7 +2816,7 @@ namespace The4Dimension
         {
             if (SzsFiles == null)
             {
-                MessageBox.Show("Szs not loaded ?");
+                MessageBox.Show("Szs not loaded?");
                 return;
             }
             if (!SzsFiles.ContainsKey("PreLoadFileList1.byml"))
@@ -2983,6 +3009,7 @@ namespace The4Dimension
                         btn.Click += LoadFileList_click;
                         OtherLevelDataMenu.DropDownItems.Add(btn);
                     }
+        SaveChangeLabel();
                 }
                 else 
                 {
@@ -2995,6 +3022,7 @@ namespace The4Dimension
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, Scenario, true);
                             f.ShowDialog();
                             SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
+                SaveChangeLabel();
                         }
                         else return;
                     }
@@ -3010,12 +3038,14 @@ namespace The4Dimension
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, Scenario, FogParam.IndexOf("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"));
                             f.ShowDialog();
                             if (f.fogparamfilenew != null) SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
+                SaveChangeLabel();
                         }
                         else
                         { //adds the area to the file
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, Scenario);
                             f.ShowDialog();
                             SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
+                SaveChangeLabel();
                         }
                     }
                 }
@@ -3040,6 +3070,7 @@ namespace The4Dimension
                     SzsFiles.Add("CameraParam.byml", BymlConverter.GetByml(TmpCameraParam));
                     FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
                     f.ShowDialog();
+        SaveChangeLabel();
                 }
                 else
                 {
@@ -3052,6 +3083,7 @@ namespace The4Dimension
                             string TmpCameraParam = Properties.Resources.GenericCameraParam;
                             FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
                             f.ShowDialog();
+                SaveChangeLabel();
                         }
                         else return;
                     }
@@ -3062,11 +3094,13 @@ namespace The4Dimension
                             FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(SzsFiles["CameraParam.byml"]), "CameraParam.byml", false, CameraParam.IndexOf("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"));
                             frm.ShowDialog();
                             if (frm.XmlRes != null) SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
+                SaveChangeLabel();
                         }
                         else
                         {
                             FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(CameraParam, cameraId, this);
                             f.ShowDialog();
+                SaveChangeLabel();
                         }
                     }
                 }
@@ -3110,6 +3144,10 @@ namespace The4Dimension
                     UpdateRailpos(id, ((Rail)value).GetPointArray());
                 };
                 Undo.Push(new UndoAction("Changed value: " + e.ChangedItem.Label + " of rail: " + AllRailInfos[ObjectsListBox.SelectedIndex].ToString(), new object[] { ObjectsListBox.SelectedIndex, e.ChangedItem.Label, e.OldValue }, act));
+
+    SaveChangeLabel();
+
+
                 ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = AllRailInfos[ObjectsListBox.SelectedIndex].ToString();
                 return;
             }
@@ -3191,6 +3229,9 @@ namespace The4Dimension
                     {
                         Undo.Push(new UndoAction("Changed value: " + name + " of array "+ pname +" of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, e.OldValue, pname }, action));
                     }
+        SaveChangeLabel();
+
+
                 }
 
                 ObjectsListBox.Items[ObjectsListBox.SelectedIndex] = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true);/*db name*/
@@ -3215,6 +3256,10 @@ namespace The4Dimension
                 UpdateRailpos(id, AllRailInfos[id].GetPointArray());
             };
             Undo.Push(new UndoAction("Changed points of rail: " + AllRailInfos[ObjectsListBox.SelectedIndex].ToString(), new object[] { ObjectsListBox.SelectedIndex, OldPoints }, act));
+
+SaveChangeLabel();
+
+
         }
 
         public int GetObjectGenChidCount(string type, int index)
@@ -3369,6 +3414,9 @@ namespace The4Dimension
                 };
                 object prop = CurrentAllInfosSection[i].Prop[propertyGrid1.SelectedGridItem.Label];
                 Undo.Push(new UndoAction("Removed property: " + propertyGrid1.SelectedGridItem.Label, new object[] { CurrentAllInfosSection, i, propertyGrid1.SelectedGridItem.Label, prop }, action));
+
+    SaveChangeLabel();
+
                 CurrentAllInfosSection[i].Prop.Remove(propertyGrid1.SelectedGridItem.Label);
             }
             propertyGrid1.Refresh();
@@ -3415,6 +3463,9 @@ namespace The4Dimension
                         AddRail((Rail)args[1], at, true);
                     };
                     Undo.Push(new UndoAction("Removed rail: " + tmp.ToString(), new object[] { ObjectsListBox.SelectedIndex, tmp }, action));
+
+        SaveChangeLabel();
+
                 }
                 render.RemoveModel(CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex);
                 AllRailInfos.RemoveAt(ObjectsListBox.SelectedIndex);
@@ -3440,6 +3491,9 @@ namespace The4Dimension
                     };
                     string name = (indexes.Length == 1) ? "Removed object: " + tmp[0].GetName(true)/*db name*/ : "Removed " + indexes.Length.ToString() + " objects";
                     Undo.Push(new UndoAction(name, new object[] {CurrentAllInfosSection, indexes, tmp.ToArray(), CurrentAllInfosSectionName }, action));
+
+        SaveChangeLabel();
+
                 }
                 if (indexes.Length > 1)
                 {
@@ -3529,6 +3583,9 @@ namespace The4Dimension
                     ObjectsListBox.Items.RemoveAt((int)args[0]);
                 };
                 Undo.Push(new UndoAction("Added rail: " + r.ToString(), new object[] { ObjectsListBox.Items.Count - 1 }, action));
+
+    SaveChangeLabel();
+
             }
         }
 
@@ -3577,6 +3634,9 @@ namespace The4Dimension
                     render.ClearTmpObjects();
                 };
                 Undo.Push(new UndoAction("Added object: " + obj.GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, ObjectsListBox.Items.Count - 1, CurrentAllInfosSectionName }, action));
+
+    SaveChangeLabel();
+
             }
         }  
 
@@ -3889,6 +3949,9 @@ namespace The4Dimension
                 };
                 object obj = TypeName == "AllRailInfos" ? (object)AllRailInfos[index].Clone() : type[index].Clone();
                 Undo.Push(new UndoAction("Pasted value to object " + obj.ToString(), new object[] { type, TypeName, index, obj }, act));
+
+    SaveChangeLabel();
+
             }
             if (itm.Type == ClipBoardItem.ClipboardType.Position)
             {
@@ -4102,6 +4165,7 @@ namespace The4Dimension
         {
             if (LoadedFile.EndsWith(".szs", StringComparison.InvariantCultureIgnoreCase) && SzsFiles != null) SzsSave(LoadedFile);
             else XmlSave(LoadedFile, LoadedFile.EndsWith(".xml", StringComparison.InvariantCultureIgnoreCase));
+            
         }
 
         void SetupSZS()
@@ -4228,7 +4292,7 @@ namespace The4Dimension
                     File.WriteAllBytes(SoundFile, y.Compress(SzsArch.Write()));
                 }
                 AddRecentOpen(filename);
-                MessageBox.Show("Done !");
+                labelStatus.Text = "Saved!";
             }
             else
             {
@@ -4249,15 +4313,16 @@ namespace The4Dimension
 
                 AddRecentOpen(filename);
 
-                MessageBox.Show("Done !");
+                labelStatus.Text = "Saved!";
             }
+            if (this.Text.Contains("*")) this.Text = this.Text.Remove(this.Text.LastIndexOf("*")-1);
         }
 
         void XmlSave(string filename, bool BYML)
         {
             if (BYML) File.WriteAllBytes(filename, BymlConverter.GetByml(MakeXML()));
             else File.WriteAllText(filename, MakeXML(), DefEnc);
-            MessageBox.Show("Done !");
+            MessageBox.Show("Done!");
         }
 
         private void saveAsSZSToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4921,6 +4986,7 @@ namespace The4Dimension
                 
             };
             Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
+SaveChangeLabel();
             UpdateOBJPos(id, GetListByName(type), type);
             propertyGrid1.Update();
             propertyGrid1.Refresh();
@@ -4991,6 +5057,9 @@ namespace The4Dimension
                 
             };
             Undo.Push(new UndoAction("Changed value: " + name + " of array " + pname + " of object: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex, name, OldValue, pname }, action));
+
+SaveChangeLabel();
+
             UpdateOBJPos(ido, GetListByName(typo), typo);
             propertyGrid1.Update();
             propertyGrid1.Refresh();
@@ -5695,6 +5764,7 @@ namespace The4Dimension
                                 if (!CurrentAllInfosSelection[i].Prop.ContainsKey(numbered))
                                 {
                                     CurrentAllInfosSelection[i].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
+                        SaveChangeLabel();
                                     return;
                                 }
                                 else
@@ -5705,7 +5775,7 @@ namespace The4Dimension
                             else
                             {
                                 CurrentAllInfosSelection[i].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
-
+                    SaveChangeLabel();
                                 return;
                             }
 
@@ -5739,6 +5809,7 @@ namespace The4Dimension
                         }
                     }
                 }
+    SaveChangeLabel();
                 return;
             }
             if (((NumericUpDown)sender).Name.ToLower().Contains("arg"))
@@ -5779,6 +5850,7 @@ namespace The4Dimension
                     //name = "Arg";
 
                 }
+    SaveChangeLabel();
             }
             else
             {
@@ -5815,6 +5887,7 @@ namespace The4Dimension
                             if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(numbered))
                             {
                                 CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
+                    SaveChangeLabel();
                                 return;
                             }
                             else
@@ -5825,7 +5898,7 @@ namespace The4Dimension
                         else
                         {
                             CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
-
+                SaveChangeLabel();
                             return;
                         }
 
@@ -5881,7 +5954,7 @@ namespace The4Dimension
                     //oldvalue = AllRailInfos[ObjectsListBox.SelectedIndex][property];
                     AllRailInfos[ObjectsListBox.SelectedIndex][property] = (Int32)(((NumericUpDown)sender).Value);
                 }
-
+    SaveChangeLabel();
             }
             /*
             action = (object[] undoargs) =>
@@ -5986,6 +6059,10 @@ namespace The4Dimension
                     }
                 }
             }
+
+SaveChangeLabel();
+
+
         }
         private void comboboxupdated(object sender, EventArgs e)
         {
@@ -6034,6 +6111,18 @@ namespace The4Dimension
                     AllRailInfos[ObjectsListBox.SelectedIndex].Type = ((ComboBox)sender).Text;
                 }
             }
+
+SaveChangeLabel();
+
+
+        }
+
+        private void SaveChangeLabel()
+        {
+            //if (SzsFiles.GetHashCode() != LoadedLevelHash)
+            this.Text = this.Text + ((!this.Text.Contains("*")) ? " *" : "");
+            labelStatus.Text = "";
+            return;
         }
 
         private void EditChildrenBtn_Click(object sender, EventArgs e)
@@ -6049,6 +6138,7 @@ namespace The4Dimension
                     CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add((string)((Control)sender).Tag, new C0List());
                 }
             }
+
         }
 
         private void EditRailBtn_Click(object sender, EventArgs e)
@@ -6208,6 +6298,10 @@ namespace The4Dimension
                 foreach (int i in ObjectsListBox.SelectedIndices) render.ChangeModel(CurrentAllInfosSectionName, i, path);
                 UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, CurrentAllInfosSectionName);
             }
+
+SaveChangeLabel();
+
+
         }
 
         private void EnableDisableCheck(object sender, EventArgs e)
@@ -6258,6 +6352,10 @@ namespace The4Dimension
                     }
                 }
             }
+
+SaveChangeLabel();
+
+
         }
         private void AddRemoveProp(object sender, string propname = null , Node property = null, bool group = false)
         {
@@ -6440,6 +6538,10 @@ namespace The4Dimension
 
                 RefreshProperties();
             }
+
+SaveChangeLabel();
+
+
         }
 
         private void comboBox2_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
