@@ -201,15 +201,35 @@ namespace The4Dimension
         {
             //Add a blank object to the database 
             NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
-            entry.filename = "NewObject";
-            entry.dbname = "New Object";
-            entry.modelname = "";
-            entry.type = 1;
-            entry.category = 0;
-            ndb.Entries.Add(entry.filename, entry);
-            ndb.IdtoDB.Add(entry.filename, entry.dbname);
-            ndb.DBtoId.Add(entry.dbname, entry.filename);
-            ndb.IdToModel.Add(entry.filename, entry.modelname);
+            if (!ndb.Entries.ContainsKey("NewObject"))
+            {
+                entry.filename = "NewObject";
+                entry.dbname = "New Object";
+                entry.type = 1;
+                entry.category = 0;
+                ndb.Entries.Add(entry.filename, entry);
+                ndb.IdtoDB.Add(entry.filename, entry.dbname);
+                ndb.DBtoId.Add(entry.dbname, entry.filename);
+                ndb.IdToModel.Add(entry.filename, entry.modelname);
+            }
+            else
+            {
+                for (int i = 0; i<ndb.Entries.Count; i++)
+                {
+                    if (!ndb.Entries.ContainsKey("NewObject" + i))
+                    {
+                        entry.filename = "NewObject"+i;
+                        entry.dbname = "New Object"+i;
+                        break;
+                    }
+                }
+                entry.type = 1;
+                entry.category = 0;
+                ndb.Entries.Add(entry.filename, entry);
+                ndb.IdtoDB.Add(entry.filename, entry.dbname);
+                ndb.DBtoId.Add(entry.dbname, entry.filename);
+                ndb.IdToModel.Add(entry.filename, entry.modelname);
+            }
             UpdateResults();
         }
 
@@ -241,8 +261,8 @@ namespace The4Dimension
         {
             //duplicate
             NewDb.NewDbEntry entry = new NewDb.NewDbEntry();
-            entry.filename = listView1.SelectedItems[0].SubItems[1].Text + "_copy";
-            entry.dbname = listView1.SelectedItems[0].Text + "_Duplicate";
+            entry.filename = listView1.SelectedItems[0].SubItems[1].Text + "_c";
+            entry.dbname = listView1.SelectedItems[0].Text + "_Dup";
             entry.modelname = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].modelname;
 
             foreach (NewDb.EntryArg arga in ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args)
@@ -298,10 +318,9 @@ namespace The4Dimension
                     entry.category = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].category;
                     entry.extra = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].extra;
                     ndb.Entries.Add(entry.filename, entry);
-                    int index = ndb.Entries.Keys.ToList().IndexOf(listView1.SelectedItems[0].SubItems[1].Text);
                     ndb.Entries.Remove(listView1.SelectedItems[0].SubItems[1].Text);
-                    string tempdb = ndb.IdtoDB.Values.ToList()[index];
-                    string temp = ndb.DBtoId.Values.ToList()[index];
+                    string tempdb = ndb.IdtoDB[listView1.SelectedItems[0].SubItems[1].Text];
+                    string temp = ndb.DBtoId[tempdb];
                     ndb.IdToModel.Remove(temp);
                     ndb.IdtoDB.Remove(temp);
                     ndb.DBtoId.Remove(tempdb);
@@ -334,11 +353,11 @@ namespace The4Dimension
                     entry.type = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].type;
                     entry.category = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].category;
                     entry.extra = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].extra;
+
                     ndb.Entries.Remove(listView1.SelectedItems[0].SubItems[1].Text);
                     ndb.Entries.Add(entry.filename, entry);
-                    int index = ndb.Entries.Keys.ToList().IndexOf(listView1.SelectedItems[0].SubItems[1].Text);
-                    string tempdb = ndb.IdtoDB.Values.ToList()[index];
-                    string temp = ndb.DBtoId.Values.ToList()[index];
+                    string tempdb = ndb.IdtoDB[listView1.SelectedItems[0].SubItems[1].Text];
+                    string temp = ndb.DBtoId[tempdb];
                     ndb.IdtoDB.Remove(temp);
                     ndb.DBtoId.Remove(tempdb);
                     ndb.IdtoDB.Add(entry.filename, entry.dbname);
