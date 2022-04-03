@@ -2731,8 +2731,11 @@ namespace The4Dimension
                                     xr.WriteAttributeString("info", entry.args[i].info);
                                     break;
                                 case "int":
-                                    xr.WriteAttributeString("max", entry.args[i].max.ToString());
-                                    xr.WriteAttributeString("min", entry.args[i].min.ToString());
+                                    if (entry.args[i].max != entry.args[i].min)
+                                    {
+                                        xr.WriteAttributeString("max", entry.args[i].max.ToString());
+                                        xr.WriteAttributeString("min", entry.args[i].min.ToString());
+                                    }
                                     xr.WriteAttributeString("default", entry.args[i].default_value);
                                     xr.WriteAttributeString("info", entry.args[i].info);
                                     break;
