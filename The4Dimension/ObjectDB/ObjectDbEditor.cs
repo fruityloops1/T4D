@@ -460,5 +460,50 @@ namespace The4Dimension
         {
             fromCCNT();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (ArgList.SelectedIndices.Count == 1 && ArgList.SelectedItems[0].Index!=0)
+            {
+                NewDb.EntryArg temparg = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args[ArgList.SelectedItems[0].Index];
+                ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.RemoveAt(ArgList.SelectedItems[0].Index);
+                ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.Insert(ArgList.SelectedItems[0].Index - 1, temparg);
+                int oldindx = ArgList.SelectedItems[0].Index - 1;
+                ArgList.Items.Clear();
+
+                NewDb.NewDbEntry dbEntry = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text];
+                foreach (NewDb.EntryArg arg in dbEntry.args)
+                {
+                    ArgList.Items.Add(arg.arg_id.ToString()).Name = arg.arg_id.ToString();
+                    ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.name);
+                    ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.type);
+                    ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.info);
+                }
+                ArgList.Items[oldindx].Selected = true;
+            }
+        }
+
+        private void MoveArgDownBtn_Click(object sender, EventArgs e)
+        {
+
+            if (ArgList.SelectedIndices.Count == 1 && ArgList.SelectedItems[0].Index != ArgList.Items.Count-1)
+            {
+                NewDb.EntryArg temparg = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args[ArgList.SelectedItems[0].Index];
+                ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.RemoveAt(ArgList.SelectedItems[0].Index);
+                ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text].args.Insert(ArgList.SelectedItems[0].Index + 1, temparg);
+                int oldindx = ArgList.SelectedItems[0].Index + 1;
+                ArgList.Items.Clear();
+
+                NewDb.NewDbEntry dbEntry = ndb.Entries[listView1.SelectedItems[0].SubItems[1].Text];
+                foreach (NewDb.EntryArg arg in dbEntry.args)
+                {
+                    ArgList.Items.Add(arg.arg_id.ToString()).Name = arg.arg_id.ToString();
+                    ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.name);
+                    ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.type);
+                    ArgList.Items[ArgList.Items.IndexOfKey(arg.arg_id.ToString())].SubItems.Add(arg.info);
+                }
+                ArgList.Items[oldindx].Selected = true;
+            }
+        }
     }
 }

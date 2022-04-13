@@ -22,9 +22,11 @@ namespace The4Dimension.FormEditors
         string XmlFile;
         int CameraId;
         int TextInsertIndex = -1;
-        Form1 owner;
+        public List<byte> camparamfilenew;
         private Dictionary<string, string> strings;
-        public FrmAddCameraSettings(string xml, int camId, Form1 own)
+        Dictionary<string, string> PropertyTypes;
+        public Camera3DL Ret;
+        public FrmAddCameraSettings(string xml, int camId)//, Form1 own)
         {
             strings = new Dictionary<string, string>();
             InitializeComponent();
@@ -157,11 +159,108 @@ namespace The4Dimension.FormEditors
             XmlFile = xml;
             CameraId = camId;
             label1.Text = label1.Text + " " + camId.ToString();
-            owner = own;
+        }
+        public FrmAddCameraSettings(string xml, int camId, int objecttype)
+        {
+            strings = new Dictionary<string, string>();
+            InitializeComponent();
+
+            XmlFile = xml;
+            CameraId = camId;
+            label1.Text = label1.Text + " " + camId.ToString();
+
+        }
+        public FrmAddCameraSettings(Camera3DL camera, bool createnewcam = false)
+        {
+            InitializeComponent();
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Image = SystemIcons.Warning.ToBitmap();
+            CategoryCB.SelectedIndex = CategoryCB.Items.IndexOf(camera.Category);
+            ClassCB.SelectedIndex = ClassCB.Items.IndexOf(camera.Class);
+            numericUpDown1.Value = camera.UserGroupId;
+            numericUpDown1.Enabled = !createnewcam;
+            textBox1.Text = camera.UserName;
+            foreach (string key in camera.Attributes.Keys)
+            {
+                treeView1.Nodes.Add(key).Name = key;
+                treeView1.Nodes[key].Tag = (camera.Attributes[key].StringValue);
+                treeView1.Nodes[key].ToolTipText = camera.Attributes[key].NodeType.ToString();
+                if (camera.Attributes[key].NodeType == Node.NodeTypes.NodeList)
+                {
+                    
+                    foreach (string child in camera.Attributes[key]._ChildrenNodes.Keys)
+                    {
+
+                        treeView1.Nodes[key].Nodes.Add(child).Name = child;
+                        treeView1.Nodes[key].Nodes[child].Tag = (camera.Attributes[key]._ChildrenNodes[child].StringValue);
+                        treeView1.Nodes[key].Nodes[child].ToolTipText = camera.Attributes[key]._ChildrenNodes[child].NodeType.ToString();
+                        if (camera.Attributes[key]._ChildrenNodes[child].NodeType == Node.NodeTypes.NodeList)
+                        {
+                            foreach (string cchild in camera.Attributes[key]._ChildrenNodes[child]._ChildrenNodes.Keys)
+                            {
+
+                                treeView1.Nodes[key].Nodes[child].Nodes.Add(cchild).Name = cchild;
+                                treeView1.Nodes[key].Nodes[child].Nodes[cchild].Tag = (camera.Attributes[key]._ChildrenNodes[child]._ChildrenNodes[cchild].StringValue);
+                                treeView1.Nodes[key].Nodes[child].Nodes[cchild].ToolTipText = camera.Attributes[key]._ChildrenNodes[child]._ChildrenNodes[cchild].NodeType.ToString();
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            treeView1.ExpandAll();
+            CameraId = camera.UserGroupId;
+            //label1.Text = label1.Text + " " + CameraId;
+
+        }
+
+        void recursive(string key, Node cam, bool repeat = false)
+        {
+            if (repeat)
+            {
+                if (cam.NodeType == Node.NodeTypes.Int || cam.NodeType == Node.NodeTypes.Single)
+                {
+                    if (cam.StringValue.Contains("3,402823E+38")) { ((NumericUpDown)Controls[key]).Value = 1000000; }
+                    else if (cam.StringValue.Contains("-3,402823E+38")) { ((NumericUpDown)Controls[key]).Value = -1000000; }
+                    else
+                    {
+                        ((NumericUpDown)Controls[key]).Value = (decimal)((int)float.Parse(cam.StringValue));
+                    }
+                }
+                else if (cam.NodeType == Node.NodeTypes.Bool)
+                {
+                    ((CheckBox)Controls[key]).Checked = cam.StringValue == "True" ? true : false;
+                }
+            }
+            else
+            {
+                if (cam.NodeType == Node.NodeTypes.NodeList)
+                {
+                    foreach (string tmpkey in cam._ChildrenNodes.Keys)
+                    {
+                        recursive(tmpkey, cam, true);
+                    }
+                }
+                else if(cam.NodeType == Node.NodeTypes.Int || cam.NodeType == Node.NodeTypes.Single)
+                {
+                    if (cam.StringValue.Contains("3,402823E+38")) { ((NumericUpDown)Controls[key]).Value = 1000000; }
+                    else if (cam.StringValue.Contains("-3,402823E+38")) { ((NumericUpDown)Controls[key]).Value = -1000000; }
+                    else
+                    {
+                        ((NumericUpDown)Controls[key]).Value = (decimal)((int)float.Parse(cam.StringValue));
+                    }
+                }
+                else if (cam.NodeType == Node.NodeTypes.Bool)
+                {
+                    ((CheckBox)Controls[key]).Checked = cam.StringValue == "True" ? true : false;
+                }
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Ret = null;
             this.Close();
         }
 
@@ -170,322 +269,425 @@ namespace The4Dimension.FormEditors
             string setlng;
             if (Properties.Settings.Default.DotComma != true){ setlng = "de-DE"; } else { setlng = "en-UK"; }
             Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
-            TextInsertIndex = XmlFile.IndexOf("<C0 Name=\"CameraParams\">");
+            /*TextInsertIndex = XmlFile.IndexOf("<C0 Name=\"CameraParams\">");
             if (TextInsertIndex == -1)
             {
                 MessageBox.Show("Failed to get CameraParams node position !");
                 this.Close();
             }
-            TextInsertIndex += "<C0 Name=\"CameraParams\">".Length;
+            TextInsertIndex += "<C0 Name=\"CameraParams\">".Length;*/
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
-            string type;
-            if (ChckBxRailCam.Checked != true)
+            Ret = new Camera3DL();
+            Ret.Category = CategoryCB.Text;
+            Ret.Class = ClassCB.Text;
+            Ret.UserGroupId = (int)numericUpDown1.Value;
+            Ret.UserName = textBox1.Text;
+            foreach (TreeNode Node in treeView1.Nodes)
             {
-                if (ChckBxFixCam.Checked == true)
-                {
-                    switch (FixedTypeBox.SelectedIndex)
-                    {
-                        case 0:
-                            type = "FixAll";
-                            break;
-                        case 1:
-                            type = "Parallel";
-                            break;
-                        case 2:
-                            type = "FixPos";
-                            break;
-                        case 3:
-                            type = "Tower";
-                            break;
-                        default:
-                            type = "Parallel";
-                            break;
-                    }
-                }
-                else {type = "Parallel"; }
-            }
-            else {  type = "Rail"; }
-            string str = "\r\n";
-            str += "<C1>\r\n";
-            str += "<D2 Name=\"AngleH\" StringValue=\"" + numericUpDown3.Value.ToString() + "\" />\r\n";
-            str += "<D2 Name=\"AngleV\" StringValue=\"" + numericUpDown2.Value.ToString() + "\" />\r\n";
-            if (ChckBxFixCam.Checked == true)
-            {
-                switch (FixedTypeBox.SelectedIndex)
-                {
-                    case 0:
-                        str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        break;
-                    case 2:
-                        str += "<C1 Name=\"CameraPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        break;
-                    default:
-                        break;
-                }
-            }
 
-            str += "<A0 Name=\"Category\" StringValue=\"Map\" />\r\n<A0 Name=\"Class\" StringValue=\""+ type +"\"/>\r\n";
-            str += "<C1 Name=\"DashAngleTuner\">\r\n          <D2 Name=\"AddAngleMax\" StringValue=\""+numericUpDown5.Value.ToString() + "\" />\r\n          <D2 Name=\"ZoomOutOffsetMax\" StringValue=\""+numericUpDown6.Value.ToString()+"\" />\r\n        </C1>\r\n";
-            str += "<D2 Name=\"Distance\" StringValue=\"" + numericUpDown4.Value.ToString() + "\" />\r\n";
-            if (ChckBxRailCam.Checked == true)
-            {
-                str += "<D0 Name = \"IsCalcStartPosUseLookAtPos\" StringValue=\"True\" />\r\n        <D1 Name=\"RailId\" StringValue=\"" + ((RailId.Value).ToString()) + "\" />\r\n";
-            }
-            if (ChckBxFixCam.Checked == true) 
-            {
-                switch (FixedTypeBox.SelectedIndex)
+                Node temp;
+                if (Node.ToolTipText == "Single")
                 {
-                    case 0:
-                        str += "<C1 Name=\"LookAtPos\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX2.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY2.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ2.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        break;
-                    case 1:
-                        str += "<D0 Name=\"IsLimitAngleFix\" StringValue=\"True\" />\r\n";
-                        str += "<C1 Name=\"LimitBoxMax\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        str += "<C1 Name=\"LimitBoxMin\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX2.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY2.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ2.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        str += "<C1 Name=\"Position\">\r\n          <D2 Name=\"X\" StringValue=\"" + FixX.Value.ToString() + "\" />\r\n          <D2 Name=\"Y\" StringValue=\"" + FixY.Value.ToString() + "\" />\r\n          <D2 Name=\"Z\" StringValue=\"" + FixZ.Value.ToString() + "\" />\r\n        </C1>\r\n";
-                        break;
-                    default:
-                        break;
+                    temp = new Node((string)Node.Tag, "D2");
                 }
+                else if (Node.ToolTipText == "Int")
+                {
+                    temp = new Node((string)Node.Tag, "D1");
+                }
+                else if (Node.ToolTipText == "Bool")
+                {
+                    temp = new Node((string)Node.Tag, "D0");
+                }
+                else if (Node.ToolTipText == "NodeList")
+                {
+                    Dictionary<string, Node> templist = ProcessChildren(Node);
+                    //process children first then add to list then add 
+                    temp = new Node(templist, "C1");
+                }
+                else
+                {
+                    temp = null;
+                }
+                Ret.Attributes.Add(Node.Name, temp);
             }
-            str += "<C1 Name=\"Rotator\">\r\n          <D2 Name=\"AngleMax\" StringValue=\""+numericUpDown1.Value.ToString()+"\" />\r\n        </C1>\r\n";
-            str += "<D1 Name=\"UserGroupId\" StringValue=\"" + CameraId.ToString() + "\" />\r\n";
-            str += "<A0 Name=\"UserName\" StringValue=\"CameraArea\" />\r\n</C1>\r\n";
-            XmlFile = XmlFile.Insert(TextInsertIndex,str);
-            owner.SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(XmlFile);
             this.Close();
         }
 
-        private void ChckBxRailCam_CheckedChanged(object sender, EventArgs e)
+        private Dictionary<string, Node> ProcessChildren(TreeNode node)
         {
-
-            RailId.Maximum = owner.AllRailInfos.Count;
-            if (ChckBxRailCam.Checked == true)
+            Dictionary<string, Node> ret = new Dictionary<string, Node>();
+            foreach (TreeNode CNode in node.Nodes)
             {
-
-                    ChckBxFixCam.Checked = false;
-                    //ChckBxFixCam.Enabled = false;
-                RailId.Enabled = true;
-            }
-            else
-            {
-                ChckBxFixCam.Enabled = true;
-                RailId.Enabled = false;
-            }
-
-        }
-        private void ChckBxFixCam_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ChckBxFixCam.Checked == true)
-            {
-
-                ChckBxRailCam.Checked = false;
-                FixedTypeBox.SelectedIndex = 0;
-                //ChckBxRailCam.Enabled = false;
-                FixedTypeBox.Enabled = true;
-                FixX.Enabled = true;
-                FixY.Enabled = true;
-                FixZ.Enabled = true;
-                FixX2.Enabled = true;
-                FixY2.Enabled = true;
-                FixZ2.Enabled = true;
-            }
-            else
-            {
-                ChckBxRailCam.Enabled = true;
-                FixedTypeBox.Enabled = false;
-                FixX.Enabled = false;
-                FixY.Enabled = false;
-                FixZ.Enabled = false;    
-                FixX2.Enabled = false;
-                FixY2.Enabled = false;
-                FixZ2.Enabled = false;
-            }
-        }
-
-        private void ShowHideXYZ2(object sender, EventArgs e)
-        {
-            switch (FixedTypeBox.SelectedIndex)
-            {
-                case 0://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
-                    groupBox1.Text = strings["campos"];
-                    groupBox2.Text = strings["pointpos"];
-                    groupBox2.Enabled = true;
-                    //FixX2.Enabled = true;
-                    //FixY2.Enabled = true;
-                    //FixZ2.Enabled = true;
-                    break;
-                case 1://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
-                    groupBox1.Text = strings["boxV1"];
-                    groupBox2.Text = strings["boxV2"];
-                    groupBox2.Enabled = true;
-                    // FixX2.Enabled = true;
-                    // FixY2.Enabled = true;
-                    //FixZ2.Enabled = true;
-                    break;
-                case 2://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
-                    groupBox1.Text = strings["campos"];
-                    groupBox2.Text = strings["unused"];
-                    groupBox2.Enabled = false;
-                    // FixX2.Enabled = false;
-                    // FixY2.Enabled = false;
-                    // FixZ2.Enabled = false;
-                    break;
-                case 3://first label is for CamPos, second for Point position (LookAtPos) groupBox1 and groupBox2
-                    groupBox1.Text = strings["rotcent"];
-                    groupBox2.Text = strings["unused"];
-                    groupBox2.Enabled = false;
-                   // FixX2.Enabled = false;
-                    //FixY2.Enabled = false;
-                   // FixZ2.Enabled = false;
-                    break;
-                default:
-                    FixedTypeBox.SelectedIndex = 0;
-                    break;
-            }
-        }
-        private void pasteValueToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PasteValue(Form1.clipboard[Form1.clipboard.Count - 1]);
-            ClipBoardMenu.Close();
-        }
-
-        void CopyValue(string value, bool groupbox2)
-        {
-            ClipBoardItem cl = new ClipBoardItem();
-            if (value == "pos")
-            {
-                cl.Type = ClipBoardItem.ClipboardType.Position;
-
-                Single[] ds = new Single[] { 0, 0, 0 };
-                if (!groupbox2)
+                Node temp;
+                if (CNode.ToolTipText == "Single")
                 {
-                    ds = new Single[] { (Single)FixX.Value, (Single)FixY.Value, (Single)FixZ.Value };
+                    temp = new Node((string)CNode.Tag, "D2");
+                }
+                else if (CNode.ToolTipText == "Int")
+                {
+                    temp = new Node((string)CNode.Tag, "D1");
+                }
+                else if (CNode.ToolTipText == "Bool")
+                {
+                    temp = new Node((string)CNode.Tag, "D0");
+                }
+                else// if (Node.ToolTipText == "NodeList")
+                {
+                    Dictionary<string, Node> templist = ProcessChildren(CNode);
+
+                    temp = new Node(templist, "C1");
+                }
+                ret.Add(CNode.Name, temp);
+            }
+            return ret;
+        }
+
+        private void ClassCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<string> propertiesPerClass = new List<string>() { "AngleH", "AngleV", "DashAngleTuner", "Distance", "InterpoleFrame", "IsLimitAngleFix", "Rotator","SideDegree", "SideOffset", "UpOffset","VelocityOffsetter", "VerticalAbsorber","VisionParam", "IsCalcStartPosUseLookAtPos", "IsDistanceFix"};
+            if (ClassCB.Text.Contains("Target"))
+            {
+                if (ClassCB.Text.Contains("Demo"))
+                {
+                    propertiesPerClass.AddRange(new string[] {"CameraOffset" });
                 }
                 else
                 {
-                    ds = new Single[] { (Single)FixX2.Value, (Single)FixY2.Value, (Single)FixZ2.Value };
+                    propertiesPerClass.AddRange(new string[] { "CameraOffset" });
                 }
-                cl.Pos = ds;
             }
-            Form1.clipboard.Add(cl);
-            if (Form1.clipboard.Count > 10) Form1.clipboard.RemoveAt(0);
-            ClipBoardMenu_Paste.DropDownItems.Clear();
-            List<ToolStripMenuItem> Items = new List<ToolStripMenuItem>();
-            for (int i = 0; i < Form1.clipboard.Count; i++)
+            else if (ClassCB.Text.Contains("Versus"))
             {
-                ToolStripMenuItem btn = new ToolStripMenuItem();
-                btn.Name = "ClipboardN" + i.ToString();
-                btn.Text = Form1.clipboard[i].ToString();
-                if (!groupbox2)
+                propertiesPerClass.AddRange(new string[] { "DistanceMax", "DistanceMin", "FovyVersus" });
+            }
+            else if (ClassCB.Text.Contains("Tower"))
+            {
+                propertiesPerClass.AddRange(new string[] { "LimitYMax", "LimitYMin", "Position" });
+                //XYZ.Text = "Rotation center position:";
+            }
+            else if (ClassCB.Text.Contains("Rail"))
+            {
+                propertiesPerClass.AddRange(new string[] { "RailId" });
+
+            }
+            else if (ClassCB.Text.Contains("Spot"))
+            {
+
+            }
+            else if (ClassCB.Text.Contains("All"))
+            {
+                propertiesPerClass.AddRange(new string[] { "CameraPos", "LookAtPos" });
+               // XYZ.Text = "Camera position:";
+            }
+            else if (ClassCB.Text.Contains("Pos"))
+            {
+
+                propertiesPerClass.AddRange(new string[] { "CameraPos" });
+                //XYZ.Text = "Camera position:";
+            }
+            else if (ClassCB.Text.Contains("Parallel"))
+            {
+                propertiesPerClass.AddRange(new string[] { "LimitBoxMax", "LimitBoxMin" });
+                //XYZ.Text = "Box 1st vertex pos:";
+            }
+            else if (ClassCB.Text.Contains("Follow"))
+            {
+                propertiesPerClass.AddRange(new string[] { "LimitBoxMax", "LimitBoxMin", "HighAngle", "LowAngle", "PullDistance", "PushDistance"});
+
+            }
+            else if (ClassCB.Text.Contains("Anim"))
+            {
+                //propertiesPerClass.AddRange(new string[] {  });
+
+            }
+            PropsCB.Items.Clear();
+
+            pictureBox1.Visible = false;
+            toolTip1.SetToolTip(pictureBox1, "");
+            foreach (TreeNode node in treeView1.Nodes)
+            {
+                if (!propertiesPerClass.Contains(node.Text))
                 {
-                    btn.Click += QuickClipboardItem_Click;
+                    pictureBox1.Visible = true;
+                    toolTip1.SetToolTip(pictureBox1, "Some of the properties given to this camera may not work with the selected class");
+                    break;
+                }
+            }
+            PropsCB.Items.AddRange(propertiesPerClass.ToArray());
+        }
+
+        private void PositionCamera(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ViewShow(string type, string propname = "")
+        {
+
+            PropertyName.Text = propname;
+            if (type == "Single")
+            {
+                PropertyName.Text = propname;
+                SingleProp.Visible = true;
+                SingleProp.Enabled = true;
+                ExpProp.Visible = true; ExpProp.Enabled = true;
+                ExpLabel.Visible = true;
+
+            }else
+            {
+                ExpLabel.Visible = false;
+                SingleProp.Visible = false;
+                SingleProp.Enabled = false;
+                ExpProp.Visible = false; ExpProp.Enabled = false;
+            }
+            if (type == "Int")
+            {
+                IntProp.Enabled = true; IntProp.Visible = true;
+            }
+            else
+            {
+                IntProp.Enabled = false; IntProp.Visible = false;
+            }
+            if (type == "Bool")
+            {
+                BoolProp.Enabled = true; BoolProp.Visible = true;
+            }
+            else
+            {
+                BoolProp.Enabled = false; BoolProp.Visible = false;
+            }
+            if (type == "NodeList")
+            {
+                button3.Enabled = true; button3.Visible = true;
+                ChildNodesCB.Enabled = true; ChildNodesCB.Visible = true;
+                ChildNodesCB.Items.Clear();
+                string[] children = new string[0];
+                if (propname == "DashAngleTuner")
+                {
+                    children = new string[] { "AddAngleMax", "ZoomOutOffsetMax" };
+                }
+                else if (propname == "LimitBoxMax" || propname == "LimitBoxMin" || propname == "CameraPos" || propname == "LookAtPos" || propname == "Position")
+                {
+                    children = new string[] { "X", "Y","Z" };
+                }
+                else if (propname == "VelocityOffsetter")
+                {
+                    children = new string[] { "MaxOffset", "MaxOffsetAxisTwo" };
+                }
+                else if (propname == "VerticalAbsorber")
+                {
+                    children = new string[] { "IsInvalidate" };
+                }
+                else if (propname == "MaxOffsetAxisTwo")
+                {
+                    children = new string[] { "X", "Y" };
+                }
+                else if (propname == "Rotator")
+                {
+                    children = new string[] { "AngleMax", "IsEnable" };
+                }
+                else if (propname == "VisionParam")
+                {
+                    children = new string[] { "FarClipDistance", "FovyDegree", "NearClipDistacne", "StereovisionDepth", "StereovisionDistance" };
+                }
+                ChildNodesCB.Items.AddRange(children);
+
+            }
+            else
+            {
+                button3.Enabled = false; button3.Visible = false;
+                ChildNodesCB.Enabled = false; ChildNodesCB.Visible = false;
+            }
+        }
+
+        private void treeView1_DoubleClick(object sender, EventArgs e)
+        {
+            
+
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ViewShow(treeView1.SelectedNode.ToolTipText, treeView1.SelectedNode.Name);
+            label5.Visible = true;
+            if (treeView1.SelectedNode.ToolTipText == "Bool")
+            {
+                BoolProp.SelectedIndex = BoolProp.Items.IndexOf(((string)treeView1.SelectedNode.Tag));
+            }
+            else if (treeView1.SelectedNode.ToolTipText == "Int")
+            {
+                IntProp.Value = int.Parse(((string)treeView1.SelectedNode.Tag));
+            }
+            else if (treeView1.SelectedNode.ToolTipText == "Single")
+            {
+                if (((string)treeView1.SelectedNode.Tag).Contains("E"))
+                {
+                    string dec = ((string)treeView1.SelectedNode.Tag).Substring(0, ((string)treeView1.SelectedNode.Tag).IndexOf("E"));
+                    string exp = ((string)treeView1.SelectedNode.Tag).Substring(((string)treeView1.SelectedNode.Tag).IndexOf("E") + 1);
+                    SingleProp.Value = decimal.Parse(dec);
+                    ExpProp.Value = decimal.Parse(exp);
                 }
                 else
                 {
-                    btn.Click += QuickClipboardItem2_Click;
+                    SingleProp.Value = (decimal)Single.Parse(((string)treeView1.SelectedNode.Tag));
+                    ExpProp.Value = 0;
                 }
-                Items.Add(btn);
             }
-            Items.Reverse();
-            ClipBoardMenu_Paste.DropDownItems.AddRange(Items.ToArray());
-        }
-
-        private void QuickClipboardItem2_Click(object sender, EventArgs e)
-        {
-            string SenderName = ((ToolStripMenuItem)sender).Name;
-            int index = int.Parse(SenderName.Substring("ClipboardN".Length));
-            PasteValue2(Form1.clipboard[index]);
-        }
-
-        void PasteValue2(ClipBoardItem itm)
-        {
-            if (itm.Type == ClipBoardItem.ClipboardType.Position)
+            else if (treeView1.SelectedNode.ToolTipText == "NodeList")
             {
-                FixX2.Value = (decimal)itm.Pos[0];
-                FixY2.Value = (decimal)itm.Pos[1];
-                FixZ2.Value = (decimal)itm.Pos[2];
+                ChildNodesCB.SelectedIndex = 0;
             }
             else
             {
-                MessageBox.Show("Can't paste this!");
-                return;
+                label5.Visible = false;
             }
         }
-        private void QuickClipboardItem_Click(object sender, EventArgs e)
-        {
-            string SenderName = ((ToolStripMenuItem)sender).Name;
-            int index = int.Parse(SenderName.Substring("ClipboardN".Length));
-            PasteValue(Form1.clipboard[index]);
-        }
 
-        void PasteValue(ClipBoardItem itm)
+        private void button3_Click(object sender, EventArgs e)
         {
-            if (itm.Type == ClipBoardItem.ClipboardType.Position)
+            if (treeView1.SelectedNode.ToolTipText == "NodeList")
             {
-                FixX.Value = (decimal)itm.Pos[0];
-                FixY.Value = (decimal)itm.Pos[1];
-                FixZ.Value = (decimal)itm.Pos[2];
+                // treeView1.SelectedNode ChildNodesCB
+                if (ChildNodesCB.SelectedIndex == -1) { MessageBox.Show("Select a property to add first!"); return; }
+                if (treeView1.SelectedNode.Nodes.ContainsKey(ChildNodesCB.Text)) { MessageBox.Show("The selected property is already in this object!"); return; }
+
+                treeView1.SelectedNode.Nodes.Add(ChildNodesCB.Text).Name = ChildNodesCB.Text;
+                treeView1.SelectedNode.Expand();
+                // if it's a specific property we give it default properties
+                // this needs to change but will stay like this for now
+                string a = ChildNodesCB.Text;
+                if (a == "DashAngleTuner" || a == "LimitBoxMax" || a == "LimitBoxMin" || a == "Rotator" || a == "VelocityOffsetter" || a == "VerticalAbsorber" || a == "VisionParam" || a == "CameraPos" || a == "LookAtPos" || a == "MaxOffsetAxisTwo" || a == "Position")
+                {
+                    treeView1.SelectedNode.Nodes[a].Tag = "0";
+                    treeView1.SelectedNode.Nodes[a].ToolTipText = "NodeList";
+                }
+                else if (a == "IsLimitAngleFix" || a == "IsInvalidate" || a == "IsEnable" || a == "IsDistanceFix" || a == "IsCalcStartPosUseLookAtPos")
+                {
+                    treeView1.SelectedNode.Nodes[a].Tag = "False";
+                    treeView1.SelectedNode.Nodes[a].ToolTipText = "Bool";
+                }
+                else if (a == "InterpoleFrame" || a == "RailId")
+                {
+                    treeView1.SelectedNode.Nodes[a].Tag = "0";
+                    treeView1.SelectedNode.Nodes[a].ToolTipText = "Int";
+                }
+                else
+                {
+                    treeView1.SelectedNode.Nodes[a].Tag = "0";
+                    treeView1.SelectedNode.Nodes[a].ToolTipText = "Single";
+                }
             }
             else
             {
-                MessageBox.Show("Can't paste this!");
-                return;
+                if (treeView1.SelectedNode.ToolTipText == "Single")
+                {
+                    if (ExpProp.Value != 0)
+                    {
+                        treeView1.SelectedNode.Tag = SingleProp.Value.ToString() + "E" +( (ExpProp.Value>0) ? ("+"+ExpProp.Value.ToString()) : ExpProp.Value.ToString());
+                    }
+                    else
+                    {
+                        treeView1.SelectedNode.Tag = SingleProp.Value.ToString();
+                    }
+                }
+                else if (treeView1.SelectedNode.ToolTipText == "Int")
+                {
+
+                    treeView1.SelectedNode.Tag = IntProp.Value.ToString();
+                }else if (treeView1.SelectedNode.ToolTipText == "Bool")
+                {
+
+                    treeView1.SelectedNode.Tag = BoolProp.Text;
+                }
             }
         }
 
-        private void ClipBoardMenu_opening(object sender, CancelEventArgs e)
+        private void button5_Click(object sender, EventArgs e)
         {
-            ClipBoardMenu_Paste.DropDownItems.Clear();
-            List<ToolStripMenuItem> Items = new List<ToolStripMenuItem>();
-            for (int i = 0; i < Form1.clipboard.Count; i++)
+            if (PropsCB.SelectedIndex == -1) { MessageBox.Show("Select a property to add first!"); return; }
+            if (treeView1.Nodes.ContainsKey(PropsCB.Text)) { MessageBox.Show("The selected property is already in this object!"); return; }
+            treeView1.Nodes.Add(PropsCB.Text).Name = PropsCB.Text;
+
+            // if it's a specific property we give it default properties
+            // this needs to change but will stay like this for now
+            string a = PropsCB.Text;
+            if (a == "DashAngleTuner" || a == "LimitBoxMax" || a == "LimitBoxMin" || a == "Rotator" || a == "VelocityOffsetter" || a == "VerticalAbsorber" || a == "VisionParam" || a == "CameraPos" || a == "LookAtPos" || a == "MaxOffsetAxisTwo" || a == "Position")
             {
-                ToolStripMenuItem btn = new ToolStripMenuItem();
-                btn.Name = "ClipboardN" + i.ToString();
-                btn.Text = Form1.clipboard[i].ToString();
-                btn.Click += QuickClipboardItem_Click;
-                Items.Add(btn);
+                treeView1.Nodes[a].ToolTipText = "NodeList";
+                treeView1.Nodes[a].Expand();
+                if (a == "LimitBoxMax" || a == "LimitBoxMin" || a == "CameraPos" || a == "LookAtPos" || a == "Position")
+                {
+                    treeView1.Nodes[a].Nodes.Add("X").Name = "X"; treeView1.Nodes[a].Nodes["X"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["X"].ToolTipText = "Single";
+                    treeView1.Nodes[a].Nodes.Add("Y").Name = "Y"; treeView1.Nodes[a].Nodes["Y"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["Y"].ToolTipText = "Single";
+                    treeView1.Nodes[a].Nodes.Add("Z").Name = "Z"; treeView1.Nodes[a].Nodes["Z"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["Z"].ToolTipText = "Single";
+                }
+                else if (a == "MaxOffsetAxisTwo")
+                {
+                    treeView1.Nodes[a].Nodes.Add("X").Name = "X"; treeView1.Nodes[a].Nodes["X"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["X"].ToolTipText = "Single";
+                    treeView1.Nodes[a].Nodes.Add("Y").Name = "Y"; treeView1.Nodes[a].Nodes["Y"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["Y"].ToolTipText = "Single";
+                }
             }
-            Items.Reverse();
-            ClipBoardMenu_Paste.DropDownItems.AddRange(Items.ToArray());
-        }
-        private void ClipBoardMenu2_opening(object sender, CancelEventArgs e)
-        {
-            toolStripMenuItem1.DropDownItems.Clear();
-            List<ToolStripMenuItem> Items = new List<ToolStripMenuItem>();
-            for (int i = 0; i < Form1.clipboard.Count; i++)
+            else if (a == "IsLimitAngleFix" || a == "IsInvalidate" || a == "IsEnable" || a == "IsDistanceFix" || a== "IsCalcStartPosUseLookAtPos")
             {
-                ToolStripMenuItem btn = new ToolStripMenuItem();
-                btn.Name = "ClipboardN" + i.ToString();
-                btn.Text = Form1.clipboard[i].ToString();
-                btn.Click += QuickClipboardItem2_Click;
-                Items.Add(btn);
+                treeView1.Nodes[a].Tag = "False";
+                treeView1.Nodes[a].ToolTipText = "Bool";
             }
-            Items.Reverse();
-            toolStripMenuItem1.DropDownItems.AddRange(Items.ToArray());
+            else if (a == "InterpoleFrame" || a == "AngleMax" || a == "RailId")
+            {
+                treeView1.Nodes[a].Tag = "0";
+                treeView1.Nodes[a].ToolTipText = "Int";
+            }
+            else
+            {
+                treeView1.Nodes[a].Tag = "0";
+                treeView1.Nodes[a].ToolTipText = "Single";
+            }
+
+
         }
 
-        private void ClipBoardMenu_CopyPos_Click(object sender, EventArgs e)
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            CopyValue("pos", false);
-        }
-        private void ClipBoardMenu2_CopyPos_Click(object sender, EventArgs e)
-        {
-            CopyValue("pos", true);
+            if (treeView1.SelectedNode == null) return;
+            treeView1.SelectedNode.Remove();
+            treeView1.Refresh();
         }
 
-        private void pasteValueToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void SingleProp_Validated(object sender, EventArgs e)
         {
-            PasteValue2(Form1.clipboard[Form1.clipboard.Count - 1]);
-            contextMenuStrip1.Close();
+            if (ExpProp.Value != 0)
+            {
+                treeView1.SelectedNode.Tag = SingleProp.Value.ToString() + "E" + ((ExpProp.Value > 0) ? ("+" + ExpProp.Value.ToString()) : ExpProp.Value.ToString());
+            }
+            else
+            {
+                treeView1.SelectedNode.Tag = SingleProp.Value.ToString();
+            }
+        }
+
+        private void IntProp_Validated(object sender, EventArgs e)
+        {
+            treeView1.SelectedNode.Tag = IntProp.Value.ToString();
+        }
+
+        private void ExpProp_Validated(object sender, EventArgs e)
+        {
+            if (ExpProp.Value != 0)
+            {
+                treeView1.SelectedNode.Tag = SingleProp.Value.ToString() + "E" + ((ExpProp.Value > 0) ? ("+" + ExpProp.Value.ToString()) : ExpProp.Value.ToString());
+            }
+            else
+            {
+                treeView1.SelectedNode.Tag = SingleProp.Value.ToString();
+            }
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            treeView1.SelectedNode.Tag = BoolProp.Text;
         }
     }
 }

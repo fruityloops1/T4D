@@ -399,6 +399,7 @@ namespace The4Dimension
         public AllRailInfoSection AllRailInfos = new AllRailInfoSection();
         public Dictionary<string, int> higestID = new Dictionary<string, int>();
         public Dictionary<string, string> CreatorClassNameTable = new Dictionary<string, string>();
+        CameraParams LevelCams = new CameraParams();
         public CustomStack<UndoAction> Undo = new CustomStack<UndoAction>();
         public static List<ClipBoardItem> clipboard = new List<ClipBoardItem>();
         public static Encoding DefEnc = Encoding.GetEncoding("Shift-JIS");
@@ -626,6 +627,7 @@ namespace The4Dimension
                 string SoundFile = FilePath.Substring(0, FilePath.Count() - 8) + "Sound" + Scenario.ToString() + ".szs";
                 OtherLevelDataMenu.DropDownItems.Clear();
                 SzsFiles = new Dictionary<string, byte[]>();
+                LevelCams = new CameraParams();
                 CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
                 NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
                 SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(FilePath)));
@@ -739,6 +741,11 @@ namespace The4Dimension
                 }
                 else { this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + FilePath; }
 
+                if (SzsFiles.ContainsKey("CameraParam.byml"))
+                {
+                    LoadCameras(BymlConverter.GetXml(SzsFiles["CameraParam.byml"]));
+                }
+
                 SetUiLock(true);
 
                 AddRecentOpen(LoadedFile);
@@ -751,11 +758,28 @@ namespace The4Dimension
             else
             {
                 LoadedFile = "";
-                MessageBox.Show("File type not supported !");
+                MessageBox.Show("File type not supported!");
                 if (this.Text != "The 4th Dimension") { elementHost1.Show(); }
                 //SetUiLock(false);
             }
             
+        }
+
+        private void LoadCameras(string XmlText)
+        {
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(XmlText);
+            XmlNode n = xml.SelectSingleNode("/Root/C1/C0");//CameraParam
+
+            for (int i = 0; i < n.ChildNodes.Count; i++)
+            {
+                LevelCams.Add(LoadCAMERA(n.ChildNodes[i].ChildNodes));
+            }
+
+            n = xml.SelectSingleNode("/Root/C1/C1");//VisionParam
+
+
+            return;
         }
 
         private void OpenRecent_click(object sender, EventArgs e)
@@ -1348,6 +1372,96 @@ namespace The4Dimension
             }
 
             return Ret;
+        }
+
+        Camera3DL LoadCAMERA(XmlNodeList xml)
+        {
+            Camera3DL Ret = new Camera3DL();
+
+            for (int i = 0; i < xml.Count; i++)
+            {
+                XmlNode xNode = xml[i];
+                if (xNode.NodeType == XmlNodeType.Element)
+                { 
+                    if (xNode.Name == "C1") 
+                    {
+                        Ret.Attributes.Add(xNode.Attributes["Name"].Value, CameraC1(xNode));
+                    }
+                    else if (xNode.Name == "D0")
+                    {
+                        Ret.Attributes.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                    }
+                    else if (xNode.Name == "D1")
+                    {
+
+                        if (xNode.Attributes["Name"].Value == "UserGroupId")
+                        {
+                            Ret.UserGroupId = Int32.Parse(xNode.Attributes["StringValue"].Value);
+                        }
+                        else
+                        {
+
+                            Ret.Attributes.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                        }
+                    }
+                    else if (xNode.Name == "D2")
+                    {
+
+                        Ret.Attributes.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                    }
+                    else if (xNode.Name == "A0")
+                    {
+                        if (xNode.Attributes["Name"].Value == "UserName")
+                        {
+                            Ret.UserName = xNode.Attributes["StringValue"].Value;
+                        }
+                        else if (xNode.Attributes["Name"].Value == "Category")
+                        {
+
+                            Ret.Category = xNode.Attributes["StringValue"].Value;
+                        }
+                        else if (xNode.Attributes["Name"].Value == "Class")
+                        {
+                            Ret.Class = xNode.Attributes["StringValue"].Value;
+
+                        }
+                        else
+                        {
+                            Ret.Attributes.Add(xNode.Attributes["Name"].Value, new Node(xNode.Attributes["StringValue"].Value, xNode.Name));
+                        }
+                    }
+                    
+                }
+            }
+
+
+
+            return Ret;
+        }
+
+        Node CameraC1( XmlNode xNode)
+        {
+            XmlNodeList xml = xNode.ChildNodes;
+            Dictionary<string,Node> temp = new Dictionary<string,Node>();
+            for (int j = 0; j < xNode.ChildNodes.Count; j++)
+            {
+                XmlNode tempxNode = xml[j];
+                if (tempxNode.NodeType == XmlNodeType.Element)
+                {
+                    if (tempxNode.Name == "C1")
+                    {
+                        Node xmld = CameraC1(tempxNode);
+                        temp.Add(tempxNode.Attributes["Name"].Value, xmld);
+                    }
+                    else
+                    {
+                        temp.Add(tempxNode.Attributes["Name"].Value, new Node(tempxNode.Attributes["StringValue"].Value, tempxNode.Name));
+                    }
+                }
+
+            }
+            return new Node(temp, "C1");
+            //Ret.Attributes.Add(xNode.Attributes["Name"].Value, new Node(null, "C1"));
         }
         #endregion
 
@@ -2058,15 +2172,19 @@ namespace The4Dimension
 
         private void ZoomCheckWarning_Tick(object sender, EventArgs e)
         {
-            //Maybe not the best way to accomplish this, but it works...
-            double d = Math.Abs(render.TooCloseCheck());
-            if (d <= 0.1) label3.Text = "You are zooming in too much, the camera may glitch, zoom out to fix.";
+            //Maybe not the best way to accomplish this, but it works... // (Spoiler) It doesn't
+            /*double d = Math.Abs(render.TooCloseCheck());
+            if (d <= 130)
+            {
+                render.CameraToObj(CurrentAllInfosSectionName, ObjectsListBox.SelectedIndex);
+                //label3.Text = "You are zooming in too much, the camera may glitch, zoom out to fix.";
+            }
             else if (d > 1000000)
             {
                 if (ObjectsListBox.SelectedIndex == -1) label3.Text = "You are too far from the level, select an object and press space.";
                 else label3.Text = "You are too far from the selected object, press space.";
             }
-            else label3.Text = "";
+            else label3.Text = "";*/
         }
 
         #region Hiding layers
@@ -2408,7 +2526,10 @@ namespace The4Dimension
                 }
 
             }
-
+            if (AllInfos.ContainsKey(comboBox1.Text)&&AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop.ContainsKey("CameraId") && ((Node)AllInfos[comboBox1.Text][ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue != "-1")
+            {
+                //btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit camera code"; 
+            }
             if (comboBox1.Text == "AreaObjInfo")
             {
                 propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
@@ -2431,7 +2552,7 @@ namespace The4Dimension
                     UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, comboBox1.Text);
                 }
                 CameraAreaOldSelection = ObjectsListBox.SelectedIndex;
-                if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName()/*internal name*/ == "CameraArea") { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit camera code"; }
+                //if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName().Contains("CameraAre")) { btn_cameraCode.Visible = true; btn_cameraCode.Text = "Edit camera code"; }
                 RefreshProperties();
                 return;
             }
@@ -3028,7 +3149,7 @@ namespace The4Dimension
                         btn.Click += LoadFileList_click;
                         OtherLevelDataMenu.DropDownItems.Add(btn);
                     }
-        SaveChangeLabel();
+                SaveChangeLabel();
                 }
                 else 
                 {
@@ -3041,7 +3162,7 @@ namespace The4Dimension
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(TmpFogParam, fogid, Scenario, true);
                             f.ShowDialog();
                             SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
-                SaveChangeLabel();
+                            SaveChangeLabel();
                         }
                         else return;
                     }
@@ -3057,72 +3178,21 @@ namespace The4Dimension
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, Scenario, FogParam.IndexOf("<D1 Name=\"Area Id\" StringValue=\"" + fogid.ToString() + "\" />"));
                             f.ShowDialog();
                             if (f.fogparamfilenew != null) SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
-                SaveChangeLabel();
+                            SaveChangeLabel();
                         }
                         else
                         { //adds the area to the file
                             FormEditors.FrmAddFogSettings f = new FormEditors.FrmAddFogSettings(FogParam, fogid, Scenario);
                             f.ShowDialog();
                             SzsFiles[ParamFile] = f.fogparamfilenew.ToArray();
-                SaveChangeLabel();
+                            SaveChangeLabel();
                         }
                     }
                 }
             }
-            else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName() == "CameraArea")//internal name
+            else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("CameraId"))//internal name
             {
-                int cameraId = int.Parse(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue);
-                if (cameraId < 0)
-                {
-                    MessageBox.Show("CameraId can't be less than 0 !");
-                    return;
-                }
-                if (SzsFiles == null)
-                {
-                    MessageBox.Show("To use this function you must load a level from an szs file");
-                    return;
-                }
-                if (!SzsFiles.ContainsKey("CameraParam.byml"))
-                {
-                    MessageBox.Show("This level doesn't contain the CameraParam file, a generic CameraParam will be generated");
-                    string TmpCameraParam = Properties.Resources.GenericCameraParam;
-                    SzsFiles.Add("CameraParam.byml", BymlConverter.GetByml(TmpCameraParam));
-                    FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
-                    f.ShowDialog();
-        SaveChangeLabel();
-                }
-                else
-                {
-                    string CameraParam = BymlConverter.GetXml(SzsFiles["CameraParam.byml"]);
-                    if (!CameraParam.Contains("<C0 Name=\"CameraParams\">"))
-                    {
-                        DialogResult r = MessageBox.Show("The CameraParam.byml from this szs can't be used, do you want to generate a new CameraParam ?", "CameraParam.byml", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                        if (r == DialogResult.Yes)
-                        {
-                            string TmpCameraParam = Properties.Resources.GenericCameraParam;
-                            FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(TmpCameraParam, cameraId, this);
-                            f.ShowDialog();
-                SaveChangeLabel();
-                        }
-                        else return;
-                    }
-                    else
-                    {
-                        if (CameraParam.Contains("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"))
-                        {
-                            FormEditors.FrmXmlEditor frm = new FormEditors.FrmXmlEditor(BymlConverter.GetXml(SzsFiles["CameraParam.byml"]), "CameraParam.byml", false, CameraParam.IndexOf("<D1 Name=\"UserGroupId\" StringValue=\"" + cameraId.ToString() + "\" />"));
-                            frm.ShowDialog();
-                            if (frm.XmlRes != null) SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
-                SaveChangeLabel();
-                        }
-                        else
-                        {
-                            FormEditors.FrmAddCameraSettings f = new FormEditors.FrmAddCameraSettings(CameraParam, cameraId, this);
-                            f.ShowDialog();
-                SaveChangeLabel();
-                        }
-                    }
-                }
+
             }
         }
 
@@ -4192,6 +4262,7 @@ SaveChangeLabel();
             if (SzsFiles == null)
             {
                 SzsFiles = new Dictionary<string, byte[]>();
+                LevelCams = new CameraParams();
                 SzsFiles.Add("CameraParam.byml", BymlConverter.GetByml(Properties.Resources.GenericCameraParam));
                 SzsFiles.Add("PreLoadFileList1.byml", BymlConverter.GetByml(Properties.Resources.GenericPreloadList));
                 SzsFiles.Add("StageInfo1.byml", BymlConverter.GetByml(Properties.Resources.GenericStageInfo));
@@ -4257,42 +4328,47 @@ SaveChangeLabel();
             }
             //MapInfos = new Dictionary<string, AllInfoSection>(AllInfos);
             if ((!(filename.Substring(filename.Count() - 15).Contains("Sound") || filename.Substring(filename.Count() - 15).Contains("Design")))&& Properties.Settings.Default.UseDesignSound )
-            { 
-            Scenario = 1;
-            if (Int32.TryParse(filename.Substring(filename.Count() - 5, 1), out _))
             {
+                Scenario = 1;
+                if (Int32.TryParse(filename.Substring(filename.Count() - 5, 1), out _))
+                {
                     Scenario = Int32.Parse(filename.Substring(filename.Count() - 5, 1));
-            }
-            string DesignFile = filename.Substring(0, filename.Count() - 8) + "Design" + Scenario.ToString() + ".szs";
-            string SoundFile = filename.Substring(0, filename.Count() - 8) + "Sound" + Scenario.ToString() + ".szs";
+                }
+                string DesignFile = filename.Substring(0, filename.Count() - 8) + "Design" + Scenario.ToString() + ".szs";
+                string SoundFile = filename.Substring(0, filename.Count() - 8) + "Sound" + Scenario.ToString() + ".szs";
                 DesignInfos.Add("AreaObjInfo", new AllInfoSection());
                 SoundInfos.Add("AreaObjInfo", new AllInfoSection());
                 SoundInfos.Add("ObjInfo", new AllInfoSection());
                 CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
-            NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
-            SFSDirectory dir = new SFSDirectory("", true);
-            SFSDirectory dsgndir = new SFSDirectory("", true);
-            SFSDirectory snddir = new SFSDirectory("", true);
-            for (int i = 0; i < SzsFiles.Count; i++)
-            {
-                SFSFile file = new SFSFile(i, SzsFiles.Keys.ToArray()[i], dir);
-                file.Data = SzsFiles.Values.ToArray()[i];
-                if (SzsFiles.Keys.ToArray()[i].Contains("FogParam")|| SzsFiles.Keys.ToArray()[i].Contains("LightParam")|| SzsFiles.Keys.ToArray()[i].Contains("ModelTo")||SzsFiles.Keys.ToArray()[i].Contains("AreaIdTo")) 
+                NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
+                if (SzsFiles.ContainsKey("CameraParam.byml"))//We create our own CameraParam.byml from the LevelCams and [VisionParams]
                 {
-                    dsgndir.Files.Add(file);
+                    SzsFiles.Remove("CameraParam.byml");
                 }
-                else
+                SzsFiles.Add("CameraParam.byml", BymlConverter.GetByml(MakeCamXML()));
+                SFSDirectory dir = new SFSDirectory("", true);
+                SFSDirectory dsgndir = new SFSDirectory("", true);
+                SFSDirectory snddir = new SFSDirectory("", true);
+                for (int i = 0; i < SzsFiles.Count; i++)
                 {
-                    dir.Files.Add(file);
-                }
+                    SFSFile file = new SFSFile(i, SzsFiles.Keys.ToArray()[i], dir);
+                    file.Data = SzsFiles.Values.ToArray()[i];
+                    if (SzsFiles.Keys.ToArray()[i].Contains("FogParam")|| SzsFiles.Keys.ToArray()[i].Contains("LightParam")|| SzsFiles.Keys.ToArray()[i].Contains("ModelTo")||SzsFiles.Keys.ToArray()[i].Contains("AreaIdTo")) 
+                    {
+                        dsgndir.Files.Add(file);
+                    }
+                    else
+                    {
+                        dir.Files.Add(file);
+                    }
 
-            }
-            SFSFile StgData = new SFSFile(SzsFiles.Count, "StageData.byml", dir);
-            StgData.Data = BymlConverter.GetByml(MakeXML(true));
-            dir.Files.Add(StgData);
-            SzsArch.FromFileSystem(dir);
-            File.WriteAllBytes(filename, y.Compress(SzsArch.Write()));
-            if (DesignInfos["AreaObjInfo"].Count>0) 
+                }
+                SFSFile StgData = new SFSFile(SzsFiles.Count, "StageData.byml", dir);
+                StgData.Data = BymlConverter.GetByml(MakeXML(true));
+                dir.Files.Add(StgData);
+                SzsArch.FromFileSystem(dir);
+                File.WriteAllBytes(filename, y.Compress(SzsArch.Write()));
+                if (DesignInfos["AreaObjInfo"].Count>0) 
                 {
                     SzsArch = new NDS.NitroSystem.FND.NARC();
                     StgData = new SFSFile(SzsFiles.Count, "StageData.byml", dsgndir);
@@ -4301,7 +4377,7 @@ SaveChangeLabel();
                     SzsArch.FromFileSystem(dsgndir);
                     File.WriteAllBytes(DesignFile, y.Compress(SzsArch.Write()));
                 }
-            if (SoundInfos["AreaObjInfo"].Count > 0||SoundInfos["ObjInfo"].Count>0)
+                if (SoundInfos["AreaObjInfo"].Count > 0||SoundInfos["ObjInfo"].Count>0)
                 {
                     SzsArch = new NDS.NitroSystem.FND.NARC();
                     StgData = new SFSFile(SzsFiles.Count, "StageData.byml", snddir);
@@ -4335,6 +4411,64 @@ SaveChangeLabel();
                 labelStatus.Text = "Saved!";
             }
             if (this.Text.Contains("*")) this.Text = this.Text.Remove(this.Text.LastIndexOf("*")-1);
+        }
+
+        private string MakeCamXML()
+        {
+            using (var stream = new MemoryStream())
+            {
+                using (var xr = XmlWriter.Create(stream, new XmlWriterSettings() { Indent = true, Encoding = DefEnc }))
+                {
+                    xr.WriteStartDocument();
+                    xr.WriteStartElement("Root");
+                    xr.WriteStartElement("isBigEndian");
+                    xr.WriteAttributeString("Value", "False");
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("BymlFormatVersion");
+                    xr.WriteAttributeString("Value", ((uint)1).ToString());
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("C1"); //Byml Root
+                    xr.WriteStartElement("C0");
+                    xr.WriteAttributeString("Name", "CameraParams");
+
+                    for (int i = 0; i< LevelCams.Count; i++)
+                    {
+                        LevelCams[i].CamToXml(xr);
+                    }
+
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("C1");
+                    xr.WriteAttributeString("Name", "VisionParam");
+                    //need to make this editable later
+                    xr.WriteStartElement("D2");
+                    xr.WriteAttributeString("Name", "FarClipDistance");
+                    xr.WriteAttributeString("StringValue", "120000");
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("D2");
+                    xr.WriteAttributeString("Name", "FovyDegree");
+                    xr.WriteAttributeString("StringValue", "45");
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("D2");
+                    xr.WriteAttributeString("Name", "NearClipDistacne");
+                    xr.WriteAttributeString("StringValue", "100");
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("D2");
+                    xr.WriteAttributeString("Name", "StereovisionDepth");
+                    xr.WriteAttributeString("StringValue", "0,4");
+                    xr.WriteEndElement();
+                    xr.WriteStartElement("D2");
+                    xr.WriteAttributeString("Name", "StereovisionDistance");
+                    xr.WriteAttributeString("StringValue", "200");
+                    xr.WriteEndElement();
+
+                    xr.WriteEndElement();
+                    xr.WriteEndElement();
+                    xr.WriteEndElement();
+                    xr.Close();
+                }
+
+                return (DefEnc.GetString(stream.ToArray()));
+            }
         }
 
         void XmlSave(string filename, bool BYML)
@@ -5199,7 +5333,9 @@ SaveChangeLabel();
                 Priority.Enabled = false;
                 CameraId.Enabled = false;
                 ViewId.Enabled = false;
+                ShapeModelNo.Enabled = false;
                 Rail.Enabled = false;
+                ShapeModelNoChck.Checked = false;
                 RailChck.Checked = false;
                 ClippingGroupIdChck.Checked = false;
                 PriorityChck.Checked = false;
@@ -5247,7 +5383,7 @@ SaveChangeLabel();
                             }
                             else if (tabs.Key == "Extra")
                             {
-                                if (prop.Key == "ClippingGroupId" || prop.Key == "Priority" || prop.Key == "CameraId" || prop.Key == "ViewId" || prop.Key == "Rail")
+                                if (prop.Key == "ClippingGroupId" || prop.Key == "Priority" || prop.Key == "CameraId" || prop.Key == "ViewId" || prop.Key == "Rail" || prop.Key == "ShapeModelNo")
                                 {
                                     ((CheckBox)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key + "Chck")]).Checked = true;
                                     ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Enabled = true;
@@ -5256,6 +5392,13 @@ SaveChangeLabel();
                                         EditRailBtn.Enabled = true;
                                         EditRailBtn.Text = "Edit Rail";
                                         ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = (int)prop.Value;
+                                    }else if (prop.Key == "CameraId")
+                                    {
+                                        EditCamBtn.Enabled = true;
+                                        
+                                        if (LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, int.Parse(prop.Value.ToString().Substring(6))) != -1) EditCamBtn.Text = "Edit Camera";
+                                        else EditCamBtn.Text = "Add Camera";
+                                        ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(prop.Key)]).Value = int.Parse(prop.Value.ToString().Substring(6));
                                     }
                                     else
                                     {
@@ -5280,6 +5423,10 @@ SaveChangeLabel();
                                 if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("Rail"))
                                 {
                                     EditRailBtn.Enabled = false;
+                                }
+                                if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey("CameraId"))
+                                {
+                                    EditCamBtn.Enabled = false;
                                 }
                             }
                             else if (tabs.Key == "StartGeneral")
@@ -5949,6 +6096,17 @@ SaveChangeLabel();
                                 button2.Enabled = false;
                             }
                         }
+                        else if (property == "CameraId")
+                        {
+                            if (LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue,(int)((NumericUpDown)sender).Value) != -1)
+                            {
+                                EditCamBtn.Text = "Edit Camera";
+                            }
+                            else
+                            {
+                                EditCamBtn.Text = "Add Camera";
+                            }
+                        }
                     }
                     else if (CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[property].GetType() == typeof(int))
                     {
@@ -6364,6 +6522,11 @@ SaveChangeLabel();
                     else
                     {
                         AddRemoveProp(sender, (string)((CheckBox)sender).Tag, new Node("-1", "D1"));
+                        if (((CheckBox)sender).Name.Contains("Camera"))
+                        {
+                            EditCamBtn.Enabled = true;
+                            EditCamBtn.Text = "Add Camera";
+                        }
                     }
                 }
 
@@ -6382,6 +6545,10 @@ SaveChangeLabel();
                     if (((CheckBox)sender).Name.Contains("Rail"))
                     {
                         EditRailBtn.Enabled = false;
+                    }
+                    if (((CheckBox)sender).Name.Contains("Camera"))
+                    {
+                        EditCamBtn.Enabled = false;
                     }
                 }
             }
@@ -6766,6 +6933,69 @@ SaveChangeLabel();
         private void OtherLevelDataMenu_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void EditCamBtn_Click(object sender, EventArgs e)
+        {
+            int cameraId = int.Parse(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue);
+            if (cameraId < 0)
+            {
+                MessageBox.Show("CameraId can't be less than 0!");
+                return;
+            }
+
+
+            int camindex = LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, cameraId);
+            if (camindex != -1)
+            {
+                FormEditors.FrmAddCameraSettings frm = new FormEditors.FrmAddCameraSettings(LevelCams[LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, cameraId)]);
+
+                frm.ShowDialog();
+                if (frm.Ret != null)
+                {
+                    if (frm.Ret.UserGroupId != cameraId)
+                    {
+                        ((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue = frm.Ret.UserGroupId.ToString();
+
+                        LevelCams.Remove(LevelCams[LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, cameraId)]);
+                        LevelCams.Add(frm.Ret);
+                    }
+                    else
+                    {
+                        LevelCams.Insert(LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, cameraId), frm.Ret);
+                        LevelCams.Remove(LevelCams[LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, cameraId) + 1]);
+                    }
+                }
+                else return;
+                //if (frm.XmlRes != null) SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
+                SaveChangeLabel();
+            }
+            else
+            {
+                FormEditors.FrmAddCameraSettings frm = new FormEditors.FrmAddCameraSettings(new Camera3DL(true) { UserGroupId = cameraId, UserName = ((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, Category = (CurrentAllInfosSectionName == "CameraAreaInfo") ? "Map" : "Object" }, true);
+
+                frm.ShowDialog();
+
+                if (frm.Ret != null)
+                {
+                    if (LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, frm.Ret.UserGroupId) != -1)
+                    {
+                        LevelCams.Insert(LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, frm.Ret.UserGroupId), frm.Ret);
+                        LevelCams.Remove(LevelCams[LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, frm.Ret.UserGroupId) + 1]);
+                    }
+                    else
+                    {
+
+                        LevelCams.Add(frm.Ret);
+                    }
+
+                }
+                else return;
+                if (frm.Ret.UserGroupId != cameraId) ((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["CameraId"]).StringValue = frm.Ret.UserGroupId.ToString();
+                //if (frm.XmlRes != null) SzsFiles["CameraParam.byml"] = BymlConverter.GetByml(frm.XmlRes);
+                EditCamBtn.Text = "Edit Camera";
+                SaveChangeLabel();
+            }
         }
     }
 }

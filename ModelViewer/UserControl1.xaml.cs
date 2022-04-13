@@ -387,6 +387,11 @@ namespace ModelViewer
 
         }
 
+        public void CameraTo3DLCamera()
+        {
+            //render the current scene, position the camera the same as it would be from the params, add buttons like the ones ingame
+        }
+
         public void SetCameraDirection(int x, int y, int z)
         {
             ModelView.Camera.UpDirection = new Vector3D(x, y, z);
@@ -481,7 +486,14 @@ namespace ModelViewer
             return null;
         }
 
-        public double TooCloseCheck() {return Math.Abs(CameraTarget.X) - Math.Abs(ModelView.Camera.Position.X) ; }
+        public double TooCloseCheck() 
+        {
+            double X =  Math.Abs(CameraTarget.X) - Math.Abs(ModelView.Camera.Position.X) ;
+            double Y =  Math.Abs(CameraTarget.Y) - Math.Abs(ModelView.Camera.Position.Y) ;
+            double Z =  Math.Abs(CameraTarget.Z) - Math.Abs(ModelView.Camera.Position.Z) ;
+
+            return Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2));
+        }
 
         public Vector3D GetPositionInView()
         {
@@ -534,6 +546,12 @@ namespace ModelViewer
         public void UpdateSelected(int selectedindex, int modelindex,  string Type)
         {
             ((BoundingBoxVisual3D)Models["SelectionLayer"][selectedindex]).BoundingBox = Models[Type][modelindex].FindBounds(Transform3D.Identity);
+        }
+
+        private void ModelView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (ModelView.Camera.LookDirection.Length >= 2000000 && e.Delta < 0) e.Handled = true;
+            if (ModelView.Camera.LookDirection.Length <= 380 && e.Delta > 0) e.Handled = true; //should change it to use the same distance as cameratoobj
         }
     }
 }

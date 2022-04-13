@@ -1,4 +1,7 @@
-﻿namespace The4Dimension.FormEditors
+﻿using System;
+using System.ComponentModel;
+
+namespace The4Dimension.FormEditors
 {
     partial class FrmAddCameraSettings
     {
@@ -33,77 +36,60 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-            this.ChckBxFixCam = new System.Windows.Forms.CheckBox();
-            this.FixZ = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.ChckBxRailCam = new System.Windows.Forms.CheckBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.RailId = new System.Windows.Forms.NumericUpDown();
-            this.FixY = new System.Windows.Forms.NumericUpDown();
-            this.FixX = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.FixedTypeBox = new System.Windows.Forms.ComboBox();
-            this.FixX2 = new System.Windows.Forms.NumericUpDown();
-            this.FixY2 = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.FixZ2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.label15 = new System.Windows.Forms.Label();
-            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
-            this.label16 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ClipBoardMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ClipBoardMenu_Paste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ClipBoardMenu_CopyPos = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixZ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RailId)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixX2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixY2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixZ2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.ClipBoardMenu.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.setDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClassCB = new System.Windows.Forms.ComboBox();
+            this.CategoryCB = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.IntProp = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label32 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.PropsCB = new System.Windows.Forms.ComboBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.ExpProp = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ExpLabel = new System.Windows.Forms.Label();
+            this.PropertyName = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.ChildNodesCB = new System.Windows.Forms.ComboBox();
+            this.BoolProp = new System.Windows.Forms.ComboBox();
+            this.SingleProp = new System.Windows.Forms.NumericUpDown();
+            this.button4 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IntProp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExpProp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SingleProp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(349, 302);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(285, 287);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Ok";
+            this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(268, 302);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button2.Location = new System.Drawing.Point(6, 287);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -114,566 +100,425 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 20);
+            this.label1.Location = new System.Drawing.Point(17, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Camera Id:";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(268, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Vertical angle:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 51);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Horizontal angle:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 86);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(106, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Distance from player:";
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(345, 49);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(71, 20);
-            this.numericUpDown2.TabIndex = 7;
-            // 
-            // numericUpDown3
-            // 
-            this.numericUpDown3.Location = new System.Drawing.Point(104, 49);
-            this.numericUpDown3.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.numericUpDown3.Minimum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(71, 20);
-            this.numericUpDown3.TabIndex = 8;
-            // 
-            // numericUpDown4
-            // 
-            this.numericUpDown4.Location = new System.Drawing.Point(124, 84);
-            this.numericUpDown4.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numericUpDown4.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown4.TabIndex = 9;
-            this.numericUpDown4.Value = new decimal(new int[] {
-            1500,
-            0,
-            0,
-            0});
-            // 
-            // ChckBxFixCam
-            // 
-            this.ChckBxFixCam.AutoSize = true;
-            this.ChckBxFixCam.Location = new System.Drawing.Point(12, 113);
-            this.ChckBxFixCam.Name = "ChckBxFixCam";
-            this.ChckBxFixCam.Size = new System.Drawing.Size(134, 17);
-            this.ChckBxFixCam.TabIndex = 10;
-            this.ChckBxFixCam.Text = "Fixed position camera?";
-            this.ChckBxFixCam.UseVisualStyleBackColor = true;
-            this.ChckBxFixCam.CheckedChanged += new System.EventHandler(this.ChckBxFixCam_CheckedChanged);
-            // 
-            // FixZ
-            // 
-            this.FixZ.DecimalPlaces = 2;
-            this.FixZ.Enabled = false;
-            this.FixZ.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.FixZ.Location = new System.Drawing.Point(45, 73);
-            this.FixZ.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.FixZ.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.FixZ.Name = "FixZ";
-            this.FixZ.Size = new System.Drawing.Size(103, 20);
-            this.FixZ.TabIndex = 13;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 23);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(17, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "X:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 49);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 13);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Y:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 75);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(17, 13);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "Z:";
-            // 
-            // ChckBxRailCam
-            // 
-            this.ChckBxRailCam.AutoSize = true;
-            this.ChckBxRailCam.Location = new System.Drawing.Point(12, 282);
-            this.ChckBxRailCam.Name = "ChckBxRailCam";
-            this.ChckBxRailCam.Size = new System.Drawing.Size(78, 17);
-            this.ChckBxRailCam.TabIndex = 17;
-            this.ChckBxRailCam.Text = "Follow rail?";
-            this.ChckBxRailCam.UseVisualStyleBackColor = true;
-            this.ChckBxRailCam.CheckedChanged += new System.EventHandler(this.ChckBxRailCam_CheckedChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 307);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(66, 13);
-            this.label10.TabIndex = 21;
-            this.label10.Text = "Rail Id (I_id):";
-            // 
-            // RailId
-            // 
-            this.RailId.Enabled = false;
-            this.RailId.Location = new System.Drawing.Point(84, 305);
-            this.RailId.Maximum = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-            this.RailId.Name = "RailId";
-            this.RailId.Size = new System.Drawing.Size(103, 20);
-            this.RailId.TabIndex = 18;
-            // 
-            // FixY
-            // 
-            this.FixY.DecimalPlaces = 2;
-            this.FixY.Enabled = false;
-            this.FixY.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.FixY.Location = new System.Drawing.Point(45, 47);
-            this.FixY.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.FixY.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.FixY.Name = "FixY";
-            this.FixY.Size = new System.Drawing.Size(103, 20);
-            this.FixY.TabIndex = 22;
-            // 
-            // FixX
-            // 
-            this.FixX.DecimalPlaces = 2;
-            this.FixX.Enabled = false;
-            this.FixX.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.FixX.Location = new System.Drawing.Point(45, 21);
-            this.FixX.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.FixX.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.FixX.Name = "FixX";
-            this.FixX.Size = new System.Drawing.Size(103, 20);
-            this.FixX.TabIndex = 23;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(313, 84);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown1.TabIndex = 25;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(262, 86);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(45, 13);
-            this.label8.TabIndex = 24;
-            this.label8.Text = "Rotator:";
-            // 
-            // FixedTypeBox
-            // 
-            this.FixedTypeBox.Enabled = false;
-            this.FixedTypeBox.FormattingEnabled = true;
-            this.FixedTypeBox.Items.AddRange(new object[] {
-            "Fixed point",
-            "Fixed box",
-            "Fixed on Mario",
-            "Rotate around point"});
-            this.FixedTypeBox.Location = new System.Drawing.Point(15, 136);
-            this.FixedTypeBox.Name = "FixedTypeBox";
-            this.FixedTypeBox.Size = new System.Drawing.Size(132, 21);
-            this.FixedTypeBox.TabIndex = 26;
-            this.FixedTypeBox.SelectedIndexChanged += new System.EventHandler(this.ShowHideXYZ2);
-            // 
-            // FixX2
-            // 
-            this.FixX2.DecimalPlaces = 2;
-            this.FixX2.Enabled = false;
-            this.FixX2.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.FixX2.Location = new System.Drawing.Point(48, 21);
-            this.FixX2.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.FixX2.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.FixX2.Name = "FixX2";
-            this.FixX2.Size = new System.Drawing.Size(103, 20);
-            this.FixX2.TabIndex = 33;
-            // 
-            // FixY2
-            // 
-            this.FixY2.DecimalPlaces = 2;
-            this.FixY2.Enabled = false;
-            this.FixY2.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.FixY2.Location = new System.Drawing.Point(48, 47);
-            this.FixY2.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.FixY2.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.FixY2.Name = "FixY2";
-            this.FixY2.Size = new System.Drawing.Size(103, 20);
-            this.FixY2.TabIndex = 32;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(16, 75);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(17, 13);
-            this.label12.TabIndex = 31;
-            this.label12.Text = "Z:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(16, 49);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(17, 13);
-            this.label13.TabIndex = 30;
-            this.label13.Text = "Y:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(16, 23);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(17, 13);
-            this.label14.TabIndex = 29;
-            this.label14.Text = "X:";
-            // 
-            // FixZ2
-            // 
-            this.FixZ2.DecimalPlaces = 2;
-            this.FixZ2.Enabled = false;
-            this.FixZ2.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.FixZ2.Location = new System.Drawing.Point(48, 73);
-            this.FixZ2.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.FixZ2.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.FixZ2.Name = "FixZ2";
-            this.FixZ2.Size = new System.Drawing.Size(103, 20);
-            this.FixZ2.TabIndex = 28;
-            // 
-            // numericUpDown5
-            // 
-            this.numericUpDown5.Location = new System.Drawing.Point(313, 113);
-            this.numericUpDown5.Maximum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Minimum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown5.TabIndex = 36;
-            this.numericUpDown5.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(222, 117);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(85, 13);
-            this.label15.TabIndex = 35;
-            this.label15.Text = "Max dash angle:";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // numericUpDown6
-            // 
-            this.numericUpDown6.Location = new System.Drawing.Point(313, 139);
-            this.numericUpDown6.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numericUpDown6.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown6.Name = "numericUpDown6";
-            this.numericUpDown6.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown6.TabIndex = 38;
-            this.numericUpDown6.Value = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(176, 141);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(131, 13);
-            this.label16.TabIndex = 37;
-            this.label16.Text = "Max dash zoom out offset:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.ContextMenuStrip = this.ClipBoardMenu;
-            this.groupBox1.Controls.Add(this.FixX);
-            this.groupBox1.Controls.Add(this.FixZ);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.FixY);
-            this.groupBox1.Location = new System.Drawing.Point(40, 170);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(171, 106);
-            this.groupBox1.TabIndex = 39;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Camera Position:";
-            // 
-            // ClipBoardMenu
-            // 
-            this.ClipBoardMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ClipBoardMenu_Paste,
-            this.toolStripSeparator1,
-            this.ClipBoardMenu_CopyPos});
-            this.ClipBoardMenu.Name = "ClipBoardMenu";
-            this.ClipBoardMenu.Size = new System.Drawing.Size(149, 54);
-            this.ClipBoardMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ClipBoardMenu_opening);
-            // 
-            // ClipBoardMenu_Paste
-            // 
-            this.ClipBoardMenu_Paste.Name = "ClipBoardMenu_Paste";
-            this.ClipBoardMenu_Paste.Size = new System.Drawing.Size(148, 22);
-            this.ClipBoardMenu_Paste.Text = "Paste";
-            this.ClipBoardMenu_Paste.Click += new System.EventHandler(this.pasteValueToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
-            // 
-            // ClipBoardMenu_CopyPos
-            // 
-            this.ClipBoardMenu_CopyPos.Name = "ClipBoardMenu_CopyPos";
-            this.ClipBoardMenu_CopyPos.Size = new System.Drawing.Size(148, 22);
-            this.ClipBoardMenu_CopyPos.Text = "Copy Position";
-            this.ClipBoardMenu_CopyPos.Click += new System.EventHandler(this.ClipBoardMenu_CopyPos_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.ContextMenuStrip = this.contextMenuStrip1;
-            this.groupBox2.Controls.Add(this.FixX2);
-            this.groupBox2.Controls.Add(this.FixZ2);
-            this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.FixY2);
-            this.groupBox2.Location = new System.Drawing.Point(225, 170);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(175, 106);
-            this.groupBox2.TabIndex = 39;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Point Position:";
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.toolStripSeparator2,
-            this.toolStripMenuItem2});
+            this.setDefaultToolStripMenuItem});
             this.contextMenuStrip1.Name = "ClipBoardMenu";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 76);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ClipBoardMenu2_opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 48);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "Paste";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.pasteValueToolStripMenuItem2_Click);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.toolStripMenuItem1.Text = "Remove Property";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // toolStripSeparator2
+            // setDefaultToolStripMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.setDefaultToolStripMenuItem.Enabled = false;
+            this.setDefaultToolStripMenuItem.Name = "setDefaultToolStripMenuItem";
+            this.setDefaultToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.setDefaultToolStripMenuItem.Text = "Set Default";
             // 
-            // toolStripMenuItem2
+            // ClassCB
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "Copy Position";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.ClipBoardMenu2_CopyPos_Click);
+            this.ClassCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ClassCB.FormattingEnabled = true;
+            this.ClassCB.Items.AddRange(new object[] {
+            "Parallel",
+            "FixAll",
+            "FixAllSpot",
+            "Tower",
+            "Rail",
+            "ParallelTarget",
+            "FixPosSpot",
+            "FixPos",
+            "ParallelVersus",
+            "DemoTarget",
+            "Anim",
+            "Follow"});
+            this.ClassCB.Location = new System.Drawing.Point(219, 45);
+            this.ClassCB.Name = "ClassCB";
+            this.ClassCB.Size = new System.Drawing.Size(121, 21);
+            this.ClassCB.TabIndex = 41;
+            this.ClassCB.SelectedIndexChanged += new System.EventHandler(this.ClassCB_SelectedIndexChanged);
+            // 
+            // CategoryCB
+            // 
+            this.CategoryCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CategoryCB.FormattingEnabled = true;
+            this.CategoryCB.Items.AddRange(new object[] {
+            "Map",
+            "Object",
+            "Entrance",
+            "Event"});
+            this.CategoryCB.Location = new System.Drawing.Point(219, 19);
+            this.CategoryCB.Name = "CategoryCB";
+            this.CategoryCB.Size = new System.Drawing.Size(121, 21);
+            this.CategoryCB.TabIndex = 41;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(161, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 13);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Category:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(178, 48);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(35, 13);
+            this.label11.TabIndex = 24;
+            this.label11.Text = "Class:";
+            // 
+            // IntProp
+            // 
+            this.IntProp.Location = new System.Drawing.Point(240, 112);
+            this.IntProp.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.IntProp.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.IntProp.Name = "IntProp";
+            this.IntProp.Size = new System.Drawing.Size(108, 20);
+            this.IntProp.TabIndex = 8;
+            this.IntProp.Visible = false;
+            this.IntProp.Validated += new System.EventHandler(this.IntProp_Validated);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(81, 22);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(71, 20);
+            this.numericUpDown1.TabIndex = 8;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(19, 19);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(38, 13);
+            this.label32.TabIndex = 45;
+            this.label32.Text = "Name:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(305, 138);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(43, 23);
+            this.button3.TabIndex = 44;
+            this.button3.Text = "+";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // PropsCB
+            // 
+            this.PropsCB.FormattingEnabled = true;
+            this.PropsCB.Items.AddRange(new object[] {
+            "AngleH",
+            "AngleV",
+            "Category",
+            "Class",
+            "DashAngleTuner",
+            "AddAngleMax",
+            "ZoomOutOffsetMax",
+            "Distance",
+            "InterpoleFrame",
+            "IsLimitAngleFix",
+            "LimitBoxMax",
+            "LimitBoxMin",
+            "X",
+            "Y",
+            "Z",
+            "Rotator",
+            "AngleMax",
+            "SideDegree",
+            "SideOffset",
+            "UpOffset",
+            "UserGroupId",
+            "UserName",
+            "VelocityOffsetter",
+            "MaxOffset",
+            "VerticalAbsorber",
+            "IsInvalidate",
+            "VisionParam",
+            "FovyDegree",
+            "StereovisionDepth",
+            "StereovisionDistance",
+            "FarClipDistance",
+            "NearClipDistacne",
+            "CameraPos",
+            "LookAtPos",
+            "IsEnable",
+            "IsCalcStartPosUseLookAtPos",
+            "RailId",
+            "HighAngle",
+            "LowAngle",
+            "PullDistance",
+            "PushDistance",
+            "TargetLookRate",
+            "TargetRadius",
+            "MaxOffsetAxisTwo",
+            "IsDistanceFix",
+            "LimitYMax",
+            "LimitYMin",
+            "Position",
+            "DistanceMax",
+            "DistanceMin",
+            "FovyVersus",
+            "CameraOffset"});
+            this.PropsCB.Location = new System.Drawing.Point(66, 16);
+            this.PropsCB.Name = "PropsCB";
+            this.PropsCB.Size = new System.Drawing.Size(195, 21);
+            this.PropsCB.TabIndex = 50;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(215, 84);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(125, 13);
+            this.label34.TabIndex = 51;
+            this.label34.Text = "(Get explanation from db)";
+            this.label34.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(62, 48);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(101, 20);
+            this.textBox1.TabIndex = 52;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(8, 51);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(49, 13);
+            this.label35.TabIndex = 2;
+            this.label35.Text = "Used by:";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.numericUpDown1);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.ClassCB);
+            this.groupBox4.Controls.Add(this.CategoryCB);
+            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(354, 81);
+            this.groupBox4.TabIndex = 54;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "General:";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.treeView1);
+            this.groupBox5.Controls.Add(this.ExpProp);
+            this.groupBox5.Controls.Add(this.label5);
+            this.groupBox5.Controls.Add(this.ExpLabel);
+            this.groupBox5.Controls.Add(this.PropertyName);
+            this.groupBox5.Controls.Add(this.button5);
+            this.groupBox5.Controls.Add(this.button3);
+            this.groupBox5.Controls.Add(this.label34);
+            this.groupBox5.Controls.Add(this.label32);
+            this.groupBox5.Controls.Add(this.PropsCB);
+            this.groupBox5.Controls.Add(this.IntProp);
+            this.groupBox5.Controls.Add(this.ChildNodesCB);
+            this.groupBox5.Controls.Add(this.BoolProp);
+            this.groupBox5.Controls.Add(this.SingleProp);
+            this.groupBox5.Location = new System.Drawing.Point(6, 90);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(354, 194);
+            this.groupBox5.TabIndex = 55;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Properties:";
+            // 
+            // treeView1
+            // 
+            this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.treeView1.FullRowSelect = true;
+            this.treeView1.HideSelection = false;
+            this.treeView1.Location = new System.Drawing.Point(11, 52);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.ShowNodeToolTips = true;
+            this.treeView1.ShowRootLines = false;
+            this.treeView1.Size = new System.Drawing.Size(186, 129);
+            this.treeView1.TabIndex = 57;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            // 
+            // ExpProp
+            // 
+            this.ExpProp.Location = new System.Drawing.Point(240, 140);
+            this.ExpProp.Maximum = new decimal(new int[] {
+            38,
+            0,
+            0,
+            0});
+            this.ExpProp.Minimum = new decimal(new int[] {
+            45,
+            0,
+            0,
+            -2147483648});
+            this.ExpProp.Name = "ExpProp";
+            this.ExpProp.Size = new System.Drawing.Size(59, 20);
+            this.ExpProp.TabIndex = 8;
+            this.ExpProp.Visible = false;
+            this.ExpProp.Validated += new System.EventHandler(this.ExpProp_Validated);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(199, 116);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(40, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Value :";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label5.Visible = false;
+            // 
+            // ExpLabel
+            // 
+            this.ExpLabel.AutoSize = true;
+            this.ExpLabel.Location = new System.Drawing.Point(202, 142);
+            this.ExpLabel.Name = "ExpLabel";
+            this.ExpLabel.Size = new System.Drawing.Size(31, 13);
+            this.ExpLabel.TabIndex = 4;
+            this.ExpLabel.Text = "Exp :";
+            this.ExpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ExpLabel.Visible = false;
+            // 
+            // PropertyName
+            // 
+            this.PropertyName.AutoSize = true;
+            this.PropertyName.Location = new System.Drawing.Point(200, 61);
+            this.PropertyName.Name = "PropertyName";
+            this.PropertyName.Size = new System.Drawing.Size(0, 13);
+            this.PropertyName.TabIndex = 4;
+            this.PropertyName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(267, 16);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(73, 23);
+            this.button5.TabIndex = 44;
+            this.button5.Text = "Add Property";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // ChildNodesCB
+            // 
+            this.ChildNodesCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ChildNodesCB.FormattingEnabled = true;
+            this.ChildNodesCB.Location = new System.Drawing.Point(240, 112);
+            this.ChildNodesCB.Name = "ChildNodesCB";
+            this.ChildNodesCB.Size = new System.Drawing.Size(108, 21);
+            this.ChildNodesCB.TabIndex = 58;
+            this.ChildNodesCB.Visible = false;
+            // 
+            // BoolProp
+            // 
+            this.BoolProp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BoolProp.FormattingEnabled = true;
+            this.BoolProp.Items.AddRange(new object[] {
+            "True",
+            "False"});
+            this.BoolProp.Location = new System.Drawing.Point(240, 112);
+            this.BoolProp.Name = "BoolProp";
+            this.BoolProp.Size = new System.Drawing.Size(108, 21);
+            this.BoolProp.TabIndex = 5;
+            this.BoolProp.Visible = false;
+            this.BoolProp.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // SingleProp
+            // 
+            this.SingleProp.DecimalPlaces = 6;
+            this.SingleProp.Location = new System.Drawing.Point(240, 112);
+            this.SingleProp.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.SingleProp.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.SingleProp.Name = "SingleProp";
+            this.SingleProp.Size = new System.Drawing.Size(108, 20);
+            this.SingleProp.TabIndex = 8;
+            this.SingleProp.Visible = false;
+            this.SingleProp.Validated += new System.EventHandler(this.SingleProp_Validated);
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(172, 287);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(31, 23);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "👁";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
+            this.button4.Click += new System.EventHandler(this.PositionCamera);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(347, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(21, 21);
+            this.pictureBox1.TabIndex = 56;
+            this.pictureBox1.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox1, "...");
+            this.pictureBox1.Visible = false;
             // 
             // FrmAddCameraSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(436, 336);
-            this.Controls.Add(this.numericUpDown6);
-            this.Controls.Add(this.label16);
-            this.Controls.Add(this.numericUpDown5);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.FixedTypeBox);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.RailId);
-            this.Controls.Add(this.ChckBxRailCam);
-            this.Controls.Add(this.ChckBxFixCam);
-            this.Controls.Add(this.numericUpDown4);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(373, 314);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox5);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -682,28 +527,33 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add camera code";
             this.Load += new System.EventHandler(this.FrmAddCameraSettings_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixZ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RailId)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixX2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixY2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixZ2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.ClipBoardMenu.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.IntProp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExpProp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SingleProp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
+        }
+
+        private void ClipBoardMenu_CopyPos_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void pasteValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ClipBoardMenu_opening(object sender, CancelEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -711,44 +561,34 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
-        private System.Windows.Forms.CheckBox ChckBxFixCam;
-        private System.Windows.Forms.NumericUpDown FixZ;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox ChckBxRailCam;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown RailId;
-        private System.Windows.Forms.NumericUpDown FixY;
-        private System.Windows.Forms.NumericUpDown FixX;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox FixedTypeBox;
-        private System.Windows.Forms.NumericUpDown FixX2;
-        private System.Windows.Forms.NumericUpDown FixY2;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.NumericUpDown FixZ2;
-        private System.Windows.Forms.NumericUpDown numericUpDown5;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.NumericUpDown numericUpDown6;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ContextMenuStrip ClipBoardMenu;
-        private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_Paste;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_CopyPos;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ComboBox ClassCB;
+        private System.Windows.Forms.ComboBox CategoryCB;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown IntProp;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox PropsCB;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.ComboBox BoolProp;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.NumericUpDown ExpProp;
+        private System.Windows.Forms.NumericUpDown SingleProp;
+        private System.Windows.Forms.Label PropertyName;
+        private System.Windows.Forms.Label ExpLabel;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.ComboBox ChildNodesCB;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ToolStripMenuItem setDefaultToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }

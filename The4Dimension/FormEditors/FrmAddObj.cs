@@ -413,6 +413,7 @@ namespace The4Dimension
                 obj.Prop.Add("l_id", new Node("0", "D1"));
                 if (InfosName != "CameraAreaInfo")
                 {
+                    obj.Prop.Add("ShapeModelNo", new Node("-1", "D1"));
                     int[] args = new int[10];
 
 
@@ -713,21 +714,23 @@ namespace The4Dimension
             if (checkBox1.Checked) 
             {
                 usingdb = true;
-                label3.Enabled = true;
                 //label1.Enabled = false;
                 comboBox1.Enabled = false;
-                comboBox2.Enabled = true;
-                listView1.Enabled = true;
+                groupBox4.Enabled = true;
+                //comboBox2.Enabled = true;
+                //listView1.Enabled = true;
+                //label3.Enabled = true;
                 LoadObjList(ObjDb);
             }
             else
             {
                 usingdb = false;
-                label3.Enabled = false;
                 //label1.Enabled = true;
                 comboBox1.Enabled = true;
-                comboBox2.Enabled = false;
-                listView1.Enabled = false;
+                groupBox4.Enabled = false;
+                //comboBox2.Enabled = false;
+                //listView1.Enabled = false;
+                //label3.Enabled = false;
             }
             //LoadObjList(usingdb ? ObjDb : CCNT);
             Properties.Settings.Default.OnlyKnownObjs = checkBox1.Checked;
@@ -737,10 +740,32 @@ namespace The4Dimension
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             listView1.Items.Clear();
+            SearchBox.Enabled = false;
+            SearchBox.Text = "";
+            SearchBox.Enabled = true;
             int index = 0;
             foreach (KeyValuePair<string, string> objects in categories[comboBox2.SelectedIndex].objdict)
             {
                 if (LayerNum == ndb.Entries[objects.Value].type/* || LayerNum == 1*/)
+                {
+                    listView1.Items.Add(objects.Key);
+                    listView1.Items[index].SubItems.Add(objects.Value);
+                    if (ndb.Entries[objects.Value].extra != "")
+                    {
+                        listView1.Items[index].ToolTipText = ndb.Entries[objects.Value].extra;
+                    }
+                    index++;
+                }
+            }
+        }
+        private void SearchBox_TextChanged(object sender, EventArgs e)
+        {
+            if (SearchBox.Enabled == false) return;
+            listView1.Items.Clear();
+            int index = 0;
+            foreach (KeyValuePair<string, string> objects in categories[comboBox2.SelectedIndex].objdict)
+            {
+                if ((SearchBox.Text == "" && LayerNum == ndb.Entries[objects.Value].type) || (LayerNum == ndb.Entries[objects.Value].type && (ndb.Entries[objects.Value].dbname.ToLower().Contains(SearchBox.Text.ToLower()) || ndb.Entries[objects.Value].filename.ToLower().Contains(SearchBox.Text.ToLower()))))
                 {
                     listView1.Items.Add(objects.Key);
                     listView1.Items[index].SubItems.Add(objects.Value);
@@ -903,6 +928,5 @@ namespace The4Dimension
             Items.Reverse();
             ClipBoardMenu_Paste.DropDownItems.AddRange(Items.ToArray());
         }
-
     }
 }

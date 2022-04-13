@@ -67,6 +67,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.MoveArgUpBtn = new System.Windows.Forms.Button();
+            this.MoveArgDownBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -145,6 +147,8 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.MoveArgDownBtn);
+            this.groupBox2.Controls.Add(this.MoveArgUpBtn);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.Txt_model);
             this.groupBox2.Controls.Add(this.Txt_extra);
@@ -237,7 +241,7 @@
             this.ArgList.MultiSelect = false;
             this.ArgList.Name = "ArgList";
             this.ArgList.ShowGroups = false;
-            this.ArgList.Size = new System.Drawing.Size(294, 147);
+            this.ArgList.Size = new System.Drawing.Size(267, 151);
             this.ArgList.TabIndex = 3;
             this.ArgList.UseCompatibleStateImageBehavior = false;
             this.ArgList.View = System.Windows.Forms.View.Details;
@@ -263,7 +267,7 @@
             // columnHeader6
             // 
             this.columnHeader6.Text = "Info";
-            this.columnHeader6.Width = 98;
+            this.columnHeader6.Width = 71;
             // 
             // contextMenuStrip1
             // 
@@ -454,6 +458,26 @@
             this.button5.Visible = false;
             this.button5.Click += new System.EventHandler(this.CCNT_Click);
             // 
+            // MoveArgUpBtn
+            // 
+            this.MoveArgUpBtn.Location = new System.Drawing.Point(279, 143);
+            this.MoveArgUpBtn.Name = "MoveArgUpBtn";
+            this.MoveArgUpBtn.Size = new System.Drawing.Size(25, 43);
+            this.MoveArgUpBtn.TabIndex = 10;
+            this.MoveArgUpBtn.Text = "Ʌ";
+            this.MoveArgUpBtn.UseVisualStyleBackColor = true;
+            this.MoveArgUpBtn.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // MoveArgDownBtn
+            // 
+            this.MoveArgDownBtn.Location = new System.Drawing.Point(279, 192);
+            this.MoveArgDownBtn.Name = "MoveArgDownBtn";
+            this.MoveArgDownBtn.Size = new System.Drawing.Size(25, 43);
+            this.MoveArgDownBtn.TabIndex = 10;
+            this.MoveArgDownBtn.Text = "V";
+            this.MoveArgDownBtn.UseVisualStyleBackColor = true;
+            this.MoveArgDownBtn.Click += new System.EventHandler(this.MoveArgDownBtn_Click);
+            // 
             // ObjectDbEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -524,6 +548,8 @@
         private System.Windows.Forms.ToolStripMenuItem addArgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeArgToolStripMenuItem;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button MoveArgDownBtn;
+        private System.Windows.Forms.Button MoveArgUpBtn;
     }
     #endregion
 }

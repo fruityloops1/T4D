@@ -354,7 +354,7 @@ namespace The4Dimension
 
             public Single X
             {
-                set { _X.Clear(); _X.Add(value); _X.Add(value); _X.Add(value); }
+                set { _X.Clear(); _X.Add(value); _X.Add(value); _X.Add(value); }//this is not correct for this game's curves, as they use the point and 2 different points to determine the curve, if you make the 3 points the same you end with a linear rail, and that's what the rail type is supposed to be (?)
                 get {
                     if (_X.Count == 0) X = 0;
                     return _X[0];
@@ -405,11 +405,12 @@ namespace The4Dimension
 
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    class Node : ICloneable
+    public class Node : ICloneable
     {
         string _StringValue;
         public string _StringNodeType;
         NodeTypes _NodeType;
+        public Dictionary<string, Node> _ChildrenNodes;
 
         [Description("This is the value of this node as a string, change it respecting the type")]
         public string StringValue
@@ -436,6 +437,8 @@ namespace The4Dimension
             else if (_NodeType == NodeTypes.String) Prev += "String";
             else if (_NodeType == NodeTypes.Int) Prev += "Int";
             else if (_NodeType == NodeTypes.Single) Prev += "Single";
+            else if (_NodeType == NodeTypes.Bool) Prev += "Bool";
+            else if (_NodeType == NodeTypes.NodeList) return "Parent Node";
             else Prev += string.Format("Unk Type ({0})", _StringNodeType);
             Prev += " : ";
             Prev += _StringValue;
@@ -446,8 +449,10 @@ namespace The4Dimension
         {
             String = 0xA0,
             Empty = 0xA1,
+            Bool = 0xD0,
             Int = 0xD1,
             Single = 0xD2,
+            NodeList = 0xC1,
             Other
         }
 
@@ -463,10 +468,20 @@ namespace The4Dimension
             _NodeType = NodeTypes.Other;
             if (_type == "A0") _NodeType = NodeTypes.String;
             else if (_type == "A1") _NodeType = NodeTypes.Empty;
+            else if (_type == "D0") _NodeType = NodeTypes.Bool;
             else if (_type == "D1") _NodeType = NodeTypes.Int;
             else if (_type == "D2") _NodeType = NodeTypes.Single;
+            else if (_type == "C1") _NodeType = NodeTypes.NodeList;
             _StringNodeType = _type;
             ApplyValue(_stringValue, _NodeType);
+        }
+
+        public Node(Dictionary<string, Node> nodes, string _type)
+        {
+            _NodeType = NodeTypes.NodeList;
+            _ChildrenNodes = new Dictionary<string, Node>();
+            _ChildrenNodes = nodes;
+            _StringNodeType = null;
         }
 
         void ApplyValue(string _stringValue, NodeTypes _type)

@@ -148,6 +148,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Extra = new System.Windows.Forms.TabPage();
+            this.ShapeModelNoChck = new System.Windows.Forms.CheckBox();
+            this.ShapeModelNo = new System.Windows.Forms.NumericUpDown();
+            this.label97 = new System.Windows.Forms.Label();
             this.ViewIdChck = new System.Windows.Forms.CheckBox();
             this.CameraIdChck = new System.Windows.Forms.CheckBox();
             this.RailChck = new System.Windows.Forms.CheckBox();
@@ -155,7 +158,7 @@
             this.ClippingGroupIdChck = new System.Windows.Forms.CheckBox();
             this.EditRailBtn = new System.Windows.Forms.Button();
             this.EditAreasBtn = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.EditCamBtn = new System.Windows.Forms.Button();
             this.EditChildrenBtn = new System.Windows.Forms.Button();
             this.ViewId = new System.Windows.Forms.NumericUpDown();
             this.label81 = new System.Windows.Forms.Label();
@@ -401,6 +404,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).BeginInit();
             this.Extra.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ShapeModelNo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ViewId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CameraId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rail)).BeginInit();
@@ -700,7 +704,7 @@
             this.saveAsSZSToolStripMenuItem.Name = "saveAsSZSToolStripMenuItem";
             this.saveAsSZSToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.saveAsSZSToolStripMenuItem.Text = "Save as Szs";
             this.saveAsSZSToolStripMenuItem.Visible = false;
             this.saveAsSZSToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
@@ -708,14 +712,14 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(214, 6);
             this.toolStripSeparator3.Visible = false;
             // 
             // saveAsBymlToolStripMenuItem1
             // 
             this.saveAsBymlToolStripMenuItem1.Enabled = false;
             this.saveAsBymlToolStripMenuItem1.Name = "saveAsBymlToolStripMenuItem1";
-            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
+            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.saveAsBymlToolStripMenuItem1.Text = "Save as Byml";
             this.saveAsBymlToolStripMenuItem1.Visible = false;
             this.saveAsBymlToolStripMenuItem1.Click += new System.EventHandler(this.saveAsBymlToolStripMenuItem1_Click);
@@ -724,7 +728,7 @@
             // 
             this.saveAsXmlToolStripMenuItem.Enabled = false;
             this.saveAsXmlToolStripMenuItem.Name = "saveAsXmlToolStripMenuItem";
-            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.saveAsXmlToolStripMenuItem.Text = "Save as Xml";
             this.saveAsXmlToolStripMenuItem.Visible = false;
             this.saveAsXmlToolStripMenuItem.Click += new System.EventHandler(this.saveAsXmlToolStripMenuItem_Click);
@@ -789,28 +793,28 @@
             this.generatePreloadFileListToolStripMenuItem,
             this.generate2DSectionToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.otherToolStripMenuItem.Text = "Tools";
             // 
             // modelImporterToolStripMenuItem
             // 
             this.modelImporterToolStripMenuItem.Name = "modelImporterToolStripMenuItem";
             this.modelImporterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.modelImporterToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.modelImporterToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.modelImporterToolStripMenuItem.Text = "Model importer";
             this.modelImporterToolStripMenuItem.Click += new System.EventHandler(this.modelImporterToolStripMenuItem_Click);
             // 
             // creatorClassNameTableEditorToolStripMenuItem
             // 
             this.creatorClassNameTableEditorToolStripMenuItem.Name = "creatorClassNameTableEditorToolStripMenuItem";
-            this.creatorClassNameTableEditorToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.creatorClassNameTableEditorToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.creatorClassNameTableEditorToolStripMenuItem.Text = "CreatorClassNameTable editor";
             this.creatorClassNameTableEditorToolStripMenuItem.Click += new System.EventHandler(this.creatorClassNameTableEditorToolStripMenuItem_Click);
             // 
             // stagesBgmEditorToolStripMenuItem
             // 
             this.stagesBgmEditorToolStripMenuItem.Name = "stagesBgmEditorToolStripMenuItem";
-            this.stagesBgmEditorToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.stagesBgmEditorToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.stagesBgmEditorToolStripMenuItem.Text = "Change stages BGM";
             this.stagesBgmEditorToolStripMenuItem.Click += new System.EventHandler(this.stagesBgmEditorToolStripMenuItem_Click);
             // 
@@ -818,7 +822,7 @@
             // 
             this.oggToBcstmConverterToolStripMenuItem.Enabled = false;
             this.oggToBcstmConverterToolStripMenuItem.Name = "oggToBcstmConverterToolStripMenuItem";
-            this.oggToBcstmConverterToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.oggToBcstmConverterToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.oggToBcstmConverterToolStripMenuItem.Text = "Ogg to Bcstm converter";
             this.oggToBcstmConverterToolStripMenuItem.Visible = false;
             this.oggToBcstmConverterToolStripMenuItem.Click += new System.EventHandler(this.oggToBcstmConverterToolStripMenuItem_Click);
@@ -826,26 +830,26 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(276, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(277, 6);
             // 
             // WorldMapEd
             // 
             this.WorldMapEd.Name = "WorldMapEd";
-            this.WorldMapEd.Size = new System.Drawing.Size(279, 22);
+            this.WorldMapEd.Size = new System.Drawing.Size(280, 22);
             this.WorldMapEd.Text = "Worldmap editor (Experimental)";
             this.WorldMapEd.Click += new System.EventHandler(this.WorldMapEd_Click);
             // 
             // generatePreloadFileListToolStripMenuItem
             // 
             this.generatePreloadFileListToolStripMenuItem.Name = "generatePreloadFileListToolStripMenuItem";
-            this.generatePreloadFileListToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.generatePreloadFileListToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.generatePreloadFileListToolStripMenuItem.Text = "Generate PreloadFileList (Experimental)";
             this.generatePreloadFileListToolStripMenuItem.Click += new System.EventHandler(this.generatePreloadFileListToolStripMenuItem_Click);
             // 
             // generate2DSectionToolStripMenuItem
             // 
             this.generate2DSectionToolStripMenuItem.Name = "generate2DSectionToolStripMenuItem";
-            this.generate2DSectionToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.generate2DSectionToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.generate2DSectionToolStripMenuItem.Text = "Add TransparentWalls (Experimental)";
             this.generate2DSectionToolStripMenuItem.Click += new System.EventHandler(this.generate2DSectionToolStripMenuItem_Click);
             // 
@@ -978,33 +982,33 @@
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // hotkeysListToolStripMenuItem
             // 
             this.hotkeysListToolStripMenuItem.Name = "hotkeysListToolStripMenuItem";
-            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.hotkeysListToolStripMenuItem.Text = "Hotkeys list";
             this.hotkeysListToolStripMenuItem.Click += new System.EventHandler(this.hotkeysListToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(252, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(266, 6);
             // 
             // downloadLatestT4DToolStripMenuItem
             // 
             this.downloadLatestT4DToolStripMenuItem.Name = "downloadLatestT4DToolStripMenuItem";
-            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.downloadLatestT4DToolStripMenuItem.Text = "Download latest T4D";
             this.downloadLatestT4DToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestT4DToolStripMenuItem_Click);
             // 
             // downloadLatestObjectDatabaseToolStripMenuItem
             // 
             this.downloadLatestObjectDatabaseToolStripMenuItem.Name = "downloadLatestObjectDatabaseToolStripMenuItem";
-            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.downloadLatestObjectDatabaseToolStripMenuItem.Text = "Download latest object database";
             this.downloadLatestObjectDatabaseToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestObjectDatabaseToolStripMenuItem_Click);
             // 
@@ -1013,20 +1017,20 @@
             this.objectsDatabaseToolStripMenuItem.Name = "objectsDatabaseToolStripMenuItem";
             this.objectsDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.objectsDatabaseToolStripMenuItem.Text = "Edit object database";
             this.objectsDatabaseToolStripMenuItem.Click += new System.EventHandler(this.objectsDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(252, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(266, 6);
             // 
             // gbatempThreadToolStripMenuItem
             // 
             this.gbatempThreadToolStripMenuItem.Image = global::The4Dimension.Properties.Resources.gbatemp;
             this.gbatempThreadToolStripMenuItem.Name = "gbatempThreadToolStripMenuItem";
-            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
             // 
@@ -1070,7 +1074,7 @@
             this.C0EditingPanel.Controls.Add(this.label12);
             this.C0EditingPanel.Location = new System.Drawing.Point(3, 3);
             this.C0EditingPanel.Name = "C0EditingPanel";
-            this.C0EditingPanel.Size = new System.Drawing.Size(235, 21);
+            this.C0EditingPanel.Size = new System.Drawing.Size(293, 21);
             this.C0EditingPanel.TabIndex = 13;
             this.C0EditingPanel.Visible = false;
             // 
@@ -1124,11 +1128,11 @@
             // btn_cameraCode
             // 
             this.btn_cameraCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_cameraCode.Location = new System.Drawing.Point(161, 174);
+            this.btn_cameraCode.Location = new System.Drawing.Point(193, 176);
             this.btn_cameraCode.Name = "btn_cameraCode";
-            this.btn_cameraCode.Size = new System.Drawing.Size(135, 26);
+            this.btn_cameraCode.Size = new System.Drawing.Size(104, 23);
             this.btn_cameraCode.TabIndex = 11;
-            this.btn_cameraCode.Text = "Edit camera code";
+            this.btn_cameraCode.Text = "Edit fog";
             this.btn_cameraCode.UseVisualStyleBackColor = true;
             this.btn_cameraCode.Visible = false;
             this.btn_cameraCode.Click += new System.EventHandler(this.CameraCode_click);
@@ -1853,6 +1857,9 @@
             // 
             // Extra
             // 
+            this.Extra.Controls.Add(this.ShapeModelNoChck);
+            this.Extra.Controls.Add(this.ShapeModelNo);
+            this.Extra.Controls.Add(this.label97);
             this.Extra.Controls.Add(this.ViewIdChck);
             this.Extra.Controls.Add(this.CameraIdChck);
             this.Extra.Controls.Add(this.RailChck);
@@ -1860,7 +1867,7 @@
             this.Extra.Controls.Add(this.ClippingGroupIdChck);
             this.Extra.Controls.Add(this.EditRailBtn);
             this.Extra.Controls.Add(this.EditAreasBtn);
-            this.Extra.Controls.Add(this.button9);
+            this.Extra.Controls.Add(this.EditCamBtn);
             this.Extra.Controls.Add(this.EditChildrenBtn);
             this.Extra.Controls.Add(this.ViewId);
             this.Extra.Controls.Add(this.label81);
@@ -1880,10 +1887,50 @@
             this.Extra.Text = "Extra";
             this.Extra.UseVisualStyleBackColor = true;
             // 
+            // ShapeModelNoChck
+            // 
+            this.ShapeModelNoChck.AutoSize = true;
+            this.ShapeModelNoChck.Location = new System.Drawing.Point(274, 44);
+            this.ShapeModelNoChck.Name = "ShapeModelNoChck";
+            this.ShapeModelNoChck.Size = new System.Drawing.Size(15, 14);
+            this.ShapeModelNoChck.TabIndex = 9;
+            this.ShapeModelNoChck.Tag = "ShapeModelNo";
+            this.ShapeModelNoChck.UseVisualStyleBackColor = true;
+            this.ShapeModelNoChck.CheckedChanged += new System.EventHandler(this.EnableDisableCheck);
+            // 
+            // ShapeModelNo
+            // 
+            this.ShapeModelNo.Enabled = false;
+            this.ShapeModelNo.Location = new System.Drawing.Point(227, 42);
+            this.ShapeModelNo.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.ShapeModelNo.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.ShapeModelNo.Name = "ShapeModelNo";
+            this.ShapeModelNo.Size = new System.Drawing.Size(41, 20);
+            this.ShapeModelNo.TabIndex = 8;
+            this.ShapeModelNo.ValueChanged += new System.EventHandler(this.numupdownupdated);
+            // 
+            // label97
+            // 
+            this.label97.AutoSize = true;
+            this.label97.Location = new System.Drawing.Point(144, 45);
+            this.label97.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
+            this.label97.Name = "label97";
+            this.label97.Size = new System.Drawing.Size(84, 13);
+            this.label97.TabIndex = 7;
+            this.label97.Text = "ShapeModelNo:";
+            // 
             // ViewIdChck
             // 
             this.ViewIdChck.AutoSize = true;
-            this.ViewIdChck.Location = new System.Drawing.Point(272, 43);
+            this.ViewIdChck.Location = new System.Drawing.Point(274, 17);
             this.ViewIdChck.Name = "ViewIdChck";
             this.ViewIdChck.Size = new System.Drawing.Size(15, 14);
             this.ViewIdChck.TabIndex = 6;
@@ -1894,7 +1941,7 @@
             // CameraIdChck
             // 
             this.CameraIdChck.AutoSize = true;
-            this.CameraIdChck.Location = new System.Drawing.Point(272, 17);
+            this.CameraIdChck.Location = new System.Drawing.Point(131, 104);
             this.CameraIdChck.Name = "CameraIdChck";
             this.CameraIdChck.Size = new System.Drawing.Size(15, 14);
             this.CameraIdChck.TabIndex = 6;
@@ -1905,7 +1952,7 @@
             // RailChck
             // 
             this.RailChck.AutoSize = true;
-            this.RailChck.Location = new System.Drawing.Point(135, 78);
+            this.RailChck.Location = new System.Drawing.Point(131, 78);
             this.RailChck.Name = "RailChck";
             this.RailChck.Size = new System.Drawing.Size(15, 14);
             this.RailChck.TabIndex = 6;
@@ -1916,7 +1963,7 @@
             // PriorityChck
             // 
             this.PriorityChck.AutoSize = true;
-            this.PriorityChck.Location = new System.Drawing.Point(135, 43);
+            this.PriorityChck.Location = new System.Drawing.Point(131, 43);
             this.PriorityChck.Name = "PriorityChck";
             this.PriorityChck.Size = new System.Drawing.Size(15, 14);
             this.PriorityChck.TabIndex = 6;
@@ -1927,7 +1974,7 @@
             // ClippingGroupIdChck
             // 
             this.ClippingGroupIdChck.AutoSize = true;
-            this.ClippingGroupIdChck.Location = new System.Drawing.Point(135, 17);
+            this.ClippingGroupIdChck.Location = new System.Drawing.Point(131, 17);
             this.ClippingGroupIdChck.Name = "ClippingGroupIdChck";
             this.ClippingGroupIdChck.Size = new System.Drawing.Size(15, 14);
             this.ClippingGroupIdChck.TabIndex = 6;
@@ -1937,7 +1984,7 @@
             // 
             // EditRailBtn
             // 
-            this.EditRailBtn.Location = new System.Drawing.Point(173, 73);
+            this.EditRailBtn.Location = new System.Drawing.Point(175, 73);
             this.EditRailBtn.Name = "EditRailBtn";
             this.EditRailBtn.Size = new System.Drawing.Size(104, 23);
             this.EditRailBtn.TabIndex = 5;
@@ -1958,16 +2005,16 @@
             this.EditAreasBtn.Visible = false;
             this.EditAreasBtn.Click += new System.EventHandler(this.EditChildrenBtn_Click);
             // 
-            // button9
+            // EditCamBtn
             // 
-            this.button9.Enabled = false;
-            this.button9.Location = new System.Drawing.Point(135, 126);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(105, 23);
-            this.button9.TabIndex = 5;
-            this.button9.Text = "Edit children";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Visible = false;
+            this.EditCamBtn.Enabled = false;
+            this.EditCamBtn.Location = new System.Drawing.Point(174, 99);
+            this.EditCamBtn.Name = "EditCamBtn";
+            this.EditCamBtn.Size = new System.Drawing.Size(105, 23);
+            this.EditCamBtn.TabIndex = 5;
+            this.EditCamBtn.Text = "Edit camera";
+            this.EditCamBtn.UseVisualStyleBackColor = true;
+            this.EditCamBtn.Click += new System.EventHandler(this.EditCamBtn_Click);
             // 
             // EditChildrenBtn
             // 
@@ -1985,7 +2032,7 @@
             // ViewId
             // 
             this.ViewId.Enabled = false;
-            this.ViewId.Location = new System.Drawing.Point(225, 41);
+            this.ViewId.Location = new System.Drawing.Point(227, 15);
             this.ViewId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2004,7 +2051,7 @@
             // label81
             // 
             this.label81.AutoSize = true;
-            this.label81.Location = new System.Drawing.Point(173, 43);
+            this.label81.Location = new System.Drawing.Point(175, 17);
             this.label81.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label81.Name = "label81";
             this.label81.Size = new System.Drawing.Size(45, 13);
@@ -2014,7 +2061,7 @@
             // CameraId
             // 
             this.CameraId.Enabled = false;
-            this.CameraId.Location = new System.Drawing.Point(225, 15);
+            this.CameraId.Location = new System.Drawing.Point(84, 102);
             this.CameraId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2033,7 +2080,7 @@
             // Rail
             // 
             this.Rail.Enabled = false;
-            this.Rail.Location = new System.Drawing.Point(88, 76);
+            this.Rail.Location = new System.Drawing.Point(84, 76);
             this.Rail.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2052,7 +2099,7 @@
             // label80
             // 
             this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(162, 17);
+            this.label80.Location = new System.Drawing.Point(21, 104);
             this.label80.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label80.Name = "label80";
             this.label80.Size = new System.Drawing.Size(58, 13);
@@ -2062,7 +2109,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(17, 78);
+            this.label91.Location = new System.Drawing.Point(13, 78);
             this.label91.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(65, 13);
@@ -2072,7 +2119,7 @@
             // Priority
             // 
             this.Priority.Enabled = false;
-            this.Priority.Location = new System.Drawing.Point(88, 41);
+            this.Priority.Location = new System.Drawing.Point(84, 41);
             this.Priority.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2091,7 +2138,7 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(17, 43);
+            this.label32.Location = new System.Drawing.Point(13, 43);
             this.label32.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(65, 13);
@@ -2101,7 +2148,7 @@
             // ClippingGroupId
             // 
             this.ClippingGroupId.Enabled = false;
-            this.ClippingGroupId.Location = new System.Drawing.Point(88, 15);
+            this.ClippingGroupId.Location = new System.Drawing.Point(84, 15);
             this.ClippingGroupId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2120,7 +2167,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 17);
+            this.label21.Location = new System.Drawing.Point(2, 17);
             this.label21.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(77, 13);
@@ -5261,6 +5308,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).EndInit();
             this.Extra.ResumeLayout(false);
             this.Extra.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ShapeModelNo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ViewId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CameraId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rail)).EndInit();
@@ -5531,7 +5579,7 @@
         private System.Windows.Forms.ComboBox RailType;
         private System.Windows.Forms.Button EditRailBtn;
         private System.Windows.Forms.Button EditAreasBtn;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button EditCamBtn;
         private System.Windows.Forms.Button EditChildrenBtn;
         private System.Windows.Forms.NumericUpDown Priority;
         private System.Windows.Forms.Label label32;
@@ -5711,5 +5759,8 @@
         private System.Windows.Forms.TextBox StrtEvname;
         private System.Windows.Forms.Label label98;
         private System.Windows.Forms.Label label99;
+        private System.Windows.Forms.CheckBox ShapeModelNoChck;
+        private System.Windows.Forms.NumericUpDown ShapeModelNo;
+        private System.Windows.Forms.Label label97;
     }
 }

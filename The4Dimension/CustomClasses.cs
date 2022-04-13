@@ -101,7 +101,7 @@ namespace The4Dimension
             Args = args;
             Action = Act;
         }
-       
+
     }
 
     public class ClipBoardItem
@@ -203,7 +203,7 @@ namespace The4Dimension
                     {
                         Ret.Add(this[i]);
                     }
-                }else if (this[i].Prop.ContainsKey("GenerateParent")) // GenerateChildren
+                } else if (this[i].Prop.ContainsKey("GenerateParent")) // GenerateChildren
                 {
                     if (((Node)this[i].Prop["GenerateParent"]).StringValue == id.ToString())
                     {
@@ -441,7 +441,7 @@ namespace The4Dimension
 
         public class ObjectDbEntry
         {
-            public string name, notes, files,model = "" , type = "";
+            public string name, notes, files, model = "", type = "";
             public int Known, Complete, Category;
             public List<ObjectDbField> Fields = new List<ObjectDbField>();
 
@@ -554,15 +554,15 @@ namespace The4Dimension
         {
             decimal ret = 0;
             int doc = 0;
-            decimal accnt = CCNT.Count; 
-            foreach(NewDbEntry entry in Entries.Values)
+            decimal accnt = CCNT.Count;
+            foreach (NewDbEntry entry in Entries.Values)
             {
                 if (CCNT.ContainsKey(entry.filename))
                 {
                     doc += 1;
                 }
             }
-            ret = Math.Round((doc / accnt)*100, 2);
+            ret = Math.Round((doc / accnt) * 100, 2);
             return ret;
         }
         public static NewDb FromXml(string xml)
@@ -597,39 +597,39 @@ namespace The4Dimension
                         res.Entries.Add(s.Attributes["id"].Value, temp);
                         res.DBtoId.Add(s.Attributes["name"].Value, s.Attributes["id"].Value);
                         res.IdtoDB.Add(s.Attributes["id"].Value, s.Attributes["name"].Value);
-                        if (temp.modelname.Trim() != "") res.IdToModel.Add(s.Attributes["id"].Value, temp.modelname); 
+                        if (temp.modelname.Trim() != "") res.IdToModel.Add(s.Attributes["id"].Value, temp.modelname);
                     }
-                }else if (node.Name == "properties")
+                } else if (node.Name == "properties")
                 {
-                    
+
                     foreach (XmlNode s in node.ChildNodes) //property node
                     {
                         if (s.NodeType != XmlNodeType.Comment)
                         {
-                        EntryProperty temp = new EntryProperty();
+                            EntryProperty temp = new EntryProperty();
 
-                        temp.name = s.Attributes["name"].Value;
-                        temp.data_type = s.Attributes["data_type"].Value;
-                        if (s.Attributes["default"] != null) temp.default_value = s.Attributes["default"].Value;
-                        temp.text = s.Attributes["text"].Value;
-                        if (s.Attributes["info"] != null) temp.info = s.Attributes["info"].Value;
-                        if (temp.data_type.Contains("option"))
-                        {
-                            foreach (XmlNode child in s.ChildNodes)
+                            temp.name = s.Attributes["name"].Value;
+                            temp.data_type = s.Attributes["data_type"].Value;
+                            if (s.Attributes["default"] != null) temp.default_value = s.Attributes["default"].Value;
+                            temp.text = s.Attributes["text"].Value;
+                            if (s.Attributes["info"] != null) temp.info = s.Attributes["info"].Value;
+                            if (temp.data_type.Contains("option"))
                             {
-                                temp.options.Add(child.Attributes["name"].Value, child.Attributes["value"].Value);
-                                temp.revoptions.Add(child.Attributes["value"].Value, child.Attributes["name"].Value);
+                                foreach (XmlNode child in s.ChildNodes)
+                                {
+                                    temp.options.Add(child.Attributes["name"].Value, child.Attributes["value"].Value);
+                                    temp.revoptions.Add(child.Attributes["value"].Value, child.Attributes["name"].Value);
+                                }
                             }
-                        }
-                        else if (temp.data_type.Contains("array"))
-                        {
-                            foreach (XmlNode child in s.ChildNodes)
+                            else if (temp.data_type.Contains("array"))
                             {
-                                temp.array.Add(child.Attributes["name"].Value, child.Attributes["value"].Value);
+                                foreach (XmlNode child in s.ChildNodes)
+                                {
+                                    temp.array.Add(child.Attributes["name"].Value, child.Attributes["value"].Value);
+                                }
                             }
-                        }
 
-                        res.KnownProperties.Add(temp);
+                            res.KnownProperties.Add(temp);
                         }
                     }
                 }
@@ -659,7 +659,7 @@ namespace The4Dimension
                 newentry.category = Int32.Parse(parent.Attributes["category"].Value);
                 newentry.type = Int32.Parse(parent.Attributes["type"].Value);
                 if (parent.Attributes["extra"] != null) newentry.extra = parent.Attributes["extra"].Value;
-                for (int i=1; i > 8; i++)//8 is arbitrary, could be any number
+                for (int i = 1; i > 8; i++)//8 is arbitrary, could be any number
                 {
                     if (parent.Attributes["child" + i.ToString()] != null)
                     {
@@ -669,7 +669,7 @@ namespace The4Dimension
 
                 foreach (XmlNode child in parent.ChildNodes)
                 {
-                    
+
                     if (child.NodeType == XmlNodeType.Element)
                     {
                         EntryArg arg = new EntryArg();
@@ -703,7 +703,7 @@ namespace The4Dimension
                                 }
                                 else if (arg.type == "option")
                                 {
-                                   
+
                                     foreach (XmlNode op in child.ChildNodes)
                                     {
                                         arg.options.Add(op.Attributes["name"].Value, op.Attributes["value"].Value);
@@ -788,6 +788,203 @@ namespace The4Dimension
             {
                 SetAction(i, value);
             }
+        }
+    }
+
+    public class Camera3DL : Object
+    {
+        public int UserGroupId = 0;
+        public string Category = "Map";
+        public string Class = "Parallel";
+        public string UserName = "CameraArea";
+        public Dictionary<string, Node> Attributes = new Dictionary<string, Node>();
+
+        public Camera3DL(bool use = false)
+        {
+            if (!use) return;
+            Attributes.Add("AngleH", new Node("0", "D2"));
+            Attributes.Add("AngleV", new Node("25", "D2"));
+            Attributes.Add("Distance", new Node("100", "D2"));
+            Attributes.Add("UpOffset", new Node("100", "D2"));
+
+            Dictionary<string, Node> VsParam = new Dictionary<string, Node>();
+            VsParam.Add("FovyDegree", new Node("60", "D2"));
+            VsParam.Add("StereovisionDepth", new Node("0,4", "D2"));
+            VsParam.Add("StereovisionDistance", new Node("650", "D2"));
+
+            Attributes.Add("VisionParam", new Node(VsParam, "C1"));
+        }
+        public XmlWriter CamToXml(XmlWriter xr)
+        {
+            xr.WriteStartElement("C1");
+            List<string> OrderedAttributes = new List<string>() { "UserGroupId", "Category", "Class", "UserName" };
+            OrderedAttributes.AddRange(Attributes.Keys);
+            OrderedAttributes.Sort();
+            for (int a = 0; a < OrderedAttributes.Count; a++)
+            {
+                if (OrderedAttributes[a] == "Class"|| OrderedAttributes[a] == "Category" || OrderedAttributes[a] == "UserName")
+                {
+
+                    xr.WriteStartElement("A0");
+                    xr.WriteAttributeString("Name", OrderedAttributes[a]);
+                    xr.WriteAttributeString("StringValue", ((OrderedAttributes[a] == "Class") ? Class: ((OrderedAttributes[a] == "Category") ? Category:UserName)) );
+                    xr.WriteEndElement();
+                }
+                else if (OrderedAttributes[a] == "UserGroupId")
+                {
+                    xr.WriteStartElement("D1");
+                    xr.WriteAttributeString("Name", "UserGroupId");
+                    xr.WriteAttributeString("StringValue", UserGroupId.ToString());
+                    xr.WriteEndElement();
+                }
+                else
+                {
+                    string elementType = "0";
+                    if (Attributes[OrderedAttributes[a]].NodeType == Node.NodeTypes.Bool) elementType = "D0";
+                    if (Attributes[OrderedAttributes[a]].NodeType == Node.NodeTypes.Int) elementType = "D1";
+                    if (Attributes[OrderedAttributes[a]].NodeType == Node.NodeTypes.Single) elementType = "D2";
+                    if (Attributes[OrderedAttributes[a]].NodeType == Node.NodeTypes.NodeList) elementType = "C1";
+
+                    if (Attributes[OrderedAttributes[a]].NodeType != Node.NodeTypes.NodeList)
+                    {
+
+                        xr.WriteStartElement(elementType);
+                        xr.WriteAttributeString("Name", OrderedAttributes[a]);
+                        xr.WriteAttributeString("StringValue", Attributes[OrderedAttributes[a]].StringValue);
+                        xr.WriteEndElement();
+                    }
+                    else
+                    {
+                        xr.WriteStartElement(elementType);
+                        xr.WriteAttributeString("Name", OrderedAttributes[a]);
+                        //xr.WriteAttributeString("StringValue", Attributes[OrderedAttributes[a]].StringValue);
+                        foreach (string childkey in Attributes[OrderedAttributes[a]]._ChildrenNodes.Keys)
+                        {
+
+
+                            if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey].NodeType == Node.NodeTypes.Bool) elementType = "D0";
+                            if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey].NodeType == Node.NodeTypes.Int) elementType = "D1";
+                            if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey].NodeType == Node.NodeTypes.Single) elementType = "D2";
+                            if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey].NodeType == Node.NodeTypes.NodeList) elementType = "C1";
+
+
+
+                            if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey].NodeType != Node.NodeTypes.NodeList)
+                            {
+
+                                xr.WriteStartElement(elementType);
+                                xr.WriteAttributeString("Name", childkey);
+                                xr.WriteAttributeString("StringValue", Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey].StringValue);
+                                xr.WriteEndElement();
+                            }
+                            else
+                            {
+                                xr.WriteStartElement(elementType);
+                                xr.WriteAttributeString("Name", childkey);
+                                //xr.WriteAttributeString("StringValue", Attributes[OrderedAttributes[a]].StringValue);
+                                foreach (string cchildkey in Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey]._ChildrenNodes.Keys)
+                                {
+
+
+                                    if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey]._ChildrenNodes[cchildkey].NodeType == Node.NodeTypes.Bool) elementType = "D0";
+                                    if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey]._ChildrenNodes[cchildkey].NodeType == Node.NodeTypes.Int) elementType = "D1";
+                                    if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey]._ChildrenNodes[cchildkey].NodeType == Node.NodeTypes.Single) elementType = "D2";
+                                    if (Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey]._ChildrenNodes[cchildkey].NodeType == Node.NodeTypes.NodeList) elementType = "C1";
+
+
+                                    xr.WriteStartElement(elementType);
+                                    xr.WriteAttributeString("Name", cchildkey);
+                                    xr.WriteAttributeString("StringValue", Attributes[OrderedAttributes[a]]._ChildrenNodes[childkey]._ChildrenNodes[cchildkey].StringValue);
+                                    xr.WriteEndElement();
+                                }
+                                xr.WriteEndElement();
+                            }
+                        }
+                        
+                        xr.WriteEndElement();
+                    }
+                }
+            }
+
+            xr.WriteEndElement();
+            return xr;
+        }
+
+        public Dictionary<string, object> GetAsValues() //use this for the usercontrol camera
+        {
+            Dictionary<string, object> Ret = new Dictionary<string, object>();
+            Ret.Add("Category", Category);
+            Ret.Add("Class", Class);
+            Ret.Add("UserGroupId", UserGroupId);
+            Ret.Add("UserName", UserName);
+            foreach (string s in this.Attributes.Keys)
+            {
+
+            }
+
+
+            return Ret;
+        }
+        public Camera3DL Clone()
+        {
+            Camera3DL cam = new Camera3DL();
+            cam.UserGroupId = UserGroupId;
+            cam.Category = Category;
+            cam.Class = Class;
+            cam.UserName = UserName;
+            foreach(string s in Attributes.Keys)
+            {
+                cam.Attributes.Add(s, Attributes[s]);
+            }
+            return cam;
+        }
+    }
+    public class CameraParams : List<Camera3DL>
+    {
+        public bool ContainsName(string UserName)
+        {
+            for (int i = 0; i< Count; i++)
+            {
+                if (this[i].UserName == UserName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool ContainsId(int UserGroupId)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (this[i].UserGroupId == UserGroupId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public int IndexById(int UserGroupId)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (this[i].UserGroupId == UserGroupId)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int GetIndex(string UserName, int UserGroupId)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (this[i].UserGroupId == UserGroupId && this[i].UserName == UserName)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
     public class PropertyPanel

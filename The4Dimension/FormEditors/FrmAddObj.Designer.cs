@@ -53,26 +53,6 @@
             this.ClipBoardMenu_CopyDir = new System.Windows.Forms.ToolStripMenuItem();
             this.ClipBoardMenu_CopyScale = new System.Windows.Forms.ToolStripMenuItem();
             this.ClipBoardMenu_CopyArgs = new System.Windows.Forms.ToolStripMenuItem();
-            this.Genl_id = new System.Windows.Forms.NumericUpDown();
-            this.label27 = new System.Windows.Forms.Label();
-            this.Genscale2 = new System.Windows.Forms.NumericUpDown();
-            this.Genscale1 = new System.Windows.Forms.NumericUpDown();
-            this.Gendir2 = new System.Windows.Forms.NumericUpDown();
-            this.Gendir1 = new System.Windows.Forms.NumericUpDown();
-            this.Genscale0 = new System.Windows.Forms.NumericUpDown();
-            this.Genpos2 = new System.Windows.Forms.NumericUpDown();
-            this.Gendir0 = new System.Windows.Forms.NumericUpDown();
-            this.Genpos1 = new System.Windows.Forms.NumericUpDown();
-            this.Genpos0 = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.ObjectTypeCB = new System.Windows.Forms.ComboBox();
-            this.LayerNameCB = new System.Windows.Forms.ComboBox();
             this.Defarg_int9 = new System.Windows.Forms.NumericUpDown();
             this.Defarg_int8 = new System.Windows.Forms.NumericUpDown();
             this.Defarg_int7 = new System.Windows.Forms.NumericUpDown();
@@ -93,21 +73,33 @@
             this.Defarg_int0 = new System.Windows.Forms.NumericUpDown();
             this.label56 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
+            this.Genl_id = new System.Windows.Forms.NumericUpDown();
+            this.label27 = new System.Windows.Forms.Label();
+            this.Genscale2 = new System.Windows.Forms.NumericUpDown();
+            this.Genscale1 = new System.Windows.Forms.NumericUpDown();
+            this.Gendir2 = new System.Windows.Forms.NumericUpDown();
+            this.Gendir1 = new System.Windows.Forms.NumericUpDown();
+            this.Genscale0 = new System.Windows.Forms.NumericUpDown();
+            this.Genpos2 = new System.Windows.Forms.NumericUpDown();
+            this.Gendir0 = new System.Windows.Forms.NumericUpDown();
+            this.Genpos1 = new System.Windows.Forms.NumericUpDown();
+            this.Genpos0 = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ObjectTypeCB = new System.Windows.Forms.ComboBox();
+            this.LayerNameCB = new System.Windows.Forms.ComboBox();
+            this.SearchBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.ClipBoardMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Genl_id)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genscale2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genscale1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Gendir2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Gendir1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genscale0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genpos2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Gendir0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int7)).BeginInit();
@@ -118,6 +110,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genl_id)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genscale2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genscale1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gendir2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gendir1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genscale0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genpos2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gendir0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -197,11 +199,11 @@
             listViewItem1.UseItemStyleForSubItems = false;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.listView1.Location = new System.Drawing.Point(9, 43);
+            this.listView1.Location = new System.Drawing.Point(9, 71);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.ShowGroups = false;
-            this.listView1.Size = new System.Drawing.Size(255, 222);
+            this.listView1.Size = new System.Drawing.Size(255, 194);
             this.listView1.TabIndex = 8;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -233,9 +235,11 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.comboBox2);
             this.groupBox4.Controls.Add(this.listView1);
+            this.groupBox4.Controls.Add(this.SearchBox);
             this.groupBox4.Location = new System.Drawing.Point(6, 99);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(273, 271);
@@ -354,6 +358,266 @@
             this.ClipBoardMenu_CopyArgs.Size = new System.Drawing.Size(150, 22);
             this.ClipBoardMenu_CopyArgs.Text = "Copy Args";
             this.ClipBoardMenu_CopyArgs.Click += new System.EventHandler(this.ClipBoardMenu_CopyArgs_Click);
+            // 
+            // Defarg_int9
+            // 
+            this.Defarg_int9.Location = new System.Drawing.Point(185, 342);
+            this.Defarg_int9.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int9.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int9.Name = "Defarg_int9";
+            this.Defarg_int9.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int9.TabIndex = 46;
+            // 
+            // Defarg_int8
+            // 
+            this.Defarg_int8.Location = new System.Drawing.Point(72, 340);
+            this.Defarg_int8.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int8.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int8.Name = "Defarg_int8";
+            this.Defarg_int8.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int8.TabIndex = 44;
+            // 
+            // Defarg_int7
+            // 
+            this.Defarg_int7.Location = new System.Drawing.Point(185, 314);
+            this.Defarg_int7.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int7.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int7.Name = "Defarg_int7";
+            this.Defarg_int7.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int7.TabIndex = 43;
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(144, 344);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(35, 13);
+            this.label65.TabIndex = 29;
+            this.label65.Text = "Arg 9:";
+            // 
+            // Defarg_int6
+            // 
+            this.Defarg_int6.Location = new System.Drawing.Point(72, 314);
+            this.Defarg_int6.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int6.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int6.Name = "Defarg_int6";
+            this.Defarg_int6.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int6.TabIndex = 42;
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(31, 342);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(35, 13);
+            this.label64.TabIndex = 30;
+            this.label64.Text = "Arg 8:";
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(144, 316);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(35, 13);
+            this.label62.TabIndex = 31;
+            this.label62.Text = "Arg 7:";
+            // 
+            // Defarg_int5
+            // 
+            this.Defarg_int5.Location = new System.Drawing.Point(185, 290);
+            this.Defarg_int5.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int5.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int5.Name = "Defarg_int5";
+            this.Defarg_int5.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int5.TabIndex = 41;
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(31, 316);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(35, 13);
+            this.label61.TabIndex = 33;
+            this.label61.Text = "Arg 6:";
+            // 
+            // Defarg_int4
+            // 
+            this.Defarg_int4.Location = new System.Drawing.Point(72, 288);
+            this.Defarg_int4.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int4.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int4.Name = "Defarg_int4";
+            this.Defarg_int4.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int4.TabIndex = 40;
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(144, 292);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(35, 13);
+            this.label60.TabIndex = 35;
+            this.label60.Text = "Arg 5:";
+            // 
+            // Defarg_int3
+            // 
+            this.Defarg_int3.Location = new System.Drawing.Point(185, 264);
+            this.Defarg_int3.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int3.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int3.Name = "Defarg_int3";
+            this.Defarg_int3.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int3.TabIndex = 45;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(31, 290);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(35, 13);
+            this.label59.TabIndex = 36;
+            this.label59.Text = "Arg 4:";
+            // 
+            // Defarg_int2
+            // 
+            this.Defarg_int2.Location = new System.Drawing.Point(72, 262);
+            this.Defarg_int2.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int2.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int2.Name = "Defarg_int2";
+            this.Defarg_int2.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int2.TabIndex = 39;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(144, 266);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(35, 13);
+            this.label58.TabIndex = 32;
+            this.label58.Text = "Arg 3:";
+            // 
+            // Defarg_int1
+            // 
+            this.Defarg_int1.Location = new System.Drawing.Point(185, 236);
+            this.Defarg_int1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int1.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int1.Name = "Defarg_int1";
+            this.Defarg_int1.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int1.TabIndex = 38;
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(31, 264);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(35, 13);
+            this.label57.TabIndex = 28;
+            this.label57.Text = "Arg 2:";
+            // 
+            // Defarg_int0
+            // 
+            this.Defarg_int0.Location = new System.Drawing.Point(72, 236);
+            this.Defarg_int0.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.Defarg_int0.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.Defarg_int0.Name = "Defarg_int0";
+            this.Defarg_int0.Size = new System.Drawing.Size(61, 20);
+            this.Defarg_int0.TabIndex = 37;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(144, 238);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(35, 13);
+            this.label56.TabIndex = 34;
+            this.label56.Text = "Arg 1:";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(31, 238);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(35, 13);
+            this.label41.TabIndex = 27;
+            this.label41.Text = "Arg 0:";
             // 
             // Genl_id
             // 
@@ -659,265 +923,23 @@
             this.LayerNameCB.Size = new System.Drawing.Size(133, 21);
             this.LayerNameCB.TabIndex = 10;
             // 
-            // Defarg_int9
+            // SearchBox
             // 
-            this.Defarg_int9.Location = new System.Drawing.Point(185, 342);
-            this.Defarg_int9.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int9.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int9.Name = "Defarg_int9";
-            this.Defarg_int9.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int9.TabIndex = 46;
+            this.SearchBox.Enabled = false;
+            this.SearchBox.Location = new System.Drawing.Point(53, 45);
+            this.SearchBox.Name = "SearchBox";
+            this.SearchBox.Size = new System.Drawing.Size(211, 20);
+            this.SearchBox.TabIndex = 11;
+            this.SearchBox.TextChanged += new System.EventHandler(this.SearchBox_TextChanged);
             // 
-            // Defarg_int8
+            // label5
             // 
-            this.Defarg_int8.Location = new System.Drawing.Point(72, 340);
-            this.Defarg_int8.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int8.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int8.Name = "Defarg_int8";
-            this.Defarg_int8.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int8.TabIndex = 44;
-            // 
-            // Defarg_int7
-            // 
-            this.Defarg_int7.Location = new System.Drawing.Point(185, 314);
-            this.Defarg_int7.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int7.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int7.Name = "Defarg_int7";
-            this.Defarg_int7.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int7.TabIndex = 43;
-            // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(144, 344);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(35, 13);
-            this.label65.TabIndex = 29;
-            this.label65.Text = "Arg 9:";
-            // 
-            // Defarg_int6
-            // 
-            this.Defarg_int6.Location = new System.Drawing.Point(72, 314);
-            this.Defarg_int6.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int6.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int6.Name = "Defarg_int6";
-            this.Defarg_int6.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int6.TabIndex = 42;
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(31, 342);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(35, 13);
-            this.label64.TabIndex = 30;
-            this.label64.Text = "Arg 8:";
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(144, 316);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(35, 13);
-            this.label62.TabIndex = 31;
-            this.label62.Text = "Arg 7:";
-            // 
-            // Defarg_int5
-            // 
-            this.Defarg_int5.Location = new System.Drawing.Point(185, 290);
-            this.Defarg_int5.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int5.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int5.Name = "Defarg_int5";
-            this.Defarg_int5.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int5.TabIndex = 41;
-            // 
-            // label61
-            // 
-            this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(31, 316);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(35, 13);
-            this.label61.TabIndex = 33;
-            this.label61.Text = "Arg 6:";
-            // 
-            // Defarg_int4
-            // 
-            this.Defarg_int4.Location = new System.Drawing.Point(72, 288);
-            this.Defarg_int4.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int4.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int4.Name = "Defarg_int4";
-            this.Defarg_int4.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int4.TabIndex = 40;
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(144, 292);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(35, 13);
-            this.label60.TabIndex = 35;
-            this.label60.Text = "Arg 5:";
-            // 
-            // Defarg_int3
-            // 
-            this.Defarg_int3.Location = new System.Drawing.Point(185, 264);
-            this.Defarg_int3.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int3.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int3.Name = "Defarg_int3";
-            this.Defarg_int3.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int3.TabIndex = 45;
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(31, 290);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(35, 13);
-            this.label59.TabIndex = 36;
-            this.label59.Text = "Arg 4:";
-            // 
-            // Defarg_int2
-            // 
-            this.Defarg_int2.Location = new System.Drawing.Point(72, 262);
-            this.Defarg_int2.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int2.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int2.Name = "Defarg_int2";
-            this.Defarg_int2.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int2.TabIndex = 39;
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(144, 266);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(35, 13);
-            this.label58.TabIndex = 32;
-            this.label58.Text = "Arg 3:";
-            // 
-            // Defarg_int1
-            // 
-            this.Defarg_int1.Location = new System.Drawing.Point(185, 236);
-            this.Defarg_int1.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int1.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int1.Name = "Defarg_int1";
-            this.Defarg_int1.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int1.TabIndex = 38;
-            // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(31, 264);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(35, 13);
-            this.label57.TabIndex = 28;
-            this.label57.Text = "Arg 2:";
-            // 
-            // Defarg_int0
-            // 
-            this.Defarg_int0.Location = new System.Drawing.Point(72, 236);
-            this.Defarg_int0.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.Defarg_int0.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.Defarg_int0.Name = "Defarg_int0";
-            this.Defarg_int0.Size = new System.Drawing.Size(61, 20);
-            this.Defarg_int0.TabIndex = 37;
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(144, 238);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(35, 13);
-            this.label56.TabIndex = 34;
-            this.label56.Text = "Arg 1:";
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(31, 238);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(35, 13);
-            this.label41.TabIndex = 27;
-            this.label41.Text = "Arg 0:";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 48);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Search:";
             // 
             // FrmAddObj
             // 
@@ -946,16 +968,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ClipBoardMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Genl_id)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genscale2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genscale1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Gendir2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Gendir1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genscale0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genpos2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Gendir0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int7)).EndInit();
@@ -966,6 +978,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Defarg_int0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genl_id)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genscale2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genscale1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gendir2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gendir1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genscale0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genpos2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gendir0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1032,5 +1054,7 @@
         private System.Windows.Forms.NumericUpDown Defarg_int0;
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox SearchBox;
     }
 }
