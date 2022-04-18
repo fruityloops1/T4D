@@ -183,8 +183,11 @@ namespace The4Dimension.FormEditors
             HasAA.Checked = Properties.Settings.Default.HasAA;
             TextFilter.SelectedIndex = Properties.Settings.Default.TextFilter;
             experimental.Checked  = Properties.Settings.Default.ExperimentalFeatures;
+            checkBox1.Visible = Properties.Settings.Default.ExperimentalFeatures;
+            button3.Visible = Properties.Settings.Default.ExperimentalFeatures;
             checkBox2.Checked = Properties.Settings.Default.UseCamSettings;
             ShowChildren.Checked = Properties.Settings.Default.ShowChildren;
+            Backface.Checked = Properties.Settings.Default.BackfaceCull;
         }
         private void SetDefaultUrl_Click(object sender, EventArgs e)
         {
@@ -236,8 +239,11 @@ namespace The4Dimension.FormEditors
 
             Properties.Settings.Default.UseDesignSound = checkBox1.Checked;
             Properties.Settings.Default.ExperimentalFeatures = experimental.Checked;
+            if (!Properties.Settings.Default.ExperimentalFeatures) Properties.Settings.Default.UseDesignSound = true;
             Properties.Settings.Default.UseCamSettings = checkBox2.Checked;
             Properties.Settings.Default.ShowChildren = ShowChildren.Checked;
+            Properties.Settings.Default.BackfaceCull = Backface.Checked;
+            rendera.BackfaceCull = Backface.Checked;
             if (!checkBox2.Checked)
             {
                 rendera.Camspeed = (double)UDCamSpeed.Value;
@@ -348,7 +354,7 @@ namespace The4Dimension.FormEditors
 
         private void button3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will load and save Sound and Design files for levels, as long as it exists at the same folder as the opened Map file (on load) or your level has Design or Sound specific objects/areas (on save).");
+            MessageBox.Show("This will load and save Sound and Design files for levels, as long as they exist in the same folder as the opened Map file (on load) or your level has Design or Sound specific objects/areas (on save).");
         }
 
         private void experimental_CheckedChanged(object sender, EventArgs e)
@@ -357,6 +363,15 @@ namespace The4Dimension.FormEditors
             {
                 MessageBox.Show("This will enable experimental features like the worldmap editor and the transparentwall generator, so use at your own risk");
 
+            }else if (experimental.Checked)
+            {
+                checkBox1.Visible = true;
+                button3.Visible = true;
+            }
+            else if (experimental.Checked == false && Properties.Settings.Default.ExperimentalFeatures)
+            {
+                checkBox1.Visible = false;
+                button3.Visible = false;
             }
         }
 

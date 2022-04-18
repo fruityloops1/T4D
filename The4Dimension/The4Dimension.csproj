@@ -206,6 +206,12 @@
     <Compile Include="FormEditors\FrmAddValue.Designer.cs">
       <DependentUpon>FrmAddValue.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditors\FrmCameraViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditors\FrmCameraViewer.Designer.cs">
+      <DependentUpon>FrmCameraViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEditors\FrmCCNTEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -351,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditors\FrmAddValue.resx">
       <DependentUpon>FrmAddValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditors\FrmCameraViewer.resx">
+      <DependentUpon>FrmCameraViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditors\FrmCCNTEdit.resx">
       <DependentUpon>FrmCCNTEdit.cs</DependentUpon>

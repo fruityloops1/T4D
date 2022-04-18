@@ -1,7 +1,6 @@
 ﻿using ModelViewer;
 using HelixToolkit;
 using HelixToolkit.Wpf;
-using HelixToolkit.Wpf.SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,9 +29,11 @@ namespace ModelViewer
         Dictionary<string, ModelVisual3D> AxisDict = new Dictionary<string, ModelVisual3D>();
         ModelImporter Importer = new ModelImporter();
         SortingVisual3D ModelViewer = new SortingVisual3D();
-        
+        System.Windows.Media.Media3D.PerspectiveCamera fovycam = new System.Windows.Media.Media3D.PerspectiveCamera();
         Vector3D CameraTarget = new Vector3D(0, 0, 0);
-
+        bool IsPreview = false;
+        string CameraType = "";
+        public bool BackfaceCull = false;
         public double CameraInertiaFactor
         {
             get { return ModelView.CameraInertiaFactor; }
@@ -115,6 +116,86 @@ namespace ModelViewer
             ModelView.Children.Add(ModelViewer);
             ModelViewer.CheckForOpaqueVisuals = true;
             ModelViewer.Method = SortingMethod.BoundingBoxCenter;
+            //ModelView.
+        }
+
+
+        public void Clone(UserControl1 old)
+        {
+            BackfaceCull = old.BackfaceCull;
+            ModelView.ShowViewCube = false;
+            ImportedModels = new Dictionary<string, Model3D>();
+            foreach (string s in old.ImportedModels.Keys)
+            {
+                ImportedModels.Add(s, old.ImportedModels[s].Clone());
+            }
+
+            Models = new Dictionary<string, List<ModelVisual3D>>();
+
+            foreach (string s in old.Models.Keys)
+            {
+                if (s == "SelectionLayer") continue;
+                List<ModelVisual3D> tempmodellist = new List<ModelVisual3D>();
+                foreach (ModelVisual3D model in old.Models[s])
+                {
+                    tempmodellist.Add(new ModelVisual3D());
+                }
+                Models.Add(s, tempmodellist);
+                for (int i = 0; i< old.Models[s].Count; i++)
+                {
+                    List<GeometryModel3D> NewModel = new List<GeometryModel3D>();
+                    GeometryModel3D gmod = old.Models[s][i].Content.Clone() as GeometryModel3D;
+                    if (gmod == null)
+                    {
+                        Model3DGroup group3d = new Model3DGroup();
+                        foreach (GeometryModel3D gd in (old.Models[s][i].Content.Clone() as Model3DGroup).Children)
+                        {
+                            gmod = new GeometryModel3D();
+                            gmod.Geometry = gd.Geometry.Clone();
+                            gmod.Material = gd.Material.Clone();
+                            if (!BackfaceCull)
+                            {
+                                gmod.BackMaterial = gd.Material.Clone();
+                            }
+                            gmod.Transform = gd.Transform;
+                            group3d.Children.Add(gmod);
+                        }
+                        Models[s][i].Content = group3d;
+                        //Models[s][i].Transform = old.Models[s][i].Transform;
+                        Transform3DGroup t = new Transform3DGroup();
+                        t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 90))); // for some reason the object rotates 90 degrees back
+                        t.Children.Add(old.Models[s][i].Transform);
+                        Models[s][i].Transform = t;
+                    }
+                    else
+                    {
+                        NewModel.Add(gmod);
+                        Model3DGroup group3d = new Model3DGroup();
+                        foreach (GeometryModel3D gd in NewModel)
+                        {
+                            group3d.Children.Add(gd);
+                        }
+                        Models[s][i].Content = group3d;
+                        Models[s][i].Transform = old.Models[s][i].Transform.Clone();
+                    }
+                }
+
+            }
+            foreach (string s in old.Positions.Keys)
+            {
+                List<Vector3D> tempvectorlist = new List<Vector3D>();
+                foreach (Vector3D vect in old.Positions[s])
+                {
+                    tempvectorlist.Add( new Vector3D(vect.X, vect.Y, vect.Z));
+                }
+                Positions.Add(s, tempvectorlist);
+            }
+            //Importer
+            if (Models.ContainsKey("ObjInfo")) foreach (ModelVisual3D model in Models["ObjInfo"]) ModelViewer.Children.Add(model);
+            if (Models.ContainsKey("DemoSceneObjInfo")) foreach (ModelVisual3D model in Models["DemoSceneObjInfo"]) ModelViewer.Children.Add(model);
+            if (Models.ContainsKey("GoalObjInfo")) foreach (ModelVisual3D model in Models["GoalObjInfo"]) ModelViewer.Children.Add(model);    
+            IsPreview = true;
+            ModelView.UpdateLayout(); 
             //ModelView.
         }
 
@@ -233,7 +314,7 @@ namespace ModelViewer
         }
         public void SelectRail(Point3D[] Points)
         {
-            UnselectRail(); 
+            UnselectRail();
             foreach (Point3D p in Points)
             {
                 addModel(@"models\UnkRed.obj", "SelectedRail", p.ToVector3D(), new Vector3D(.5f, .5f, .5f), 0, 0, 0);
@@ -277,19 +358,38 @@ namespace ModelViewer
             if (at == -1) Models[Type].Add(new ModelVisual3D()); else Models[Type].Insert(at,new ModelVisual3D());
             if (at == -1) ModelViewer.Children.Add(Models[Type][Models[Type].Count-1]); else ModelViewer.Children.Insert(at,Models[Type][at]);
             Model3D Model;
+            List<GeometryModel3D> NewModel = new List<GeometryModel3D>();
+            GeometryGroup ModelG = new GeometryGroup();
             if (!ImportedModels.ContainsKey(path))
             {
                 Model = Importer.Load(path);
+                foreach (Model3D mod in Importer.Load(path).Children)
+                {
+                    var gmod = mod as GeometryModel3D;
+                    if (BackfaceCull)
+                    {
+                        DiffuseMaterial a = new DiffuseMaterial();
+                        a.Color = Color.FromArgb(255, 2, 2, 20);
+                        gmod.BackMaterial = a;
+                    }
+                    NewModel.Add(gmod);
+                }
+                Model3DGroup group3d = new Model3DGroup();
+                foreach (GeometryModel3D gd in NewModel)
+                {
+                    group3d.Children.Add(gd);
+                }
+                Model = group3d;
                 ImportedModels.Add(path, Model);
             }
             else Model = ImportedModels[path];
             Model.Transform = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 90));
             Models[Type][at == -1 ? Models[Type].Count - 1: at].Content = Model;
             Transform3DGroup t = new Transform3DGroup();
+            t.Children.Add(new ScaleTransform3D(scale));
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), RotX)));
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), RotY)));
             t.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), RotZ)));
-            t.Children.Add(new ScaleTransform3D(scale));
             t.Children.Add(new TranslateTransform3D(pos));
             if (at == -1) Positions[Type].Add(pos); else Positions[Type].Insert(at, pos);
             Models[Type][at == -1 ? Models[Type].Count - 1 : at].Transform = t;
@@ -348,6 +448,10 @@ namespace ModelViewer
             if (AutoCam)
             {
                 CameraDist = Math.Sqrt(Math.Pow(Models[Type][index].FindBounds(Transform3D.Identity).SizeX, 2) + Math.Pow(Models[Type][index].FindBounds(Transform3D.Identity).SizeY, 2) + Math.Pow(Models[Type][index].FindBounds(Transform3D.Identity).SizeZ, 2));
+                if (CameraDist < 10)
+                {
+                    CameraDist = 10;
+                }
                 if (CameraDist < 400)
                 {
                     CameraDist *= 5;
@@ -387,9 +491,194 @@ namespace ModelViewer
 
         }
 
-        public void CameraTo3DLCamera()
+        public void CameraFrom3DLCamera(Dictionary<string, object> properties)
         {
             //render the current scene, position the camera the same as it would be from the params, add buttons like the ones ingame
+            double newX = 0;
+            double newY = 0;
+            double newZ = 0;
+            double FOV = 45;
+            if (properties.ContainsKey("Distance")) CameraDist = (Single)properties["Distance"]; //distance *from player*
+            if (properties.ContainsKey("UpOffset")) newZ = (Single)properties["UpOffset"];
+            if (properties.ContainsKey("VisionParam"))
+            {
+                if (((Dictionary<string, object>)properties["VisionParam"]).ContainsKey("FovyDegree"))
+                {
+                    //49,51753
+                    //37,8493
+                    //15
+                    //6,5 => 11
+                    //10 => 17
+                    //16 => 28
+                    //28 => 45
+                    //30 => 48
+                    //35 => 55
+                    //40 => 63
+                    //45 => 70
+                    //54 => 81
+                    //60 => 88
+                    //75 => 104
+                    //90 => 118
+                    //-0.0052x^{2}+1.78x-0.168 where x is the game FovyDegree param
+                    FOV = (Single)((Dictionary<string, object>)properties["VisionParam"])["FovyDegree"];
+                    FOV = -0.0052 * Math.Pow(FOV, 2) + 1.78 * FOV - 0.168;
+                }
+                
+            }
+            double AngleV = 0;
+            double AngleH = 0;
+
+            if (properties.ContainsKey("AngleV")) { AngleV = (Single)properties["AngleV"]; }//trigonometry stuff to get the new camera position from the angle
+            if (properties.ContainsKey("AngleH")) { AngleH = -(Single)properties["AngleH"]; }
+            AngleH = AngleH / 180 * Math.PI;
+            AngleV = AngleV / 180 * Math.PI;
+
+            //render mario at StartInfo[0] position (can be changed later within the same window)
+
+
+            if (properties.ContainsKey("Class"))
+            {
+                string type = (string)properties["Class"];
+                CameraType = type;
+                switch (type)
+                {
+                    case "Parallel":
+                        if (true == true)
+                        {
+                            Vector3D MarioPos = Positions["StartInfo"][0];
+
+                            ModelView.CameraController.ActualCamera.Position = MarioPos.ToPoint3D();//new Point3D(ModelView.CameraController.ActualCamera.Position.X, ModelView.CameraController.ActualCamera.Position.Y, newZ);
+
+                            ModelView.CameraController.CameraUpDirection = new Vector3D(0, 0, 1);
+
+                            ModelView.CameraController.ChangeDirection(new Vector3D( Math.Sin(AngleH) * Math.Cos(AngleV), Math.Cos(AngleH) * Math.Cos(AngleV), -Math.Sin(AngleV)), 100);
+
+                            LookAt(MarioPos);
+
+
+                            Vector3D CamPos = new Vector3D(ModelView.CameraController.ActualCamera.Position.X + newX, ModelView.CameraController.ActualCamera.Position.Y + newY, ModelView.CameraController.ActualCamera.Position.Z + newZ);
+
+
+                            fovycam = (System.Windows.Media.Media3D.PerspectiveCamera)ModelView.Camera;
+                            fovycam.FieldOfView = FOV;
+                            ModelView.Camera = fovycam;
+                            ModelView.CameraController.MaximumFieldOfView = FOV;
+                            ModelView.CameraController.MinimumFieldOfView = FOV;
+                            ModelView.CameraController.ActualCamera.Position = CamPos.ToPoint3D();//new Point3D(ModelView.CameraController.ActualCamera.Position.X, ModelView.CameraController.ActualCamera.Position.Y, newZ);
+
+                        }
+                        break;
+                    case "Tower":
+                        if (properties.ContainsKey("Position"))
+                        {
+                            //apparently this camera type doesn't really care about Y value 
+                            //get the look at position (rotation center), the mario position will be the camera position, direction will be vector between Center to Mario (or backwards)
+                            Vector3D MarioPos = Positions["StartInfo"][0];
+                            Vector3D RotCenter = new Vector3D((Single)((Dictionary<string, object>)properties["Position"])["X"], -(Single)((Dictionary<string, object>)properties["Position"])["Z"], 0); //(Single)((Dictionary<string, object>)properties["Position"])["Y"]); ignores Y value for Position?
+                            Vector3D ResultVec = (RotCenter.Length < MarioPos.Length) ? Vector3D.Subtract(RotCenter, MarioPos) : Vector3D.Subtract(MarioPos, RotCenter);
+
+                            if (ResultVec.X == 0 && ResultVec.Y == 0 && ResultVec.Z != 0)
+                            {
+                                ModelView.CameraController.CameraUpDirection = new Vector3D(0, 1, 0);
+                            }
+                            else
+                            {
+                                ModelView.CameraController.CameraUpDirection = new Vector3D(0, 0, 1);
+                            }
+                            ModelView.CameraController.ChangeDirection(ResultVec, 100);
+                            ModelView.CameraController.FixedRotationPoint = RotCenter.ToPoint3D();
+                            CameraDist += ((Positions.ContainsKey("StartInfo")) ? (Math.Sqrt(Math.Pow(ResultVec.X, 2) + Math.Pow(ResultVec.Y, 2))) : 1500);// camera distance would be wherever mario is in the level + the Distance property?
+                            LookAt(RotCenter);
+                            fovycam = (System.Windows.Media.Media3D.PerspectiveCamera)ModelView.Camera;
+                            fovycam.FieldOfView = FOV;
+                            ModelView.Camera = fovycam;
+                            ModelView.CameraController.MaximumFieldOfView = FOV;
+                            ModelView.CameraController.MinimumFieldOfView = FOV;
+                            ModelView.CameraController.ActualCamera.Position = new Point3D(ModelView.CameraController.ActualCamera.Position.X, ModelView.CameraController.ActualCamera.Position.Y, newZ);
+
+
+                        }
+                        break;
+                    case "FixAll": //campos + lookatpos
+                        if (properties.ContainsKey("CameraPos") && properties.ContainsKey("LookAtPos")) //LookAtPos
+                        {
+                            //Doesn't care about UpOffset or Distance
+                            //get the look at position (rotation center), the mario position will be the camera position, direction will be vector between Center to Mario (or backwards)
+                            Vector3D CamPos = new Vector3D((Single)((Dictionary<string, object>)properties["CameraPos"])["X"], -(Single)((Dictionary<string, object>)properties["CameraPos"])["Z"], (Single)((Dictionary<string, object>)properties["CameraPos"])["Y"]);
+                            Vector3D Center = new Vector3D((Single)((Dictionary<string, object>)properties["LookAtPos"])["X"], -(Single)((Dictionary<string, object>)properties["LookAtPos"])["Z"], (Single)((Dictionary<string, object>)properties["LookAtPos"])["Y"]);
+                            Vector3D ResultVec = (Center.Length < CamPos.Length) ? Vector3D.Subtract(Center, CamPos) : Vector3D.Subtract(CamPos, Center);
+
+                            if (ResultVec.X == 0 && ResultVec.Y == 0 && ResultVec.Z != 0)
+                            {
+                                ModelView.CameraController.CameraUpDirection = new Vector3D(0, 1, 0);
+                            }
+                            else
+                            {
+                                ModelView.CameraController.CameraUpDirection = new Vector3D(0, 0, 1);
+                            }
+                            ModelView.CameraController.ChangeDirection(ResultVec, 100);
+                            ModelView.CameraController.FixedRotationPoint = Center.ToPoint3D();
+                            CameraDist =  ((Math.Sqrt(Math.Pow(ResultVec.X, 2) + Math.Pow(ResultVec.Y, 2) + Math.Pow(ResultVec.Z,2))));// camera distance would be wherever mario is in the level + the Distance property?
+                            LookAt(Center);
+                            fovycam = (System.Windows.Media.Media3D.PerspectiveCamera)ModelView.Camera;
+                            fovycam.FieldOfView = FOV;
+                            ModelView.Camera = fovycam;
+                            ModelView.CameraController.MaximumFieldOfView = FOV;
+                            ModelView.CameraController.MinimumFieldOfView = FOV;
+                        }
+                        break;
+                    case "FixAllSpot": // no properties, camera is stuck, doesn't rotate
+                        break;
+                    case "FixPos": // CamPos
+                        if (properties.ContainsKey("CameraPos")) //LookAtPos
+                        {
+                            //Doesn't care about Distance
+                            //get the look at position (rotation center), the mario position will be the camera position, direction will be vector between Center to Mario (or backwards)
+                            Vector3D CamPos = new Vector3D((Single)((Dictionary<string, object>)properties["CameraPos"])["X"], -(Single)((Dictionary<string, object>)properties["CameraPos"])["Z"], (Single)((Dictionary<string, object>)properties["CameraPos"])["Y"]);
+                            Vector3D MarioPos = Positions["StartInfo"][0];
+                            MarioPos.Z += newZ;
+                            Vector3D ResultVec = (MarioPos.Length < CamPos.Length) ? Vector3D.Subtract(MarioPos, CamPos) : Vector3D.Subtract(CamPos, MarioPos);
+
+                            if(ResultVec.X == 0 && ResultVec.Y == 0 && ResultVec.Z != 0)
+                            {
+                                ModelView.CameraController.CameraUpDirection = new Vector3D(0, 1, 0);
+                            }
+                            else
+                            {
+                                ModelView.CameraController.CameraUpDirection = new Vector3D(0, 0, 1);
+                            }
+                            ModelView.CameraController.ChangeDirection(new Vector3D(ResultVec.X, ResultVec.Y , ResultVec.Z), 100);
+                            ModelView.CameraController.FixedRotationPoint = CamPos.ToPoint3D();
+                            ModelView.CameraController.FixedRotationPointEnabled = true;
+                            CameraDist = ((Math.Sqrt(Math.Pow(ResultVec.X, 2) + Math.Pow(ResultVec.Y, 2) + Math.Pow(ResultVec.Z, 2))));// camera distance would be wherever mario is in the level + the Distance property?
+                            LookAt(MarioPos);
+                            fovycam = (System.Windows.Media.Media3D.PerspectiveCamera)ModelView.Camera;
+                            fovycam.FieldOfView = FOV;
+                            ModelView.Camera = fovycam;
+                            ModelView.CameraController.MaximumFieldOfView = FOV;
+                            ModelView.CameraController.MinimumFieldOfView = FOV;
+                        }
+                        break;
+                    case "FixPosSpot": // no properties, camera is stuck, rotates 
+                        break;
+                    case "Rail":// uses rail to move 
+                        break;
+                    case "ParallelTarget": //??
+                        break;
+                    case "ParallelVersus": //??
+                        break;
+                    case "DemoTarget": // ??
+                        break;
+                    case "Anim":// ??
+                        break;
+                    case "Follow":// follows mario, similar to mario cam in sm64
+                        break;
+                }
+
+            }
+
+
+
         }
 
         public void SetCameraDirection(int x, int y, int z)
@@ -477,8 +766,11 @@ namespace ModelViewer
         ModelVisual3D GetHitResult(Point location)
         {
             System.Windows.Media.HitTestResult result = VisualTreeHelper.HitTest(ModelView, location);
+            result = VisualTreeHelper.HitTest(ModelView, location);
             if (result != null && result.VisualHit is ModelVisual3D)
             {
+                //we transform back to a geometry 3d object and check if the normal of the selected face faces the camera or not, if it does we set the result as the object, if it isn't we check for hit again?
+                //
                 ModelVisual3D visual = (ModelVisual3D)result.VisualHit;
                 return visual;
             }
@@ -550,8 +842,29 @@ namespace ModelViewer
 
         private void ModelView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (IsPreview) e.Handled = true;
             if (ModelView.Camera.LookDirection.Length >= 2000000 && e.Delta < 0) e.Handled = true;
             if (ModelView.Camera.LookDirection.Length <= 380 && e.Delta > 0) e.Handled = true; //should change it to use the same distance as cameratoobj
+        }
+
+        private void ModelView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+           if (IsPreview && (CameraType != "Tower" && CameraType != "FixPos")) e.Handled = true;
+        }
+
+        private void ModelView_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            //if (CameraType != "Tower" || CameraType != "FixPos") return;
+            if (IsPreview && e.MiddleButton == MouseButtonState.Pressed && (CameraType != "Parallel")) e.Handled = true;
+            //if (IsPreview) e.Handled = true;
+        }
+
+        public void ShowRail(int selectedIndex)
+        {
+            if (Models.ContainsKey("AllRailInfos") && selectedIndex < Models["AllRailInfos"].Count)
+            {
+
+            }
         }
     }
 }

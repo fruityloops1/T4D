@@ -71,9 +71,10 @@ namespace The4Dimension
             LevelObj o = new LevelObj();
             foreach (string k in Prop.Keys.ToArray())
             {
-                if (Prop[k] is ICloneable) o.Prop.Add(k, ((ICloneable)Prop[k]).Clone()); 
+                if (Prop[k] is ICloneable) o.Prop.Add(k, ((ICloneable)Prop[k]).Clone());
                 else
                     if (Prop[k] is int) { o.Prop.Add(k, Prop[k]); }
+                else if (Prop[k] is Single[]) { o.Prop.Add(k, Prop[k]); }
                 else throw new Exception("Type non cloneable");
             }
             return o;
@@ -378,6 +379,20 @@ namespace The4Dimension
                     return _Z[0];
                 }
             }
+
+            public Point3D ToPoint3D(int part = 0)
+            {
+                Point3D Ret = new Point3D();
+                switch (part)
+                {
+                    default:
+                        Ret = new Point3D(X, Y, Z);
+                        break;
+                }
+
+                return Ret;
+            }
+
         }
     }
 

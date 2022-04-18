@@ -328,7 +328,7 @@ namespace The4Dimension.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("700")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
         public double CamSpeed {
             get {
                 return ((double)(this["CamSpeed"]));
@@ -340,7 +340,7 @@ namespace The4Dimension.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public double CamDistance {
             get {
                 return ((double)(this["CamDistance"]));
@@ -395,6 +395,18 @@ namespace The4Dimension.Properties {
             }
             set {
                 this["UseCamSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BackfaceCull {
+            get {
+                return ((bool)(this["BackfaceCull"]));
+            }
+            set {
+                this["BackfaceCull"] = value;
             }
         }
     }

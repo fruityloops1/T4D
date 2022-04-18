@@ -44,6 +44,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.SearchBox = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ClipBoardMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -93,8 +95,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ObjectTypeCB = new System.Windows.Forms.ComboBox();
             this.LayerNameCB = new System.Windows.Forms.ComboBox();
-            this.SearchBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ParentId = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -120,6 +122,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Gendir0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ParentId)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -247,6 +250,24 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Object DB:";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 48);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Search:";
+            // 
+            // SearchBox
+            // 
+            this.SearchBox.Enabled = false;
+            this.SearchBox.Location = new System.Drawing.Point(53, 45);
+            this.SearchBox.Name = "SearchBox";
+            this.SearchBox.Size = new System.Drawing.Size(211, 20);
+            this.SearchBox.TabIndex = 11;
+            this.SearchBox.TextChanged += new System.EventHandler(this.SearchBox_TextChanged);
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.comboBox1);
@@ -280,6 +301,8 @@
             this.groupBox2.Controls.Add(this.Defarg_int0);
             this.groupBox2.Controls.Add(this.label56);
             this.groupBox2.Controls.Add(this.label41);
+            this.groupBox2.Controls.Add(this.ParentId);
+            this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.Genl_id);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.Genscale2);
@@ -375,6 +398,11 @@
             this.Defarg_int9.Name = "Defarg_int9";
             this.Defarg_int9.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int9.TabIndex = 46;
+            this.Defarg_int9.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // Defarg_int8
             // 
@@ -392,6 +420,11 @@
             this.Defarg_int8.Name = "Defarg_int8";
             this.Defarg_int8.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int8.TabIndex = 44;
+            this.Defarg_int8.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // Defarg_int7
             // 
@@ -409,6 +442,11 @@
             this.Defarg_int7.Name = "Defarg_int7";
             this.Defarg_int7.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int7.TabIndex = 43;
+            this.Defarg_int7.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label65
             // 
@@ -435,6 +473,11 @@
             this.Defarg_int6.Name = "Defarg_int6";
             this.Defarg_int6.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int6.TabIndex = 42;
+            this.Defarg_int6.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label64
             // 
@@ -470,6 +513,11 @@
             this.Defarg_int5.Name = "Defarg_int5";
             this.Defarg_int5.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int5.TabIndex = 41;
+            this.Defarg_int5.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label61
             // 
@@ -496,6 +544,11 @@
             this.Defarg_int4.Name = "Defarg_int4";
             this.Defarg_int4.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int4.TabIndex = 40;
+            this.Defarg_int4.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label60
             // 
@@ -522,6 +575,11 @@
             this.Defarg_int3.Name = "Defarg_int3";
             this.Defarg_int3.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int3.TabIndex = 45;
+            this.Defarg_int3.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label59
             // 
@@ -548,6 +606,11 @@
             this.Defarg_int2.Name = "Defarg_int2";
             this.Defarg_int2.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int2.TabIndex = 39;
+            this.Defarg_int2.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label58
             // 
@@ -574,6 +637,11 @@
             this.Defarg_int1.Name = "Defarg_int1";
             this.Defarg_int1.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int1.TabIndex = 38;
+            this.Defarg_int1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label57
             // 
@@ -600,6 +668,11 @@
             this.Defarg_int0.Name = "Defarg_int0";
             this.Defarg_int0.Size = new System.Drawing.Size(61, 20);
             this.Defarg_int0.TabIndex = 37;
+            this.Defarg_int0.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label56
             // 
@@ -621,7 +694,7 @@
             // 
             // Genl_id
             // 
-            this.Genl_id.Location = new System.Drawing.Point(213, 19);
+            this.Genl_id.Location = new System.Drawing.Point(66, 21);
             this.Genl_id.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -633,13 +706,13 @@
             0,
             -2147483648});
             this.Genl_id.Name = "Genl_id";
-            this.Genl_id.Size = new System.Drawing.Size(57, 20);
+            this.Genl_id.Size = new System.Drawing.Size(67, 20);
             this.Genl_id.TabIndex = 26;
             // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(160, 21);
+            this.label27.Location = new System.Drawing.Point(13, 23);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(53, 13);
             this.label27.TabIndex = 25;
@@ -867,7 +940,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 48);
+            this.label4.Location = new System.Drawing.Point(6, 50);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 12;
@@ -894,7 +967,7 @@
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(84, 45);
+            this.textBox1.Location = new System.Drawing.Point(84, 47);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(186, 20);
             this.textBox1.TabIndex = 11;
@@ -923,23 +996,36 @@
             this.LayerNameCB.Size = new System.Drawing.Size(133, 21);
             this.LayerNameCB.TabIndex = 10;
             // 
-            // SearchBox
+            // label9
             // 
-            this.SearchBox.Enabled = false;
-            this.SearchBox.Location = new System.Drawing.Point(53, 45);
-            this.SearchBox.Name = "SearchBox";
-            this.SearchBox.Size = new System.Drawing.Size(211, 20);
-            this.SearchBox.TabIndex = 11;
-            this.SearchBox.TextChanged += new System.EventHandler(this.SearchBox_TextChanged);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(144, 23);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "Parent Id:";
             // 
-            // label5
+            // ParentId
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 48);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Search:";
+            this.ParentId.Location = new System.Drawing.Point(202, 21);
+            this.ParentId.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.ParentId.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.ParentId.Name = "ParentId";
+            this.ParentId.Size = new System.Drawing.Size(68, 20);
+            this.ParentId.TabIndex = 26;
+            this.ParentId.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // FrmAddObj
             // 
@@ -988,6 +1074,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Gendir0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genpos1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Genpos0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ParentId)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1056,5 +1143,7 @@
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox SearchBox;
+        private System.Windows.Forms.NumericUpDown ParentId;
+        private System.Windows.Forms.Label label9;
     }
 }

@@ -76,6 +76,7 @@ namespace The4Dimension.FormEditors
             this.experimental = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Backface = new System.Windows.Forms.CheckBox();
             this.ShowChildren = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
@@ -654,7 +655,7 @@ namespace The4Dimension.FormEditors
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.ShowChildren);
+            this.groupBox2.Controls.Add(this.Backface);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label3);
@@ -683,15 +684,26 @@ namespace The4Dimension.FormEditors
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "3D view settings :";
             // 
+            // Backface
+            // 
+            this.Backface.AutoSize = true;
+            this.Backface.Location = new System.Drawing.Point(246, 223);
+            this.Backface.Name = "Backface";
+            this.Backface.Size = new System.Drawing.Size(106, 17);
+            this.Backface.TabIndex = 51;
+            this.Backface.Text = "Backface Culling";
+            this.Backface.UseVisualStyleBackColor = true;
+            // 
             // ShowChildren
             // 
             this.ShowChildren.AutoSize = true;
-            this.ShowChildren.Location = new System.Drawing.Point(246, 223);
+            this.ShowChildren.Location = new System.Drawing.Point(62, 183);
             this.ShowChildren.Name = "ShowChildren";
             this.ShowChildren.Size = new System.Drawing.Size(220, 17);
             this.ShowChildren.TabIndex = 50;
             this.ShowChildren.Text = "Show children objects (in red if unknown)";
             this.ShowChildren.UseVisualStyleBackColor = true;
+            this.ShowChildren.Visible = false;
             // 
             // checkBox2
             // 
@@ -714,6 +726,7 @@ namespace The4Dimension.FormEditors
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(503, 508);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.ShowChildren);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TextFilter);
             this.Controls.Add(this.label4);
@@ -792,5 +805,6 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox ShowChildren;
+        private System.Windows.Forms.CheckBox Backface;
     }
 }

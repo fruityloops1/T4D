@@ -83,7 +83,6 @@
             this.objectByViewIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectByRailNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,15 +92,14 @@
             this.objectsDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.gbatempThreadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.C0EditingPanel = new System.Windows.Forms.Panel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label12 = new System.Windows.Forms.Label();
             this.Btn_CopyObjs = new System.Windows.Forms.Button();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.btn_cameraCode = new System.Windows.Forms.Button();
             this.Btn_addType = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.ObjectsListBox = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -361,8 +359,6 @@
             this.label79 = new System.Windows.Forms.Label();
             this.GenIncrement = new System.Windows.Forms.NumericUpDown();
             this.label85 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblDescription = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -378,6 +374,22 @@
             this.IncType = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.labelStatus = new System.Windows.Forms.Label();
+            this.ScenarioMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.commonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
+            this.ScenariosTSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.CommonScenario = new System.Windows.Forms.ToolStripMenuItem();
+            this.Scenario1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Scenario2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Scenario3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showRailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -496,6 +508,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.Grparg_int0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GenIncrement)).BeginInit();
             this.panel1.SuspendLayout();
+            this.ScenarioMenuStrip.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -506,7 +521,7 @@
             this.propertyGrid1.ContextMenuStrip = this.ClipBoardMenu;
             this.propertyGrid1.Enabled = false;
             this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.Location = new System.Drawing.Point(687, 42);
+            this.propertyGrid1.Location = new System.Drawing.Point(422, 533);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(89, 118);
             this.propertyGrid1.TabIndex = 0;
@@ -595,9 +610,9 @@
             this.elementHost1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.elementHost1.Location = new System.Drawing.Point(315, 36);
+            this.elementHost1.Location = new System.Drawing.Point(0, 27);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(468, 536);
+            this.elementHost1.Size = new System.Drawing.Size(470, 522);
             this.elementHost1.TabIndex = 3;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Visible = false;
@@ -605,14 +620,15 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.OtherLevelDataMenu,
             this.otherToolStripMenuItem,
             this.findToolStripMenuItem,
             this.UndoMenu,
-            this.StatusLbl,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.StatusLbl});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(788, 24);
@@ -956,13 +972,6 @@
             this.UndoMenu.Text = "Undo";
             this.UndoMenu.DropDownOpening += new System.EventHandler(this.Undo_loading);
             // 
-            // StatusLbl
-            // 
-            this.StatusLbl.ForeColor = System.Drawing.Color.Red;
-            this.StatusLbl.Name = "StatusLbl";
-            this.StatusLbl.Size = new System.Drawing.Size(12, 20);
-            this.StatusLbl.Visible = false;
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -1034,12 +1043,20 @@
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
             // 
+            // StatusLbl
+            // 
+            this.StatusLbl.ForeColor = System.Drawing.Color.Red;
+            this.StatusLbl.Name = "StatusLbl";
+            this.StatusLbl.Size = new System.Drawing.Size(73, 20);
+            this.StatusLbl.Text = "                  ";
+            this.StatusLbl.Visible = false;
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainer1.Location = new System.Drawing.Point(6, 36);
+            this.splitContainer1.Location = new System.Drawing.Point(7, 30);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -1048,10 +1065,8 @@
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Panel1.Controls.Add(this.C0EditingPanel);
             this.splitContainer1.Panel1.Controls.Add(this.Btn_CopyObjs);
-            this.splitContainer1.Panel1.Controls.Add(this.checkBox2);
             this.splitContainer1.Panel1.Controls.Add(this.btn_cameraCode);
             this.splitContainer1.Panel1.Controls.Add(this.Btn_addType);
-            this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel1.Controls.Add(this.ObjectsListBox);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
@@ -1072,7 +1087,7 @@
             // 
             this.C0EditingPanel.Controls.Add(this.linkLabel1);
             this.C0EditingPanel.Controls.Add(this.label12);
-            this.C0EditingPanel.Location = new System.Drawing.Point(3, 3);
+            this.C0EditingPanel.Location = new System.Drawing.Point(-300, 3);
             this.C0EditingPanel.Name = "C0EditingPanel";
             this.C0EditingPanel.Size = new System.Drawing.Size(293, 21);
             this.C0EditingPanel.TabIndex = 13;
@@ -1110,27 +1125,12 @@
             this.Btn_CopyObjs.Visible = false;
             this.Btn_CopyObjs.Click += new System.EventHandler(this.Btn_CopyObjs_Click);
             // 
-            // checkBox2
-            // 
-            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(3, 180);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(227, 17);
-            this.checkBox2.TabIndex = 9;
-            this.checkBox2.Text = "Display children objects (in red if unknown)";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.Visible = false;
-            // 
             // btn_cameraCode
             // 
             this.btn_cameraCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_cameraCode.Location = new System.Drawing.Point(193, 176);
+            this.btn_cameraCode.Location = new System.Drawing.Point(181, 206);
             this.btn_cameraCode.Name = "btn_cameraCode";
-            this.btn_cameraCode.Size = new System.Drawing.Size(104, 23);
+            this.btn_cameraCode.Size = new System.Drawing.Size(54, 23);
             this.btn_cameraCode.TabIndex = 11;
             this.btn_cameraCode.Text = "Edit fog";
             this.btn_cameraCode.UseVisualStyleBackColor = true;
@@ -1139,24 +1139,13 @@
             // 
             // Btn_addType
             // 
-            this.Btn_addType.Location = new System.Drawing.Point(215, 3);
+            this.Btn_addType.Location = new System.Drawing.Point(204, 3);
             this.Btn_addType.Name = "Btn_addType";
             this.Btn_addType.Size = new System.Drawing.Size(23, 21);
             this.Btn_addType.TabIndex = 10;
             this.Btn_addType.Text = "+";
             this.Btn_addType.UseVisualStyleBackColor = true;
             this.Btn_addType.Click += new System.EventHandler(this.AddType_click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(3, 180);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(92, 17);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "Hide this layer";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // ObjectsListBox
             // 
@@ -1167,7 +1156,7 @@
             this.ObjectsListBox.Location = new System.Drawing.Point(7, 30);
             this.ObjectsListBox.Name = "ObjectsListBox";
             this.ObjectsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.ObjectsListBox.Size = new System.Drawing.Size(290, 134);
+            this.ObjectsListBox.Size = new System.Drawing.Size(290, 173);
             this.ObjectsListBox.TabIndex = 8;
             this.ObjectsListBox.SelectedIndexChanged += new System.EventHandler(this.ObjectsListBox_SelectedIndexChanged);
             this.ObjectsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Listbox_keyDown);
@@ -1177,7 +1166,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Location = new System.Drawing.Point(-3, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 7;
@@ -1189,7 +1178,7 @@
             this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(73, 3);
+            this.comboBox1.Location = new System.Drawing.Point(62, 3);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(136, 21);
             this.comboBox1.TabIndex = 6;
@@ -4143,7 +4132,7 @@
             // 
             // GrpParentBtn
             // 
-            this.GrpParentBtn.Location = new System.Drawing.Point(212, 4);
+            this.GrpParentBtn.Location = new System.Drawing.Point(209, 104);
             this.GrpParentBtn.Name = "GrpParentBtn";
             this.GrpParentBtn.Size = new System.Drawing.Size(59, 23);
             this.GrpParentBtn.TabIndex = 46;
@@ -4153,7 +4142,7 @@
             // 
             // GrpParent
             // 
-            this.GrpParent.Location = new System.Drawing.Point(147, 6);
+            this.GrpParent.Location = new System.Drawing.Point(144, 106);
             this.GrpParent.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4172,7 +4161,7 @@
             // label87
             // 
             this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(89, 8);
+            this.label87.Location = new System.Drawing.Point(86, 108);
             this.label87.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(53, 13);
@@ -4181,7 +4170,7 @@
             // 
             // GrpSwitchDeadOn
             // 
-            this.GrpSwitchDeadOn.Location = new System.Drawing.Point(200, 225);
+            this.GrpSwitchDeadOn.Location = new System.Drawing.Point(209, 252);
             this.GrpSwitchDeadOn.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4199,7 +4188,7 @@
             // 
             // GrpSwitchKill
             // 
-            this.GrpSwitchKill.Location = new System.Drawing.Point(200, 199);
+            this.GrpSwitchKill.Location = new System.Drawing.Point(209, 226);
             this.GrpSwitchKill.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4217,7 +4206,7 @@
             // 
             // GrpSwitchAppear
             // 
-            this.GrpSwitchAppear.Location = new System.Drawing.Point(200, 171);
+            this.GrpSwitchAppear.Location = new System.Drawing.Point(209, 198);
             this.GrpSwitchAppear.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4235,7 +4224,7 @@
             // 
             // GrpSwitchB
             // 
-            this.GrpSwitchB.Location = new System.Drawing.Point(94, 197);
+            this.GrpSwitchB.Location = new System.Drawing.Point(103, 224);
             this.GrpSwitchB.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4253,7 +4242,7 @@
             // 
             // GrpSwitchA
             // 
-            this.GrpSwitchA.Location = new System.Drawing.Point(94, 171);
+            this.GrpSwitchA.Location = new System.Drawing.Point(103, 198);
             this.GrpSwitchA.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4272,7 +4261,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(104, 227);
+            this.label63.Location = new System.Drawing.Point(113, 254);
             this.label63.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(95, 13);
@@ -4282,7 +4271,7 @@
             // label66
             // 
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(154, 203);
+            this.label66.Location = new System.Drawing.Point(163, 230);
             this.label66.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(41, 13);
@@ -4292,7 +4281,7 @@
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(141, 173);
+            this.label88.Location = new System.Drawing.Point(150, 200);
             this.label88.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(59, 13);
@@ -4302,7 +4291,7 @@
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(42, 199);
+            this.label89.Location = new System.Drawing.Point(51, 226);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(52, 13);
             this.label89.TabIndex = 37;
@@ -4311,7 +4300,7 @@
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(42, 173);
+            this.label90.Location = new System.Drawing.Point(51, 200);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(52, 13);
             this.label90.TabIndex = 38;
@@ -4320,10 +4309,10 @@
             // IsRelative
             // 
             this.IsRelative.AutoSize = true;
-            this.IsRelative.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.IsRelative.CheckAlign = System.Drawing.ContentAlignment.TopRight;
             this.IsRelative.Checked = true;
             this.IsRelative.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IsRelative.Location = new System.Drawing.Point(10, 7);
+            this.IsRelative.Location = new System.Drawing.Point(201, 3);
             this.IsRelative.Name = "IsRelative";
             this.IsRelative.Size = new System.Drawing.Size(71, 17);
             this.IsRelative.TabIndex = 31;
@@ -4333,7 +4322,7 @@
             // GrpViewIdChck
             // 
             this.GrpViewIdChck.AutoSize = true;
-            this.GrpViewIdChck.Location = new System.Drawing.Point(247, 147);
+            this.GrpViewIdChck.Location = new System.Drawing.Point(257, 166);
             this.GrpViewIdChck.Name = "GrpViewIdChck";
             this.GrpViewIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpViewIdChck.TabIndex = 27;
@@ -4344,7 +4333,7 @@
             // GrpCameraIdChck
             // 
             this.GrpCameraIdChck.AutoSize = true;
-            this.GrpCameraIdChck.Location = new System.Drawing.Point(247, 121);
+            this.GrpCameraIdChck.Location = new System.Drawing.Point(257, 140);
             this.GrpCameraIdChck.Name = "GrpCameraIdChck";
             this.GrpCameraIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpCameraIdChck.TabIndex = 28;
@@ -4355,7 +4344,7 @@
             // GrpPriorityChck
             // 
             this.GrpPriorityChck.AutoSize = true;
-            this.GrpPriorityChck.Location = new System.Drawing.Point(116, 147);
+            this.GrpPriorityChck.Location = new System.Drawing.Point(126, 166);
             this.GrpPriorityChck.Name = "GrpPriorityChck";
             this.GrpPriorityChck.Size = new System.Drawing.Size(15, 14);
             this.GrpPriorityChck.TabIndex = 29;
@@ -4366,7 +4355,7 @@
             // GrpClippingGroupIdChck
             // 
             this.GrpClippingGroupIdChck.AutoSize = true;
-            this.GrpClippingGroupIdChck.Location = new System.Drawing.Point(116, 121);
+            this.GrpClippingGroupIdChck.Location = new System.Drawing.Point(126, 140);
             this.GrpClippingGroupIdChck.Name = "GrpClippingGroupIdChck";
             this.GrpClippingGroupIdChck.Size = new System.Drawing.Size(15, 14);
             this.GrpClippingGroupIdChck.TabIndex = 30;
@@ -4377,7 +4366,7 @@
             // GrpViewId
             // 
             this.GrpViewId.Enabled = false;
-            this.GrpViewId.Location = new System.Drawing.Point(200, 145);
+            this.GrpViewId.Location = new System.Drawing.Point(210, 164);
             this.GrpViewId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4396,7 +4385,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(148, 147);
+            this.label15.Location = new System.Drawing.Point(158, 166);
             this.label15.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(45, 13);
@@ -4406,7 +4395,7 @@
             // GrpCameraId
             // 
             this.GrpCameraId.Enabled = false;
-            this.GrpCameraId.Location = new System.Drawing.Point(200, 119);
+            this.GrpCameraId.Location = new System.Drawing.Point(210, 138);
             this.GrpCameraId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4425,7 +4414,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(137, 121);
+            this.label18.Location = new System.Drawing.Point(147, 140);
             this.label18.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(58, 13);
@@ -4435,7 +4424,7 @@
             // GrpPriority
             // 
             this.GrpPriority.Enabled = false;
-            this.GrpPriority.Location = new System.Drawing.Point(69, 145);
+            this.GrpPriority.Location = new System.Drawing.Point(79, 164);
             this.GrpPriority.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4454,7 +4443,7 @@
             // label82
             // 
             this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(-2, 147);
+            this.label82.Location = new System.Drawing.Point(12, 166);
             this.label82.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(65, 13);
@@ -4464,7 +4453,7 @@
             // GrpClippingGroupId
             // 
             this.GrpClippingGroupId.Enabled = false;
-            this.GrpClippingGroupId.Location = new System.Drawing.Point(69, 119);
+            this.GrpClippingGroupId.Location = new System.Drawing.Point(79, 138);
             this.GrpClippingGroupId.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -4483,7 +4472,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(-13, 121);
+            this.label83.Location = new System.Drawing.Point(1, 140);
             this.label83.Margin = new System.Windows.Forms.Padding(3, 0, 2, 0);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(77, 13);
@@ -4498,7 +4487,7 @@
             0,
             0,
             131072});
-            this.Grpscale2.Location = new System.Drawing.Point(203, 87);
+            this.Grpscale2.Location = new System.Drawing.Point(203, 75);
             this.Grpscale2.Maximum = new decimal(new int[] {
             300,
             0,
@@ -4517,7 +4506,7 @@
             0,
             0,
             131072});
-            this.Grpscale1.Location = new System.Drawing.Point(129, 87);
+            this.Grpscale1.Location = new System.Drawing.Point(129, 75);
             this.Grpscale1.Maximum = new decimal(new int[] {
             300,
             0,
@@ -4536,7 +4525,7 @@
             0,
             0,
             0});
-            this.Grpdir2.Location = new System.Drawing.Point(203, 61);
+            this.Grpdir2.Location = new System.Drawing.Point(203, 49);
             this.Grpdir2.Maximum = new decimal(new int[] {
             360,
             0,
@@ -4560,7 +4549,7 @@
             0,
             0,
             0});
-            this.Grpdir1.Location = new System.Drawing.Point(129, 61);
+            this.Grpdir1.Location = new System.Drawing.Point(129, 49);
             this.Grpdir1.Maximum = new decimal(new int[] {
             360,
             0,
@@ -4584,7 +4573,7 @@
             0,
             0,
             131072});
-            this.Grpscale0.Location = new System.Drawing.Point(55, 87);
+            this.Grpscale0.Location = new System.Drawing.Point(55, 75);
             this.Grpscale0.Maximum = new decimal(new int[] {
             300,
             0,
@@ -4603,7 +4592,7 @@
             0,
             0,
             0});
-            this.Grppos2.Location = new System.Drawing.Point(203, 35);
+            this.Grppos2.Location = new System.Drawing.Point(203, 23);
             this.Grppos2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -4627,7 +4616,7 @@
             0,
             0,
             0});
-            this.Grpdir0.Location = new System.Drawing.Point(55, 61);
+            this.Grpdir0.Location = new System.Drawing.Point(55, 49);
             this.Grpdir0.Maximum = new decimal(new int[] {
             360,
             0,
@@ -4651,7 +4640,7 @@
             0,
             0,
             0});
-            this.Grppos1.Location = new System.Drawing.Point(129, 35);
+            this.Grppos1.Location = new System.Drawing.Point(129, 23);
             this.Grppos1.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -4675,7 +4664,7 @@
             0,
             0,
             0});
-            this.Grppos0.Location = new System.Drawing.Point(55, 35);
+            this.Grppos0.Location = new System.Drawing.Point(55, 23);
             this.Grppos0.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -4694,7 +4683,7 @@
             // label67
             // 
             this.label67.AutoSize = true;
-            this.label67.Location = new System.Drawing.Point(20, 89);
+            this.label67.Location = new System.Drawing.Point(20, 77);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(37, 13);
             this.label67.TabIndex = 5;
@@ -4703,7 +4692,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(5, 63);
+            this.label68.Location = new System.Drawing.Point(5, 51);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(50, 13);
             this.label68.TabIndex = 6;
@@ -4712,7 +4701,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(7, 37);
+            this.label69.Location = new System.Drawing.Point(7, 25);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(50, 13);
             this.label69.TabIndex = 7;
@@ -5053,38 +5042,12 @@
             this.label85.Text = "Pos. increment:";
             this.toolTip1.SetToolTip(this.label85, "This only affects how much you change coordinates in the editor!");
             // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(621, 318);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(152, 23);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "Remove selected property";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(669, 452);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 1;
-            this.button4.Text = "Add property";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Visible = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.ContextMenuStrip = this.ClipBoardMenu;
             this.panel2.Enabled = false;
-            this.panel2.Location = new System.Drawing.Point(690, 208);
+            this.panel2.Location = new System.Drawing.Point(333, 533);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(83, 96);
             this.panel2.TabIndex = 12;
@@ -5094,7 +5057,7 @@
             // 
             this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblDescription.Enabled = false;
-            this.lblDescription.Location = new System.Drawing.Point(687, 163);
+            this.lblDescription.Location = new System.Drawing.Point(338, 501);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(86, 49);
             this.lblDescription.TabIndex = 9;
@@ -5140,6 +5103,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.IncAxis);
             this.panel1.Controls.Add(this.textBox2);
             this.panel1.Controls.Add(this.button1);
@@ -5160,7 +5124,7 @@
             "X-Axis",
             "Y-Axis",
             "Z-Axis"});
-            this.IncAxis.Location = new System.Drawing.Point(125, 38);
+            this.IncAxis.Location = new System.Drawing.Point(121, 34);
             this.IncAxis.Name = "IncAxis";
             this.IncAxis.Size = new System.Drawing.Size(107, 21);
             this.IncAxis.TabIndex = 22;
@@ -5171,7 +5135,7 @@
             this.textBox2.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(38, 8);
+            this.textBox2.Location = new System.Drawing.Point(34, 4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(49, 23);
@@ -5183,7 +5147,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackColor = System.Drawing.SystemColors.Control;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(88, 8);
+            this.button1.Location = new System.Drawing.Point(84, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(31, 52);
             this.button1.TabIndex = 20;
@@ -5197,7 +5161,7 @@
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(38, 32);
+            this.textBox1.Location = new System.Drawing.Point(34, 28);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(49, 27);
@@ -5211,7 +5175,7 @@
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.BackColor = System.Drawing.SystemColors.Control;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(6, 8);
+            this.button3.Location = new System.Drawing.Point(2, 4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(31, 52);
             this.button3.TabIndex = 18;
@@ -5227,7 +5191,7 @@
             "Position",
             "Rotation",
             "Scale"});
-            this.IncType.Location = new System.Drawing.Point(125, 8);
+            this.IncType.Location = new System.Drawing.Point(121, 4);
             this.IncType.Name = "IncType";
             this.IncType.Size = new System.Drawing.Size(107, 21);
             this.IncType.TabIndex = 17;
@@ -5243,6 +5207,164 @@
             this.labelStatus.Size = new System.Drawing.Size(0, 13);
             this.labelStatus.TabIndex = 25;
             // 
+            // ScenarioMenuStrip
+            // 
+            this.ScenarioMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.commonToolStripMenuItem,
+            this.scenario1ToolStripMenuItem,
+            this.scenario2ToolStripMenuItem,
+            this.scenario3ToolStripMenuItem});
+            this.ScenarioMenuStrip.Name = "ScenarioMenuStrip";
+            this.ScenarioMenuStrip.Size = new System.Drawing.Size(129, 92);
+            // 
+            // commonToolStripMenuItem
+            // 
+            this.commonToolStripMenuItem.Checked = true;
+            this.commonToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
+            this.commonToolStripMenuItem.ShowShortcutKeys = false;
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.commonToolStripMenuItem.Text = "Common";
+            // 
+            // scenario1ToolStripMenuItem
+            // 
+            this.scenario1ToolStripMenuItem.Checked = true;
+            this.scenario1ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.scenario1ToolStripMenuItem.Name = "scenario1ToolStripMenuItem";
+            this.scenario1ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.scenario1ToolStripMenuItem.Text = "Scenario 1";
+            // 
+            // scenario2ToolStripMenuItem
+            // 
+            this.scenario2ToolStripMenuItem.Checked = true;
+            this.scenario2ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.scenario2ToolStripMenuItem.Name = "scenario2ToolStripMenuItem";
+            this.scenario2ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.scenario2ToolStripMenuItem.Text = "Scenario 2";
+            // 
+            // scenario3ToolStripMenuItem
+            // 
+            this.scenario3ToolStripMenuItem.Checked = true;
+            this.scenario3ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.scenario3ToolStripMenuItem.Name = "scenario3ToolStripMenuItem";
+            this.scenario3ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.scenario3ToolStripMenuItem.Text = "Scenario 3";
+            // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.elementHost1);
+            this.panel3.Controls.Add(this.menuStrip2);
+            this.panel3.Location = new System.Drawing.Point(315, 24);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(474, 552);
+            this.panel3.TabIndex = 29;
+            // 
+            // menuStrip2
+            // 
+            this.menuStrip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.menuStrip2.Enabled = false;
+            this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScenariosTSMI,
+            this.toolStripMenuItem1,
+            this.showAreasToolStripMenuItem,
+            this.showRailsToolStripMenuItem});
+            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip2.Name = "menuStrip2";
+            this.menuStrip2.Size = new System.Drawing.Size(470, 24);
+            this.menuStrip2.TabIndex = 4;
+            this.menuStrip2.Text = "menuStrip2";
+            // 
+            // ScenariosTSMI
+            // 
+            this.ScenariosTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CommonScenario,
+            this.Scenario1,
+            this.Scenario2,
+            this.Scenario3});
+            this.ScenariosTSMI.Name = "ScenariosTSMI";
+            this.ScenariosTSMI.Size = new System.Drawing.Size(69, 20);
+            this.ScenariosTSMI.Text = "Scenarios";
+            // 
+            // CommonScenario
+            // 
+            this.CommonScenario.Checked = true;
+            this.CommonScenario.CheckOnClick = true;
+            this.CommonScenario.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CommonScenario.Name = "CommonScenario";
+            this.CommonScenario.Size = new System.Drawing.Size(128, 22);
+            this.CommonScenario.Tag = "0";
+            this.CommonScenario.Text = "Common";
+            this.CommonScenario.CheckedChanged += new System.EventHandler(this.CommonScenario_CheckedChanged);
+            // 
+            // Scenario1
+            // 
+            this.Scenario1.Checked = true;
+            this.Scenario1.CheckOnClick = true;
+            this.Scenario1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Scenario1.Name = "Scenario1";
+            this.Scenario1.Size = new System.Drawing.Size(128, 22);
+            this.Scenario1.Tag = "1";
+            this.Scenario1.Text = "Scenario 1";
+            this.Scenario1.CheckedChanged += new System.EventHandler(this.CommonScenario_CheckedChanged);
+            // 
+            // Scenario2
+            // 
+            this.Scenario2.Checked = true;
+            this.Scenario2.CheckOnClick = true;
+            this.Scenario2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Scenario2.Name = "Scenario2";
+            this.Scenario2.Size = new System.Drawing.Size(128, 22);
+            this.Scenario2.Tag = "2";
+            this.Scenario2.Text = "Scenario 2";
+            this.Scenario2.CheckedChanged += new System.EventHandler(this.CommonScenario_CheckedChanged);
+            // 
+            // Scenario3
+            // 
+            this.Scenario3.Checked = true;
+            this.Scenario3.CheckOnClick = true;
+            this.Scenario3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Scenario3.Name = "Scenario3";
+            this.Scenario3.Size = new System.Drawing.Size(128, 22);
+            this.Scenario3.Tag = "3";
+            this.Scenario3.Text = "Scenario 3";
+            this.Scenario3.CheckedChanged += new System.EventHandler(this.CommonScenario_CheckedChanged);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(97, 20);
+            this.toolStripMenuItem1.Text = "Show Cameras";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ShowCamerasToolStripMenuItem1_Click);
+            // 
+            // showAreasToolStripMenuItem
+            // 
+            this.showAreasToolStripMenuItem.Name = "showAreasToolStripMenuItem";
+            this.showAreasToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.showAreasToolStripMenuItem.Text = "Show Areas";
+            this.showAreasToolStripMenuItem.Click += new System.EventHandler(this.showAreasToolStripMenuItem_Click);
+            // 
+            // showRailsToolStripMenuItem
+            // 
+            this.showRailsToolStripMenuItem.Name = "showRailsToolStripMenuItem";
+            this.showRailsToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.showRailsToolStripMenuItem.Text = "Hide Rails";
+            this.showRailsToolStripMenuItem.Visible = false;
+            this.showRailsToolStripMenuItem.Click += new System.EventHandler(this.showRailsToolStripMenuItem_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Location = new System.Drawing.Point(-8, 24);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(324, 556);
+            this.panel4.TabIndex = 30;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -5251,18 +5373,17 @@
             this.ClientSize = new System.Drawing.Size(788, 575);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.GenIncrement);
             this.Controls.Add(this.label85);
-            this.Controls.Add(this.button5);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel4);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(701, 470);
             this.Name = "Form1";
@@ -5271,7 +5392,6 @@
             this.Deactivate += new System.EventHandler(this.Form_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_closing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.DragLeave += new System.EventHandler(this.Form1_DragLeave);
@@ -5408,6 +5528,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.GenIncrement)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.ScenarioMenuStrip.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.menuStrip2.ResumeLayout(false);
+            this.menuStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5424,8 +5549,6 @@
         private System.Windows.Forms.Button btn_delObj;
         private System.Windows.Forms.Button Btn_Duplicate;
         private System.Windows.Forms.Button Btn_AddObj;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ContextMenuStrip ClipBoardMenu;
         private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_Paste;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -5433,7 +5556,6 @@
         private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_CopyRot;
         private System.Windows.Forms.ToolStripMenuItem ClipBoardMenu_CopyScale;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotkeysListToolStripMenuItem;
@@ -5470,7 +5592,6 @@
         private System.Windows.Forms.ToolStripMenuItem creatorClassNameTableEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stagesBgmEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button Btn_CopyObjs;
         private System.Windows.Forms.ToolStripMenuItem modelImporterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
@@ -5762,5 +5883,21 @@
         private System.Windows.Forms.CheckBox ShapeModelNoChck;
         private System.Windows.Forms.NumericUpDown ShapeModelNo;
         private System.Windows.Forms.Label label97;
+        private System.Windows.Forms.ContextMenuStrip ScenarioMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem commonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scenario1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scenario2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scenario3ToolStripMenuItem;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.MenuStrip menuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem ScenariosTSMI;
+        private System.Windows.Forms.ToolStripMenuItem CommonScenario;
+        private System.Windows.Forms.ToolStripMenuItem Scenario1;
+        private System.Windows.Forms.ToolStripMenuItem Scenario2;
+        private System.Windows.Forms.ToolStripMenuItem Scenario3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showAreasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showRailsToolStripMenuItem;
     }
 }

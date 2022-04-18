@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModelViewer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using System.Xml;
 using The4Dimension;
 
@@ -23,9 +25,11 @@ namespace The4Dimension.FormEditors
         int CameraId;
         int TextInsertIndex = -1;
         public List<byte> camparamfilenew;
+        public Form1 parent;
         private Dictionary<string, string> strings;
         Dictionary<string, string> PropertyTypes;
         public Camera3DL Ret;
+        public List<FrmCameraViewer> CamPreviews = new List<FrmCameraViewer>();
         public FrmAddCameraSettings(string xml, int camId)//, Form1 own)
         {
             strings = new Dictionary<string, string>();
@@ -421,7 +425,45 @@ namespace The4Dimension.FormEditors
 
         private void PositionCamera(object sender, EventArgs e)
         {
+            Camera3DL CamPos = new Camera3DL();
+            CamPos.Category = CategoryCB.Text;
+            CamPos.Class = ClassCB.Text;
+            CamPos.UserGroupId = (int)numericUpDown1.Value;
+            CamPos.UserName = textBox1.Text;
+            foreach (TreeNode Node in treeView1.Nodes)
+            {
 
+                Node temp;
+                if (Node.ToolTipText == "Single")
+                {
+                    temp = new Node((string)Node.Tag, "D2");
+                }
+                else if (Node.ToolTipText == "Int")
+                {
+                    temp = new Node((string)Node.Tag, "D1");
+                }
+                else if (Node.ToolTipText == "Bool")
+                {
+                    temp = new Node((string)Node.Tag, "D0");
+                }
+                else if (Node.ToolTipText == "NodeList")
+                {
+                    Dictionary<string, Node> templist = ProcessChildren(Node);
+                    //process children first then add to list then add 
+                    temp = new Node(templist, "C1");
+                }
+                else
+                {
+                    temp = null;
+                }
+                CamPos.Attributes.Add(Node.Name, temp);
+            }
+            FrmCameraViewer camview = new FrmCameraViewer(parent.render);
+            CamPreviews.Add(camview);
+            //camview.render = control1;
+            //parent.render.CameraFrom3DLCamera(CamPos.GetAsValues());
+            camview.Show();
+            camview.GameCamToViewport(CamPos);
         }
 
         private void ViewShow(string type, string propname = "")
@@ -528,13 +570,13 @@ namespace The4Dimension.FormEditors
                 {
                     string dec = ((string)treeView1.SelectedNode.Tag).Substring(0, ((string)treeView1.SelectedNode.Tag).IndexOf("E"));
                     string exp = ((string)treeView1.SelectedNode.Tag).Substring(((string)treeView1.SelectedNode.Tag).IndexOf("E") + 1);
-                    SingleProp.Value = decimal.Parse(dec);
                     ExpProp.Value = decimal.Parse(exp);
+                    SingleProp.Value = decimal.Parse(dec);
                 }
                 else
                 {
-                    SingleProp.Value = (decimal)Single.Parse(((string)treeView1.SelectedNode.Tag));
                     ExpProp.Value = 0;
+                    SingleProp.Value = (decimal)Single.Parse(((string)treeView1.SelectedNode.Tag));
                 }
             }
             else if (treeView1.SelectedNode.ToolTipText == "NodeList")
@@ -611,14 +653,12 @@ namespace The4Dimension.FormEditors
             if (PropsCB.SelectedIndex == -1) { MessageBox.Show("Select a property to add first!"); return; }
             if (treeView1.Nodes.ContainsKey(PropsCB.Text)) { MessageBox.Show("The selected property is already in this object!"); return; }
             treeView1.Nodes.Add(PropsCB.Text).Name = PropsCB.Text;
-
             // if it's a specific property we give it default properties
             // this needs to change but will stay like this for now
             string a = PropsCB.Text;
             if (a == "DashAngleTuner" || a == "LimitBoxMax" || a == "LimitBoxMin" || a == "Rotator" || a == "VelocityOffsetter" || a == "VerticalAbsorber" || a == "VisionParam" || a == "CameraPos" || a == "LookAtPos" || a == "MaxOffsetAxisTwo" || a == "Position")
             {
                 treeView1.Nodes[a].ToolTipText = "NodeList";
-                treeView1.Nodes[a].Expand();
                 if (a == "LimitBoxMax" || a == "LimitBoxMin" || a == "CameraPos" || a == "LookAtPos" || a == "Position")
                 {
                     treeView1.Nodes[a].Nodes.Add("X").Name = "X"; treeView1.Nodes[a].Nodes["X"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["X"].ToolTipText = "Single";
@@ -630,6 +670,7 @@ namespace The4Dimension.FormEditors
                     treeView1.Nodes[a].Nodes.Add("X").Name = "X"; treeView1.Nodes[a].Nodes["X"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["X"].ToolTipText = "Single";
                     treeView1.Nodes[a].Nodes.Add("Y").Name = "Y"; treeView1.Nodes[a].Nodes["Y"].Tag = 0.ToString(); treeView1.Nodes[a].Nodes["Y"].ToolTipText = "Single";
                 }
+                treeView1.Nodes[a].Expand();
             }
             else if (a == "IsLimitAngleFix" || a == "IsInvalidate" || a == "IsEnable" || a == "IsDistanceFix" || a== "IsCalcStartPosUseLookAtPos")
             {
@@ -688,6 +729,28 @@ namespace The4Dimension.FormEditors
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             treeView1.SelectedNode.Tag = BoolProp.Text;
+        }
+
+        private void SingleProp_ValueChanged(object sender, EventArgs e)
+        {
+            if (ExpProp.Value == 38)
+            {
+                if (SingleProp.Value > 3.402823M)
+                {
+                    SingleProp.Value = 3.402823M;
+                }
+                else if (SingleProp.Value < -3.402823M)
+                {
+                    SingleProp.Value = 3.402823M;
+                }
+                SingleProp.Maximum = 3.402823M;
+                SingleProp.Minimum = -3.402823M;
+            }
+            else
+            {
+                SingleProp.Maximum = 1000000;
+                SingleProp.Minimum = -1000000;
+            }
         }
     }
 }

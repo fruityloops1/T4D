@@ -280,6 +280,7 @@ namespace The4Dimension
                 ObjectTypeCB.Items.Add(text);
                 ObjectTypeCB.SelectedIndex = 0;
             }
+            ObjectTypeCB.Enabled = false;
             comboBox1.Items.Clear();
             LoadObjList(CCNT);
             if (ObjEdit && ndb.Entries.ContainsKey(((Node)editObj.Prop["name"]).StringValue))
@@ -383,7 +384,7 @@ namespace The4Dimension
             string name = null;
             ndb.DBtoId.TryGetValue(!usingdb ? comboBox1.Text : listView1.Items[listView1.SelectedIndices[0]].Text, out name); // ndb.DBtoId.TryGetValue(listView1.Items[listView1.SelectedIndices[0]].Text, out name);
             if (InfosName == "ObjInfo" || InfosName == "GoalObjInfo") { obj.Prop.Add("ClippingGroupId", new Node("-1", "D1"));
-                obj.Prop.Add("GenerateParent", new Node("-1", "D1"));
+                obj.Prop.Add("GenerateParent", new Node(ParentId.Value.ToString(), "D1"));
             }
             if (InfosName == "AreaObjInfo") { obj.Prop.Add("AreaParent", new Node("-1", "D1")); }
             if (InfosName == "DemoSceneObjInfo")
@@ -410,7 +411,7 @@ namespace The4Dimension
             if (InfosName != "StartInfo")
             {
 
-                obj.Prop.Add("l_id", new Node("0", "D1"));
+                obj.Prop.Add("l_id", new Node(Genl_id.Value.ToString(), "D1"));
                 if (InfosName != "CameraAreaInfo")
                 {
                     obj.Prop.Add("ShapeModelNo", new Node("-1", "D1"));

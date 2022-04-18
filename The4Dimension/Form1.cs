@@ -373,6 +373,7 @@ namespace The4Dimension
                 render.RotationSensitivity = Properties.Settings.Default.RotSen;
                 render.HasAA = Properties.Settings.Default.HasAA;
                 render.TextureFilter = Properties.Settings.Default.TextFilter;
+                render.BackfaceCull = Properties.Settings.Default.BackfaceCull;
                 AutoMoveCam = Properties.Settings.Default.AutoMoveCam;
                 AddObjectOrigin = Properties.Settings.Default.AddObjectOrigin;
                 
@@ -407,9 +408,10 @@ namespace The4Dimension
         public NewDb NewObjectDatabase = null;
         List<String> CustomModels = new List<string>();
         public Dictionary<string, TabPage> PropertyTabs = new Dictionary<string, TabPage>();
-
+        List<bool> ShowAreas = new List<bool>() { false, false, true }; // Cameras, Areas, Rails
         private void Form1_Load(object sender, EventArgs e)
         {
+            menuStrip2.Items.Insert(1, new ToolStripSeparator());
             generate2DSectionToolStripMenuItem.Enabled = Properties.Settings.Default.ExperimentalFeatures;
             generate2DSectionToolStripMenuItem.Visible = Properties.Settings.Default.ExperimentalFeatures;
             generatePreloadFileListToolStripMenuItem.Enabled = Properties.Settings.Default.ExperimentalFeatures;
@@ -501,9 +503,16 @@ namespace The4Dimension
             ObjectsListBox.Items.Clear();
             propertyGrid1.SelectedObject = null;
 
-            //Panell1.Obj = null;
-            //Panell1.Rail = null;
-            //Panell1.panel.Controls.Clear();
+            ShowAreas[0] = false;
+            ShowAreas[1] = false;
+            ShowAreas[2] = false;
+            showAreasToolStripMenuItem.Text = "Show Areas";
+            CommonScenario.Checked = true;
+            Scenario1.Checked = true;
+            Scenario2.Checked = true;
+            Scenario3.Checked = true;
+            ShownScenarios[0] = true; ShownScenarios[1] = true; ShownScenarios[2] = true; ShownScenarios[3] = true; ShownScenarios[4] = true;
+            toolStripMenuItem1.Text = "Show Cameras";
             //if (MessageBox.Show("Keep clipboard ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) clipboard = new List<ClipBoardItem>();
             LoadedFile = "";
             this.Text = LoadedFile == "" ? "The 4th Dimension - by Exelix11" : "The 4th Dimension - " + LoadedFile;
@@ -547,6 +556,7 @@ namespace The4Dimension
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UnloadLevel();
+            menuStrip2.Enabled = true;
             elementHost1.Show();
             comboBox1.Items.Add("AllRailInfos");
             higestID.Add("AllRailInfos", 0);
@@ -555,8 +565,6 @@ namespace The4Dimension
             SetupSZS();
             SetUiLock(true);
             saveToolStripMenuItem.Enabled = false;
-            //lblDescription.Text = "";
-            //lblDescription.Tag = -1;
             Scenario = 1; 
             List<string> remove = new List<string>();
             foreach (string tab in PropertyTabs.Keys.Reverse())
@@ -566,14 +574,13 @@ namespace The4Dimension
             RefreshTabs(remove, null);
             SelectedProperties.Enabled = false;
             SelectedProperties.Visible = false;
-            //panel1.Visible = true;
-            //button4.Visible = true;
-            //button5.Visible = true;
             ObjectName.Text = "No object selected";
         }
 
         void SetUiLock(bool Lock)
         {
+            GenIncrement.Enabled = Lock;
+            menuStrip2.Enabled = Lock;
             splitContainer1.Enabled = Lock;
             saveAsXmlToolStripMenuItem.Enabled = Lock;
             saveAsBymlToolStripMenuItem1.Enabled = Lock;
@@ -921,8 +928,6 @@ namespace The4Dimension
                 }
                 if (AllInfos.ContainsKey("AreaObjInfo")) HideLayer("AreaObjInfo");
                 if (AllInfos.ContainsKey("CameraAreaInfo")) HideLayer("CameraAreaInfo");
-                checkBox1.Checked = true;
-                checkBox1.CheckedChanged += checkBox1_CheckedChanged;
                 if (comboBox1.Items.Contains("ObjInfo")) comboBox1.Text = "ObjInfo"; else comboBox1.Text = comboBox1.Items[0].ToString();
                 if (ObjectsListBox.Items.Count > 0)
                 {
@@ -1196,7 +1201,6 @@ namespace The4Dimension
                 }
                 else return "models\\" + ObjName + ".obj";
             }
-
             else return "models\\" + ObjName + ".obj";
             return "models\\UnkBlue.obj";
         }
@@ -1527,10 +1531,9 @@ namespace The4Dimension
                else
                {*/
             ObjectsListBox.SelectedIndex = -1;
-            //panel1.Visible = false;
-            //panel1.Enabled = false;
-            //button4.Visible = false;
-            //button5.Visible = false;
+            ObjInfoSel = -1;
+            AreaObjOldSelection = -1;
+            CameraAreaOldSelection = -1;
             /*  }*/
             index = -2;
             //Panell1.ClearObjs();
@@ -1548,8 +1551,7 @@ namespace The4Dimension
             {
                 if (comboBox1.Text == "AllRailInfos")
                 {
-                    checkBox1.Visible = false;
-                    checkBox2.Visible = false;
+                    //checkBox1.Visible = false;
                     for (int i = 0; i < AllRailInfos.Count; i++) ObjectsListBox.Items.Add(AllRailInfos[i].ToString());
                     remove = new List<string>
                     {
@@ -1572,17 +1574,6 @@ namespace The4Dimension
             else
             {
                 ObjectsListBox.SelectionMode = SelectionMode.MultiExtended;// ObjectsListBox.SelectionMode = SelectionMode.One; //ObjectsListBox.SelectionMode = SelectionMode.MultiExtended;
-                if (comboBox1.Text == "AreaObjInfo" || comboBox1.Text == "CameraAreaInfo")
-                {
-                    checkBox1.Visible = true;
-                    checkBox2.Visible = false;
-                    if (((AllInfoSection)CurrentAllInfosSection).IsHidden) checkBox1.Checked = true; else checkBox1.Checked = false;
-                }
-                else
-                {
-                    checkBox1.Visible = false;
-                    checkBox2.Visible = false;
-                }
 
                 if (comboBox1.Text == "CameraAreaInfo" || comboBox1.Text == "DemoSceneObjInfo" || comboBox1.Text == "StartInfo" || comboBox1.Text == "StartEventObjInfo") ObjectsListBox.SelectionMode = SelectionMode.One;
                 for (int i = 0; i < CurrentAllInfosSection.Count; i++) ObjectsListBox.Items.Add(CurrentAllInfosSection[i].GetName(true));//db name
@@ -1875,11 +1866,10 @@ namespace The4Dimension
             if (ObjectsListBox.SelectedIndex == -1) return;
             if (comboBox1.Text == "AllRailInfos")
             {
-                if (propertyGrid1.SelectedObject is Rail && e.Key == Key.N)
+                if (e.Key == Key.N)
                 {
-                    Rail tmp = (Rail)propertyGrid1.SelectedObject;
+                    Rail tmp = AllRailInfos[ObjectsListBox.SelectedIndex];
                     tmp.Points.Add(tmp.Points[tmp.Points.Count - 1].Clone_increment());
-                    propertyGrid1.SelectedObject = AllRailInfos[ObjectsListBox.SelectedIndex];
                     UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
                     render.SelectRail(AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
                 }
@@ -2071,9 +2061,7 @@ namespace The4Dimension
                 };
                 Undo.Push(new UndoAction("Moved children object of: " + CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true)/*db name*/, new object[] { CurrentAllInfosSection, ObjectsListBox.SelectedIndex, (int)DraggingArgs[1] , StartPos }, act));
 
-    SaveChangeLabel();
-
-
+                SaveChangeLabel();
             }
             else if ((string)DraggingArgs[0] != "AllRailInfos")
             {
@@ -2097,9 +2085,7 @@ namespace The4Dimension
                 };
                 Undo.Push(new UndoAction("Moved object : " + GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].GetName(true)/*db name*/, new object[] { GetListByName((string)DraggingArgs[0]), DraggingArgs[1], StartPos, DraggingArgs[0] }, act));
 
-    SaveChangeLabel();
-
-
+            SaveChangeLabel();
             }
             if (CurrentAllInfosSectionName != "AllRailInfos")
             {
@@ -2190,7 +2176,8 @@ namespace The4Dimension
         #region Hiding layers
         void HideLayer(string layerName)
         {
-            if (layerName == "" || layerName == null) return; 
+            if (layerName == "" || layerName == null) return;
+            if (!AllInfos.ContainsKey(layerName)) return;
             AllInfos[layerName].IsHidden = true;
             render.HideGroup(layerName);
         }
@@ -2198,25 +2185,155 @@ namespace The4Dimension
         void ShowLayer(string layerName)
         {
             if (layerName == "" || layerName == null) return;
+            if (!AllInfos.ContainsKey(layerName)) return;
             AllInfos[layerName].IsHidden = false;
             for (int i = 0; i < AllInfos[layerName].Count; i++) UpdateOBJPos(i, AllInfos[layerName], layerName);
         }
 
+        void HideShowRails(bool hide)
+        {
+            if (hide)
+            {
+                
+            }
+            else
+            {
+
+
+            }
+        }
+
+        void HideScenario(string Scenario, int ScId)
+        {
+            foreach (string info in AllInfos.Keys)
+            {
+                if ((info == "AreaObjInfo" && ShowAreas[1] == false) || (info == "CameraAreaInfo" && ShowAreas[0] == false)) continue;
+                if ((ScId != 0 && ScId != 4) && ShownScenarios[ScId] == false)
+                {
+                    string newscen = "シナリオ";
+                    if ((ScId == 1 || ScId == 2) && (ShownScenarios[1] == false && ShownScenarios[2] == false))
+                    {
+                        newscen += "1＆2";
+                    }
+
+                    foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(newscen))
+                    {
+                        render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(0, 0, 0), 0, 0, 0, false);
+                    }
+                    newscen = "シナリオ";
+                    if ((ScId == 2 || ScId == 3) && (ShownScenarios[3] == false && ShownScenarios[2] == false))
+                    {
+                        newscen += "2＆3";
+                    }
+                    foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(newscen))
+                    {
+                        render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(0, 0, 0), 0, 0, 0, false);
+                    }
+                    newscen = "シナリオ";
+                    if ((ScId == 1 || ScId == 3) && (ShownScenarios[1] == false && ShownScenarios[3] == false))
+                    {
+                        newscen += "1＆3";
+                    }
+                    foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(newscen))
+                    {
+                        render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(0, 0, 0), 0, 0, 0, false);
+                    }
+                }
+                foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(Scenario))
+                {
+                    render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(0, 0, 0), 0, 0, 0, false);
+                }
+            }
+            
+        }
+
+        void ShowScenario(string Scenario, int ScId)
+        {
+            foreach (string info in AllInfos.Keys)
+            {
+                if ((info == "AreaObjInfo" && ShowAreas[1] == false) || (info == "CameraAreaInfo" && ShowAreas[0] == false)) continue;
+
+                if ((ScId != 0 && ScId != 4) && ShownScenarios[ScId] == true)
+                {
+                    string newscen = "シナリオ";
+                    if ((ScId == 1 || ScId == 2) && (ShownScenarios[1] == true || ShownScenarios[2] == true))
+                    {
+                        newscen += "1＆2";
+                    }
+
+                    foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(newscen))
+                    {
+                        if (info == "AreaObjInfo" || info == "CameraAreaInfo")
+                        {
+                            render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[2], ((Single[])obj.Prop["scale"])[1]), ((Single[])obj.Prop["dir"])[0], ((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                        }
+                        else
+                        {
+                            render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[1], ((Single[])obj.Prop["scale"])[2]), ((Single[])obj.Prop["dir"])[0], -((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                        }
+                    }
+                    newscen = "シナリオ";
+                    if ((ScId == 2 || ScId == 3) && (ShownScenarios[3] == true || ShownScenarios[2] == true))
+                    {
+                        newscen += "2＆3";
+                    }
+                    foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(newscen))
+                    {
+                        if (info == "AreaObjInfo" || info == "CameraAreaInfo")
+                        {
+                            render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[2], ((Single[])obj.Prop["scale"])[1]), ((Single[])obj.Prop["dir"])[0], ((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                        }
+                        else
+                        {
+                            render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[1], ((Single[])obj.Prop["scale"])[2]), ((Single[])obj.Prop["dir"])[0], -((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                        }
+                    }
+                    newscen = "シナリオ";
+                    if ((ScId == 1 || ScId == 3) && (ShownScenarios[1] == true || ShownScenarios[3] == true))
+                    {
+                        newscen += "1＆3";
+                    }
+                    foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(newscen))
+                    {
+                        if (info == "AreaObjInfo" || info == "CameraAreaInfo")
+                        {
+                            render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[2], ((Single[])obj.Prop["scale"])[1]), ((Single[])obj.Prop["dir"])[0], ((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                        }
+                        else
+                        {
+                            render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[1], ((Single[])obj.Prop["scale"])[2]), ((Single[])obj.Prop["dir"])[0], -((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                        }
+                    }
+                }
+
+                foreach (LevelObj obj in AllInfos[info].GetbyScenarioX(Scenario))
+                {
+                    if (info == "AreaObjInfo" || info == "CameraAreaInfo")
+                    {
+                        render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[2], ((Single[])obj.Prop["scale"])[1]), ((Single[])obj.Prop["dir"])[0], ((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                    }
+                    else
+                    {
+                        render.ChangeTransform(info, AllInfos[info].IndexOf(obj), render.Positions[info][AllInfos[info].IndexOf(obj)], new Vector3D(((Single[])obj.Prop["scale"])[0], ((Single[])obj.Prop["scale"])[1], ((Single[])obj.Prop["scale"])[2]), ((Single[])obj.Prop["dir"])[0], -((Single[])obj.Prop["dir"])[2], ((Single[])obj.Prop["dir"])[1], false);
+                    }
+                }
+            }
+        }
+
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkBox1.Checked)
+            if (false)
                 ShowLayer(comboBox1.Text);
             else HideLayer(comboBox1.Text);
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            RefreshTmpChildrenObjects();
-        }
         #endregion
 
         int AreaObjOldSelection = -1;
         int CameraAreaOldSelection = -1;
+        int RailOldSel = -1;
+        int ObjInfoSel = -1;
         int index = -2;
         private void SelectCorrectProperty()
         {
@@ -2396,9 +2513,6 @@ namespace The4Dimension
                     RefreshTabs(remove, null);
                     SelectedProperties.Enabled = false;
                     SelectedProperties.Visible = false;
-                    //panel1.Visible = true;
-                    //button4.Visible = true;
-                    //button5.Visible = true;
                     ObjectName.Text = "No object selected";
                 }
                 return;
@@ -2413,15 +2527,12 @@ namespace The4Dimension
                     panel1.Enabled = false;
                 }
 
-               // button4.Visible = true;
-               // button5.Visible = true;
             }
             if (ObjectsListBox.SelectedItems.Count > 1)
             {
 
                 Btn_CopyObjs.Visible = true;
                 //Btn_Duplicate.Visible = false;
-                button4.Enabled = false;
                 btn_delObj.Text = "Delete objects";
                 if (comboBox1.Text != "AllRailInfos")
                 {
@@ -2452,7 +2563,6 @@ namespace The4Dimension
             {
                 Btn_CopyObjs.Visible = false;
                 Btn_Duplicate.Visible = true;
-                //button4.Enabled = true;
                 btn_delObj.Text = "Delete object";
                 index = ObjectsListBox.SelectedIndex;
                 //if (ObjectDatabase != null) UpdateHint();
@@ -2532,7 +2642,6 @@ namespace The4Dimension
             }
             if (comboBox1.Text == "AreaObjInfo")
             {
-                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
                 if (((AllInfoSection)CurrentAllInfosSection).IsHidden)
                 {
                     if (AreaObjOldSelection != -1 && AreaObjOldSelection < AllInfos["AreaObjInfo"].Count) render.ChangeTransform(comboBox1.Text, AreaObjOldSelection, render.Positions[comboBox1.Text][AreaObjOldSelection], new Vector3D(0, 0, 0), 0, 0, 0, false);
@@ -2545,7 +2654,6 @@ namespace The4Dimension
             }
             else if (comboBox1.Text == "CameraAreaInfo")
             {
-                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
                 if (((AllInfoSection)CurrentAllInfosSection).IsHidden)
                 {
                     if (CameraAreaOldSelection != -1 && CameraAreaOldSelection < AllInfos["CameraAreaInfo"].Count) render.ChangeTransform(comboBox1.Text, CameraAreaOldSelection, render.Positions[comboBox1.Text][CameraAreaOldSelection], new Vector3D(0, 0, 0), 0, 0, 0, false);
@@ -2558,15 +2666,36 @@ namespace The4Dimension
             }
             else if (comboBox1.Text == "AllRailInfos")
             {
-                propertyGrid1.SelectedObject = AllRailInfos[ObjectsListBox.SelectedIndex];
+                if (AllRailInfos.IsHidden)
+                {
+                    if (RailOldSel != -1 && RailOldSel < AllRailInfos.Count) 
+                    {
+                        render.HideGroup("AllRailInfos");
+                    }
+                    List<Point3D> p3d = new List<Point3D>();
+                    foreach (The4Dimension.Rail.Point p in AllRailInfos[ObjectsListBox.SelectedIndex].Points)
+                    {
+                        p3d.Add(p.ToPoint3D());
+                    }
+
+                    render.ShowRail(ObjectsListBox.SelectedIndex);
+                    UpdateRailpos(ObjectsListBox.SelectedIndex, p3d.ToArray()) ;
+                }
+                RailOldSel = ObjectsListBox.SelectedIndex;
                 UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
                 render.SelectRail(AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
                 RefreshProperties();
             }
             else
             {
+                if (((AllInfoSection)CurrentAllInfosSection).IsHidden)
+                {
+                    if (ObjInfoSel != -1 && ObjInfoSel < AllInfos[comboBox1.Text].Count) render.ChangeTransform(comboBox1.Text, ObjInfoSel, render.Positions[comboBox1.Text][ObjInfoSel], new Vector3D(0, 0, 0), 0, 0, 0, false);
+                    UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, comboBox1.Text);
+                }
+                ObjInfoSel = ObjectsListBox.SelectedIndex;
+                RefreshProperties();
                 render.SelectObjs(CurrentAllInfosSectionName, ObjectsListBox.SelectedIndices);
-                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
                 RefreshProperties();
                 RefreshTmpChildrenObjects();
             }
@@ -3474,64 +3603,6 @@ SaveChangeLabel();
             //ScaleXd = Single.Parse(((Node)Source[id].array(prop)Prop(0).["X"]).StringValue);
         }
 
-        private void button5_Click(object sender, EventArgs e) //Remove values
-        {
-            if (comboBox1.Text == "AllRailInfos") { MessageBox.Show("You can't remove properties from rails"); return; }
-            if (propertyGrid1.SelectedObject == null) return;
-            if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(propertyGrid1.SelectedGridItem.Label)) return;
-            if (comboBox1.Text == "CameraAreaInfo" && propertyGrid1.SelectedGridItem.Label == "CameraId")
-            {
-                MessageBox.Show("You can't remove this value from a camera");
-                return;
-            }
-            if (propertyGrid1.SelectedGridItem.Label.Contains("dir") || propertyGrid1.SelectedGridItem.Label.Contains("pos") || propertyGrid1.SelectedGridItem.Label.Contains("scale") || propertyGrid1.SelectedGridItem.Label.Contains("id") || propertyGrid1.SelectedGridItem.Label.ToLower().Contains("name"))
-            {
-                MessageBox.Show("You can't remove this value");
-                return;
-            }
-            foreach (int i in ObjectsListBox.SelectedIndices)
-            {
-                Action<object[]> action;
-                action = (object[] args) =>
-                {
-                    List<LevelObj> type = (List<LevelObj>)args[0];
-                    int at = (int)args[1];
-                    string propName = (string)args[2];
-                    type[at].Prop.Add(propName, args[3]);
-                    propertyGrid1.Refresh();
-                    propertyGrid1.Update();
-                };
-                object prop = CurrentAllInfosSection[i].Prop[propertyGrid1.SelectedGridItem.Label];
-                Undo.Push(new UndoAction("Removed property: " + propertyGrid1.SelectedGridItem.Label, new object[] { CurrentAllInfosSection, i, propertyGrid1.SelectedGridItem.Label, prop }, action));
-
-    SaveChangeLabel();
-
-                CurrentAllInfosSection[i].Prop.Remove(propertyGrid1.SelectedGridItem.Label);
-            }
-            propertyGrid1.Refresh();
-            propertyGrid1.Update();
-        }
-
-        private void button4_Click(object sender, EventArgs e)//Add Value
-        {
-            if (comboBox1.Text == "AllRailInfos") { MessageBox.Show("You can't remove properties from rails"); return; }
-            if (propertyGrid1.SelectedObject == null) return;
-            FrmAddValue v = new FrmAddValue(CurrentAllInfosSection[ObjectsListBox.SelectedIndex]);
-            v.ShowDialog();
-            if (v.resName != null && v.resName != "") CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(v.resName, v.result); else return;
-            Action<object[]> action;
-            action = (object[] args) =>
-            {
-                List<LevelObj> type = (List<LevelObj>)args[0];
-                int at = (int)args[1];
-                type[at].Prop.Remove((string)args[2]);
-                propertyGrid1.Refresh();
-                propertyGrid1.Update();
-            };
-            Undo.Push(new UndoAction("Added property: " + v.resName,new object[] { CurrentAllInfosSection, ObjectsListBox.SelectedIndex, v.resName }, action));
-            propertyGrid1.Refresh();
-        }
-
         private void button3_Click(object sender, EventArgs e) //Remove objects
         {
             DelSelectedObj();
@@ -3684,7 +3755,17 @@ SaveChangeLabel();
             higestID[name]++;
             LevelObj obj = new LevelObj();
             if (clone) obj = inobj.Clone(); else obj = inobj;
-            if (obj.Prop.ContainsKey("l_id")) obj.Prop["l_id"] = new Node(higestID[name].ToString(), "D1");
+            if (obj.Prop.ContainsKey("l_id")) 
+            {
+                if (AllInfos[name].GetById(int.Parse(((Node)obj.Prop["l_id"]).StringValue)) != -1)
+                {
+                    while (AllInfos[name].GetById(higestID[name]) != -1)
+                    {
+                        higestID[name]++;
+                    }
+                    obj.Prop["l_id"] = new Node(higestID[name].ToString(), "D1");
+                }
+            }
             if (inobj.GetName()/*internal name*/ == "CameraArea") obj.Prop["CameraId"] = new Node(higestID[name].ToString(), "D1");
             if (at == -1) list.Add(obj); else list.Insert(at, obj);
             if (UndoHash == -1 || CurrentAllInfosSection.GetHashCode() == UndoHash)
@@ -4458,7 +4539,7 @@ SaveChangeLabel();
                     xr.WriteEndElement();
                     xr.WriteStartElement("D2");
                     xr.WriteAttributeString("Name", "StereovisionDistance");
-                    xr.WriteAttributeString("StringValue", "200");
+                    xr.WriteAttributeString("StringValue", "350");
                     xr.WriteEndElement();
 
                     xr.WriteEndElement();
@@ -5290,15 +5371,6 @@ SaveChangeLabel();
             f.ShowDialog();
         }
 
-        private void Form1_ResizeEnd(object sender, EventArgs e)
-        {
-            //Panell1.Refresh();
-        }
-
-        private void Form1_SizeChanged(object sender, EventArgs e)
-        {
-           // Panell1.Resize();
-        }
         private void RefreshTabs(List<string> remove, List<string> add)
         {
             if (remove != null)
@@ -5371,6 +5443,10 @@ SaveChangeLabel();
                                     if (prop.Key == "l_id")
                                     {
                                         if (comboBox1.Text == "ObjInfo" && AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
+                                        {
+                                            button2.Enabled = true;
+                                        }
+                                        else if (comboBox1.Text == "ObjInfo" && AllInfos["AreaObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
                                         {
                                             button2.Enabled = true;
                                         }
@@ -5693,6 +5769,7 @@ SaveChangeLabel();
                         int indie = 0;
                         if (newDb != null && newDb.Entries.ContainsKey(((Node)objname).StringValue))
                         {
+
                             foreach (NewDb.EntryArg arg in ((NewDb.NewDbEntry)newDb.Entries[((Node)objname).StringValue]).args)
                             {
                                 if (arg.type == "bool")
@@ -5741,7 +5818,7 @@ SaveChangeLabel();
                                     }
                                     var valuee = prop.Value;
                                     int value = 0;
-                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].revoptions.ContainsKey(((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()))
+                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].arg_id < ((int[])valuee).Length && newDb.Entries[((Node)objname).StringValue].args[indie].revoptions.ContainsKey(((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()))
                                     {
                                         if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
                                         {
@@ -6366,6 +6443,7 @@ SaveChangeLabel();
             string tabidentifier = "";
             if (((TextBox)sender).Text == "")
             {
+                if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(((TextBox)sender).Name)) { CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(((TextBox)sender).Name, new Node("", "A0")); }
                 ((TextBox)sender).Text = CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop[((TextBox)sender).Name].ToString().Substring(9);
             }
             if (SelectedProperties.SelectedTab.Name == "General")
@@ -6883,18 +6961,20 @@ SaveChangeLabel();
         {
             int selid = ObjectsListBox.SelectedIndex;
 
+            string info;
+            if (AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)AllInfos["ObjInfo"][selid].Prop["l_id"]).StringValue)).Count != 0) { info = "ObjInfo"; }
+            else if (AllInfos["AreaObjInfo"].GetByParentId(int.Parse(((Node)AllInfos["ObjInfo"][selid].Prop["l_id"]).StringValue)).Count != 0) { info = "AreaObjInfo"; }
+            else return;
             selecting = true;
-            if (comboBox1.SelectedIndex != comboBox1.Items.IndexOf("ObjInfo"))
-                comboBox1.SelectedIndex = comboBox1.Items.IndexOf("ObjInfo");
+            if (comboBox1.SelectedIndex != comboBox1.Items.IndexOf(info)) comboBox1.SelectedIndex = comboBox1.Items.IndexOf(info);
             ObjectsListBox.ClearSelected();
+            selecting = false; 
 
-            selecting = false;
-            foreach (LevelObj o in AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)AllInfos["ObjInfo"][selid].Prop["l_id"]).StringValue)))
+            foreach (LevelObj o in AllInfos[info].GetByParentId(int.Parse(((Node)AllInfos["ObjInfo"][selid].Prop["l_id"]).StringValue)))
             {
-                ObjectsListBox.SelectedIndex = AllInfos["ObjInfo"].GetById(int.Parse(((Node)o.Prop["l_id"]).StringValue));
+                ObjectsListBox.SelectedIndex = AllInfos[info].GetById(int.Parse(((Node)o.Prop["l_id"]).StringValue));
             }
-
-            render.CameraToObj("ObjInfo", ObjectsListBox.SelectedIndex);
+            render.CameraToObj(info, ObjectsListBox.SelectedIndex);
         }
 
         private void GrpParentUpdwn(object sender, EventArgs e)
@@ -6949,8 +7029,12 @@ SaveChangeLabel();
             if (camindex != -1)
             {
                 FormEditors.FrmAddCameraSettings frm = new FormEditors.FrmAddCameraSettings(LevelCams[LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, cameraId)]);
-
-                frm.ShowDialog();
+                frm.parent = this;
+                frm.ShowDialog(); 
+                foreach (FrmCameraViewer viewer in frm.CamPreviews)
+                {
+                    viewer.Close();
+                }
                 if (frm.Ret != null)
                 {
                     if (frm.Ret.UserGroupId != cameraId)
@@ -6973,9 +7057,12 @@ SaveChangeLabel();
             else
             {
                 FormEditors.FrmAddCameraSettings frm = new FormEditors.FrmAddCameraSettings(new Camera3DL(true) { UserGroupId = cameraId, UserName = ((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, Category = (CurrentAllInfosSectionName == "CameraAreaInfo") ? "Map" : "Object" }, true);
-
+                frm.parent = this;
                 frm.ShowDialog();
-
+                foreach (FrmCameraViewer viewer in frm.CamPreviews)
+                {
+                    viewer.Close();
+                }
                 if (frm.Ret != null)
                 {
                     if (LevelCams.GetIndex(((Node)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["name"]).StringValue, frm.Ret.UserGroupId) != -1)
@@ -6996,6 +7083,80 @@ SaveChangeLabel();
                 EditCamBtn.Text = "Edit Camera";
                 SaveChangeLabel();
             }
+        }
+        List<bool> ShownScenarios = new List<bool>() { true, true, true, true, true }; // common 1 2 3 subcommon
+        private void CommonScenario_CheckedChanged(object sender, EventArgs e)
+        {
+            string scenario = "";
+            int scid = -1;
+            if (((ToolStripMenuItem)sender).Tag == "0")
+            {
+                scenario = "共通";
+                scid = 0;
+            }
+            else if (((ToolStripMenuItem)sender).Tag == "1" || ((ToolStripMenuItem)sender).Tag == "2" || ((ToolStripMenuItem)sender).Tag == "3")
+            {
+                scenario = "シナリオ" + ((ToolStripMenuItem)sender).Tag;
+                scid = int.Parse((string)((ToolStripMenuItem)sender).Tag);
+            }
+            ShownScenarios[scid] = ((ToolStripMenuItem)sender).Checked;
+            if (!((ToolStripMenuItem)sender).Checked)HideScenario(scenario, scid);
+            if (((ToolStripMenuItem)sender).Checked)ShowScenario(scenario, scid);
+        }
+
+        private void hideThisLayerToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!((ToolStripMenuItem)(sender)).Checked)
+                ShowLayer(comboBox1.Text);
+            else HideLayer(comboBox1.Text);
+        }
+
+        private void ShowCamerasToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (ShowAreas[0])
+            {
+                ShowAreas[0] = false;
+                toolStripMenuItem1.Text = "Show Cameras";
+                HideLayer("CameraAreaInfo");
+            }
+            else
+            {
+
+                ShowAreas[0] = true;
+                toolStripMenuItem1.Text = "Hide Cameras";
+                ShowLayer("CameraAreaInfo");
+            }
+        }
+        private void showAreasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ShowAreas[1])
+            {
+                ShowAreas[1] = false;
+                showAreasToolStripMenuItem.Text = "Show Areas";
+                HideLayer("AreaObjInfo");
+            }
+            else
+            {
+
+                ShowAreas[1] = true;
+                showAreasToolStripMenuItem.Text = "Hide Areas";
+                ShowLayer("AreaObjInfo");
+            }
+        }
+
+        private void showRailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ShowAreas[2])
+            {
+                ShowAreas[2] = false;
+                showRailsToolStripMenuItem.Text = "Show Rails";
+            }
+            else
+            {
+                ShowAreas[2] = true;
+                showRailsToolStripMenuItem.Text = "Hide Rails";
+            }
+            HideShowRails(ShowAreas[2]);
         }
     }
 }

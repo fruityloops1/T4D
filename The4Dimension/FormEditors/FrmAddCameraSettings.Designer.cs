@@ -62,7 +62,7 @@ namespace The4Dimension.FormEditors
             this.ChildNodesCB = new System.Windows.Forms.ComboBox();
             this.BoolProp = new System.Windows.Forms.ComboBox();
             this.SingleProp = new System.Windows.Forms.NumericUpDown();
-            this.button4 = new System.Windows.Forms.Button();
+            this.GameCamToViewportBtn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1.SuspendLayout();
@@ -397,6 +397,7 @@ namespace The4Dimension.FormEditors
             this.ExpProp.Size = new System.Drawing.Size(59, 20);
             this.ExpProp.TabIndex = 8;
             this.ExpProp.Visible = false;
+            this.ExpProp.ValueChanged += new System.EventHandler(this.SingleProp_ValueChanged);
             this.ExpProp.Validated += new System.EventHandler(this.ExpProp_Validated);
             // 
             // label5
@@ -482,20 +483,19 @@ namespace The4Dimension.FormEditors
             this.SingleProp.Size = new System.Drawing.Size(108, 20);
             this.SingleProp.TabIndex = 8;
             this.SingleProp.Visible = false;
+            this.SingleProp.ValueChanged += new System.EventHandler(this.SingleProp_ValueChanged);
             this.SingleProp.Validated += new System.EventHandler(this.SingleProp_Validated);
             // 
-            // button4
+            // GameCamToViewportBtn
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(172, 287);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(31, 23);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "👁";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Visible = false;
-            this.button4.Click += new System.EventHandler(this.PositionCamera);
+            this.GameCamToViewportBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.GameCamToViewportBtn.Location = new System.Drawing.Point(172, 287);
+            this.GameCamToViewportBtn.Name = "GameCamToViewportBtn";
+            this.GameCamToViewportBtn.Size = new System.Drawing.Size(31, 23);
+            this.GameCamToViewportBtn.TabIndex = 0;
+            this.GameCamToViewportBtn.Text = "👁";
+            this.GameCamToViewportBtn.UseVisualStyleBackColor = true;
+            this.GameCamToViewportBtn.Click += new System.EventHandler(this.PositionCamera);
             // 
             // pictureBox1
             // 
@@ -516,7 +516,7 @@ namespace The4Dimension.FormEditors
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.GameCamToViewportBtn);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox5);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -576,7 +576,7 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button GameCamToViewportBtn;
         private System.Windows.Forms.ComboBox BoolProp;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolTip toolTip1;
