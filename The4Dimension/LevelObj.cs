@@ -180,7 +180,7 @@ namespace The4Dimension
             return points.ToArray();
         }
 
-        List<int> _Args = new List<int>();
+        List<int> _Args = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1};
         string _LayerName;
         internal List<Point> _points = new List<Point>();
         //Multi file name ?
@@ -298,7 +298,7 @@ namespace The4Dimension
         // [TypeConverter(typeof(ExpandableObjectConverter))]
         public class Point : ICloneable
         {
-            List<int> _Args = new List<int>();
+            List<int> _Args = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1 };
             int _ID;
             public List<Single> _X = new List<Single>();
             public List<Single> _Y = new List<Single>();

@@ -1969,8 +1969,8 @@ namespace The4Dimension
             if (Mouse.LeftButton != MouseButtonState.Pressed || (ModifierKeys & Keys.Control) != Keys.Control || !RenderIsDragging) { RenderIsDragging = false; return; }
             int RoundTo = (ModifierKeys & Keys.Alt) == Keys.Alt ? 100 : ((ModifierKeys & Keys.Shift) == Keys.Shift ? 50 : 0);
             Vector3D NewPos = render.Drag(DraggingArgs, e, RoundTo);
+            DragPos.Add(NewPos);
             if (DragPos.Count == 1) { Displacement = (Vector3D)DraggingArgs[2] - NewPos; /*labelStatus.Text = (-Displacement.Z).ToString();*/ }
-            else { DragPos.Add(NewPos); }
             if (NewPos == null) return;
             if ((string)DraggingArgs[0] == "SelectedRail")
             {
