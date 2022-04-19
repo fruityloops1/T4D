@@ -243,7 +243,7 @@ namespace ModelViewer
             while (Models[type].Count != 0) RemoveModel(type, 0);
         }
 
-        public void addRail(Point3D[] Points, int Thickness = 5, int at = -1)
+        public void addRail(Point3D[] Points, bool Closed = false, int Thickness = 5, int at = -1)
         {
             string Type = "AllRailInfos";
             LinesVisual3D l = new LinesVisual3D();
@@ -253,7 +253,7 @@ namespace ModelViewer
             if (Points.Length < 2) return;
             l.Color = Color.FromRgb(255, 0, 0);
             l.Thickness = Thickness;
-            AddRailpoints(l, Points, Thickness);
+            AddRailpoints(l, Closed, Points, Thickness);
         }
         public void addAxis(Point3D Point, string axis)
         {
@@ -288,7 +288,7 @@ namespace ModelViewer
             if (at == -1) ModelViewer.Children.Add(Models[Type][Models[Type].Count - 1]); else ModelViewer.Children.Insert(at, Models[Type][at]);
             if (Points.Length < 2) return;
             l.Thickness = 2.9;
-            AddRailpoints(l, Points, 5);
+            AddRailpoints(l, false, Points, 5);
         }
         public void removeAxis(string axis = "All")
         {
@@ -327,7 +327,7 @@ namespace ModelViewer
             ModelView.UpdateLayout();
         }
 
-        public void AddRailpoints(LinesVisual3D l, Point3D[] Points, int Thickness)
+        public void AddRailpoints(LinesVisual3D l, bool Closed, Point3D[] Points, int Thickness)
         {
             Point3D oldPoint = Points[1];
             l.Points.Add(Points[0]);
@@ -341,14 +341,24 @@ namespace ModelViewer
                 ((LinesVisual3D)l.Children[chidIndex]).Points.Add(oldPoint);
                 ((LinesVisual3D)l.Children[chidIndex]).Points.Add(Points[i]);
                 oldPoint = Points[i];
+                if (Closed && i == Points.Length - 1)
+                {
+                    chidIndex = l.Children.Count;
+                    l.Children.Add(new LinesVisual3D());
+                    ((LinesVisual3D)l.Children[chidIndex]).Color = Color.FromRgb(255, 255, 255);
+                    ((LinesVisual3D)l.Children[chidIndex]).Thickness = Thickness;
+                    ((LinesVisual3D)l.Children[chidIndex]).Points.Add(oldPoint);
+                    ((LinesVisual3D)l.Children[chidIndex]).Points.Add(Points[0]);
+                    oldPoint = Points[i];
+                }
             }
         }
 
-        public void UpdateRailpos(int id, Point3D[] Points)
+        public void UpdateRailpos(int id, Point3D[] Points, bool Closed)
         {
             RemoveRailPoints(((LinesVisual3D)Models["AllRailInfos"][id]));
             if (Points.Length < 2) return;
-            AddRailpoints((LinesVisual3D)Models["AllRailInfos"][id], Points, 5);
+            AddRailpoints((LinesVisual3D)Models["AllRailInfos"][id], Closed, Points, 5);
             Positions["AllRailInfos"][id] = Points[0].ToVector3D();
             ModelView.UpdateLayout();
         }

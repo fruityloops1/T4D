@@ -502,7 +502,8 @@ namespace The4Dimension
             comboBox1.Items.Clear();
             ObjectsListBox.Items.Clear();
             propertyGrid1.SelectedObject = null;
-
+            RefreshTabs(PropertyTabs.Keys.ToList(), null);
+            SelectedProperties.Enabled = false;
             ShowAreas[0] = false;
             ShowAreas[1] = false;
             ShowAreas[2] = false;
@@ -922,7 +923,7 @@ namespace The4Dimension
                 foreach (string k in AllInfos.Keys.ToArray())
                 {
                     render.AddKey(k);
-                    if (k == "AreaObjInfo") LoadModels(AllInfos[k], k, "models\\UnkYellow.obj");
+                    if (k == "AreaObjInfo") LoadModels(AllInfos[k], k, "models\\UnkArea.obj");
                     else if (k == "CameraAreaInfo") LoadModels(AllInfos[k], k, "models\\UnkGreen.obj");
                     else LoadModels(AllInfos[k], k);
                 }
@@ -941,7 +942,7 @@ namespace The4Dimension
         {
             foreach (Rail r in source)
             {
-                render.addRail(r.GetPointArray(), 5, -1);
+                render.addRail(r.GetPointArray(), r.Closed, 5, -1);
             }
         }
 
@@ -949,7 +950,7 @@ namespace The4Dimension
         {
             List<Point3D> points = new List<Point3D>();
             foreach (Rail.Point p in source.Points) points.Add(new Point3D(p.X, -p.Z, p.Y));
-            render.addRail(points.ToArray(), 5, at);
+            render.addRail(points.ToArray(), source.Closed, 5, at);
         }
 
         void LoadModels(List<LevelObj> Source, string Type, string PlaceHolderMod = "models\\UnkBlue.obj", int at = -1)
@@ -1078,7 +1079,7 @@ namespace The4Dimension
                 foreach (LevelObj o in tmp.List)
                 {
                     string Path;
-                    if (area) Path = "models\\UnkYellow.obj"; else
+                    if (area) Path = "models\\UnkArea.obj"; else
                     {
                         if (!o.Prop.ContainsKey("dbname"))
                         {
@@ -1181,6 +1182,7 @@ namespace The4Dimension
 
         public string GetModelname(string ObjName)
         {
+            if (ObjName.Contains("MovePoint")) return "models\\MovePoint.obj";
             if (CustomModels.Contains(ObjName)) return "CustomModels\\" + ObjName + ".obj";
             //else if (ObjectDatabase != null && ObjectDatabase.IdToModel.ContainsKey(ObjName)) return "models\\" + ObjectDatabase.IdToModel[ObjName] + ".obj";
             
@@ -1830,7 +1832,7 @@ namespace The4Dimension
             }
             if (e.Key == Key.Z)
             {
-                if (Undo.Count > 0 && RenderIsDragging==false) Undo.Pop().Undo();
+                if (Undo.Count > 0 && RenderIsDragging==false && (ModifierKeys & Keys.Control) == Keys.Control) Undo.Pop().Undo();
                 else if (RenderIsDragging == true)
                 {
                     if (DraggingAxis[2] == false && (DraggingAxis[0] == false || DraggingAxis[1] == false) && (string)DraggingArgs[0] != "SelectedRail")
@@ -1957,15 +1959,18 @@ namespace The4Dimension
 
         void UpdateRailpos(int id, Point3D[] Points)
         {
-            render.UpdateRailpos(id, Points);
+            render.UpdateRailpos(id, Points, AllRailInfos[id].Closed);
             if (comboBox1.SelectedItem.ToString() == "AllRailInfos" && ObjectsListBox.SelectedIndex != -1) render.SelectRail(AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
         }
-
+        List<Vector3D> DragPos = new List<Vector3D>();
+        Vector3D Displacement = new Vector3D();
         private void render_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (Mouse.LeftButton != MouseButtonState.Pressed || (ModifierKeys & Keys.Control) != Keys.Control || !RenderIsDragging) { RenderIsDragging = false; return; }
             int RoundTo = (ModifierKeys & Keys.Alt) == Keys.Alt ? 100 : ((ModifierKeys & Keys.Shift) == Keys.Shift ? 50 : 0);
             Vector3D NewPos = render.Drag(DraggingArgs, e, RoundTo);
+            if (DragPos.Count == 1) { Displacement = (Vector3D)DraggingArgs[2] - NewPos; /*labelStatus.Text = (-Displacement.Z).ToString();*/ }
+            else { DragPos.Add(NewPos); }
             if (NewPos == null) return;
             if ((string)DraggingArgs[0] == "SelectedRail")
             {
@@ -1983,6 +1988,7 @@ namespace The4Dimension
             }
             else if ((string)DraggingArgs[0] != "AllRailInfos")
             {
+                NewPos = new Vector3D(((NewPos.X) + Displacement.X)*1, NewPos.Y + Displacement.Y, NewPos.Z + Displacement.Z);
                 string type = "pos";
                 //if (DraggingAxis[3]==true) { type = "scale"; }
                 //if (DraggingAxis[4]==true) { type = "dir"; }
@@ -2018,6 +2024,7 @@ namespace The4Dimension
         void endDragging()
         {
 
+            DragPos.Clear();
             SelectCorrectProperty();
             if (DraggingArgs[0] == null || DraggingArgs[1] == null || DraggingArgs[2] == null) return;
             if (IsEditingC0List && (string)DraggingArgs[0] != "C0EditingListObjs") return;
@@ -3781,7 +3788,7 @@ SaveChangeLabel();
                 if (at == -1) ObjectsListBox.Items.Add(obj.GetName(true))/*db name*/; else ObjectsListBox.Items.Insert(at, obj.GetName(true))/*db name*/;
                 List<LevelObj> tmp = new List<LevelObj>();
                 tmp.Add(obj);
-                if (name == "AreaObjInfo") LoadModels(tmp, name, "models\\UnkYellow.obj", at);
+                if (name == "AreaObjInfo") LoadModels(tmp, name, "models\\UnkArea.obj", at);
                 else if (name == "CameraAreaInfo") LoadModels(tmp, name, "models\\UnkGreen.obj", at);
                 else LoadModels(tmp, name, "models\\UnkBlue.obj", at);
                 ObjectsListBox.ClearSelected();
@@ -5316,9 +5323,16 @@ SaveChangeLabel();
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
+            string oldfile = "";
 
             string[] filename = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (LoadedFile != "") oldfile = LoadedFile;
             LoadFile(filename[0]);
+            if (!LoadedFile.ToLower().EndsWith(".szs"))
+            {
+                LoadedFile = oldfile;
+                if (LoadedFile.ToLower().EndsWith(".szs")) elementHost1.Show();
+            }
         }
 
         private void Form1_DragLeave(object sender, EventArgs e)
@@ -5442,11 +5456,11 @@ SaveChangeLabel();
                                     CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop);
                                     if (prop.Key == "l_id")
                                     {
-                                        if (comboBox1.Text == "ObjInfo" && AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
+                                        if (comboBox1.Text == "ObjInfo" && AllInfos.ContainsKey("ObjInfo") && AllInfos["ObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
                                         {
                                             button2.Enabled = true;
                                         }
-                                        else if (comboBox1.Text == "ObjInfo" && AllInfos["AreaObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
+                                        else if (comboBox1.Text == "ObjInfo" && AllInfos.ContainsKey("AreaObjInfo") && AllInfos["AreaObjInfo"].GetByParentId(int.Parse(((Node)prop.Value).StringValue)).Count > 0)
                                         {
                                             button2.Enabled = true;
                                         }
@@ -5684,7 +5698,8 @@ SaveChangeLabel();
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        decimal singvalue = (decimal)((Single[])prop.Value)[i];
+                        
+                        decimal singvalue = (Single.IsNaN(((Single[])prop.Value)[i])) ? 0 : (decimal)((Single[])prop.Value)[i];
                         if (prop.Key == "dir")
                         {
                             while (singvalue > 360)
@@ -5696,6 +5711,8 @@ SaveChangeLabel();
                                 singvalue += 360;
                             }
                         }
+                        if (singvalue < ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key + i)]).Minimum) singvalue = ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key + i)]).Minimum;
+                        if (singvalue > ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key + i)]).Maximum) singvalue = ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key + i)]).Maximum;
                         ((NumericUpDown)SelectedProperties.TabPages[tabs.Key].Controls[tabs.Value.Controls.IndexOfKey(tabidentifier + prop.Key + i)]).Value = singvalue;
                     }
                 }
@@ -6532,7 +6549,7 @@ SaveChangeLabel();
                 }
                 string path = GetModelname(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true));//db name
                 if (!System.IO.File.Exists(path)) path = "models\\UnkBlue.obj";
-                if (comboBox1.Text == "AreaObjInfo") path = "models\\UnkYellow.obj";
+                if (comboBox1.Text == "AreaObjInfo") path = "models\\UnkArea.obj";
                 else if (comboBox1.Text == "CameraAreaInfo") path = "models\\UnkGreen.obj";
 
                 foreach (int i in ObjectsListBox.SelectedIndices) render.ChangeModel(CurrentAllInfosSectionName, i, path);
@@ -6804,7 +6821,7 @@ SaveChangeLabel();
                 }
                 string path = GetModelname(CurrentAllInfosSection[ObjectsListBox.SelectedIndex].GetName(true));//db name
                 if (!System.IO.File.Exists(path)) path = "models\\UnkBlue.obj";
-                if (comboBox1.Text == "AreaObjInfo") path = "models\\UnkYellow.obj";
+                if (comboBox1.Text == "AreaObjInfo") path = "models\\UnkArea.obj";
                 else if (comboBox1.Text == "CameraAreaInfo") path = "models\\UnkGreen.obj";
                 foreach (int i in ObjectsListBox.SelectedIndices) render.ChangeModel(CurrentAllInfosSectionName, i, path);
                 UpdateOBJPos(ObjectsListBox.SelectedIndex, CurrentAllInfosSection, CurrentAllInfosSectionName);

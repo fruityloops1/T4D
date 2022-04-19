@@ -18,7 +18,7 @@ namespace The4Dimension
         public static string GetXml(byte[] Data)
         {
             BymlConverter app = new BymlConverter();
-            app.LoadedFile = new BymlFile(Data);            
+            app.LoadedFile = new BymlFile(Data);
             return app.exportToXml(app.LoadedFile);
         }
 
@@ -132,10 +132,10 @@ namespace The4Dimension
             ret.RootNode.SubNodes.AddRange(XmlToNode(n.LastChild.ChildNodes));
             ProcessStrings(ref ret, ret.RootNode);
             List<string> tmp = new List<string>();
-
+            if (file.Contains("CameraParam")) ret.StringRes.Strings.Sort(StringComparer.Ordinal);
             for (int i = 0; i < ret.StringRes.Strings.Count; i++) ret.StringRes.Strings[i] = StringToJapChar(ret.StringRes.Strings[i]); //Some tricks to get the right order, i HATE text encondings
             for (int i = 0; i < ret.NodeNames.Strings.Count; i++) ret.NodeNames.Strings[i] = StringToJapChar(ret.NodeNames.Strings[i]);
-            ret.StringRes.Strings.Sort(StringComparer.Ordinal);
+            if (!file.Contains("CameraParam")) ret.StringRes.Strings.Sort(StringComparer.Ordinal);
             ret.NodeNames.Strings.Sort(StringComparer.Ordinal);
             if (ret.StringRes.Strings.Count == 0) ret.StringRes.IsNull = true;
             if (ret.NodeNames.Strings.Count == 0) ret.NodeNames.IsNull = true;

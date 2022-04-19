@@ -221,9 +221,9 @@ namespace BymlFormat
             NodeNamesOffset = bin.ReadUInt32();
             StringResOffset = bin.ReadUInt32();
             RootOffset = bin.ReadUInt32();
-            //Debug.Print("NodeNamesOffset: " + NodeNamesOffset.ToString());
-            //Debug.Print("StringResOffset: " + StringResOffset.ToString());
-            //Debug.Print("RootOffset: " + RootOffset.ToString());
+            //Debug.Print("NodeNamesOffset: " + NodeNamesOffset.ToString("X"));
+            //Debug.Print("StringResOffset: " + StringResOffset.ToString("X"));
+            //Debug.Print("RootOffset: " + RootOffset.ToString("X"));
         }
 
         public Header()
