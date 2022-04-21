@@ -4,20 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 
-             xmlns:unused="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
-             xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf.SharpDX;assembly=HelixToolkit.Wpf.SharpDX"
-             xmlns:local="clr-namespace:ModelViewer"
+             xmlns:RenderView="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="640" d:DesignWidth="800">
 
 
         <Grid>
-        <unused:HelixViewport3D x:Name="ModelView" Background="Transparent" AllowDrop="True" RenderOptions.EdgeMode="Unspecified"  ZoomExtentsWhenLoaded="False" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True" IsViewCubeEdgeClicksEnabled="True" ViewCubeHorizontalPosition="Left" ViewCubeVerticalPosition="Top" LimitFPS="False" PreviewMouseWheel="ModelView_PreviewMouseWheel" PreviewMouseRightButtonDown="ModelView_PreviewMouseRightButtonDown" PreviewMouseMove="ModelView_PreviewMouseMove">
+        <RenderView:HelixViewport3D x:Name="ModelView" Background="Transparent" AllowDrop="True" RenderOptions.EdgeMode="Unspecified"  ZoomExtentsWhenLoaded="False" ZoomSensitivity="2" ShowFrameRate="True" LeftRightRotationSensitivity="3" UpDownRotationSensitivity="3" ShowTriangleCountInfo="True" IsViewCubeEdgeClicksEnabled="True" ViewCubeHorizontalPosition="Left" ViewCubeVerticalPosition="Top" LimitFPS="False" PreviewMouseWheel="ModelView_PreviewMouseWheel" PreviewMouseRightButtonDown="ModelView_PreviewMouseRightButtonDown" PreviewMouseMove="ModelView_PreviewMouseMove">
             <!-- Remember to add light to the scene -->
-            <unused:SunLight/>
+            <RenderView:SunLight/>
 
-            <unused:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1" Fill="#FF929AB6"/>
-        </unused:HelixViewport3D>
+            <RenderView:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="100" MajorDistance="100" Thickness="1" Fill="#FF929AB6"/>
+        </RenderView:HelixViewport3D>
     </Grid>
 
 </UserControl>
