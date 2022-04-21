@@ -32,6 +32,7 @@ namespace The4Dimension.FormEditors
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -66,7 +67,6 @@ namespace The4Dimension.FormEditors
             this.label16 = new System.Windows.Forms.Label();
             this.UDCamSpeed = new System.Windows.Forms.NumericUpDown();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.HasAA = new System.Windows.Forms.CheckBox();
             this.dotcomma = new System.Windows.Forms.CheckBox();
             this.CamToObj = new System.Windows.Forms.CheckBox();
@@ -77,8 +77,13 @@ namespace The4Dimension.FormEditors
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Backface = new System.Windows.Forms.CheckBox();
-            this.ShowChildren = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.ShowChildren = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotSenUpDown)).BeginInit();
@@ -162,7 +167,7 @@ namespace The4Dimension.FormEditors
             this.ChckUpdStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ChckUpdStart.AutoSize = true;
-            this.ChckUpdStart.Location = new System.Drawing.Point(27, 122);
+            this.ChckUpdStart.Location = new System.Drawing.Point(90, 143);
             this.ChckUpdStart.Name = "ChckUpdStart";
             this.ChckUpdStart.Size = new System.Drawing.Size(163, 17);
             this.ChckUpdStart.TabIndex = 12;
@@ -174,11 +179,11 @@ namespace The4Dimension.FormEditors
             this.DwnldObjDBStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DwnldObjDBStart.AutoSize = true;
-            this.DwnldObjDBStart.Location = new System.Drawing.Point(196, 122);
+            this.DwnldObjDBStart.Location = new System.Drawing.Point(259, 143);
             this.DwnldObjDBStart.Name = "DwnldObjDBStart";
-            this.DwnldObjDBStart.Size = new System.Drawing.Size(277, 17);
+            this.DwnldObjDBStart.Size = new System.Drawing.Size(214, 17);
             this.DwnldObjDBStart.TabIndex = 13;
-            this.DwnldObjDBStart.Text = "Automatically download latest objectdb.xml on startup";
+            this.DwnldObjDBStart.Text = "Download latest objectdb.xml on startup";
             this.DwnldObjDBStart.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -186,7 +191,7 @@ namespace The4Dimension.FormEditors
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 66);
+            this.label7.Location = new System.Drawing.Point(7, 90);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(124, 13);
             this.label7.TabIndex = 15;
@@ -196,7 +201,7 @@ namespace The4Dimension.FormEditors
             // 
             this.SetDefaultUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SetDefaultUrl.Location = new System.Drawing.Point(400, 60);
+            this.SetDefaultUrl.Location = new System.Drawing.Point(399, 84);
             this.SetDefaultUrl.Name = "SetDefaultUrl";
             this.SetDefaultUrl.Size = new System.Drawing.Size(75, 23);
             this.SetDefaultUrl.TabIndex = 16;
@@ -208,7 +213,7 @@ namespace The4Dimension.FormEditors
             // 
             this.URLtxtb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.URLtxtb.Location = new System.Drawing.Point(141, 63);
+            this.URLtxtb.Location = new System.Drawing.Point(138, 87);
             this.URLtxtb.Name = "URLtxtb";
             this.URLtxtb.Size = new System.Drawing.Size(252, 20);
             this.URLtxtb.TabIndex = 20;
@@ -377,16 +382,16 @@ namespace The4Dimension.FormEditors
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(140, 30);
+            this.textBox1.Location = new System.Drawing.Point(138, 30);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(302, 20);
+            this.textBox1.Size = new System.Drawing.Size(305, 20);
             this.textBox1.TabIndex = 35;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(449, 28);
+            this.button1.Location = new System.Drawing.Point(450, 27);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(24, 23);
             this.button1.TabIndex = 34;
@@ -411,7 +416,7 @@ namespace The4Dimension.FormEditors
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
             this.label13.Enabled = false;
-            this.label13.Location = new System.Drawing.Point(87, 167);
+            this.label13.Location = new System.Drawing.Point(83, 186);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(58, 13);
             this.label13.TabIndex = 41;
@@ -424,7 +429,7 @@ namespace The4Dimension.FormEditors
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LanguageBox.Enabled = false;
             this.LanguageBox.FormattingEnabled = true;
-            this.LanguageBox.Location = new System.Drawing.Point(152, 164);
+            this.LanguageBox.Location = new System.Drawing.Point(148, 183);
             this.LanguageBox.Name = "LanguageBox";
             this.LanguageBox.Size = new System.Drawing.Size(303, 21);
             this.LanguageBox.TabIndex = 40;
@@ -435,7 +440,7 @@ namespace The4Dimension.FormEditors
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(461, 164);
+            this.button2.Location = new System.Drawing.Point(457, 183);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(24, 23);
             this.button2.TabIndex = 42;
@@ -519,24 +524,15 @@ namespace The4Dimension.FormEditors
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(122, 99);
+            this.checkBox1.Location = new System.Drawing.Point(323, 120);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(152, 17);
             this.checkBox1.TabIndex = 49;
             this.checkBox1.Text = "Enable unified level editing";
+            this.toolTip1.SetToolTip(this.checkBox1, "This will load and save Sound and Design files for levels, as long as they exist " +
+        "in the same folder as the opened Map file (on load) or your level has Design or " +
+        "Sound specific objects/areas (on save).");
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(271, 93);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(24, 23);
-            this.button3.TabIndex = 50;
-            this.button3.Text = "?";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // HasAA
             // 
@@ -584,7 +580,7 @@ namespace The4Dimension.FormEditors
             this.ShowCamDBG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ShowCamDBG.AutoSize = true;
-            this.ShowCamDBG.Location = new System.Drawing.Point(246, 177);
+            this.ShowCamDBG.Location = new System.Drawing.Point(246, 223);
             this.ShowCamDBG.Name = "ShowCamDBG";
             this.ShowCamDBG.Size = new System.Drawing.Size(144, 17);
             this.ShowCamDBG.TabIndex = 8;
@@ -622,7 +618,7 @@ namespace The4Dimension.FormEditors
             // experimental
             // 
             this.experimental.AutoSize = true;
-            this.experimental.Location = new System.Drawing.Point(311, 99);
+            this.experimental.Location = new System.Drawing.Point(153, 120);
             this.experimental.Name = "experimental";
             this.experimental.Size = new System.Drawing.Size(162, 17);
             this.experimental.TabIndex = 51;
@@ -632,15 +628,18 @@ namespace The4Dimension.FormEditors
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox3);
             this.groupBox1.Controls.Add(this.ChckUpdStart);
             this.groupBox1.Controls.Add(this.DwnldObjDBStart);
             this.groupBox1.Controls.Add(this.experimental);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.SetDefaultUrl);
             this.groupBox1.Controls.Add(this.URLtxtb);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -648,7 +647,7 @@ namespace The4Dimension.FormEditors
             this.groupBox1.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(1, 3, 1, 3);
-            this.groupBox1.Size = new System.Drawing.Size(483, 152);
+            this.groupBox1.Size = new System.Drawing.Size(483, 171);
             this.groupBox1.TabIndex = 52;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General settings :";
@@ -687,12 +686,23 @@ namespace The4Dimension.FormEditors
             // Backface
             // 
             this.Backface.AutoSize = true;
-            this.Backface.Location = new System.Drawing.Point(246, 223);
+            this.Backface.Location = new System.Drawing.Point(246, 177);
             this.Backface.Name = "Backface";
             this.Backface.Size = new System.Drawing.Size(106, 17);
             this.Backface.TabIndex = 51;
             this.Backface.Text = "Backface Culling";
             this.Backface.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(332, 109);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(132, 17);
+            this.checkBox2.TabIndex = 49;
+            this.checkBox2.Text = "Use automatic camera";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // ShowChildren
             // 
@@ -705,16 +715,47 @@ namespace The4Dimension.FormEditors
             this.ShowChildren.UseVisualStyleBackColor = true;
             this.ShowChildren.Visible = false;
             // 
-            // checkBox2
+            // checkBox3
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(334, 109);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(132, 17);
-            this.checkBox2.TabIndex = 49;
-            this.checkBox2.Text = "Use automatic camera";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(9, 120);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(138, 17);
+            this.checkBox3.TabIndex = 52;
+            this.checkBox3.Text = "Save files to LayeredFS";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(138, 59);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(305, 20);
+            this.textBox2.TabIndex = 35;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(450, 57);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(24, 23);
+            this.button4.TabIndex = 34;
+            this.button4.Text = "···";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.layerfsbtn_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(48, 62);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.TabIndex = 33;
+            this.label1.Text = "LayeredFS path:";
             // 
             // Settings
             // 
@@ -793,7 +834,6 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.NumericUpDown UDCamSpeed;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.CheckBox HasAA;
         private System.Windows.Forms.CheckBox dotcomma;
         private System.Windows.Forms.CheckBox CamToObj;
@@ -806,5 +846,10 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox ShowChildren;
         private System.Windows.Forms.CheckBox Backface;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

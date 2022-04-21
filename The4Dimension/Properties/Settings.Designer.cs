@@ -409,5 +409,29 @@ namespace The4Dimension.Properties {
                 this["BackfaceCull"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LayeredFSPath {
+            get {
+                return ((string)(this["LayeredFSPath"]));
+            }
+            set {
+                this["LayeredFSPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseLayeredFs {
+            get {
+                return ((bool)(this["UseLayeredFs"]));
+            }
+            set {
+                this["UseLayeredFs"] = value;
+            }
+        }
     }
 }

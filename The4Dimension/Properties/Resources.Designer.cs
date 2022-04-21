@@ -365,6 +365,7 @@ namespace The4Dimension.Properties {
         ///
         ///&lt;database version=&quot;0.0&quot;&gt;
         ///&lt;categories&gt;
+        ///		&lt;category id=&quot;0&quot; name=&quot;Uncategorized / Unused&quot;/&gt;
         ///		&lt;category id=&quot;1&quot; name=&quot;Main stage elements&quot;/&gt;
         ///		&lt;category id=&quot;2&quot; name=&quot;Decorations and effects&quot;/&gt;
         ///		&lt;category id=&quot;3&quot; name=&quot;Enemies&quot;/&gt;
@@ -372,7 +373,6 @@ namespace The4Dimension.Properties {
         ///		&lt;category id=&quot;5&quot; name=&quot;Areas&quot;/&gt;
         ///		&lt;category id=&quot;6&quot; name=&quot;Special events&quot;/&gt;
         ///		&lt;category id=&quot;7&quot; name=&quot;Misc.&quot;/&gt;
-        ///		&lt;category id=&quot;0&quot; name=&quot;Uncategorized / Unused&quot;/&gt;
         ///&lt;/categories&gt;
         ///&lt;types&gt;
         ///	&lt;type id=&quot;1&quot; name=&quot;ObjInfo&quot;/&gt;

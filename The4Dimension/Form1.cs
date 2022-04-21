@@ -850,11 +850,12 @@ namespace The4Dimension
         public void LoadCreatorClassNameTable()
         {
             CreatorClassNameTable.Clear();
-            if (!File.Exists(@"CreatorClassNameTable.szs"))
+            string a = Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SystemData\\CreatorClassNameTable.szs" : @"CreatorClassNameTable.szs";
+            if (!File.Exists(a))
             {
                 if (Properties.Settings.Default.GamePath.Trim() != "" && File.Exists(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs"))
                 {
-                    File.Copy(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs", @"CreatorClassNameTable.szs");
+                    File.Copy(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs", a);
                 }
                 else
                 {
@@ -866,7 +867,7 @@ namespace The4Dimension
             }
             CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
             NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
-            SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(@"CreatorClassNameTable.szs")));
+            SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(a)));
             string ConvertedCCN = BymlConverter.GetXml(SzsArch.ToFileSystem().Files[0].Data);
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(ConvertedCCN);
@@ -2882,19 +2883,20 @@ namespace The4Dimension
 
         private void stagesBgmEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.GamePath.Trim() == "" && !File.Exists(@"BgmTable.szs"))
+            string bgm = Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SoundData\\BgmTable.szs" : @"BgmTable.szs";
+            if (Properties.Settings.Default.GamePath.Trim() == "" && !File.Exists(bgm))
             {
                 MessageBox.Show("You must set the game Romfs path first !");
                 return;
             }
-            else if (!File.Exists(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs") && !File.Exists(@"BgmTable.szs"))
+            else if (!File.Exists(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs") && !File.Exists(bgm))
             {
                 MessageBox.Show(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs not found !\r\nProbably your Romfs dump is incomplete or was modified.");
                 return;
             }
-            else if (File.Exists(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs") && !File.Exists(@"BgmTable.szs"))
+            else if (File.Exists(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs") && !File.Exists(bgm))
             {
-                File.Copy(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs", @"BgmTable.szs");
+                File.Copy(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs", bgm);
             }
             BgmEditors.FrmBgmMain f = new BgmEditors.FrmBgmMain(LevelNameNum);
             f.Show();
@@ -5379,26 +5381,20 @@ SaveChangeLabel();
 
         private void WorldMapEd_Click(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.GamePath.Trim() == "" && !File.Exists(@"GameSystemDataTable.szs"))
+            string LFSPath =  Properties.Settings.Default.LayeredFSPath;
+            if (Properties.Settings.Default.GamePath.Trim() == "" && !File.Exists(Properties.Settings.Default.UseLayeredFs ? LFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs"))
             {
-                MessageBox.Show("You must set the game Romfs path first !");
+                MessageBox.Show("You must set the game Romfs path first!");
                 return;
             }
-            else if (!File.Exists(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs") && !File.Exists(@"GameSystemDataTable.szs"))
+            else if (!File.Exists(Properties.Settings.Default.UseLayeredFs ? LFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs") && !File.Exists(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs"))
             {
-                MessageBox.Show(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs not found !\r\nProbably your Romfs dump is incomplete or was modified.");
+                MessageBox.Show((Properties.Settings.Default.UseLayeredFs ? LFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs") + " not found!\r\nYour ROMFS dump may be incomplete or corrupted, please dump your game again.");
                 return;
             }
-            else if (File.Exists(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs") && !File.Exists(@"GameSystemDataTable.szs"))
+            else if (!File.Exists(Properties.Settings.Default.UseLayeredFs ? LFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs") && File.Exists(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs"))
             {
-                File.Copy(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs", @"GameSystemDataTable.szs");
-                if (!Directory.Exists(@"icons"))
-                {
-                    Directory.CreateDirectory("icons");
-                    File.WriteAllBytes(@"icons\Worldmap.zip", Properties.Resources.Worldmap);
-                    System.IO.Compression.ZipFile.ExtractToDirectory(@"icons\Worldmap.zip", @"icons");
-                    File.Delete(@"icons\Worldmap.zip");
-                }
+                File.Copy(Properties.Settings.Default.GamePath + "\\ObjectData\\GameSystemDataTable.szs", Properties.Settings.Default.UseLayeredFs ? LFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs");
             }
             if (!Directory.Exists(@"icons"))
             {

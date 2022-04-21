@@ -183,11 +183,12 @@ namespace The4Dimension.FormEditors
             HasAA.Checked = Properties.Settings.Default.HasAA;
             TextFilter.SelectedIndex = Properties.Settings.Default.TextFilter;
             experimental.Checked  = Properties.Settings.Default.ExperimentalFeatures;
-            checkBox1.Visible = Properties.Settings.Default.ExperimentalFeatures;
-            button3.Visible = Properties.Settings.Default.ExperimentalFeatures;
+            checkBox1.Enabled = Properties.Settings.Default.ExperimentalFeatures;
             checkBox2.Checked = Properties.Settings.Default.UseCamSettings;
             ShowChildren.Checked = Properties.Settings.Default.ShowChildren;
             Backface.Checked = Properties.Settings.Default.BackfaceCull;
+            textBox2.Text = Properties.Settings.Default.LayeredFSPath;
+            checkBox3.Checked = Properties.Settings.Default.UseLayeredFs;
         }
         private void SetDefaultUrl_Click(object sender, EventArgs e)
         {
@@ -251,6 +252,9 @@ namespace The4Dimension.FormEditors
                 rendera.CamDistance = (double)UDCamDistance.Value;
                 Properties.Settings.Default.CamDistance = (double)UDCamDistance.Value;
             }
+            Properties.Settings.Default.LayeredFSPath = textBox2.Text;
+            Properties.Settings.Default.UseLayeredFs = checkBox3.Checked;
+
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -346,15 +350,13 @@ namespace The4Dimension.FormEditors
         private void dotcomma_CheckedChanged(object sender, EventArgs e)
         {
             if (dotcomma.Checked==true) 
-            { 
-            MessageBox.Show("This feature is experimental and will break children objects with decimal for position, rotation and scale, so use at your own risk");
-        
+            {
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will load and save Sound and Design files for levels, as long as they exist in the same folder as the opened Map file (on load) or your level has Design or Sound specific objects/areas (on save).");
+            MessageBox.Show("");
         }
 
         private void experimental_CheckedChanged(object sender, EventArgs e)
@@ -363,16 +365,10 @@ namespace The4Dimension.FormEditors
             {
                 MessageBox.Show("This will enable experimental features like the worldmap editor and the transparentwall generator, so use at your own risk");
 
-            }else if (experimental.Checked)
-            {
-                checkBox1.Visible = true;
-                button3.Visible = true;
             }
-            else if (experimental.Checked == false && Properties.Settings.Default.ExperimentalFeatures)
-            {
-                checkBox1.Visible = false;
-                button3.Visible = false;
-            }
+            else if (experimental.Checked) checkBox1.Enabled = true;
+            else if (experimental.Checked == false && Properties.Settings.Default.ExperimentalFeatures) checkBox1.Enabled = false;
+
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -393,6 +389,15 @@ namespace The4Dimension.FormEditors
                 UDCamSpeed.Enabled = true;
 
             }
+        }
+
+        private void layerfsbtn_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog fld = new CommonOpenFileDialog { IsFolderPicker = true };
+            fld.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            if (fld.ShowDialog() != CommonFileDialogResult.Ok) return;
+            Cancel.Enabled = true;
+            textBox2.Text = fld.FileName;
         }
     }
 }

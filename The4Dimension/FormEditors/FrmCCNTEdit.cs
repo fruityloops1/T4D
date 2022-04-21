@@ -20,6 +20,7 @@ namespace The4Dimension.FormEditors
         Dictionary<string, string> CCNT2;
         Form1 own;
         Dictionary<string, string> strings;
+        static string ccntpath = @"CreatorClassNameTable.sz";
         public FrmCCNTEdit(Dictionary<string, string> CreatorClassNameTable, Form1 owner)
         {
             strings = new Dictionary<string, string>();
@@ -146,6 +147,7 @@ namespace The4Dimension.FormEditors
             updateListbox();
             own = owner;
             if (listBox1.Items.Count > 0) listBox1.SelectedIndex = 0;
+            ccntpath = Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SystemData\\CreatorClassNameTable.szs" : @"CreatorClassNameTable.szs";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -164,8 +166,8 @@ namespace The4Dimension.FormEditors
             StgData.Data = BymlConverter.GetByml(MakeXML(ref ccnt_r));
             dir.Files.Add(StgData);
             SzsArch.FromFileSystem(dir);
-            File.Delete("CreatorClassNameTable.szs");
-            File.WriteAllBytes("CreatorClassNameTable.szs", y.Compress(SzsArch.Write()));
+            File.Delete(ccntpath);
+            File.WriteAllBytes(ccntpath, y.Compress(SzsArch.Write()));
         }
 
         void LoadCCNT2(string stringxml)

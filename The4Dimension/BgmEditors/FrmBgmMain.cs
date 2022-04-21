@@ -221,7 +221,7 @@ namespace The4Dimension.BgmEditors
         {
             CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
             NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
-            SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(@"BgmTable.szs")));
+            SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SoundData\\BgmTable.szs" : @"BgmTable.szs")));
             foreach (LibEveryFileExplorer.Files.SimpleFileSystem.SFSFile file in SzsArch.ToFileSystem().Files) SzsFiles.Add(file.FileName, file.Data);
 
             string ConvertedXml = BymlConverter.GetXml(SzsFiles["StageDefaultBgmList.byml"]);
@@ -324,16 +324,32 @@ namespace The4Dimension.BgmEditors
                         xr.WriteStartElement("A0");
                         xr.WriteAttributeString("Name", "BgmLabel");
                         xr.WriteAttributeString("StringValue", Levels[k]);
-                        xr.WriteEndElement();
-                        xr.WriteStartElement("D1");
-                        xr.WriteAttributeString("Name", "Scenario");
-                        xr.WriteAttributeString("StringValue", k.Substring(k.Length - 5,1));
-                        xr.WriteEndElement();
-                        xr.WriteStartElement("A0");
-                        xr.WriteAttributeString("Name", "StageName");
-                        xr.WriteAttributeString("StringValue", k.Substring(0, k.Length - 8));
-                        xr.WriteEndElement();
-                        xr.WriteEndElement();
+                        if (k.Contains("SkyChikuwaStageMap2"))
+                        {
+                            xr.WriteEndElement();
+                            xr.WriteStartElement("D1");
+                            xr.WriteAttributeString("Name", "Scenario");
+                            xr.WriteAttributeString("StringValue", 2.ToString());
+                            xr.WriteEndElement();
+                            xr.WriteStartElement("A0");
+                            xr.WriteAttributeString("Name", "StageName");
+                            xr.WriteAttributeString("StringValue", "SkyChikuwaSpStage");
+                            xr.WriteEndElement();
+                            xr.WriteEndElement();
+                        }
+                        else
+                        {
+                            xr.WriteEndElement();
+                            xr.WriteStartElement("D1");
+                            xr.WriteAttributeString("Name", "Scenario");
+                            xr.WriteAttributeString("StringValue", k.Substring(k.Length - 5, 1));
+                            xr.WriteEndElement();
+                            xr.WriteStartElement("A0");
+                            xr.WriteAttributeString("Name", "StageName");
+                            xr.WriteAttributeString("StringValue", k.Substring(0, k.Length - 8));
+                            xr.WriteEndElement();
+                            xr.WriteEndElement();
+                        }
                     }
                     xr.WriteEndElement();
                     xr.WriteEndElement();
@@ -353,8 +369,8 @@ namespace The4Dimension.BgmEditors
                 dir.Files.Add(file);
             }
             SzsArch.FromFileSystem(dir);
-            File.WriteAllBytes(@"BgmTable.szs", y.Compress(SzsArch.Write()));
-            MessageBox.Show("Done, file was saved as BgmTable.szs in this program folder");
+            File.WriteAllBytes(Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SoundData\\BgmTable.szs" : @"BgmTable.szs", y.Compress(SzsArch.Write()));
+            MessageBox.Show("File was saved properly! in " + (Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SoundData\\" : "this program's folder"));
             this.Close();
         }
 

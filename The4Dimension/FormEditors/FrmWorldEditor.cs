@@ -40,7 +40,7 @@ namespace The4Dimension.FormEditors
             
             CommonCompressors.YAZ0 y = new CommonCompressors.YAZ0();
             NDS.NitroSystem.FND.NARC SzsArch = new NDS.NitroSystem.FND.NARC();
-            SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(@"GameSystemDataTable.szs")));
+            SzsArch = new NDS.NitroSystem.FND.NARC(y.Decompress(File.ReadAllBytes(Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs")));
             foreach (SFSFile file in SzsArch.ToFileSystem().Files) SzsFiles.Add(file.FileName, file.Data);
             string ConvertedXml = BymlConverter.GetXml(SzsFiles["CourseList.byml"]);
             XmlDocument xml = new XmlDocument();
@@ -172,8 +172,8 @@ namespace The4Dimension.FormEditors
                 dir.Files.Add(file);
             }
             SzsArch.FromFileSystem(dir);
-            File.WriteAllBytes(@"GameSystemDataTable.szs", y.Compress(SzsArch.Write()));
-            MessageBox.Show("Done, file was saved as GameSystemDataTable.szs in this program folder");
+            File.WriteAllBytes(Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\ObjectData\\GameSystemDataTable.szs" : @"GameSystemDataTable.szs", y.Compress(SzsArch.Write()));
+            MessageBox.Show("File was saved properly! in " + (Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\ObjectData\\" : "this program's folder"));
             this.Close();
         }
 
