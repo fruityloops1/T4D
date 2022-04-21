@@ -74,7 +74,8 @@ namespace The4Dimension
                 if (Prop[k] is ICloneable) o.Prop.Add(k, ((ICloneable)Prop[k]).Clone());
                 else
                     if (Prop[k] is int) { o.Prop.Add(k, Prop[k]); }
-                else if (Prop[k] is Single[]) { o.Prop.Add(k, Prop[k]); }
+                else if (Prop[k] is Single[]) { o.Prop.Add(k, new List<Single>(((Single[])Prop[k])).ToArray()); }
+                else if (k.Contains("Children")) { o.Prop.Add(k, Prop[k]); }
                 else throw new Exception("Type non cloneable");
             }
             return o;
@@ -173,11 +174,14 @@ namespace The4Dimension
             set { this.GetType().GetProperty(propertyName).SetValue(this, value, null); }
         }
 
-        public Point3D[] GetPointArray()
+        public List<Point3D[]> GetPointArray()
         {
-            List<Point3D> points = new List<Point3D>();
-            foreach (Rail.Point p in Points) points.Add(new Point3D(p.X, -p.Z, p.Y));
-            return points.ToArray();
+            List<Point3D[]> points = new List<Point3D[]>();
+            foreach (Rail.Point p in Points) 
+            {
+                points.Add(new Point3D[] { new Point3D(p._X[0], -p._Z[0], p._Y[0]), new Point3D(p._X[1], -p._Z[1], p._Y[1]), new Point3D(p._X[2], -p._Z[2], p._Y[2]) }); 
+            }
+            return points;
         }
 
         List<int> _Args = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1};
@@ -200,12 +204,12 @@ namespace The4Dimension
             if (Adding) _points.Add(new Point(1));
             if (BasePosition != null)
             {
-                _points[0].X = (float)((Vector3D)BasePosition).X;
-                _points[0].Y = (float)((Vector3D)BasePosition).Z;
-                _points[0].Z = -(float)((Vector3D)BasePosition).Y;
-                _points[1].X = (float)((Vector3D)BasePosition).X;
-                _points[1].Y = (float)((Vector3D)BasePosition).Z;
-                _points[1].Z = -(float)((Vector3D)BasePosition).Y;
+                _points[0].setX = (float)((Vector3D)BasePosition).X;
+                _points[0].setY = (float)((Vector3D)BasePosition).Z;
+                _points[0].setZ = -(float)((Vector3D)BasePosition).Y;
+                _points[1].setX = (float)((Vector3D)BasePosition).X;
+                _points[1].setY = (float)((Vector3D)BasePosition).Z;
+                _points[1].setZ = -(float)((Vector3D)BasePosition).Y;
             }
         }
 
@@ -264,7 +268,20 @@ namespace The4Dimension
         {
             
             Rail R = new Rail();
-            foreach (int i in _Args) R._Args.Add(i);
+            for (int i = 0;i < 10; i++)
+            {
+                if (R.Arg.Count-1 > i && _Args.Count-1 > i)
+                {
+                    R._Args[i] = _Args[i];
+                }
+                else
+                {
+                    if (_Args.Count - 1 > i)
+                    {
+                        R._Args.Add(_Args[i]);
+                    }
+                }
+            }
             R.LayerName = (string)_LayerName.Clone();
             foreach (Point p in _points) R._points.Add(p.Clone());
             R._closed = (string)_closed.Clone();
@@ -300,9 +317,9 @@ namespace The4Dimension
         {
             List<int> _Args = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1 };
             int _ID;
-            public List<Single> _X = new List<Single>();
-            public List<Single> _Y = new List<Single>();
-            public List<Single> _Z = new List<Single>();
+            public List<Single> _X = new List<Single>() {0,0,0 };
+            public List<Single> _Y = new List<Single>() { 0, 0, 0 };
+            public List<Single> _Z = new List<Single>() { 0, 0, 0 };
 
             public Point(int id = 0)
             {
@@ -317,8 +334,12 @@ namespace The4Dimension
             public Point Clone()
             {
                 Point N = new Point();
+                N.Args.Clear();
                 foreach (int i in _Args) N._Args.Add(i);
                 N.ID = _ID;
+                N._X.Clear();
+                N._Y.Clear();
+                N._Z.Clear();
                 foreach (int s in _X) N._X.Add(s);
                 foreach (int s in _Y) N._Y.Add(s);
                 foreach (int s in _Z) N._Z.Add(s);
@@ -328,8 +349,12 @@ namespace The4Dimension
             public Point Clone_increment()
             {
                 Point N = new Point();
+                N.Args.Clear();
                 foreach (int i in _Args) N._Args.Add(i);
                 N.ID = _ID + 1;
+                N._X.Clear();
+                N._Y.Clear();
+                N._Z.Clear();
                 foreach (int s in _X) N._X.Add(s + 100);
                 foreach (int s in _Y) N._Y.Add(s);
                 foreach (int s in _Z) N._Z.Add(s);
@@ -353,33 +378,111 @@ namespace The4Dimension
                 get { return _ID; }
             }
 
+            public Single setX
+            {
+                set { _X[0] = value; _X[1] = value; _X[2] = value; }
+            }
+
+            public Single setY
+            {
+                set { _Y[0] = value; _Y[1] = value; _Y[2] = value; }
+            }
+
+            public Single setZ
+            {
+                set { _Z[0] = value; _Z[1] = value; _Z[2] = value; }
+            }
+
             public Single X
             {
-                set { _X.Clear(); _X.Add(value); _X.Add(value); _X.Add(value); }//this is not correct for this game's curves, as they use the point and 2 different points to determine the curve, if you make the 3 points the same you end with a linear rail, and that's what the rail type is supposed to be (?)
+                set { _X[0] = value; }
                 get {
                     if (_X.Count == 0) X = 0;
                     return _X[0];
                 }
             }
+            public Single X_prev
+            {
+
+                set { _X[1] = value; }
+                get
+                {
+                    if (_X.Count == 0) X = 0;
+                    return _X[1];
+                }
+            }
+
+            public Single X_next
+            {
+
+                set { _X[2] = value; }
+                get
+                {
+                    if (_X.Count == 0) X = 0;
+                    return _X[2];
+                }
+            }
 
             public Single Y
             {
-                set { _Y.Clear(); _Y.Add(value); _Y.Add(value); _Y.Add(value); }
-                get {
+                set { _Y[0] = value; }
+                get
+                {
                     if (_Y.Count == 0) Y = 0;
                     return _Y[0];
                 }
             }
+            public Single Y_prev
+            {
 
+                set { _Y[1] = value; }
+                get
+                {
+                    if (_Y.Count == 0) Y = 0;
+                    return _Y[1];
+                }
+            }
+
+            public Single Y_next
+            {
+
+                set { _Y[2] = value; }
+                get
+                {
+                    if (_Y.Count == 0) Y = 0;
+                    return _Y[2];
+                }
+            }
             public Single Z
             {
-                set { _Z.Clear(); _Z.Add(value); _Z.Add(value); _Z.Add(value); }
-                get {
+                set { _Z[0] = value; }
+                get
+                {
                     if (_Z.Count == 0) Z = 0;
                     return _Z[0];
                 }
             }
+            public Single Z_prev
+            {
 
+                set { _Z[1] = value; }
+                get
+                {
+                    if (_Z.Count == 0) Z = 0;
+                    return _Z[1];
+                }
+            }
+
+            public Single Z_next
+            {
+
+                set { _Z[2] = value; }
+                get
+                {
+                    if (_Z.Count == 0) Z = 0;
+                    return _Z[2];
+                }
+            }
             public Point3D ToPoint3D(int part = 0)
             {
                 Point3D Ret = new Point3D();

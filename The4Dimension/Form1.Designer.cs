@@ -5200,7 +5200,7 @@
             // 
             this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatus.AutoSize = true;
-            this.labelStatus.BackColor = System.Drawing.Color.White;
+            this.labelStatus.BackColor = System.Drawing.Color.WhiteSmoke;
             this.labelStatus.ForeColor = System.Drawing.Color.DarkGreen;
             this.labelStatus.Location = new System.Drawing.Point(703, 6);
             this.labelStatus.Name = "labelStatus";

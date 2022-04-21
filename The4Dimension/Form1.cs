@@ -900,7 +900,6 @@ namespace The4Dimension
             if (n.Attributes["Name"].Value == "AllRailInfos") ProcessRailInfos(n.ChildNodes); else throw new Exception("Not The AllRailInfos node !");
             if (Type == "Map")
             {
-                comboBox1.Items.AddRange(AllInfos.Keys.ToArray());
                 comboBox1.Items.Add("AllRailInfos");
                 render.AddKey("AllRailInfos");
                 LoadRailsModels(AllRailInfos);
@@ -950,7 +949,8 @@ namespace The4Dimension
         {
             List<Point3D> points = new List<Point3D>();
             foreach (Rail.Point p in source.Points) points.Add(new Point3D(p.X, -p.Z, p.Y));
-            render.addRail(points.ToArray(), source.Closed, 5, at);
+            
+            render.addRail(source.GetPointArray(), source.Closed, 5, at);
         }
 
         void LoadModels(List<LevelObj> Source, string Type, string PlaceHolderMod = "models\\UnkBlue.obj", int at = -1)
@@ -1189,13 +1189,13 @@ namespace The4Dimension
             else if (NewObjectDatabase != null) 
             {
                 string id = "";
-
                 if (NewObjectDatabase.DBtoId.TryGetValue(ObjName, out id))
                 {
                     if (NewObjectDatabase.IdToModel.ContainsKey(id))
                     {
                         return @"models\" + NewObjectDatabase.IdToModel[id] + ".obj";
                     }
+                    else if (File.Exists("models\\" + id + ".obj")) return "models\\" + id + ".obj";
                 }
                 else if (NewObjectDatabase.IdToModel.ContainsKey(ObjName))
                 {
@@ -1211,6 +1211,8 @@ namespace The4Dimension
         {
             for (int i = 0; i < xml.Count; i++)
             {
+
+                if (!comboBox1.Items.Contains(xml[i].Attributes["Name"].Value)) comboBox1.Items.Add(xml[i].Attributes["Name"].Value);
                 ProcessAllOBJECTS(xml[i].ChildNodes, xml[i].Attributes["Name"].Value);
             }
         }
@@ -1713,7 +1715,7 @@ namespace The4Dimension
             if ((ModifierKeys & Keys.Control) == Keys.Control || RenderIsDragging) return;
             object[] indexes = render.GetOBJ(sender, e); //indexes[0] Allinfos name, [1] int index of the object
             if (indexes[0] == null) return; //this means indexes[0] = -1
-            if ((string)indexes[0] == "SelectedRail" || (string)indexes[0] == "TmpChildrenObjs" || (string)indexes[0] == "TmpAreaChildrenObjs" || (IsEditingC0List && (string)indexes[0] != "C0EditingListObjs")) return;
+            if ((string)indexes[0] == "SelectedRail" || ((string)indexes[0]).Contains("RailHandle") || (string)indexes[0] == "TmpChildrenObjs" || (string)indexes[0] == "TmpAreaChildrenObjs" || (IsEditingC0List && (string)indexes[0] != "C0EditingListObjs")) return;
             if ((ModifierKeys & Keys.Shift) == Keys.Shift && (string)indexes[0] == CurrentAllInfosSectionName)
             {
                 ObjectsListBox.SelectedIndices.Add((int)indexes[1]);
@@ -1752,7 +1754,7 @@ namespace The4Dimension
             {
                 if (RenderIsDragging == true)
                 {
-                    if (DraggingAxis[0] == false && (DraggingAxis[1] == false || DraggingAxis[2] == false) && (string)DraggingArgs[0] != "SelectedRail")
+                    if (DraggingAxis[0] == false && (DraggingAxis[1] == false || DraggingAxis[2] == false) && (string)DraggingArgs[0] != "SelectedRail" && (string)DraggingArgs[0] != "RailHandle")
                     {
                         DraggingAxis[0] = true;
                         Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
@@ -1781,7 +1783,7 @@ namespace The4Dimension
             {
                 if (RenderIsDragging == true)
                 {
-                    if (DraggingAxis[1] == false && (DraggingAxis[0] == false || DraggingAxis[2] == false)&& (string)DraggingArgs[0]!="SelectedRail")
+                    if (DraggingAxis[1] == false && (DraggingAxis[0] == false || DraggingAxis[2] == false)&& (string)DraggingArgs[0]!="SelectedRail" && (string)DraggingArgs[0] != "RailHandle")
                     {
                         DraggingAxis[1] = true;
                         Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
@@ -1835,7 +1837,7 @@ namespace The4Dimension
                 if (Undo.Count > 0 && RenderIsDragging==false && (ModifierKeys & Keys.Control) == Keys.Control) Undo.Pop().Undo();
                 else if (RenderIsDragging == true)
                 {
-                    if (DraggingAxis[2] == false && (DraggingAxis[0] == false || DraggingAxis[1] == false) && (string)DraggingArgs[0] != "SelectedRail")
+                    if (DraggingAxis[2] == false && (DraggingAxis[0] == false || DraggingAxis[1] == false) && (string)DraggingArgs[0] != "SelectedRail" && (string)DraggingArgs[0] != "RailHandle")
                     {
                         DraggingAxis[2] = true;
                         Single[] sing = ((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"]);
@@ -1957,7 +1959,7 @@ namespace The4Dimension
             }
         }
 
-        void UpdateRailpos(int id, Point3D[] Points)
+        void UpdateRailpos(int id, List<Point3D[]> Points)
         {
             render.UpdateRailpos(id, Points, AllRailInfos[id].Closed);
             if (comboBox1.SelectedItem.ToString() == "AllRailInfos" && ObjectsListBox.SelectedIndex != -1) render.SelectRail(AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
@@ -1968,16 +1970,38 @@ namespace The4Dimension
         {
             if (Mouse.LeftButton != MouseButtonState.Pressed || (ModifierKeys & Keys.Control) != Keys.Control || !RenderIsDragging) { RenderIsDragging = false; return; }
             int RoundTo = (ModifierKeys & Keys.Alt) == Keys.Alt ? 100 : ((ModifierKeys & Keys.Shift) == Keys.Shift ? 50 : 0);
+            if (((string)DraggingArgs[0] == "SelectedRail" || ((string)DraggingArgs[0]) == "RailHandle"))
+            {
+                RoundTo = 0;
+            }
             Vector3D NewPos = render.Drag(DraggingArgs, e, RoundTo);
             DragPos.Add(NewPos);
             if (DragPos.Count == 1) { Displacement = (Vector3D)DraggingArgs[2] - NewPos; /*labelStatus.Text = (-Displacement.Z).ToString();*/ }
             if (NewPos == null) return;
-            if ((string)DraggingArgs[0] == "SelectedRail")
+            if ((string)DraggingArgs[0] == "SelectedRail" && (ModifierKeys & Keys.Shift) != Keys.Shift)
             {
                 AllRailInfos[ObjectsListBox.SelectedIndex].Points[(int)DraggingArgs[1]].X = (float)NewPos.X;
                 AllRailInfos[ObjectsListBox.SelectedIndex].Points[(int)DraggingArgs[1]].Y = (float)NewPos.Z;
                 AllRailInfos[ObjectsListBox.SelectedIndex].Points[(int)DraggingArgs[1]].Z = -(float)NewPos.Y;
                 UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
+            }else if (((string)DraggingArgs[0]) == "RailHandle" && (ModifierKeys & Keys.Shift) != Keys.Shift)
+            {
+                int PntIndx = (int)DraggingArgs[1] / 2;
+                int HandleIndx = ((int)DraggingArgs[1]) % 2 + 1;
+                AllRailInfos[ObjectsListBox.SelectedIndex].Points[PntIndx]._X[HandleIndx] = (float)NewPos.X;
+                AllRailInfos[ObjectsListBox.SelectedIndex].Points[PntIndx]._Y[HandleIndx] = (float)NewPos.Z;
+                AllRailInfos[ObjectsListBox.SelectedIndex].Points[PntIndx]._Z[HandleIndx] = -(float)NewPos.Y;
+                UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
+            }
+            else if (((string)DraggingArgs[0] == "SelectedRail" || ((string)DraggingArgs[0]) == "RailHandle"))
+            {
+                int PntIndx = ((string)DraggingArgs[0]) == "RailHandle"?(int)DraggingArgs[1] / 2 : (int)DraggingArgs[1];
+
+                AllRailInfos[ObjectsListBox.SelectedIndex].Points[PntIndx].setX = (float)NewPos.X;
+                AllRailInfos[ObjectsListBox.SelectedIndex].Points[PntIndx].setY = (float)NewPos.Z;
+                AllRailInfos[ObjectsListBox.SelectedIndex].Points[PntIndx].setZ = -(float)NewPos.Y;
+                UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
+
             }
             else if ((string)DraggingArgs[0] == "TmpChildrenObjs")
             {
@@ -1986,7 +2010,7 @@ namespace The4Dimension
                 ((Single[])((C0List)CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop["GenerateChildren"]).List[(int)DraggingArgs[1]].Prop["pos"])[2] = -(Single)NewPos.Y;
                 UpdateOBJPos((int)DraggingArgs[1], null, "TmpChildrenObjs");
             }
-            else if ((string)DraggingArgs[0] != "AllRailInfos")
+            else if ((string)DraggingArgs[0] != "AllRailInfos" && (string)DraggingArgs[0] != "RailHandleRail")
             {
                 NewPos = new Vector3D(((NewPos.X) + Displacement.X)*1, NewPos.Y + Displacement.Y, NewPos.Z + Displacement.Z);
                 string type = "pos";
@@ -2032,6 +2056,7 @@ namespace The4Dimension
             if (DraggingAxis[0] == true) { render.removeAxis("X"); DraggingAxis[0] = false; }
             if (DraggingAxis[1] == true) { render.removeAxis("Y"); DraggingAxis[1] = false; }
             if (DraggingAxis[2] == true) { render.removeAxis("Z"); DraggingAxis[2] = false; }
+            if ((string)DraggingArgs[0] == "RailHandle") return;
             if ((string)DraggingArgs[0] == "SelectedRail")
             {
                 Action<object[]> act;
@@ -2045,9 +2070,7 @@ namespace The4Dimension
                 };
                 Undo.Push(new UndoAction("Moved " + ObjectsListBox.SelectedItem.ToString() + "'s point[" + DraggingArgs[1].ToString() + "] : ", new object[] { ObjectsListBox.SelectedIndex, (int)DraggingArgs[1], StartPos }, act));
 
-    SaveChangeLabel();
-
-
+                SaveChangeLabel();
             }
             else if ((string)DraggingArgs[0] == "TmpChildrenObjs")
             {
@@ -2125,7 +2148,7 @@ namespace The4Dimension
             if (DraggingArgs[0] == null) { RenderIsDragging = false; return; }
             if ((string)DraggingArgs[0] == "SelectedRail" && !IsEditingC0List)
             {
-                StartPos = AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray()[(int)DraggingArgs[1]].ToVect();
+                StartPos = AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray()[(int)DraggingArgs[1]][0].ToVect();
                 return;
             }
             else if ((string)DraggingArgs[0] == "TmpChildrenObjs")
@@ -2145,6 +2168,9 @@ namespace The4Dimension
                 StartPos = new Vector3D((Single)((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[0],
                        (Single)((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[1],
                        (Single)((Single[])GetListByName((string)DraggingArgs[0])[(int)DraggingArgs[1]].Prop["pos"])[2]);
+            }
+            else if (((string)DraggingArgs[0]).Contains("RailHandle"))
+            {
             }
             else if (!IsEditingC0List)
             {
@@ -2686,7 +2712,7 @@ namespace The4Dimension
                     }
 
                     render.ShowRail(ObjectsListBox.SelectedIndex);
-                    UpdateRailpos(ObjectsListBox.SelectedIndex, p3d.ToArray()) ;
+                    UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray()) ;
                 }
                 RailOldSel = ObjectsListBox.SelectedIndex;
                 UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
@@ -3157,8 +3183,8 @@ namespace The4Dimension
 
         public List<LevelObj> GetListByName(string name)
         {
-                if (name == "C0EditingListObjs" || IsEditingC0List) return C0ListEditingStack.Peek();
-                else return AllInfos[name];
+            if (name == "C0EditingListObjs" || IsEditingC0List) return C0ListEditingStack.Peek();
+            else return AllInfos[name];
         }
 
         void EditC0List(C0List list, bool addToStack = true) { if (list != null) EditC0List(list.List, addToStack); }
@@ -6338,10 +6364,11 @@ SaveChangeLabel();
                     {
                         (AllRailInfos[ObjectsListBox.SelectedIndex].Closed) = false;
                     }
+                    UpdateRailpos(ObjectsListBox.SelectedIndex, AllRailInfos[ObjectsListBox.SelectedIndex].GetPointArray());
                 }
             }
 
-SaveChangeLabel();
+            SaveChangeLabel();
 
 
         }

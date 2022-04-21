@@ -243,17 +243,53 @@ namespace ModelViewer
             while (Models[type].Count != 0) RemoveModel(type, 0);
         }
 
-        public void addRail(Point3D[] Points, bool Closed = false, int Thickness = 5, int at = -1)
+        public void addRail(List<Point3D[]> Points, bool Closed = false, int Thickness = 5, int at = -1)
         {
             string Type = "AllRailInfos";
             LinesVisual3D l = new LinesVisual3D();
+            List<Point3D> BezierCurve = new List<Point3D>();
+            for (int i = 0; i < Points.Count; i++)
+            {
+                Single t = 0;
+                int CurrentPoint = i; // for this we will use this point[0] and the control for next curve [2]
+                int NextPoint = i + 1 < Points.Count ? i + 1 : 0; // for this we will use this point[0] and the control for prev curve [1]
+                int PreviousPoint = i - 1 < 0 ? Points.Count - 1 : i - 1;
+
+                if (i == Points.Count - 1 && !Closed)
+                {
+                    BezierCurve.Add(Points[i][0]);
+                }
+                else
+                {
+                    if ((Points[CurrentPoint][0] != Points[CurrentPoint][1] || Points[CurrentPoint][0] != Points[CurrentPoint][2]) || (Points[PreviousPoint][0] != Points[PreviousPoint][1] || Points[PreviousPoint][0] != Points[PreviousPoint][2]) || (Points[NextPoint][0] != Points[NextPoint][1] || Points[NextPoint][0] != Points[NextPoint][2]))
+                        while (t < 1)
+                        {
+                            Point3D P0 = Points[CurrentPoint][0];
+                            Point3D P1 = Points[CurrentPoint][2];
+                            Point3D P2 = Points[NextPoint][1];
+                            Point3D P3 = Points[NextPoint][0];
+                            P0 = new Point3D(Math.Pow((1 - t), 3) * P0.X, Math.Pow((1 - t), 3) * P0.Y, Math.Pow((1 - t), 3) * P0.Z);
+                            P1 = new Point3D(3 * Math.Pow((1 - t), 2) * t * P1.X, (Math.Pow((1 - t), 2) * 3 * t * P1.Y), Math.Pow((1 - t), 2) * 3 * t * P1.Z);
+                            P2 = new Point3D(3 * (1 - t) * Math.Pow(t, 2) * P2.X, (3 * (1 - t) * Math.Pow(t, 2) * P2.Y), 3 * (1 - t) * Math.Pow(t, 2) * P2.Z);
+                            P3 = new Point3D(Math.Pow(t, 3) * P3.X, (Math.Pow(t, 3) * P3.Y), Math.Pow(t, 3) * P3.Z);
+                            Point3D bPoint = P0 + P1.ToVector3D() + P2.ToVector3D() + P3.ToVector3D();
+                            BezierCurve.Add(bPoint);
+                            t += (float)0.1;
+                        }
+                    else
+                    {
+                        BezierCurve.Add(Points[i][0]);
+                    }
+                }
+            }
+
             if (at == -1) Models[Type].Add(l); else Models[Type].Insert(at, l);
-            if (at == -1) Positions[Type].Add(Points[0].ToVector3D()); else Positions[Type].Insert(at, Points[0].ToVector3D());
+            if (at == -1) Positions[Type].Add(BezierCurve[0].ToVector3D()); else Positions[Type].Insert(at, BezierCurve[0].ToVector3D());
             if (at == -1) ModelViewer.Children.Add(Models[Type][Models[Type].Count - 1]); else ModelViewer.Children.Insert(at, Models[Type][at]);
-            if (Points.Length < 2) return;
-            l.Color = Color.FromRgb(255, 0, 0);
+            if (BezierCurve.Count < 2) return;
+            l.Color = Color.FromRgb(255, 255, 255);
             l.Thickness = Thickness;
-            AddRailpoints(l, Closed, Points, Thickness);
+            AddRailpoints(l, Closed, BezierCurve, Thickness);
         }
         public void addAxis(Point3D Point, string axis)
         {
@@ -280,7 +316,7 @@ namespace ModelViewer
             }
             Point3D[] Points = new Point3D[2] {Point,point2 };
             int at = -1;
-            string Type = "AllRailInfos";
+            string Type = "Axis";
             l.SetName(axis);
             AxisDict.Add(axis, l);
             if (at == -1) Models[Type].Add(l); else Models[Type].Insert(at, l);
@@ -288,23 +324,23 @@ namespace ModelViewer
             if (at == -1) ModelViewer.Children.Add(Models[Type][Models[Type].Count - 1]); else ModelViewer.Children.Insert(at, Models[Type][at]);
             if (Points.Length < 2) return;
             l.Thickness = 2.9;
-            AddRailpoints(l, false, Points, 5);
+            AddRailpoints(l, false, Points.ToList(), 5);
         }
         public void removeAxis(string axis = "All")
         {
 
             if (axis == "All" && AxisDict.ContainsKey("X"))
             {
-                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict["X"]));
+                RemoveModel("Axis", Models["Axis"].IndexOf(AxisDict["X"]));
                 AxisDict.Remove("X");
-                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict["Y"]));
+                RemoveModel("Axis", Models["Axis"].IndexOf(AxisDict["Y"]));
                 AxisDict.Remove("Y");
-                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict["Z"]));
+                RemoveModel("Axis", Models["Axis"].IndexOf(AxisDict["Z"]));
                 AxisDict.Remove("Z");
             }
-            else if (axis != "All"&& AxisDict.ContainsKey(axis)) 
+            else if (axis != "All" && AxisDict.ContainsKey(axis)) 
             {
-                RemoveModel("AllRailInfos", Models["AllRailInfos"].IndexOf(AxisDict[axis]));
+                RemoveModel("Axis", Models["Axis"].IndexOf(AxisDict[axis]));
                 AxisDict.Remove(axis);
             }
 
@@ -312,40 +348,98 @@ namespace ModelViewer
             //can use X Y and Z
 
         }
-        public void SelectRail(Point3D[] Points)
+        public void SelectRail(List<Point3D[]> Points)
         {
             UnselectRail();
-            foreach (Point3D p in Points)
+            List<Point3D[]> BezierList = new List<Point3D[]>();
+            List<Point3D> BezierCurve = new List<Point3D>();
+            List<Point3D> NPoints = new List<Point3D>();
+            for (int i = 0; i < Points.Count; i++)
             {
-                addModel(@"models\UnkRed.obj", "SelectedRail", p.ToVector3D(), new Vector3D(.5f, .5f, .5f), 0, 0, 0);
+                NPoints.Add(Points[i][0]);
+                NPoints.Add(Points[i][1]);
+                NPoints.Add(Points[i][2]);
+
+            }
+
+            foreach (Point3D[] p in Points)
+            {
+                addModel(@"models\Point.obj", "SelectedRail", p[0].ToVector3D(), new Vector3D(.5f, .5f, .5f), 0, 0, 0);
+                if (Points[0] != Points[1] || Points[0] != Points[2]) 
+                {
+                    LinesVisual3D l = new LinesVisual3D();
+
+                    l.Color = Color.FromRgb(209, 209, 209);
+                    l.Thickness = 2;
+                    List<Point3D> handle = new List<Point3D>() { p[1], p[0], p[2]};
+                    l.Points.Add(p[0]);
+                    Models["RailHandleRail"].Add(l);
+                    Positions["RailHandleRail"].Add(p[0].ToVector3D());
+                    ModelViewer.Children.Add(Models["RailHandleRail"][Models["RailHandleRail"].Count - 1]);
+                    AddRailpoints(l, false, handle, 2);
+
+                }
+                //new linevisual3d that goes from railHandle0 to point to railhandle1
+                addModel(@"models\PntHandle.obj", "RailHandle", p[1].ToVector3D(), new Vector3D(.5f, .5f, .5f), 0, 0, 0);
+                addModel(@"models\PntHandle.obj", "RailHandle", p[2].ToVector3D(), new Vector3D(.5f, .5f, .5f), 0, 0, 0);
             }
         }
 
         public void UnselectRail()
         {
+
             ClearType("SelectedRail");
+            ClearType("RailHandle");
+            ClearType("RailHandleRail");
             ModelView.UpdateLayout();
         }
 
-        public void AddRailpoints(LinesVisual3D l, bool Closed, Point3D[] Points, int Thickness)
+        public void AddRailpoints(LinesVisual3D l, bool Closed, List<Point3D[]> Points, int Thickness)
+        {
+            Point3D oldPoint = Points[1][0];
+            l.Points.Add(Points[0][0]);
+            l.Points.Add(Points[1][0]);
+            for (int i = 2; i < Points.Count; i++)
+            {
+                int chidIndex = l.Children.Count;
+                l.Children.Add(new LinesVisual3D());
+                ((LinesVisual3D)l.Children[chidIndex]).Color = Color.FromRgb(47, 47, 47);
+                ((LinesVisual3D)l.Children[chidIndex]).Thickness = Thickness;
+                ((LinesVisual3D)l.Children[chidIndex]).Points.Add(oldPoint);
+                ((LinesVisual3D)l.Children[chidIndex]).Points.Add(Points[i][0]);
+                oldPoint = Points[i][0];
+                if (Closed && i == Points.Count - 1)
+                {
+                    chidIndex = l.Children.Count;
+                    l.Children.Add(new LinesVisual3D());
+                    ((LinesVisual3D)l.Children[chidIndex]).Color = Color.FromRgb(245, 245, 245);
+                    ((LinesVisual3D)l.Children[chidIndex]).Thickness = Thickness-1;
+                    ((LinesVisual3D)l.Children[chidIndex]).Points.Add(oldPoint);
+                    ((LinesVisual3D)l.Children[chidIndex]).Points.Add(Points[0][0]);
+                    oldPoint = Points[i][0];
+                }
+            }
+        }
+
+        public void AddRailpoints(LinesVisual3D l, bool Closed, List<Point3D> Points, int Thickness)
         {
             Point3D oldPoint = Points[1];
             l.Points.Add(Points[0]);
             l.Points.Add(Points[1]);
-            for (int i = 2; i < Points.Length; i++)
+            for (int i = 2; i < Points.Count; i++)
             {
                 int chidIndex = l.Children.Count;
                 l.Children.Add(new LinesVisual3D());
-                ((LinesVisual3D)l.Children[chidIndex]).Color = Color.FromRgb(255, 255, 255);
+                ((LinesVisual3D)l.Children[chidIndex]).Color = l.Color;
                 ((LinesVisual3D)l.Children[chidIndex]).Thickness = Thickness;
                 ((LinesVisual3D)l.Children[chidIndex]).Points.Add(oldPoint);
                 ((LinesVisual3D)l.Children[chidIndex]).Points.Add(Points[i]);
                 oldPoint = Points[i];
-                if (Closed && i == Points.Length - 1)
+                if (Closed && i == Points.Count - 1)
                 {
                     chidIndex = l.Children.Count;
                     l.Children.Add(new LinesVisual3D());
-                    ((LinesVisual3D)l.Children[chidIndex]).Color = Color.FromRgb(255, 255, 255);
+                    ((LinesVisual3D)l.Children[chidIndex]).Color = l.Color;
                     ((LinesVisual3D)l.Children[chidIndex]).Thickness = Thickness;
                     ((LinesVisual3D)l.Children[chidIndex]).Points.Add(oldPoint);
                     ((LinesVisual3D)l.Children[chidIndex]).Points.Add(Points[0]);
@@ -354,12 +448,48 @@ namespace ModelViewer
             }
         }
 
-        public void UpdateRailpos(int id, Point3D[] Points, bool Closed)
+        public void UpdateRailpos(int id, List<Point3D[]> Points, bool Closed)
         {
             RemoveRailPoints(((LinesVisual3D)Models["AllRailInfos"][id]));
-            if (Points.Length < 2) return;
-            AddRailpoints((LinesVisual3D)Models["AllRailInfos"][id], Closed, Points, 5);
-            Positions["AllRailInfos"][id] = Points[0].ToVector3D();
+            if (Points.Count < 2) return;
+            List<Point3D> BezierCurve = new List<Point3D>();
+            for (int i = 0; i < Points.Count; i++)
+            {
+                Single t = 0;
+                int CurrentPoint = i; // for this we will use this point[0] and the control for next curve [2]
+                int NextPoint = i + 1 < Points.Count ? i + 1 : 0; // for this we will use this point[0] and the control for prev curve [1]
+                int PreviousPoint = i - 1 < 0 ? Points.Count - 1 : i - 1;
+
+                if (i == Points.Count-1 && !Closed)
+                {
+                    BezierCurve.Add(Points[i][0]);
+                }
+                else
+                {
+                    if ((Points[CurrentPoint][0] != Points[CurrentPoint][1] || Points[CurrentPoint][0] != Points[CurrentPoint][2]) || (Points[PreviousPoint][0] != Points[PreviousPoint][1] || Points[PreviousPoint][0] != Points[PreviousPoint][2]) || (Points[NextPoint][0] != Points[NextPoint][1] || Points[NextPoint][0] != Points[NextPoint][2]))
+                        while (t < 1)
+                        {
+                            Point3D P0 = Points[CurrentPoint][0];
+                            Point3D P1 = Points[CurrentPoint][2];
+                            Point3D P2 = Points[NextPoint][1];
+                            Point3D P3 = Points[NextPoint][0];
+                            P0 = new Point3D(Math.Pow((1 - t), 3) * P0.X, Math.Pow((1 - t), 3) * P0.Y, Math.Pow((1 - t), 3) * P0.Z);
+                            P1 = new Point3D(3 * Math.Pow((1 - t), 2) * t * P1.X, (Math.Pow((1 - t), 2) * 3 * t * P1.Y), Math.Pow((1 - t), 2) * 3 * t * P1.Z);
+                            P2 = new Point3D(3 * (1 - t) * Math.Pow(t, 2) * P2.X, (3 * (1 - t) * Math.Pow(t, 2) * P2.Y), 3 * (1 - t) * Math.Pow(t, 2) * P2.Z);
+                            P3 = new Point3D(Math.Pow(t, 3) * P3.X, (Math.Pow(t, 3) * P3.Y), Math.Pow(t, 3) * P3.Z);
+                            Point3D bPoint = P0 + P1.ToVector3D() + P2.ToVector3D() + P3.ToVector3D();
+                            BezierCurve.Add(bPoint);
+                            t += (float)0.1;
+                        }
+                    else
+                    {
+                        BezierCurve.Add(Points[i][0]);
+                    }
+                }
+            }
+
+            AddRailpoints((LinesVisual3D)Models["AllRailInfos"][id], Closed, BezierCurve, 5);
+            Positions["AllRailInfos"][id] = Points[0][0].ToVector3D();
             ModelView.UpdateLayout();
         }
 
@@ -421,6 +551,10 @@ namespace ModelViewer
         public void RemoveRailPoints(LinesVisual3D rail)
         {
             foreach (LinesVisual3D r in rail.Children) RemoveRailPoints(r);
+            for (int i = 0; i< rail.Children.Count; i++)
+            {
+                rail.Children.RemoveAt(i);
+            }
             rail.Points.Clear();
         }
 
@@ -769,6 +903,19 @@ namespace ModelViewer
                     res[2] = Positions[k][(int)res[1]];
                     return res;
                 }
+                if (k == "AllRailInfos")
+                {
+                    foreach(LinesVisual3D l in Models[k])
+                    {
+                        if (l.Children.Contains(result))
+                        {
+                            res[0] = k;
+                            res[1] = Models[k].IndexOf(l);
+                            res[2] = Positions[k][(int)res[1]];
+                            return res;
+                        }
+                    }
+                }
             }
             return new object[3] { null, null, null };
         }
@@ -816,6 +963,9 @@ namespace ModelViewer
             ModelView.Children.Add(ModelViewer);
             AddKey("TmpChildrenObjs");
             AddKey("SelectedRail");
+            AddKey("RailHandle");
+            AddKey("RailHandleRail");
+            AddKey("Axis");
             AddKey("TmpAreaChildrenObjs");
             AddKey("C0EditingListObjs");
             AddKey("SelectionLayer");
