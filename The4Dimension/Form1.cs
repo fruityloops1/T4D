@@ -971,6 +971,8 @@ namespace The4Dimension
                 string id = "";
                 if (NewObjectDatabase.DBtoId.TryGetValue(ObjName, out id))
                 {
+
+                    if (CustomModels.Contains(id)) return "CustomModels\\" + id + ".obj";
                     if (NewObjectDatabase.IdToModel.ContainsKey(id))
                     {
                         return @"models\" + NewObjectDatabase.IdToModel[id] + ".obj";
