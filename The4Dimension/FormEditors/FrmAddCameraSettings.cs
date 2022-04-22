@@ -20,10 +20,6 @@ namespace The4Dimension.FormEditors
 {
     public partial class FrmAddCameraSettings : Form
     {
-
-        string XmlFile;
-        int CameraId;
-        int TextInsertIndex = -1;
         public List<byte> camparamfilenew;
         public Form1 parent;
         Dictionary<string, string> PropertyTypes;
@@ -69,8 +65,6 @@ namespace The4Dimension.FormEditors
                 }
             }
             treeView1.ExpandAll();
-            CameraId = camera.UserGroupId;
-            //label1.Text = label1.Text + " " + CameraId;
 
         }
 

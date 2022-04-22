@@ -22,7 +22,7 @@ namespace The4Dimension
     public partial class ModelDumper : Form
     {
         string ObjDataPath;
-        bool UseEFE = true;
+        //bool UseEFE = true;
         string[] TextureToRemoveAlpha = new string[] { "object_nm01_RedBlueTurnBlock00_dif.png" }; 
         public ModelDumper()
         {
@@ -42,10 +42,6 @@ namespace The4Dimension
             File.Delete(@"models\baseModels.zip");
             Directory.CreateDirectory(@"models\Tex");
             progressBar1.Maximum = Directory.GetFiles(ObjDataPath).Length;
-            if (MessageBox.Show("Do you want to convert the models with Ohana3DS ?\r\n" +
-                "Converting with Ohana3DS will produce better quality models, the older method was kept only for compatibility, if you have problems with Ohana3DS use Every File Explorers(by clicking No)\r\n", "Model conversion",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    UseEFE = false;
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -68,10 +64,7 @@ namespace The4Dimension
                     {
                         if (file.FileName.Contains(".bcmdl"))
                         {
-                            if (file.FileName.Contains("DemoObjectCourseStartPrison") || file.FileName.Contains("Gyro"))
-                            {
-                                int o = 0;
-                            }
+                            //if (file.FileName.Contains("DemoObjectCourseStartPrison") || file.FileName.Contains("Gyro")) { }
                             string Name = Application.StartupPath + @"\models\" + file.FileName.Remove(file.FileName.Length - 6, 6) + ".obj";
 
                             try
@@ -80,12 +73,12 @@ namespace The4Dimension
                                 {
                                     RenderBase.OModelGroup mdl = new Ohana.CGFX().load(new MemoryStream(file.Data));
                                     new Ohana.OBJ().export(mdl, Name, 0);
-                                    ERROR += file.FileName + ": Dumped using Ohana \r\n";
+                                    //ERROR += file.FileName + ": Dumped using Ohana \r\n";
                                 }
                                 else
                                 {
                                     ConvertEFE(file.Data, Name);
-                                    ERROR += file.FileName + ": Dumped using EFE (out of memory alternative) \r\n";
+                                    //ERROR += file.FileName + ": Dumped using EFE (out of memory alternative) \r\n";
                                 }
                             }
                             catch
@@ -94,7 +87,7 @@ namespace The4Dimension
                                 {
                                     
                                     ConvertEFE(file.Data, Name);
-                                    ERROR += file.FileName + ": Dumped using EFE (Ohana didn't work) \r\n";
+                                    //ERROR += file.FileName + ": Dumped using EFE (Ohana didn't work) \r\n";
                                 }
                                 catch
                                 {
@@ -107,7 +100,7 @@ namespace The4Dimension
                     }
                 }
             }
-            File.WriteAllText(@"MODEL_DUMP_LOG.TXT", ERROR);
+            if (ERROR != "") File.WriteAllText(@"MODEL_DUMP_LOG.TXT", ERROR);
         }
 
         void RemoveTextureAlpha(string path)

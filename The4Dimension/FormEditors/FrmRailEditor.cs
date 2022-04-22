@@ -27,7 +27,7 @@ namespace The4Dimension.FormEditors
             LayerName.Text = edited.LayerName;
             l_id.Value = edited.l_id;
             no.Value = edited.no;
-            Closed.Checked = edited.Closed;
+            RClosed.Checked = edited.Closed;
             Type.SelectedIndex = Type.Items.IndexOf(edited.Type);
             done = true;
         }
@@ -55,7 +55,7 @@ namespace The4Dimension.FormEditors
         }
         private void checkBoxUpdated(object sender, EventArgs e)
         {
-            if (done == true) edited.Closed = Closed.Checked;
+            if (done == true) edited.Closed = RClosed.Checked;
         }
         private void comboBoxUpdated(object sender, EventArgs e)
         {

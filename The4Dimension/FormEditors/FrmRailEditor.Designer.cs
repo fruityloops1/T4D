@@ -32,7 +32,7 @@ namespace The4Dimension.FormEditors
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRailEditor));
             this.Type = new System.Windows.Forms.ComboBox();
             this.RailPointsBtn = new System.Windows.Forms.Button();
-            this.Closed = new System.Windows.Forms.CheckBox();
+            this.RClosed = new System.Windows.Forms.CheckBox();
             this.label33 = new System.Windows.Forms.Label();
             this.no = new System.Windows.Forms.NumericUpDown();
             this.label31 = new System.Windows.Forms.Label();
@@ -73,15 +73,15 @@ namespace The4Dimension.FormEditors
             // 
             // Closed
             // 
-            this.Closed.AutoSize = true;
-            this.Closed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Closed.Location = new System.Drawing.Point(48, 116);
-            this.Closed.Name = "Closed";
-            this.Closed.Size = new System.Drawing.Size(59, 17);
-            this.Closed.TabIndex = 5;
-            this.Closed.Text = "Loop?:";
-            this.Closed.UseVisualStyleBackColor = true;
-            this.Closed.CheckedChanged += new System.EventHandler(this.checkBoxUpdated);
+            this.RClosed.AutoSize = true;
+            this.RClosed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.RClosed.Location = new System.Drawing.Point(48, 116);
+            this.RClosed.Name = "Closed";
+            this.RClosed.Size = new System.Drawing.Size(59, 17);
+            this.RClosed.TabIndex = 5;
+            this.RClosed.Text = "Loop?:";
+            this.RClosed.UseVisualStyleBackColor = true;
+            this.RClosed.CheckedChanged += new System.EventHandler(this.checkBoxUpdated);
             // 
             // label33
             // 
@@ -214,7 +214,7 @@ namespace The4Dimension.FormEditors
             this.Controls.Add(this.button1);
             this.Controls.Add(this.RailPointsBtn);
             this.Controls.Add(this.label30);
-            this.Controls.Add(this.Closed);
+            this.Controls.Add(this.RClosed);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.label33);
             this.Controls.Add(this.tName);
@@ -241,7 +241,7 @@ namespace The4Dimension.FormEditors
         #endregion
         private System.Windows.Forms.ComboBox Type;
         private System.Windows.Forms.Button RailPointsBtn;
-        private System.Windows.Forms.CheckBox Closed;
+        private System.Windows.Forms.CheckBox RClosed;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.NumericUpDown no;
         private System.Windows.Forms.Label label31;

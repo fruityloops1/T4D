@@ -2133,14 +2133,6 @@ namespace The4Dimension
             }
         }
 
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (false)
-                ShowLayer(comboBox1.Text);
-            else HideLayer(comboBox1.Text);
-        }
-
         #endregion
 
         int AreaObjOldSelection = -1;
@@ -4695,6 +4687,7 @@ SaveChangeLabel();
             foreach (string Key in Keys)
             {
                 Object node = obj.Prop[Key];
+                if (Key == "dbname") continue;
                 if (node is int[]) //Args
                 {
                     int[] tmp = ((int[])node);
@@ -5366,12 +5359,12 @@ SaveChangeLabel();
                 foreach (KeyValuePair<string, TabPage> tabs in PropertyTabs)
                 {
                     Rail prop = AllRailInfos[ObjectsListBox.SelectedIndex];
-                    string tabidentifier = "";
+                    //string tabidentifier = "";
                     if (SelectedProperties.TabPages.Contains(tabs.Value))
                     {
                         if (tabs.Key == "RailTab")
                         {
-                            tabidentifier = "Rail";
+                            //tabidentifier = "Rail";
                             RailName.Text = prop.Name;
                             Raill_id.Value = prop.l_id;
                             RailLayerName.Text = prop.LayerName;
@@ -5394,7 +5387,7 @@ SaveChangeLabel();
         private void GroupProperty(string tabidentifier, KeyValuePair<string, object> prop, KeyValuePair<string, TabPage> tabs, List<LevelObj> currentAllInfosSelection)
         {
             //add checkbox so we can determine if all objects should use the same coordinates or if the coordinates should be relative (default is relative)
-            bool isrelative = true;
+            //bool isrelative = true;
 
             string property = "";
 
@@ -5740,7 +5733,7 @@ SaveChangeLabel();
                         }
                         else
                         {
-                            int z = 0;
+                            //int z = 0;
                             foreach (int i in (int[])prop.Value)
                             {
 
@@ -6300,7 +6293,6 @@ SaveChangeLabel();
             }
 
             string property = ((TextBox)sender).Name.Substring(tabidentifier.Length);
-            property = property;
             if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(property))
             {
                 CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(property, new Node(((TextBox)sender).Text, "A0"));
@@ -6908,12 +6900,12 @@ SaveChangeLabel();
         {
             string scenario = "";
             int scid = -1;
-            if (((ToolStripMenuItem)sender).Tag == "0")
+            if ((string)((ToolStripMenuItem)sender).Tag == "0")
             {
                 scenario = "共通";
                 scid = 0;
             }
-            else if (((ToolStripMenuItem)sender).Tag == "1" || ((ToolStripMenuItem)sender).Tag == "2" || ((ToolStripMenuItem)sender).Tag == "3")
+            else if ((string)((ToolStripMenuItem)sender).Tag == "1" || (string)((ToolStripMenuItem)sender).Tag == "2" || (string)((ToolStripMenuItem)sender).Tag == "3")
             {
                 scenario = "シナリオ" + ((ToolStripMenuItem)sender).Tag;
                 scid = int.Parse((string)((ToolStripMenuItem)sender).Tag);
