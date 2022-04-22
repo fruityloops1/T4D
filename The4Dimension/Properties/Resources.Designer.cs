@@ -136,22 +136,6 @@ namespace The4Dimension.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &lt;?xml version=&quot;1.0&quot; encoding=&quot;shift_jis&quot;?&gt;
-        ///&lt;INFO lang=&quot;English&quot; author=&quot;Exelix&quot;&gt;
-        ///	&lt;Section&gt;
-        ///		&lt;MainMenu&gt;&lt;!--if no parent it will use the default one, Form1.Controls--&gt;&lt;!--DO NOT CHANGE PARENTS--&gt;
-        ///			&lt;Lbl name=&quot;label1&quot; parent=&quot;splitContainer1.Panel1&quot;&gt;Object type:&lt;/Lbl&gt;
-        ///			&lt;Lbl name=&quot;label12&quot; parent=&quot;C0EditingPanel&quot;&gt;Editing a C0List&lt;/Lbl&gt;
-        ///			&lt;Lbl name=&quot;label2&quot;&gt;Credits&lt;/Lbl&gt;
-        ///			&lt;Lbl name=&quot;lblDescription&quot; parent=&quot;splitContainer1.Panel2&quot;&gt;No object selected, when an object is selected you can click here to [resto de la cadena truncado]&quot;;.
-        /// </summary>
-        internal static string EN {
-            get {
-                return ResourceManager.GetString("EN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a List:
         ///敵 = enemy
         ///地形オブジェ = terrain object
@@ -273,18 +257,6 @@ namespace The4Dimension.Properties {
         internal static string GenericStageInfo {
             get {
                 return ResourceManager.GetString("GenericStageInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a &lt;?xml version=&quot;1.0&quot; encoding=&quot;shift_jis&quot;?&gt;
-        ///&lt;H&gt;
-        ///&lt;Lang file=&quot;EN&quot;&gt;&lt;/Lang&gt;
-        ///&lt;/H&gt;.
-        /// </summary>
-        internal static string LANG {
-            get {
-                return ResourceManager.GetString("LANG", resourceCulture);
             }
         }
         

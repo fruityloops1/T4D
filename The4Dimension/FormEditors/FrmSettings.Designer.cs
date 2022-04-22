@@ -59,9 +59,6 @@ namespace The4Dimension.FormEditors
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.LanguageBox = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.UDCamDistance = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
@@ -75,14 +72,14 @@ namespace The4Dimension.FormEditors
             this.TextFilter = new System.Windows.Forms.ComboBox();
             this.experimental = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Backface = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.ShowChildren = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.CamInertiaUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomSenUpDown)).BeginInit();
@@ -344,9 +341,9 @@ namespace The4Dimension.FormEditors
             // 
             // Save
             // 
-            this.Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Save.Location = new System.Drawing.Point(416, 478);
+            this.Save.Location = new System.Drawing.Point(416, 446);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
             this.Save.TabIndex = 30;
@@ -356,9 +353,9 @@ namespace The4Dimension.FormEditors
             // 
             // Cancel
             // 
-            this.Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Cancel.Location = new System.Drawing.Point(8, 478);
+            this.Cancel.Location = new System.Drawing.Point(8, 446);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
             this.Cancel.TabIndex = 31;
@@ -370,7 +367,7 @@ namespace The4Dimension.FormEditors
             // 
             this.Default.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Default.Location = new System.Drawing.Point(210, 478);
+            this.Default.Location = new System.Drawing.Point(210, 446);
             this.Default.Name = "Default";
             this.Default.Size = new System.Drawing.Size(94, 23);
             this.Default.TabIndex = 32;
@@ -409,45 +406,6 @@ namespace The4Dimension.FormEditors
             this.label12.Size = new System.Drawing.Size(72, 13);
             this.label12.TabIndex = 33;
             this.label12.Text = "ROMFS path:";
-            // 
-            // label13
-            // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label13.AutoSize = true;
-            this.label13.Enabled = false;
-            this.label13.Location = new System.Drawing.Point(83, 186);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(58, 13);
-            this.label13.TabIndex = 41;
-            this.label13.Text = "Language:";
-            this.label13.Visible = false;
-            // 
-            // LanguageBox
-            // 
-            this.LanguageBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LanguageBox.Enabled = false;
-            this.LanguageBox.FormattingEnabled = true;
-            this.LanguageBox.Location = new System.Drawing.Point(148, 183);
-            this.LanguageBox.Name = "LanguageBox";
-            this.LanguageBox.Size = new System.Drawing.Size(303, 21);
-            this.LanguageBox.TabIndex = 40;
-            this.LanguageBox.Visible = false;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(457, 183);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(24, 23);
-            this.button2.TabIndex = 42;
-            this.button2.Text = "?";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label14
             // 
@@ -540,7 +498,7 @@ namespace The4Dimension.FormEditors
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HasAA.AutoSize = true;
             this.HasAA.Enabled = false;
-            this.HasAA.Location = new System.Drawing.Point(21, 200);
+            this.HasAA.Location = new System.Drawing.Point(186, 20);
             this.HasAA.Name = "HasAA";
             this.HasAA.Size = new System.Drawing.Size(126, 17);
             this.HasAA.TabIndex = 37;
@@ -554,7 +512,7 @@ namespace The4Dimension.FormEditors
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dotcomma.AutoSize = true;
             this.dotcomma.Enabled = false;
-            this.dotcomma.Location = new System.Drawing.Point(153, 200);
+            this.dotcomma.Location = new System.Drawing.Point(186, 14);
             this.dotcomma.Name = "dotcomma";
             this.dotcomma.Size = new System.Drawing.Size(149, 17);
             this.dotcomma.TabIndex = 36;
@@ -592,7 +550,7 @@ namespace The4Dimension.FormEditors
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(298, 200);
+            this.label4.Location = new System.Drawing.Point(165, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 39;
@@ -609,7 +567,7 @@ namespace The4Dimension.FormEditors
             "Bilinear",
             "Fant",
             "Nearest Neighbour"});
-            this.TextFilter.Location = new System.Drawing.Point(377, 198);
+            this.TextFilter.Location = new System.Drawing.Point(244, 16);
             this.TextFilter.Name = "TextFilter";
             this.TextFilter.Size = new System.Drawing.Size(108, 21);
             this.TextFilter.TabIndex = 38;
@@ -652,9 +610,56 @@ namespace The4Dimension.FormEditors
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General settings :";
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(9, 120);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(138, 17);
+            this.checkBox3.TabIndex = 52;
+            this.checkBox3.Text = "Save files to LayeredFS";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(48, 62);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.TabIndex = 33;
+            this.label1.Text = "LayeredFS path:";
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(450, 57);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(24, 23);
+            this.button4.TabIndex = 34;
+            this.button4.Text = "···";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.layerfsbtn_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(138, 59);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(305, 20);
+            this.textBox2.TabIndex = 35;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.Backface);
+            this.groupBox2.Controls.Add(this.ShowChildren);
+            this.groupBox2.Controls.Add(this.HasAA);
+            this.groupBox2.Controls.Add(this.dotcomma);
+            this.groupBox2.Controls.Add(this.TextFilter);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label3);
@@ -676,7 +681,7 @@ namespace The4Dimension.FormEditors
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.UDCamDistance);
             this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Location = new System.Drawing.Point(8, 216);
+            this.groupBox2.Location = new System.Drawing.Point(8, 183);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(483, 257);
             this.groupBox2.TabIndex = 43;
@@ -688,74 +693,33 @@ namespace The4Dimension.FormEditors
             this.Backface.AutoSize = true;
             this.Backface.Location = new System.Drawing.Point(246, 177);
             this.Backface.Name = "Backface";
-            this.Backface.Size = new System.Drawing.Size(106, 17);
+            this.Backface.Size = new System.Drawing.Size(140, 17);
             this.Backface.TabIndex = 51;
-            this.Backface.Text = "Backface Culling";
+            this.Backface.Text = "Enable backface culling";
+            this.toolTip1.SetToolTip(this.Backface, "(Applies after restart)");
             this.Backface.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(332, 109);
+            this.checkBox2.Location = new System.Drawing.Point(259, 109);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(132, 17);
+            this.checkBox2.Size = new System.Drawing.Size(206, 17);
             this.checkBox2.TabIndex = 49;
-            this.checkBox2.Text = "Use automatic camera";
+            this.checkBox2.Text = "Use automatic camera when selecting";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // ShowChildren
             // 
             this.ShowChildren.AutoSize = true;
-            this.ShowChildren.Location = new System.Drawing.Point(62, 183);
+            this.ShowChildren.Location = new System.Drawing.Point(153, 9);
             this.ShowChildren.Name = "ShowChildren";
             this.ShowChildren.Size = new System.Drawing.Size(220, 17);
             this.ShowChildren.TabIndex = 50;
             this.ShowChildren.Text = "Show children objects (in red if unknown)";
             this.ShowChildren.UseVisualStyleBackColor = true;
             this.ShowChildren.Visible = false;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(9, 120);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(138, 17);
-            this.checkBox3.TabIndex = 52;
-            this.checkBox3.Text = "Save files to LayeredFS";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(138, 59);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(305, 20);
-            this.textBox2.TabIndex = 35;
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(450, 57);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(24, 23);
-            this.button4.TabIndex = 34;
-            this.button4.Text = "···";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.layerfsbtn_Click);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 62);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 33;
-            this.label1.Text = "LayeredFS path:";
             // 
             // Settings
             // 
@@ -765,17 +729,9 @@ namespace The4Dimension.FormEditors
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(503, 508);
+            this.ClientSize = new System.Drawing.Size(503, 472);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.ShowChildren);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.TextFilter);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.dotcomma);
-            this.Controls.Add(this.HasAA);
-            this.Controls.Add(this.LanguageBox);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.Default);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Save);
@@ -796,7 +752,6 @@ namespace The4Dimension.FormEditors
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -826,9 +781,6 @@ namespace The4Dimension.FormEditors
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.ComboBox LanguageBox;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown UDCamDistance;
         private System.Windows.Forms.Label label16;

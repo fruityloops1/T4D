@@ -21,9 +21,6 @@ namespace The4Dimension.FormEditors
     {
         private UserControl1 rendera;
 
-
-        private List<string> languages;
-
         public Settings(UserControl1 render)
         {
             string setlng;
@@ -31,137 +28,6 @@ namespace The4Dimension.FormEditors
             Thread.CurrentThread.CurrentCulture = new CultureInfo(setlng);
             rendera = render;
             InitializeComponent();
-            # region Language
-            string langpath = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\LANG.xml";
-            XmlReader use = XmlReader.Create(langpath);
-            LanguageBox.Items.Add("DEFAULT");
-            languages = new List<string>();
-            while (use.Read())
-            {
-                string info = "";
-                
-                if(use.NodeType == XmlNodeType.Element && use.Name == "Lang") 
-                {
-                    string CurrentFile = use.GetAttribute("file");
-                    string xmlinfopath = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + CurrentFile + ".xml";
-                    if (!File.Exists(xmlinfopath)) { break; }
-                    XmlReader xmlinfo = XmlReader.Create(xmlinfopath);
-                    languages.Add(CurrentFile);
-                    while (xmlinfo.Read())
-                    {
-                        if (xmlinfo.NodeType == XmlNodeType.Element && xmlinfo.Name == "INFO") 
-                        {
-                            info = xmlinfo.GetAttribute("lang") + " translation by " + xmlinfo.GetAttribute("author");
-                            break;
-                        }
-                    }
-                    LanguageBox.Items.Add(info);
-                }
-                
-            }
-            LanguageBox.SelectedIndex = Properties.Settings.Default.CurrentLang;
-            #endregion
-            #region Translation
-            if (Properties.Settings.Default.CurrentLang != 0)
-            {
-                string path = Path.GetDirectoryName(Application.ExecutablePath) + "\\LANG\\" + Properties.Settings.Default.CurrentLangName + ".xml";
-                XmlReader LANG = XmlReader.Create(path);
-                string CForm = null;
-                while (LANG.Read())
-                {
-
-                    if (LANG.NodeType == XmlNodeType.Element)
-                    {
-                        switch (LANG.Name)
-                        {
-                            case "Settings":
-                                CForm = "Settings";
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if (LANG.NodeType == XmlNodeType.EndElement)
-                    {
-                        switch (LANG.Name)
-                        {
-                            case "Settings":
-                                CForm = null;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Lbl"))
-                    {
-                        string label = LANG.GetAttribute("name");
-                        string parent = LANG.GetAttribute("parent");
-                        string text = LANG.ReadElementContentAsString();
-                        if (this.Name == CForm)
-                        {
-                            switch (parent)
-                            {
-                                default:
-                                    ((Label)Controls[label]).Text = text;
-                                    break;
-                            }
-                        }
-                    }
-                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Btn"))
-                    {
-                        string button = LANG.GetAttribute("name");
-                        string parent = LANG.GetAttribute("parent");
-                        string text = LANG.ReadElementContentAsString();
-                        if (this.Name == CForm)
-                        {
-                            switch (parent)
-                            {
-                                default:
-                                    ((Button)Controls[button]).Text = text;
-                                    break;
-
-                            }
-                        }
-
-                    }
-                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("Chck"))
-                    {
-                        string cbox = LANG.GetAttribute("name");
-                        string parent = LANG.GetAttribute("parent");
-                        string text = LANG.ReadElementContentAsString();
-                        if (this.Name == CForm)
-                        {
-                            switch (parent)
-                            {
-                                default:
-                                    ((CheckBox)Controls[cbox]).Text = text;
-                                    break;
-                            }
-                        }
-                    }
-                   
-                    else if (LANG.NodeType == XmlNodeType.Element && LANG.Name.Equals("TxtBx"))
-                    {
-                        string tbx = LANG.GetAttribute("name");
-                        string parent = LANG.GetAttribute("parent");
-                        string text = LANG.ReadElementContentAsString();
-                        if (this.Name == CForm)
-                        {
-                            switch (parent)
-                            {
-                                case "panel1":
-                                    Controls[tbx].Text = text;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-
-                    }
-                }
-            }
-            #endregion
 
             checkBox1.Checked = Properties.Settings.Default.UseDesignSound;
             UDCamSpeed.Value = (decimal)Properties.Settings.Default.CamSpeed;
@@ -197,15 +63,6 @@ namespace The4Dimension.FormEditors
 
         private void Save_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.CurrentLang = LanguageBox.SelectedIndex;
-            if (LanguageBox.SelectedIndex == 0) 
-            { 
-                Properties.Settings.Default.CurrentLangName = Properties.Defaults.Default.CurrentLangName; 
-            }
-            else
-            {
-                Properties.Settings.Default.CurrentLangName = languages[LanguageBox.SelectedIndex - 1];
-            }
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Properties.Settings.Default.GamePath = textBox1.Text;
             Properties.Settings.Default.CameraInertia = (double)CamInertiaUpDown.Value;
@@ -266,38 +123,42 @@ namespace The4Dimension.FormEditors
 
         private void Default_Click(object sender, EventArgs e)
         {
-            rendera.Camspeed = Properties.Defaults.Default.CamSpeed;
-            Properties.Settings.Default.CamSpeed = Properties.Defaults.Default.CamSpeed;
-            rendera.CamDistance = Properties.Defaults.Default.CamDistance;
-            Properties.Settings.Default.CamDistance = Properties.Defaults.Default.CamDistance;
-            Properties.Settings.Default.CurrentLang = Properties.Defaults.Default.CurrentLang;
-            Properties.Settings.Default.CurrentLangName = Properties.Defaults.Default.CurrentLangName;
+            rendera.Camspeed = 2000;
+            Properties.Settings.Default.CamSpeed = 2000;
+            rendera.CamDistance = 200;
+            Properties.Settings.Default.CamDistance = 200;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
-            Properties.Settings.Default.CameraInertia = Properties.Defaults.Default.CameraInertia;
-            rendera.CameraInertiaFactor = Properties.Defaults.Default.CameraInertia;
-            Properties.Settings.Default.ShowFps = Properties.Defaults.Default.ShowFps;
-            rendera.ShowFps = Properties.Defaults.Default.ShowFps;
-            Properties.Settings.Default.ShowDbgInfo = Properties.Defaults.Default.ShowDbgInfo;
-            rendera.ShowDebugInfo = Properties.Defaults.Default.ShowDbgInfo;
-            Properties.Settings.Default.ShowTriCount = Properties.Defaults.Default.ShowTriCount;
-            rendera.ShowTriangleCount = Properties.Defaults.Default.ShowTriCount;
-            Properties.Settings.Default.ZoomSen = Properties.Defaults.Default.ZoomSen;
-            rendera.ZoomSensitivity = Properties.Defaults.Default.ZoomSen;
-            rendera.CamMode = Properties.Defaults.Default.CameraMode == 0 ? HelixToolkit.Wpf.CameraMode.Inspect : HelixToolkit.Wpf.CameraMode.WalkAround;
-            Properties.Settings.Default.CameraMode = Properties.Defaults.Default.CameraMode;
-            Properties.Settings.Default.RotSen = Properties.Defaults.Default.RotSen;
-            rendera.RotationSensitivity = Properties.Defaults.Default.RotSen;
-            Properties.Settings.Default.AutoMoveCam = Properties.Defaults.Default.AutoMoveCam;
-            Properties.Settings.Default.CheckUpdates = Properties.Defaults.Default.CheckUpd;
-            Properties.Settings.Default.DownloadDb = Properties.Defaults.Default.DownloadDb;
-            Properties.Settings.Default.DownloadDbLink = Properties.Defaults.Default.DownloadDbLnk;
-            Properties.Settings.Default.AddObjectOrigin = Properties.Defaults.Default.AddObjOrigin;
-            Properties.Settings.Default.DotComma = Properties.Defaults.Default.DotComma;
-            Properties.Settings.Default.HasAA = Properties.Defaults.Default.HasAA;
-            rendera.HasAA = Properties.Defaults.Default.HasAA;
-            Properties.Settings.Default.TextFilter = Properties.Defaults.Default.TextFilter;
-            rendera.TextureFilter = Properties.Defaults.Default.TextFilter;
-            Properties.Settings.Default.UseDesignSound = Properties.Defaults.Default.UseDesignSound;
+            Properties.Settings.Default.CameraInertia = 0.92;
+            rendera.CameraInertiaFactor = 0.92;
+            Properties.Settings.Default.ShowFps = true;
+            rendera.ShowFps = true;
+            Properties.Settings.Default.ShowDbgInfo = false;
+            rendera.ShowDebugInfo = false;
+            Properties.Settings.Default.ShowTriCount = true;
+            rendera.ShowTriangleCount = true;
+            Properties.Settings.Default.ZoomSen = 2;
+            rendera.ZoomSensitivity = 2;
+            rendera.CamMode = HelixToolkit.Wpf.CameraMode.Inspect;
+            Properties.Settings.Default.CameraMode = 0;
+            Properties.Settings.Default.RotSen = 1;
+            rendera.RotationSensitivity = 1;
+            Properties.Settings.Default.AutoMoveCam = true;
+            Properties.Settings.Default.CheckUpdates = true;
+            Properties.Settings.Default.DownloadDb = true;
+            Properties.Settings.Default.AddObjectOrigin = false;
+            Properties.Settings.Default.DotComma = false;
+            Properties.Settings.Default.HasAA = true;
+            rendera.HasAA = true;
+            Properties.Settings.Default.TextFilter = 0;
+            rendera.TextureFilter = 0;
+            Properties.Settings.Default.UseDesignSound = true;
+            Properties.Settings.Default.ExperimentalFeatures = false;
+            Properties.Settings.Default.ShowChildren = true;
+            Properties.Settings.Default.UseCamSettings = true;
+            Properties.Settings.Default.BackfaceCull = true;
+            Properties.Settings.Default.BackfaceCull = true;
+            Properties.Settings.Default.UseLayeredFs = false;
+            
             Properties.Settings.Default.Save();
             this.Close();
         }

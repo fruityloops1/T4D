@@ -1249,6 +1249,7 @@
             this.SelectedProperties.SelectedIndex = 0;
             this.SelectedProperties.Size = new System.Drawing.Size(300, 244);
             this.SelectedProperties.TabIndex = 12;
+            this.SelectedProperties.Visible = false;
             // 
             // General
             // 
