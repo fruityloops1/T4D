@@ -5582,7 +5582,11 @@ SaveChangeLabel();
                         int indie = 0;
                         if (newDb != null && newDb.Entries.ContainsKey(((Node)objname).StringValue))
                         {
+                            if (newDb.Entries[(((Node)objname).StringValue)].args.Count == 0)
+                            {
 
+                                SelectedProperties.TabPages["Args"].Controls.Add(new Label() {Text = "This object doesn't have any documented args.", Location = new Point(10,y), AutoSize = true });
+                            }
                             foreach (NewDb.EntryArg arg in ((NewDb.NewDbEntry)newDb.Entries[((Node)objname).StringValue]).args)
                             {
                                 if (arg.type == "bool")
@@ -5696,6 +5700,8 @@ SaveChangeLabel();
                                     {
                                         upDown.Minimum = -1;
                                     }
+                                    if (value < upDown.Minimum) value = (int)upDown.Minimum;
+                                    if (value > upDown.Maximum) value = (int)upDown.Maximum;
                                     if (newDb.Entries[((Node)objname).StringValue].args[indie].max != 0)
                                     {
                                         upDown.Maximum = newDb.Entries[((Node)objname).StringValue].args[indie].max;
