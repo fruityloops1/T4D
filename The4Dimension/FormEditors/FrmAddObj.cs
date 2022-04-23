@@ -198,12 +198,15 @@ namespace The4Dimension
         {
             if (!usingdb)
             {
+                checkBox1.Checked = false;
                 switch (InfosName)
                 {
                     case "StartInfo":
-                        comboBox1.Text = "Mario";
-                        comboBox1.Enabled = false;
+                        groupBox4.Enabled = false;
+                        groupBox3.Enabled = false;
                         checkBox1.Enabled = false;
+                        comboBox1.Text = "Mario";
+                        textBox1.Text = "Mario";
                         break;
                     case "AreaObjInfo":
                         foreach (string s in array)
@@ -243,6 +246,7 @@ namespace The4Dimension
             }
             if (usingdb)
             {
+                checkBox1.Checked = true;
                 comboBox2.Items.Clear();
                 foreach (DbCategory cat in categories)
                 {
@@ -263,6 +267,10 @@ namespace The4Dimension
                         }
                         index++;
                     }
+                }
+                if (InfosName == "StartInfo")
+                {
+                    textBox1.Text = "Mario";
                 }
             }
             Value = null;
@@ -604,7 +612,6 @@ namespace The4Dimension
                 {
                     checkBox1.Checked = true;
                 }
-                else { checkBox1.Checked = true; checkBox1.Checked = false; }
             }
         }
 
