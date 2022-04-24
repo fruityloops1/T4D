@@ -413,195 +413,6 @@ namespace The4Dimension
             obj.Prop.Add("scale", new Single[3] { (Single)Genscale0.Value, (Single)Genscale1.Value, (Single)Genscale2.Value });
             Value = obj;
             this.Close();
-
-            /*if (!usingdb)
-            {
-                if (comboBox1.Text == "")
-                {
-                    MessageBox.Show("You can't add nothing as an object!"); return;
-                }
-                LevelObj obj = new LevelObj();
-                string name = "";
-                ndb.DBtoId.TryGetValue(comboBox1.Text, out name);
-                if (InfosName == "ObjInfo") { obj.Prop.Add("ClippingGroupId", new Node("-1", "D1")); }
-                if (InfosName == "DemoSceneObjInfo")
-                {
-                    obj.Prop.Add("Action1", new Node("-", "A0"));
-                    obj.Prop.Add("Action2", new Node("-", "A0"));
-                    obj.Prop.Add("Action3", new Node("-", "A0"));
-                    obj.Prop.Add("Action4", new Node("-", "A0"));
-                    obj.Prop.Add("Action5", new Node("-", "A0"));
-                    obj.Prop.Add("LuigiType", new Node("Common", "A0"));
-                    obj.Prop.Add("MarioType", new Node("Common", "A0"));
-                    obj.Prop.Add("ModelName", new Node("DemoBird", "A0"));
-                    obj.Prop.Add("SuffixName", new Node("-", "A0"));
-                }
-                if (InfosName != "StartInfo" && InfosName != "AreaObjInfo" && InfosName != "DemoSceneObjInfo")
-                {
-                    if (InfosName != "CameraAreaInfo") obj.Prop.Add("ViewId", new Node("-1", "D1"));
-                    obj.Prop.Add("CameraId", new Node("-1", "D1"));
-                    if (InfosName == "CameraAreaInfo")
-                        obj.Prop.Add("Priority", new Node("-1", "D1"));
-                }
-                if (InfosName != "StartInfo")
-                {
-
-                    obj.Prop.Add("l_id", new Node("0", "D1"));
-                    if (InfosName != "CameraAreaInfo")
-                    {
-                        obj.Prop.Add("Arg", new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 });
-
-                        if (name != null)
-                        {
-                            NewDb.NewDbEntry DbEntry = new NewDb.NewDbEntry();
-                            ndb.Entries.TryGetValue(name, out DbEntry);
-                            object array = new int[10];
-                            obj.Prop.TryGetValue("Arg", out array);
-                            foreach (NewDb.EntryArg arg in DbEntry.args)
-                            {
-                                int value = -1;
-                                if (arg.type == "bool")
-                                {
-                                    if (arg.default_value == "true")
-                                    {
-                                        value = 1;
-                                    }
-                                    else
-                                    {
-                                        value = -1;
-                                    }
-                                }
-                                else
-                                {
-                                    value = int.Parse(arg.default_value);
-                                }
-                                ((int[])array)[arg.arg_id] = value;
-                            }
-                        }
-
-                    }
-                    obj.Prop.Add("SwitchAppear", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchA", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchB", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchKill", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchDeadOn", new Node("-1", "D1"));
-                }
-                else obj.Prop.Add("MarioNo", new Node("0", "D1"));
-                obj.Prop.Add("MultiFileName", new Node("StageData_tool", "A0"));
-                obj.Prop.Add("LayerName", new Node("共通", "A0"));
-
-
-                if (ndb.IdtoDB.ContainsKey(comboBox1.Text))
-                {
-                    obj.Prop.Add("name", new Node(comboBox1.Text, "A0"));
-                    obj.Prop.Add("dbname", ndb.IdtoDB[comboBox1.Text]);
-
-                }
-                else
-                {
-                    obj.Prop.Add("name", new Node(comboBox1.Text, "A0"));
-                }
-                obj.Prop.Add("dir", new Single[3] { 0, 0, 0 });
-                obj.Prop.Add("pos", new Single[3] { (Single)objPos.X, (Single)objPos.Z, (Single)(-objPos.Y) });
-
-                obj.Prop.Add("scale", new Single[3] { 1, 1, 1 });
-                Value = obj;
-                this.Close();
-            }
-            else
-            {
-                if (listView1.SelectedIndices.Count == 0)
-                {
-                    
-                    MessageBox.Show("You can't add nothing as an object!"); return;
-                }
-                LevelObj obj = new LevelObj();//
-                string name = "";//
-                ndb.DBtoId.TryGetValue(listView1.Items[listView1.SelectedIndices[0]].Text, out name);
-                if (InfosName == "ObjInfo") { obj.Prop.Add("ClippingGroupId", new Node("-1", "D1")); }
-                if (InfosName == "DemoSceneObjInfo")
-                {
-                    obj.Prop.Add("Action1", new Node("-", "A0"));
-                    obj.Prop.Add("Action2", new Node("-", "A0"));
-                    obj.Prop.Add("Action3", new Node("-", "A0"));
-                    obj.Prop.Add("Action4", new Node("-", "A0"));
-                    obj.Prop.Add("Action5", new Node("-", "A0"));
-                    obj.Prop.Add("LuigiType", new Node("Common", "A0"));
-                    obj.Prop.Add("MarioType", new Node("Common", "A0"));
-                    obj.Prop.Add("ModelName", new Node("DemoBird", "A0"));
-                    obj.Prop.Add("SuffixName", new Node("-", "A0"));
-                }//
-                if (InfosName != "StartInfo" && InfosName != "AreaObjInfo" && InfosName != "DemoSceneObjInfo")
-                {
-                    if (InfosName != "CameraAreaInfo") obj.Prop.Add("ViewId", new Node("-1", "D1"));
-                    obj.Prop.Add("CameraId", new Node("-1", "D1"));
-                    if (InfosName == "CameraAreaInfo")
-                        obj.Prop.Add("Priority", new Node("-1", "D1"));
-                }//
-                if (InfosName != "StartInfo")
-                {
-
-                    obj.Prop.Add("l_id", new Node("0", "D1"));//
-                    if (InfosName != "CameraAreaInfo")
-                    {
-                        obj.Prop.Add("Arg", new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 });
-
-                        if (name != null)
-                        {
-                            NewDb.NewDbEntry DbEntry = new NewDb.NewDbEntry();
-                            ndb.Entries.TryGetValue(name, out DbEntry);
-                            object array = new int[10];
-                            obj.Prop.TryGetValue("Arg", out array);
-                            foreach (NewDb.EntryArg arg in DbEntry.args)
-                            {
-                                int value = -1;
-                                if (arg.type == "bool")
-                                {
-                                    if (arg.default_value == "true")
-                                    {
-                                        value = 1;
-                                    }
-                                    else
-                                    {
-                                        value = -1;
-                                    }
-                                }
-                                else
-                                {
-                                    value = int.Parse(arg.default_value);
-                                }
-                                ((int[])array)[arg.arg_id] = value;
-                            }
-                        }
-
-                    }
-                    obj.Prop.Add("SwitchAppear", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchA", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchB", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchKill", new Node("-1", "D1"));
-                    obj.Prop.Add("SwitchDeadOn", new Node("-1", "D1"));
-                }
-                else obj.Prop.Add("MarioNo", new Node("0", "D1"));
-                obj.Prop.Add("MultiFileName", new Node("StageData_tool", "A0"));
-                obj.Prop.Add("LayerName", new Node("共通", "A0"));
-
-
-                if (ndb.DBtoId.ContainsKey(listView1.Items[listView1.SelectedIndices[0]].Text))
-                {
-                    obj.Prop.Add("name", new Node(name, "A0"));
-                    obj.Prop.Add("dbname", ndb.Entries[name].dbname);
-                }
-                else
-                {
-                    obj.Prop.Add("name", new Node(listView1.Items[listView1.SelectedIndices[0]].Text, "A0"));
-                }
-                obj.Prop.Add("dir", new Single[3] { 0, 0, 0 });
-                obj.Prop.Add("pos", new Single[3] { (Single)objPos.X, (Single)objPos.Z, (Single)(-objPos.Y) });
-
-                obj.Prop.Add("scale", new Single[3] { 1, 1, 1 });
-                Value = obj;
-                this.Close();
-            }*/
         }
 
         private void FrmAddObj_Load(object sender, EventArgs e)
@@ -611,6 +422,10 @@ namespace The4Dimension
                 if (Properties.Settings.Default.OnlyKnownObjs)
                 {
                     checkBox1.Checked = true;
+                }else
+                {
+                    checkBox1.Checked = true;
+                    checkBox1.Checked = false;
                 }
             }
         }
@@ -622,7 +437,7 @@ namespace The4Dimension
             {
                 usingdb = true;
                 //label1.Enabled = false;
-                comboBox1.Enabled = false;
+                groupBox3.Enabled = false;
                 groupBox4.Enabled = true;
                 //comboBox2.Enabled = true;
                 //listView1.Enabled = true;
@@ -633,7 +448,7 @@ namespace The4Dimension
             {
                 usingdb = false;
                 //label1.Enabled = true;
-                comboBox1.Enabled = true;
+                groupBox3.Enabled = true;
                 groupBox4.Enabled = false;
                 //comboBox2.Enabled = false;
                 //listView1.Enabled = false;
