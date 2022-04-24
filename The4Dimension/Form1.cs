@@ -5586,155 +5586,157 @@ SaveChangeLabel();
                             {
 
                                 SelectedProperties.TabPages["Args"].Controls.Add(new Label() {Text = "This object doesn't have any documented args.", Location = new Point(10,y), AutoSize = true });
-                            }
-                            foreach (NewDb.EntryArg arg in ((NewDb.NewDbEntry)newDb.Entries[((Node)objname).StringValue]).args)
+                            }else
                             {
-                                if (arg.type == "bool")
+                                foreach (NewDb.EntryArg arg in ((NewDb.NewDbEntry)newDb.Entries[((Node)objname).StringValue]).args)
                                 {
-                                    CheckBox check = new CheckBox();
-                                    var valuee = prop.Value;
-                                    int value;
-                                    if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
+                                    if (arg.type == "bool")
                                     {
-                                        value = (((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id]);
-                                    }
-                                    else
-                                    {
-                                        value = -1;
-                                    }
-                                    if (value == -1)
-                                    {
-                                        check.Checked = false;
-                                    }
-                                    else
-                                    {
-                                        check.Checked = true;
-                                    }
-                                    ToolTip labeltt = new ToolTip();
-                                    labeltt.SetToolTip(check, newDb.Entries[((Node)objname).StringValue].args[indie].info);
-                                    check.Enabled = true;
-                                    check.Visible = true;
-                                    check.Top = y;
-                                    check.Left = 25;
-                                    check.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
-                                    check.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                                    check.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-                                    check.Name = "arg_bool" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
-                                    check.CheckedChanged += new System.EventHandler(this.checkupdated);
-                                    check.Width  +=0;
-                                    SelectedProperties.TabPages["Args"].Controls.Add(check);
-                                    y += 25;
-                                }
-                                else if (arg.type == "option")
-                                {
-                                    x = 0;
-                                    ComboBox combobox = new ComboBox();
-                                    foreach (string option in arg.options.Keys)
-                                    {
-                                        combobox.Items.Add(option);
-                                    }
-                                    var valuee = prop.Value;
-                                    int value = 0;
-                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].arg_id < ((int[])valuee).Length && newDb.Entries[((Node)objname).StringValue].args[indie].revoptions.ContainsKey(((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()))
-                                    {
+                                        CheckBox check = new CheckBox();
+                                        var valuee = prop.Value;
+                                        int value;
                                         if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
                                         {
-                                            value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()]);
+                                            value = (((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id]);
+                                        }
+                                        else
+                                        {
+                                            value = -1;
+                                        }
+                                        if (value == -1)
+                                        {
+                                            check.Checked = false;
+                                        }
+                                        else
+                                        {
+                                            check.Checked = true;
+                                        }
+                                        ToolTip labeltt = new ToolTip();
+                                        labeltt.SetToolTip(check, newDb.Entries[((Node)objname).StringValue].args[indie].info);
+                                        check.Enabled = true;
+                                        check.Visible = true;
+                                        check.Top = y;
+                                        check.Left = 25;
+                                        check.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
+                                        check.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+                                        check.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                        check.Name = "arg_bool" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
+                                        check.CheckedChanged += new System.EventHandler(this.checkupdated);
+                                        check.Width += 0;
+                                        SelectedProperties.TabPages["Args"].Controls.Add(check);
+                                        y += 25;
+                                    }
+                                    else if (arg.type == "option")
+                                    {
+                                        x = 0;
+                                        ComboBox combobox = new ComboBox();
+                                        foreach (string option in arg.options.Keys)
+                                        {
+                                            combobox.Items.Add(option);
+                                        }
+                                        var valuee = prop.Value;
+                                        int value = 0;
+                                        if (newDb.Entries[((Node)objname).StringValue].args[indie].arg_id < ((int[])valuee).Length && newDb.Entries[((Node)objname).StringValue].args[indie].revoptions.ContainsKey(((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()))
+                                        {
+                                            if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
+                                            {
+                                                value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id].ToString()]);
+                                            }
+                                            else
+                                            {
+                                                value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[newDb.Entries[((Node)objname).StringValue].args[indie].default_value]);
+                                            }
                                         }
                                         else
                                         {
                                             value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[newDb.Entries[((Node)objname).StringValue].args[indie].default_value]);
                                         }
+                                        combobox.SelectedIndex = value;
+                                        combobox.DropDownStyle = ComboBoxStyle.DropDownList;
+                                        combobox.Name = "arg_option" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
+
+                                        combobox.Tag = indie;
+                                        combobox.SelectedIndexChanged += new System.EventHandler(this.comboboxupdated);
+
+                                        Label label = new Label();
+                                        label.Height = 15;
+                                        label.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
+                                        label.Top = y;
+                                        label.Left = x;
+                                        label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+                                        label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                        label.Width = label.Width - 10;
+                                        x += 100;
+                                        combobox.Top = y;
+                                        combobox.Left = x;
+                                        ToolTip labeltt = new ToolTip();
+                                        labeltt.SetToolTip(label, newDb.Entries[((Node)objname).StringValue].args[indie].info);
+                                        label.Name = "lbl_arg" + indie;
+                                        SelectedProperties.TabPages["Args"].Controls.Add(combobox);
+                                        SelectedProperties.TabPages["Args"].Controls.Add(label);
+
+                                        y += 25;
+                                        //newDb.Entries[(string)objname].args[indie].revoptions[((int[])valuee)[newDb.Entries["Kinopio"].args[indie].arg_id]];
                                     }
-                                    else
+                                    else if (arg.type == "int")
                                     {
-                                        value = combobox.Items.IndexOf(newDb.Entries[((Node)objname).StringValue].args[indie].revoptions[newDb.Entries[((Node)objname).StringValue].args[indie].default_value]);
+                                        x = 0;
+                                        var valuee = prop.Value;
+                                        int value;
+                                        if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
+                                        {
+                                            value = (((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id]);
+                                        }
+                                        else
+                                        {
+                                            value = -1;
+                                        }
+                                        NumericUpDown upDown = new NumericUpDown();
+                                        upDown.DecimalPlaces = 0;
+                                        if (newDb.Entries[((Node)objname).StringValue].args[indie].min != 0)
+                                        {
+                                            upDown.Minimum = newDb.Entries[((Node)objname).StringValue].args[indie].min;
+                                        }
+                                        else
+                                        {
+                                            upDown.Minimum = -1;
+                                        }
+                                        if (value < upDown.Minimum) value = (int)upDown.Minimum;
+                                        if (value > upDown.Maximum) value = (int)upDown.Maximum;
+                                        if (newDb.Entries[((Node)objname).StringValue].args[indie].max != 0)
+                                        {
+                                            upDown.Maximum = newDb.Entries[((Node)objname).StringValue].args[indie].max;
+                                        }
+                                        else
+                                        {
+                                            upDown.Maximum = 1000;
+                                        }
+
+                                        upDown.Name = "arg_int" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
+                                        upDown.Value = value;
+                                        upDown.Enabled = true;
+                                        upDown.Visible = true;
+                                        upDown.ValueChanged += new System.EventHandler(this.numupdownupdated);
+                                        Label label = new Label();
+                                        label.Height = 15;
+                                        label.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
+                                        label.Top = y;
+                                        label.Left = x;
+                                        label.Name = "lbl_arg" + indie;
+                                        label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+                                        label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+                                        ToolTip labeltt = new ToolTip();
+                                        labeltt.SetToolTip(label, newDb.Entries[((Node)objname).StringValue].args[indie].info);
+                                        label.Width = label.Width - 10;
+                                        x += 100;
+                                        upDown.Top = y;
+                                        upDown.Left = x;
+                                        SelectedProperties.TabPages["Args"].Controls.Add(label);
+                                        SelectedProperties.TabPages["Args"].Controls.Add(upDown);
+                                        y += 25;
                                     }
-                                    combobox.SelectedIndex = value;
-                                    combobox.DropDownStyle = ComboBoxStyle.DropDownList;
-                                    combobox.Name = "arg_option" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
-
-                                    combobox.Tag = indie;
-                                    combobox.SelectedIndexChanged += new System.EventHandler(this.comboboxupdated);
-
-                                    Label label = new Label();
-                                    label.Height = 15;
-                                    label.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
-                                    label.Top = y;
-                                    label.Left = x;
-                                    label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
-                                    label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-                                    label.Width = label.Width - 10;
-                                    x += 100;
-                                    combobox.Top = y;
-                                    combobox.Left = x;
-                                    ToolTip labeltt = new ToolTip();
-                                    labeltt.SetToolTip(label, newDb.Entries[((Node)objname).StringValue].args[indie].info);
-                                    label.Name = "lbl_arg" + indie;
-                                    SelectedProperties.TabPages["Args"].Controls.Add(combobox);
-                                    SelectedProperties.TabPages["Args"].Controls.Add(label);
-                                    
-                                    y += 25;
-                                    //newDb.Entries[(string)objname].args[indie].revoptions[((int[])valuee)[newDb.Entries["Kinopio"].args[indie].arg_id]];
+                                    indie++;
                                 }
-                                else if (arg.type == "int")
-                                {
-                                    x = 0;
-                                    var valuee = prop.Value;
-                                    int value;
-                                    if (((int[])valuee).Length - 1 >= newDb.Entries[((Node)objname).StringValue].args[indie].arg_id)
-                                    {
-                                        value = (((int[])valuee)[newDb.Entries[((Node)objname).StringValue].args[indie].arg_id]);
-                                    }
-                                    else
-                                    {
-                                        value = -1;
-                                    }
-                                    NumericUpDown upDown = new NumericUpDown();
-                                    upDown.DecimalPlaces = 0;
-                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].min != 0)
-                                    {
-                                        upDown.Minimum = newDb.Entries[((Node)objname).StringValue].args[indie].min;
-                                    }
-                                    else
-                                    {
-                                        upDown.Minimum = -1;
-                                    }
-                                    if (value < upDown.Minimum) value = (int)upDown.Minimum;
-                                    if (value > upDown.Maximum) value = (int)upDown.Maximum;
-                                    if (newDb.Entries[((Node)objname).StringValue].args[indie].max != 0)
-                                    {
-                                        upDown.Maximum = newDb.Entries[((Node)objname).StringValue].args[indie].max;
-                                    }
-                                    else
-                                    {
-                                        upDown.Maximum = 1000;
-                                    }
-
-                                    upDown.Name = "arg_int" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
-                                    upDown.Value = value;
-                                    upDown.Enabled = true;
-                                    upDown.Visible = true;
-                                    upDown.ValueChanged += new System.EventHandler(this.numupdownupdated);
-                                    Label label = new Label();
-                                    label.Height = 15;
-                                    label.Text = newDb.Entries[((Node)objname).StringValue].args[indie].name;
-                                    label.Top = y;
-                                    label.Left = x;
-                                    label.Name = "lbl_arg" + indie;
-                                    label.BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
-                                    label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-                                    ToolTip labeltt = new ToolTip();
-                                    labeltt.SetToolTip(label, newDb.Entries[((Node)objname).StringValue].args[indie].info);
-                                    label.Width = label.Width - 10;
-                                    x += 100;
-                                    upDown.Top = y;
-                                    upDown.Left = x;
-                                    SelectedProperties.TabPages["Args"].Controls.Add(label);
-                                    SelectedProperties.TabPages["Args"].Controls.Add(upDown);
-                                    y += 25;
-                                }
-                                indie++;
                             }
                             y += 10;
                             break;
@@ -5832,7 +5834,7 @@ SaveChangeLabel();
                                 if (!CurrentAllInfosSelection[i].Prop.ContainsKey(numbered))
                                 {
                                     CurrentAllInfosSelection[i].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
-                        SaveChangeLabel();
+                                    SaveChangeLabel();
                                     return;
                                 }
                                 else
@@ -5843,7 +5845,7 @@ SaveChangeLabel();
                             else
                             {
                                 CurrentAllInfosSelection[i].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
-                    SaveChangeLabel();
+                                SaveChangeLabel();
                                 return;
                             }
 
@@ -5877,7 +5879,7 @@ SaveChangeLabel();
                         }
                     }
                 }
-    SaveChangeLabel();
+                SaveChangeLabel();
                 return;
             }
             if (((NumericUpDown)sender).Name.ToLower().Contains("arg"))
@@ -5918,7 +5920,7 @@ SaveChangeLabel();
                     //name = "Arg";
 
                 }
-    SaveChangeLabel();
+            SaveChangeLabel();
             }
             else
             {
@@ -5959,7 +5961,7 @@ SaveChangeLabel();
                             if (!CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.ContainsKey(numbered))
                             {
                                 CurrentAllInfosSection[ObjectsListBox.SelectedIndex].Prop.Add(property, new Node(((NumericUpDown)sender).Value.ToString(), "D1"));
-                    SaveChangeLabel();
+                                SaveChangeLabel();
                                 return;
                             }
                             else
@@ -6450,7 +6452,7 @@ SaveChangeLabel();
                 }
             }
 
-SaveChangeLabel();
+        SaveChangeLabel();
 
 
         }
@@ -6644,7 +6646,7 @@ SaveChangeLabel();
                 RefreshProperties();
             }
 
-SaveChangeLabel();
+        SaveChangeLabel();
 
 
         }
