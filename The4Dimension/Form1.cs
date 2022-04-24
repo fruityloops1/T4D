@@ -5585,7 +5585,7 @@ SaveChangeLabel();
                             if (newDb.Entries[(((Node)objname).StringValue)].args.Count == 0)
                             {
 
-                                SelectedProperties.TabPages["Args"].Controls.Add(new Label() {Text = "This object doesn't have any documented args.", Location = new Point(10,y), AutoSize = true });
+                                SelectedProperties.TabPages["Args"].Controls.Add(new Label() {Name = "noargstext", Text = "This object doesn't have any documented args.", Location = new Point(10,y), AutoSize = true });
                             }else
                             {
                                 foreach (NewDb.EntryArg arg in ((NewDb.NewDbEntry)newDb.Entries[((Node)objname).StringValue]).args)
