@@ -111,7 +111,7 @@ namespace ModelViewer
         public UserControl1()
         {
             InitializeComponent();
-            ModelView.Camera.NearPlaneDistance = 40;
+            ModelView.Camera.NearPlaneDistance = 80;
             ModelViewer.SortingFrequency = 0.5;
             ModelView.Children.Add(ModelViewer);
             ModelViewer.CheckForOpaqueVisuals = true;
@@ -974,6 +974,21 @@ namespace ModelViewer
         }
         
         public void SelectObjs(string type, SelectedIndexCollection IDs)
+        {
+            ClearSelection();
+            int count = 0;
+            foreach (int i in IDs)
+            {
+                BoundingBoxVisual3D box = new BoundingBoxVisual3D();
+                Models["SelectionLayer"].Add(box);
+                ModelViewer.Children.Add(Models["SelectionLayer"][count++]);
+                box.BoundingBox = Models[type][i].FindBounds(Transform3D.Identity);
+                box.Diameter = 10;
+            }
+            ModelView.UpdateLayout();
+        }
+
+        public void SelectObjs(string type, int[] IDs)
         {
             ClearSelection();
             int count = 0;

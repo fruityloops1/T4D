@@ -94,15 +94,15 @@
             this.gbatempThreadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusLbl = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Btn_addType = new System.Windows.Forms.Button();
+            this.treeView1 = new The4Dimension.MultiTreeView();
             this.C0EditingPanel = new System.Windows.Forms.Panel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label12 = new System.Windows.Forms.Label();
             this.Btn_CopyObjs = new System.Windows.Forms.Button();
             this.btn_cameraCode = new System.Windows.Forms.Button();
-            this.Btn_addType = new System.Windows.Forms.Button();
-            this.ObjectsListBox = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.Btn_AddObj = new System.Windows.Forms.Button();
             this.btn_delObj = new System.Windows.Forms.Button();
             this.Btn_Duplicate = new System.Windows.Forms.Button();
@@ -194,6 +194,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.StartEvent = new System.Windows.Forms.TabPage();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.StrtEvMultiFileName = new System.Windows.Forms.TextBox();
             this.label93 = new System.Windows.Forms.Label();
             this.StrtEvscale2 = new System.Windows.Forms.NumericUpDown();
@@ -252,7 +253,6 @@
             this.label49 = new System.Windows.Forms.Label();
             this.DemoAction1 = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
-            this.Demoname = new System.Windows.Forms.TextBox();
             this.label44 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -357,6 +357,7 @@
             this.Grparg_int0 = new System.Windows.Forms.NumericUpDown();
             this.label78 = new System.Windows.Forms.Label();
             this.label79 = new System.Windows.Forms.Label();
+            this.ObjectsListBox = new System.Windows.Forms.ListBox();
             this.GenIncrement = new System.Windows.Forms.NumericUpDown();
             this.label85 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -390,6 +391,7 @@
             this.showAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showRailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -526,7 +528,6 @@
             this.propertyGrid1.Size = new System.Drawing.Size(89, 118);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.Visible = false;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridChange);
             this.propertyGrid1.Click += new System.EventHandler(this.propertyGrid1_Click);
             // 
             // ClipBoardMenu
@@ -1063,13 +1064,13 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.Btn_addType);
+            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
             this.splitContainer1.Panel1.Controls.Add(this.C0EditingPanel);
             this.splitContainer1.Panel1.Controls.Add(this.Btn_CopyObjs);
             this.splitContainer1.Panel1.Controls.Add(this.btn_cameraCode);
-            this.splitContainer1.Panel1.Controls.Add(this.Btn_addType);
-            this.splitContainer1.Panel1.Controls.Add(this.ObjectsListBox);
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
             this.splitContainer1.Panel1.Controls.Add(this.Btn_AddObj);
             this.splitContainer1.Panel1.Controls.Add(this.btn_delObj);
             this.splitContainer1.Panel1.Controls.Add(this.Btn_Duplicate);
@@ -1082,6 +1083,60 @@
             this.splitContainer1.Size = new System.Drawing.Size(303, 514);
             this.splitContainer1.SplitterDistance = 230;
             this.splitContainer1.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(8, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Object type:";
+            this.label1.Visible = false;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(73, 3);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(187, 21);
+            this.comboBox1.TabIndex = 6;
+            this.comboBox1.Visible = false;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // Btn_addType
+            // 
+            this.Btn_addType.Enabled = false;
+            this.Btn_addType.Location = new System.Drawing.Point(273, 4);
+            this.Btn_addType.Name = "Btn_addType";
+            this.Btn_addType.Size = new System.Drawing.Size(23, 21);
+            this.Btn_addType.TabIndex = 10;
+            this.Btn_addType.Text = "+";
+            this.Btn_addType.UseVisualStyleBackColor = true;
+            this.Btn_addType.Visible = false;
+            this.Btn_addType.Click += new System.EventHandler(this.AddType_click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView1.FullRowSelect = true;
+            this.treeView1.HideSelection = false;
+            this.treeView1.Location = new System.Drawing.Point(6, 3);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedNodes = ((System.Collections.Generic.List<System.Windows.Forms.TreeNode>)(resources.GetObject("treeView1.SelectedNodes")));
+            this.treeView1.Size = new System.Drawing.Size(290, 197);
+            this.treeView1.TabIndex = 14;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
+            this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseUp);
             // 
             // C0EditingPanel
             // 
@@ -1136,53 +1191,6 @@
             this.btn_cameraCode.UseVisualStyleBackColor = true;
             this.btn_cameraCode.Visible = false;
             this.btn_cameraCode.Click += new System.EventHandler(this.CameraCode_click);
-            // 
-            // Btn_addType
-            // 
-            this.Btn_addType.Location = new System.Drawing.Point(204, 3);
-            this.Btn_addType.Name = "Btn_addType";
-            this.Btn_addType.Size = new System.Drawing.Size(23, 21);
-            this.Btn_addType.TabIndex = 10;
-            this.Btn_addType.Text = "+";
-            this.Btn_addType.UseVisualStyleBackColor = true;
-            this.Btn_addType.Click += new System.EventHandler(this.AddType_click);
-            // 
-            // ObjectsListBox
-            // 
-            this.ObjectsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectsListBox.FormattingEnabled = true;
-            this.ObjectsListBox.Location = new System.Drawing.Point(7, 30);
-            this.ObjectsListBox.Name = "ObjectsListBox";
-            this.ObjectsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.ObjectsListBox.Size = new System.Drawing.Size(290, 173);
-            this.ObjectsListBox.TabIndex = 8;
-            this.ObjectsListBox.SelectedIndexChanged += new System.EventHandler(this.ObjectsListBox_SelectedIndexChanged);
-            this.ObjectsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Listbox_keyDown);
-            this.ObjectsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ObjectsListBox_Doubleclick);
-            this.ObjectsListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ListBox_MouseUp);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(-3, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Object type:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(62, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(136, 21);
-            this.comboBox1.TabIndex = 6;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Btn_AddObj
             // 
@@ -2604,6 +2612,7 @@
             // 
             // StartEvent
             // 
+            this.StartEvent.Controls.Add(this.comboBox3);
             this.StartEvent.Controls.Add(this.StrtEvMultiFileName);
             this.StartEvent.Controls.Add(this.label93);
             this.StartEvent.Controls.Add(this.StrtEvscale2);
@@ -2629,6 +2638,32 @@
             this.StartEvent.TabIndex = 9;
             this.StartEvent.Text = "Start Event Properties";
             this.StartEvent.UseVisualStyleBackColor = true;
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "StartEventBattleShip",
+            "StartEventBattleShipEvening",
+            "StartEventBattleShipSpecial",
+            "StartEventBattleShipSpecialEvening",
+            "StartEventCastle",
+            "StartEventCastleBig",
+            "StartEventDokan",
+            "StartEventDoor",
+            "StartEventFirstStage",
+            "StartEventFortress",
+            "StartEventGhost",
+            "StartEventHurryUp",
+            "StartEventKoopaLast",
+            "StartEventLuigiPrison",
+            "StartEventTeresa"});
+            this.comboBox3.Location = new System.Drawing.Point(76, 5);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(196, 21);
+            this.comboBox3.TabIndex = 41;
+            this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
+            this.comboBox3.Validated += new System.EventHandler(this.comboBox2_Validated);
             // 
             // StrtEvMultiFileName
             // 
@@ -2903,10 +2938,12 @@
             // StrtEvname
             // 
             this.StrtEvname.AcceptsReturn = true;
-            this.StrtEvname.Location = new System.Drawing.Point(76, 6);
+            this.StrtEvname.Enabled = false;
+            this.StrtEvname.Location = new System.Drawing.Point(76, 192);
             this.StrtEvname.Name = "StrtEvname";
             this.StrtEvname.Size = new System.Drawing.Size(196, 20);
             this.StrtEvname.TabIndex = 25;
+            this.StrtEvname.Visible = false;
             this.StrtEvname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PropertyTbox_Enter);
             this.StrtEvname.Validated += new System.EventHandler(this.PropertyTBox_Validated);
             // 
@@ -2932,6 +2969,7 @@
             // DemoExtra
             // 
             this.DemoExtra.AutoScroll = true;
+            this.DemoExtra.Controls.Add(this.comboBox4);
             this.DemoExtra.Controls.Add(this.DemoSwitchDeadOn);
             this.DemoExtra.Controls.Add(this.DemoSwitchKill);
             this.DemoExtra.Controls.Add(this.DemoSwitchAppear);
@@ -2971,7 +3009,6 @@
             this.DemoExtra.Controls.Add(this.label49);
             this.DemoExtra.Controls.Add(this.DemoAction1);
             this.DemoExtra.Controls.Add(this.label45);
-            this.DemoExtra.Controls.Add(this.Demoname);
             this.DemoExtra.Controls.Add(this.label44);
             this.DemoExtra.Controls.Add(this.label36);
             this.DemoExtra.Controls.Add(this.label43);
@@ -3521,16 +3558,6 @@
             this.label45.Size = new System.Drawing.Size(49, 13);
             this.label45.TabIndex = 3;
             this.label45.Text = "Action 5:";
-            // 
-            // Demoname
-            // 
-            this.Demoname.AcceptsReturn = true;
-            this.Demoname.Location = new System.Drawing.Point(76, 6);
-            this.Demoname.Name = "Demoname";
-            this.Demoname.Size = new System.Drawing.Size(196, 20);
-            this.Demoname.TabIndex = 9;
-            this.Demoname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PropertyTbox_Enter);
-            this.Demoname.Validated += new System.EventHandler(this.PropertyTBox_Validated);
             // 
             // label44
             // 
@@ -5007,6 +5034,21 @@
             this.label79.TabIndex = 2;
             this.label79.Text = "Arg 0:";
             // 
+            // ObjectsListBox
+            // 
+            this.ObjectsListBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ObjectsListBox.FormattingEnabled = true;
+            this.ObjectsListBox.Location = new System.Drawing.Point(105, 27);
+            this.ObjectsListBox.Name = "ObjectsListBox";
+            this.ObjectsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.ObjectsListBox.Size = new System.Drawing.Size(135, 134);
+            this.ObjectsListBox.TabIndex = 8;
+            this.ObjectsListBox.Visible = false;
+            this.ObjectsListBox.SelectedIndexChanged += new System.EventHandler(this.ObjectsListBox_SelectedIndexChanged);
+            this.ObjectsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Listbox_keyDown);
+            this.ObjectsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ObjectsListBox_Doubleclick);
+            this.ObjectsListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ListBox_MouseUp);
+            // 
             // GenIncrement
             // 
             this.GenIncrement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -5257,6 +5299,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.ObjectsListBox);
             this.panel3.Controls.Add(this.elementHost1);
             this.panel3.Controls.Add(this.menuStrip2);
             this.panel3.Location = new System.Drawing.Point(315, 24);
@@ -5365,6 +5408,31 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(324, 556);
             this.panel4.TabIndex = 30;
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Items.AddRange(new object[] {
+            "DemoActor",
+            "DemoCamera",
+            "DemoObjectDemoOpening",
+            "DemoObjectDemoOpeningFlag",
+            "DemoObjectDemoWorldInterval01",
+            "DemoObjectFlowerBlueA",
+            "DemoObjectFlowerOrangeA",
+            "DemoObjectFlowerPinkA",
+            "DemoPhoto",
+            "DemoPlayer",
+            "DemoSceneGolePole",
+            "DemoSceneSwitch",
+            "DemoStarterDemoBeforeEndingStage",
+            "SkyDemoStormFire"});
+            this.comboBox4.Location = new System.Drawing.Point(76, 5);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(196, 21);
+            this.comboBox4.TabIndex = 42;
+            this.comboBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
+            this.comboBox4.Validated += new System.EventHandler(this.comboBox2_Validated);
             // 
             // Form1
             // 
@@ -5746,7 +5814,6 @@
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.TextBox DemoAction1;
         private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.TextBox Demoname;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label43;
@@ -5900,5 +5967,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem showAreasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showRailsToolStripMenuItem;
+        private MultiTreeView treeView1;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox4;
     }
 }
