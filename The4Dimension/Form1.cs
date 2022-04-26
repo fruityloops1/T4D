@@ -5317,18 +5317,19 @@ SaveChangeLabel();
                                         }
                                         else
                                         {
-                                            upDown.Minimum = -1;
+                                            upDown.Minimum = -10000;
                                         }
-                                        if (value < upDown.Minimum) value = (int)upDown.Minimum;
-                                        if (value > upDown.Maximum) value = (int)upDown.Maximum;
                                         if (newDb.Entries[((Node)objname).StringValue].args[indie].max != 0)
                                         {
                                             upDown.Maximum = newDb.Entries[((Node)objname).StringValue].args[indie].max;
                                         }
                                         else
                                         {
-                                            upDown.Maximum = 1000;
+                                            upDown.Maximum = 10000;
                                         }
+
+                                        if (value < upDown.Minimum) value = (int)upDown.Minimum;
+                                        if (value > upDown.Maximum) value = (int)upDown.Maximum;
 
                                         upDown.Name = "arg_int" + newDb.Entries[((Node)objname).StringValue].args[indie].arg_id;
                                         upDown.Value = value;
