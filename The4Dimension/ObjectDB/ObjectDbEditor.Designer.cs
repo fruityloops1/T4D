@@ -37,6 +37,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.MoveArgDownBtn = new System.Windows.Forms.Button();
+            this.MoveArgUpBtn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.Txt_model = new System.Windows.Forms.TextBox();
             this.Txt_extra = new System.Windows.Forms.TextBox();
@@ -67,8 +69,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.MoveArgUpBtn = new System.Windows.Forms.Button();
-            this.MoveArgDownBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -85,7 +85,6 @@
             // 
             // label1
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 267);
             this.label1.Name = "label1";
@@ -166,10 +165,30 @@
             this.groupBox2.Controls.Add(this.lblObjInfo);
             this.groupBox2.Location = new System.Drawing.Point(337, 62);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(309, 400);
+            this.groupBox2.Size = new System.Drawing.Size(309, 380);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Object info:";
+            // 
+            // MoveArgDownBtn
+            // 
+            this.MoveArgDownBtn.Location = new System.Drawing.Point(279, 192);
+            this.MoveArgDownBtn.Name = "MoveArgDownBtn";
+            this.MoveArgDownBtn.Size = new System.Drawing.Size(25, 43);
+            this.MoveArgDownBtn.TabIndex = 10;
+            this.MoveArgDownBtn.Text = "V";
+            this.MoveArgDownBtn.UseVisualStyleBackColor = true;
+            this.MoveArgDownBtn.Click += new System.EventHandler(this.MoveArgDownBtn_Click);
+            // 
+            // MoveArgUpBtn
+            // 
+            this.MoveArgUpBtn.Location = new System.Drawing.Point(279, 143);
+            this.MoveArgUpBtn.Name = "MoveArgUpBtn";
+            this.MoveArgUpBtn.Size = new System.Drawing.Size(25, 43);
+            this.MoveArgUpBtn.TabIndex = 10;
+            this.MoveArgUpBtn.Text = "Ʌ";
+            this.MoveArgUpBtn.UseVisualStyleBackColor = true;
+            this.MoveArgUpBtn.Click += new System.EventHandler(this.button6_Click);
             // 
             // label9
             // 
@@ -224,8 +243,6 @@
             // ArgList
             // 
             this.ArgList.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
-            this.ArgList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.ArgList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader4,
@@ -293,7 +310,6 @@
             // 
             // label8
             // 
-            this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.Location = new System.Drawing.Point(6, 61);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(103, 21);
@@ -348,7 +364,6 @@
             // 
             // label7
             // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7.Location = new System.Drawing.Point(6, 17);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(92, 17);
@@ -357,7 +372,6 @@
             // 
             // label4
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.Location = new System.Drawing.Point(158, 16);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 17);
@@ -384,11 +398,11 @@
             this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(15, 74);
+            this.listView1.Location = new System.Drawing.Point(15, 62);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.ShowGroups = false;
-            this.listView1.Size = new System.Drawing.Size(316, 359);
+            this.listView1.Size = new System.Drawing.Size(316, 371);
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -449,34 +463,14 @@
             // button5
             // 
             this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(588, -5);
+            this.button5.Location = new System.Drawing.Point(337, 442);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(52, 23);
+            this.button5.Size = new System.Drawing.Size(309, 23);
             this.button5.TabIndex = 7;
-            this.button5.Text = "CCNT";
+            this.button5.Text = "(Experimental) Add every object in the CCNT to the database";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Visible = false;
             this.button5.Click += new System.EventHandler(this.CCNT_Click);
-            // 
-            // MoveArgUpBtn
-            // 
-            this.MoveArgUpBtn.Location = new System.Drawing.Point(279, 143);
-            this.MoveArgUpBtn.Name = "MoveArgUpBtn";
-            this.MoveArgUpBtn.Size = new System.Drawing.Size(25, 43);
-            this.MoveArgUpBtn.TabIndex = 10;
-            this.MoveArgUpBtn.Text = "Ʌ";
-            this.MoveArgUpBtn.UseVisualStyleBackColor = true;
-            this.MoveArgUpBtn.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // MoveArgDownBtn
-            // 
-            this.MoveArgDownBtn.Location = new System.Drawing.Point(279, 192);
-            this.MoveArgDownBtn.Name = "MoveArgDownBtn";
-            this.MoveArgDownBtn.Size = new System.Drawing.Size(25, 43);
-            this.MoveArgDownBtn.TabIndex = 10;
-            this.MoveArgDownBtn.Text = "V";
-            this.MoveArgDownBtn.UseVisualStyleBackColor = true;
-            this.MoveArgDownBtn.Click += new System.EventHandler(this.MoveArgDownBtn_Click);
             // 
             // ObjectDbEditor
             // 

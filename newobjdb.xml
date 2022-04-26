@@ -25,7 +25,7 @@
     </object>
     <object id="Kuribo" name="Goomba" category="3" type="1" extra="The most generic npc in video game history!">
       <model>Kuribo</model>
-      <bool arg="0" name="Move when Mario's not around" default="false" info="Move when outside the camera's view" />
+      <bool arg="0" name="Move offcamera" default="false" info="Move when outside the camera's view" />
       <bool arg="7" name="Drop +10s" default="false" info="Add 10 seconds instead of dropping a coin" />
     </object>
     <object id="Wanwan" name="Chain Chomp" category="3" type="1" extra="Mario world's second best dog-acting creature.">
@@ -43,10 +43,7 @@
       <bool arg="1" name="Is jumping" default="false" info="Determines whether toad is jumping or not" />
       <int arg="3" name="Star coin id" max="2" min="-1" default="0" info="ID of the starcoin dropped by toad if told to do so by Object to spawn" />
       <bool arg="5" name="Has propeller" default="false" info="Determines whether toad spawns with a propeller suit or not" />
-      <option arg="6" name="Unknown" default="-1" info="??">
-        <op name="-1" value="-1" />
-        <op name="20" value="20" />
-      </option>
+      <int arg="6" name="Movement speed" default="-1" info="Movement speed when using a rail" />
       <option arg="7" name="Object to spawn" default="-1" info="Object for toad to spawn">
         <op name="Nothing" value="-1" />
         <op name="1-UP" value="1" />
@@ -133,6 +130,7 @@
         <op name="3" value="3" />
       </option>
       <bool arg="1" name="Follow Platform?" default="false" info="Makes the Star Medal follow a platform." />
+      <int arg="4" name="Rail Speed" default="-1" info="Speed if this Medal uses a rail to move" />
     </object>
     <object id="SwingSpike8M" name="Swinging Spike Ball" category="1" type="1" extra="A spike ball that swings in the air.">
       <model>SwingSpike8M</model>
@@ -151,19 +149,19 @@
         <op name="Red" value="5" />
       </option>
     </object>
-    <object id="Trampoline2x2M" name="Bouncy Platform2x2" category="1" type="1" extra="we did this in minecraft I THINK">
+    <object id="Trampoline2x2M" name="Mushroom Trampoline2x2" category="1" type="1" extra="A Mushroom Trampoline">
       <model>Trampoline2x2M</model>
       <int arg="0" name="Jump Height" default="0" info="Changes how high mario jumps" />
       <int arg="3" name="???" default="0" info="Unknown" />
     </object>
-    <object id="ViewCtrlArea" name="ViewCtrlArea" category="5" type="3" extra="Force load objects depending on Arg no.">
-      <int arg="0" name="ID" default="0" info="ID that is used for object's ViewID" />
+    <object id="ViewCtrlArea" name="ViewCtrlArea" category="5" type="3" extra="An area that forces objects with the same ViewId as this area's Arg0 to load when Mario is in it">
+      <int arg="0" name="ViewId" default="0" info="ViewId that will be forced to show" />
     </object>
-    <object id="PatanBoardStarter" name="Green Panel Switch" category="1" type="1" extra="A switch that activates green panels.">
+    <object id="PatanBoardStarter" name="Flip panel switch" category="1" type="1" extra="A switch that activates Flip panels.">
       <model>PatanBoardStarter</model>
       <int arg="0" name="Time?" default="0" info="" />
     </object>
-    <object id="PatanBoard" name="Green Face Panel" category="1" type="1" extra="">
+    <object id="PatanBoard" name="Flip panel" category="1" type="1" extra="A panel that gets its next position set by its children.">
       <model>PatanBoard</model>
       <int arg="0" name="Panel Timer" default="-1" info="A timer between panels?" />
       <int arg="1" name="Movement Speed" default="-1" info="Sets speed for the panels." />
@@ -215,14 +213,221 @@
     </object>
     <object id="TentenGenerator" name="Biddybuds" category="3" type="1" extra="Winged Biddybuds ">
       <model>Tenten</model>
-      <option arg="3" name="Color" default="1" info="Starting color for biddybud.">
+      <int arg="0" name="Amount" default="1" info="Amount that will spawn." />
+      <option arg="3" name="Colour" default="1" info="Starting color for biddybud.">
         <op name="Green" value="1" />
         <op name="Blue" value="2" />
         <op name="Yellow" value="3" />
         <op name="Pink" value="4" />
         <op name="Red" value="5" />
       </option>
-      <int arg="0" name="Amount" default="1" info="Amount that will spawn." />
+    </object>
+    <object id="BlockRouletteFlying" name="Flying roulette block" category="7" type="1" extra="A block that spawns after a certain number of deaths that changes the item it gives every few frames">
+      <model>BlockRouletteFlying</model>
+      <int arg="1" name="Unknown" default="0" info="" />
+      <int arg="2" name="No. of deaths required?" default="3" info="3" />
+      <int arg="7" name="Unknown 3" default="0" info="" />
+    </object>
+    <object id="Bubble" name="Lava Bubble" category="3" type="1" extra="A lava bubble that jumps out of the lava">
+      <model>Bubble</model>
+      <int arg="0" name="Jump height" default="0" info="" />
+      <int arg="3" name="Jump delay" default="0" info="" />
+    </object>
+    <object id="PataKuribo" name="ParaGoomba" category="3" type="1" extra="A goomba with wings that gets its position from a child">
+      <model>PataKuribo</model>
+    </object>
+    <object id="ShadowObj" name="Fake Shadow" category="2" type="1" extra="A shadow that can be added anywhere in a level.">
+      <int arg="1" name="X Size" default="100" info="" />
+      <int arg="2" name="Y Size" default="100" info="" />
+      <int arg="3" name="Z size" default="100" info="" />
+    </object>
+    <object id="Dossun" name="Thwomp" category="3" type="1" extra="">
+      <model>Dossun</model>
+      <int arg="0" name="Max. return height" default="0" info="" />
+    </object>
+    <object id="FireBar8M" name="Firebar" category="3" type="1" extra="An empty block with fire spheres rotating around it">
+      <model>BlockEmpty</model>
+      <int arg="0" name="No. of fireballs" default="2" info="" />
+      <bool arg="1" name="Rotate Clockwise" default="true" info="" />
+      <bool arg="2" name="Fire has shadow" default="true" info="" />
+    </object>
+    <object id="KoopaFirstGearA" name="Lava Gear A" category="1" type="1" extra="A gear that rotates and &quot;floats&quot; on lava">
+      <model>KoopaFirstGearA</model>
+      <bool arg="0" name="Rotate Clockwise" default="true" info="" />
+      <int arg="1" name="Rotation Speed" default="10" info="" />
+    </object>
+    <object id="KoopaFirstGearB" name="Lava Gear B" category="1" type="1" extra="A gear that rotates and &quot;floats&quot; on lava">
+      <model>KoopaFirstGearB</model>
+      <bool arg="0" name="Rotate Clockwise" default="true" info="" />
+      <int arg="1" name="Rotation Speed" default="10" info="" />
+    </object>
+    <object id="KuriboTower" name="Goomba Tower" category="3" type="1" extra="A tower of goombas">
+      <model>Kuribo</model>
+      <int arg="0" name="No. of goombas" default="0" info="" />
+    </object>
+    <object id="KuriboTail" name="Rail Tanooki Goomba" category="3" type="1" extra="A tanooki goomba whose movement is set by a rail">
+      <model>KuriboTail</model>
+    </object>
+    <object id="BlockRoulette" name="Roulette block" category="7" type="1" extra="A block that spawns after a certain number of deaths that changes the item it gives every few frames">
+      <model>BlockRoulette</model>
+      <int arg="1" name="Unknown" default="0" info="" />
+      <int arg="2" name="No. of deaths required?" default="3" info="3" />
+      <int arg="7" name="Unknown 3" default="0" info="" />
+    </object>
+    <object id="NoteObjGenerator" name="Note Generator" category="2" type="1" extra="An object that spawns notes following its args and moving on a given rail, activates on switchA">
+      <int arg="0" name="Speed" default="0" info="" />
+      <int arg="2" name="Note lifetime" default="0" info="" />
+      <int arg="3" name="Time between notes" default="0" info="" />
+    </object>
+    <object id="Trampoline2x4M" name="Mushroom Trampoline2x4" category="1" type="1" extra="A Mushroom Trampoline">
+      <model>Trampoline2x2M</model>
+      <int arg="0" name="Jump Height" default="0" info="Changes how high mario jumps" />
+      <int arg="3" name="???" default="0" info="Unknown" />
+    </object>
+    <object id="TrampleSwitch" name="P switch" category="1" type="1" extra="A switch that permanently activates the switch given by SwitchA" />
+    <object id="TelescopeTarget" name="Telescope Message" category="2" type="1" extra="A child of the telescope that shows a Goal message when you see it">
+      <bool arg="7" name="Show message" default="true" info="" />
+    </object>
+    <object id="PeraKuribo" name="Wooden Goomba" category="2" type="1" extra="A wooden goomba that can be destroyed">
+      <bool arg="0" name="Give coin" default="false" info="Gives a coin when destroyed" />
+      <bool arg="2" name="Follow platform" default="false" info="" />
+    </object>
+    <object id="PeraKinokoOneUp" name="Wooden 1-UP" category="2" type="1" extra="A wooden 1-UP  that can be destroyed">
+      <bool arg="0" name="Give coin" default="false" info="Gives a coin when destroyed" />
+      <bool arg="2" name="Follow platform" default="false" info="" />
+    </object>
+    <object id="BlockEmpty" name="Empty Block" category="0" type="1" extra="">
+      <model>BlockEmpty</model>
+      <bool arg="0" name="Doesn't have shadow" default="true" info="" />
+    </object>
+    <object id="PeraDokan" name="Wooden Pipe" category="2" type="1" extra="A wooden pipe that can be destroyed">
+      <bool arg="0" name="Give coin" default="false" info="Gives a coin when destroyed" />
+      <bool arg="2" name="Follow platform" default="false" info="" />
+    </object>
+    <object id="PackunFlowerDokan" name="Piranha Plant with Pipe" category="3" type="1" extra="" />
+    <object id="KinopioTelescope" name="Telescope Toad" category="4" type="1" extra="A toad child of a Telescope object that appears when using said Telescope">
+      <model>Kinopio</model>
+      <option arg="0" name="Colour" default="-1" info="Toad's head and shirt colour">
+        <op name="Red" value="-1" />
+        <op name="Blue" value="2" />
+        <op name="Yellow" value="3" />
+        <op name="Green" value="4" />
+        <op name="Purple" value="5" />
+      </option>
+      <bool arg="1" name="Is jumping" default="false" info="Determines whether toad is jumping or not" />
+      <int arg="3" name="Star coin id" max="2" min="-1" default="0" info="ID of the starcoin dropped by toad if told to do so by Object to spawn" />
+      <bool arg="5" name="Has propeller" default="false" info="Determines whether toad spawns with a propeller suit or not" />
+      <int arg="6" name="Movement speed" default="-1" info="Movement speed when using a rail" />
+      <option arg="7" name="Object to spawn" default="-1" info="Object for toad to spawn">
+        <op name="Nothing" value="-1" />
+        <op name="1-UP" value="1" />
+        <op name="Super mushroom" value="4" />
+        <op name="Star coin" value="2" />
+        <op name="Kills toad" value="3" />
+        <op name="Scares toad" value="0" />
+      </option>
+    </object>
+    <object id="MysteryBoxRuleObj" name="Mystery Box Goal" category="1" type="1" extra="An object that sets the rules for the given mystery box level" />
+    <object id="CoinCollectMystery" name="Mystery Box Star Medal" category="1" type="1" extra="">
+      <option arg="0" name="Star Medal No." default="1" info="">
+        <op name="1" value="1" />
+        <op name="2" value="2" />
+        <op name="3" value="3" />
+      </option>
+      <int arg="6" name="Unknown" default="-75" info="" />
+    </object>
+    <object id="CandlestandObserver" name="Candle Check" category="6" type="1" extra="Checks if its children Candlestand objects are lit, if they are it activates a Switch">
+      <bool arg="0" name="Play zelda puzzle solved sfx" default="false" info="" />
+    </object>
+    <object id="FireFlower" name="Fire Flower" category="1" type="1" extra="" />
+    <object id="BlockNoteSuperWide" name="Rainbow Noteblock" category="1" type="1" extra="This noteblock sends mario to another area, set by its children BlockNoteSuper" />
+    <object id="BlockNoteSuper" name="Rainbow Noteblock child" category="1" type="1" extra="Sets the warp point of a rainbow noteblock" />
+    <object id="Picket" name="Ground pound Wood" category="2" type="1" extra="">
+      <int arg="0" name="Height" max="2" min="-2" default="0" info="kinda broken" />
+    </object>
+    <object id="EnemyCounter" name="Enemy Item Spawner" category="3" type="1" extra="Checks for all its children objects, which must be enemies, and the last enemy killed will drop an item relating to it">
+      <int arg="0" name="No of Enemies" default="0" info="" />
+    </object>
+    <object id="CloudLift6M" name="Moving Cloud" category="1" type="1" extra="A cloud that moves">
+      <int arg="0" name="Direction" default="0" info="" />
+      <int arg="1" name="Distance" default="0" info="" />
+      <int arg="2" name="Speed" default="0" info="" />
+      <int arg="3" name="Wait timer" default="0" info="" />
+    </object>
+    <object id="CoinRedStarter" name="Red Coin Ring" category="6" type="1" extra="Starts a red coin timer, the red coins must be children of this object">
+      <option arg="1" name="Item to spawn" default="0" info="">
+        <op name="Fire flower" value="1" />
+        <op name="Boomerang flower" value="2" />
+        <op name="Super Leaf" value="0" />
+      </option>
+    </object>
+    <object id="CoinRed" name="Red Coin" category="6" type="1" extra="Must be a child of a CoinRedStarter object" />
+    <object id="BalanceTruck" name="Seesaw platform" category="1" type="1" extra="A green seesaw platform that follows a seesaw rail">
+      <int arg="0" name="Unknown 1" default="2" info="" />
+      <int arg="1" name="Unknown 2" default="60" info="" />
+      <int arg="2" name="Unknown 3" default="400" info="" />
+      <int arg="3" name="Unknown 4" default="15" info="" />
+    </object>
+    <object id="BlockRailStraight8M" name="Straight Seesaw Rail" category="1" type="1" extra="">
+      <option arg="0" name="Colour" default="0" info="">
+        <op name="Grey" value="0" />
+        <op name="Blue" value="1" />
+        <op name="Red" value="2" />
+        <op name="Yellow" value="3" />
+      </option>
+    </object>
+    <object id="BlockRailCurve12x12M" name="Curved Seesaw Rail" category="1" type="1" extra="">
+      <option arg="0" name="Colour" default="0" info="">
+        <op name="Grey" value="0" />
+        <op name="Blue" value="1" />
+        <op name="Red" value="2" />
+        <op name="Yellow" value="3" />
+      </option>
+    </object>
+    <object id="Nokonoko" name="Koopa" category="3" type="1" extra="A green koopa, needs a rail to move" />
+    <object id="Telescope" name="Telescope" category="2" type="1" extra="Can have Children object like toads and messages">
+      <int arg="0" name="Zoom range" default="0" info="" />
+      <int arg="1" name="Horizontal range" max="360" min="-360" default="80" info="" />
+    </object>
+    <object id="WarpPorter" name="Mystery Box warp" category="1" type="1" extra="Sends Mario to a child warp and starts a timer of 10 seconds" />
+    <object id="WarpAreaPoint" name="Return warp" category="1" type="1" extra="Is the return warp of its children ObjectChildArea, which act as entrance warps" />
+    <object id="LiftGeyser" name="Seesaw Geyser" category="2" type="1" extra="Moves the seesaw up when in contact with it">
+      <int arg="1" name="Time up" default="0" info="" />
+      <int arg="2" name="Time down" default="0" info="" />
+    </object>
+    <object id="PackunInk" name="Ink Piranha Plant" category="3" type="1" extra="A piranha plant that shoots ink using a child PackunInkTarget">
+      <int arg="3" name="Ink speed" default="0" info="" />
+      <int arg="4" name="Wait time" default="0" info="" />
+      <int arg="5" name="Shot angle" default="0" info="" />
+      <int arg="0" name="Unknown 1" default="0" info="" />
+      <int arg="1" name="Unknown 2" default="0" info="" />
+    </object>
+    <object id="PackunInkTarget" name="Ink Piranha Plant Target" category="2" type="1" extra="Target for the ink piranha plant and child of it" />
+    <object id="CoinGathering" name="Coin Fanfare spawner" category="6" type="1" extra="Checks if the children coins have been collected and if so plays an sfx" />
+    <object id="Coin" name="Coin" category="0" type="1" extra="A regular coin">
+      <bool arg="0" name="Follow platform" default="false" info="" />
+      <int arg="1" name="Coin timer" default="-1" info="Timer for this coin to disappear since it spawns" />
+    </object>
+    <object id="Dokan" name="Green Pipe" category="1" type="1" extra="A pipe that warps Mario to a child pipe" />
+    <object id="BlockBrick" name="Brick Block" category="1" type="1" extra="">
+      <bool arg="3" name="Has snow" default="false" info="" />
+      <int arg="5" name="Shadow size" default="0" info="" />
+    </object>
+    <object id="TogeMetbo" name="Prongo" category="3" type="1" extra="" />
+    <object id="Bunbun" name="Boom Boom" category="3" type="1" extra="" />
+    <object id="Meragon" name="Draglet" category="3" type="1" extra="Can use a rail or have ObjectChildArea to restrict movement" />
+    <object id="Karon" name="Dry Bones" category="3" type="1" extra="Can use ObjectChildArea " />
+    <object id="Kameck" name="Magikoopa" category="3" type="1" extra="Uses a rail to determine its teleporting route" />
+    <object id="GhostPlayer" name="Cosmic clone" category="3" type="1" extra="" />
+    <object id="GhostPlayerArea" name="Cosmic clone safe area" category="1" type="1" extra="" />
+    <object id="DokanOutOnly" name="Green Exit Pipe" category="1" type="1" extra="A child pipe that only works one way">
+      <model>Dokan</model>
+    </object>
+    <object id="DokanSide" name="Green Sideways Pipe" category="1" type="1" extra="">
+      <model>Dokan</model>
+    </object>
+    <object id="DokanSideOutOnly" name="Green Exit Sideways Pipe" category="1" type="1" extra="">
+      <model>Dokan</model>
     </object>
   </objects>
 </database>
