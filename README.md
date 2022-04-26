@@ -29,7 +29,7 @@ Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load i
 - Cutscene objects now display the model they'll use ingame
 
 ## Roadmap (as of v1.0.0)
-- [ ] Make the object list a treeview like other editors, this will be the best option to display all the object types and easily edit them
+- [ ] Make Rail points part of the object treeview
 - [ ] Show/hide Rails
 - [ ] Better renderer
 
