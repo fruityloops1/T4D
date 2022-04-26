@@ -4497,11 +4497,11 @@ SaveChangeLabel();
                 {
                     state = " checking updates";
                     
-                    var githubClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TheFourthDimension"));
-                    var ver = await githubClient.Repository.Release.GetAll("KirbysDarkNebula", "TheFourthDimension");
+                    var githubClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("T4D"));
+                    var ver = await githubClient.Repository.Release.GetAll("KirbysDarkNebula", "T4D");
                     if (ver.Count > ReleaseId)
                     {
-                        if (MessageBox.Show("There's a new version of T4D available, do you want to open its release page in your web browser?", "", MessageBoxButtons.YesNo) == DialogResult.Yes) System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/TheFourthDimension/releases/latest");
+                        if (MessageBox.Show("There's a new version of T4D available, do you want to open its release page in your web browser?", "", MessageBoxButtons.YesNo) == DialogResult.Yes) System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/T4D/releases/latest");
                     }
                 }
             }
