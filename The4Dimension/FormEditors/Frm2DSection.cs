@@ -40,7 +40,7 @@ namespace The4Dimension.FormEditors
                     Y = (int)(numericUpDown4.Value +( numericUpDown1.Value -1) * 1000 + 500);
                     Z = (int)numericUpDown5.Value + 500;
                     LevelObj BaseObj = new The4Dimension.LevelObj();
-                    int HighestId = f.higestID["ObjInfo"];
+                    int HighestId = f.highestID["ObjInfo"];
                     BaseObj.Prop.Add("LayerName", new Node("共通", "A0"));
                     BaseObj.Prop.Add("name", new Node("TransparentWall", "A0"));
                     BaseObj.Prop.Add("dir_x", new Node("90", "D2"));
@@ -60,7 +60,7 @@ namespace The4Dimension.FormEditors
                             ((Node)tmpObj.Prop["l_id"]).StringValue = (++HighestId).ToString();
                             List.Add(tmpObj);
                     }
-                    f.higestID["ObjInfo"] = HighestId;
+                    f.highestID["ObjInfo"] = HighestId;
                 }
             }
             ClipBoardItem cl = new ClipBoardItem();
@@ -75,7 +75,7 @@ namespace The4Dimension.FormEditors
             List<LevelObj> List = new List<LevelObj>();
             LevelObj BaseObj = new The4Dimension.LevelObj();
             The4Dimension.Form1 f = (The4Dimension.Form1)Application.OpenForms["Form1"];
-            int HighestId = f.higestID["ObjInfo"];
+            int HighestId = f.highestID["ObjInfo"];
             BaseObj.Prop.Add("LayerName", new Node("共通", "A0"));
             BaseObj.Prop.Add("name", new Node("TransparentWall", "A0"));
             BaseObj.Prop.Add("dir_x", new Node("0" , "D2"));
@@ -99,7 +99,7 @@ namespace The4Dimension.FormEditors
                     List.Add(tmpObj);
                 }
             }
-            f.higestID["ObjInfo"] = HighestId;
+            f.highestID["ObjInfo"] = HighestId;
             return List;
         }
 
