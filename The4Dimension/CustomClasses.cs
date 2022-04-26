@@ -1617,7 +1617,7 @@ namespace The4Dimension
         {
             // Perform some error handling here.
             // We don't want to bubble errors to the CLR.
-            MessageBox.Show(ex.Message);
+            MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
         }
 
         #endregion
