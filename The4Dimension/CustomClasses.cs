@@ -189,6 +189,10 @@ namespace The4Dimension
                 {
                     return i;
                 }
+                else if (this[i].Prop.ContainsKey("MarioNo") && ((Node)this[i].Prop["MarioNo"]).StringValue == id.ToString())
+                {
+                    return i;
+                }
             }
             return -1;
         }

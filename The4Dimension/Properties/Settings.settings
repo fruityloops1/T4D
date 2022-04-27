@@ -39,7 +39,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DownloadDbLink" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/objectdb.xml</Value>
+      <Value Profile="(Default)">https://raw.githubusercontent.com/KirbysDarkNebula/T4D/master/newobjdb.xml</Value>
     </Setting>
     <Setting Name="CheckUpdates" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

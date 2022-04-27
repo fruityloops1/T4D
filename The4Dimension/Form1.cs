@@ -26,7 +26,7 @@ namespace The4Dimension
 {
     public partial class Form1 : Form
     {
-        public static string ObjectDbLink = "https://raw.githubusercontent.com/exelix11/TheFourthDimension/master/ObjectsDb.xml";
+        public static string ObjectDbLink = "https://raw.githubusercontent.com/KirbysDarkNebula/T4D/master/newobjdb.xml";
         public UserControl1 render = new UserControl1();
         public Dictionary<string, string> LevelNameNum = new Dictionary<string, string>(); //WX-X, stageName
         int APP_VER = Int32.Parse(Application.ProductVersion.Replace(".", ""));
@@ -717,10 +717,11 @@ namespace The4Dimension
                 }
                 if (AllInfos.ContainsKey("AreaObjInfo")) HideLayer("AreaObjInfo");
                 if (AllInfos.ContainsKey("CameraAreaInfo")) HideLayer("CameraAreaInfo");
-                if (treeView1.Nodes["ObjInfo"].Nodes.Count > 0)
+                if (treeView1.Nodes["StartInfo"].Nodes.Count > 0)
                 {
-                    SelectInfoIndex("ObjInfo", 0);
-                    render.CameraToObj(CurrentAllInfosSectionName, 0);
+                    int mario0 = AllInfos["StartInfo"].GetById(0);
+                    SelectInfoIndex("StartInfo", mario0);
+                    render.CameraToObj(CurrentAllInfosSectionName, mario0);
                 }
             }
         }
@@ -1662,7 +1663,7 @@ namespace The4Dimension
         {
             if (Mouse.LeftButton != MouseButtonState.Pressed || (ModifierKeys & Keys.Control) != Keys.Control || !RenderIsDragging) { RenderIsDragging = false; return; }
             int RoundTo = (ModifierKeys & Keys.Alt) == Keys.Alt ? 100 : ((ModifierKeys & Keys.Shift) == Keys.Shift ? 50 : 0);
-            if (((string)DraggingArgs[0] == "SelectedRail" || ((string)DraggingArgs[0]) == "RailHandle"))
+            if (((string)DraggingArgs[0] == "SelectedRail" || ((string)DraggingArgs[0]) == "RailHandle") && (ModifierKeys & Keys.Alt) == Keys.Alt)
             {
                 RoundTo = 0;
             }
@@ -1670,13 +1671,19 @@ namespace The4Dimension
             DragPos.Add(NewPos);
             if (DragPos.Count == 1) { Displacement = (Vector3D)DraggingArgs[2] - NewPos; /*labelStatus.Text = (-Displacement.Z).ToString();*/ }
             if (NewPos == null) return;
-            if ((string)DraggingArgs[0] == "SelectedRail" && (ModifierKeys & Keys.Shift) != Keys.Shift)
+            if ((string)DraggingArgs[0] == "SelectedRail" && (ModifierKeys & Keys.Alt) != Keys.Alt)
             {
+                AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].X_prev -= AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].X - (float)NewPos.X;
+                AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].X_next -= AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].X - (float)NewPos.X;
                 AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].X = (float)NewPos.X;
+                AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Y_prev -=  AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Y - (float)NewPos.Z;
+                AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Y_next -=  AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Y - (float)NewPos.Z;
                 AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Y = (float)NewPos.Z;
+                AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Z_prev -= AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Z + (float)NewPos.Y;
+                AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Z_next -= AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Z + (float)NewPos.Y;
                 AllRailInfos[CurrentAllInfosSelectedIndex].Points[(int)DraggingArgs[1]].Z = -(float)NewPos.Y;
                 UpdateRailpos(CurrentAllInfosSelectedIndex, AllRailInfos[CurrentAllInfosSelectedIndex].GetPointArray());
-            }else if (((string)DraggingArgs[0]) == "RailHandle" && (ModifierKeys & Keys.Shift) != Keys.Shift)
+            }else if (((string)DraggingArgs[0]) == "RailHandle" && (ModifierKeys & Keys.Alt) != Keys.Alt)
             {
                 int PntIndx = (int)DraggingArgs[1] / 2;
                 int HandleIndx = ((int)DraggingArgs[1]) % 2 + 1;
@@ -1754,9 +1761,16 @@ namespace The4Dimension
                 Action<object[]> act;
                 act = (object[] args) =>
                 {
+                    Vector3D Disp = new Vector3D(((Vector3D)args[2]).X - AllRailInfos[(int)args[0]].Points[(int)args[1]].X, ((Vector3D)args[2]).Z - AllRailInfos[(int)args[0]].Points[(int)args[1]].Y, ((Vector3D)args[2]).Y + AllRailInfos[(int)args[0]].Points[(int)args[1]].Z);
                     AllRailInfos[(int)args[0]].Points[(int)args[1]].X = (float)((Vector3D)args[2]).X;
+                    AllRailInfos[(int)args[0]].Points[(int)args[1]].X_prev += (float)Disp.X;
+                    AllRailInfos[(int)args[0]].Points[(int)args[1]].X_next += (float)Disp.X;
                     AllRailInfos[(int)args[0]].Points[(int)args[1]].Y = (float)((Vector3D)args[2]).Z;
+                    AllRailInfos[(int)args[0]].Points[(int)args[1]].Y_prev +=  (float)Disp.Y;
+                    AllRailInfos[(int)args[0]].Points[(int)args[1]].Y_next +=  (float)Disp.Y;
                     AllRailInfos[(int)args[0]].Points[(int)args[1]].Z = -(float)((Vector3D)args[2]).Y;
+                    AllRailInfos[(int)args[0]].Points[(int)args[1]].Z_prev -= (float)Disp.Z;
+                    AllRailInfos[(int)args[0]].Points[(int)args[1]].Z_next -= (float)Disp.Z;
                     UpdateRailpos((int)args[0], AllRailInfos[(int)args[0]].GetPointArray());
                     propertyGrid1.Refresh();
                 };
@@ -4484,13 +4498,13 @@ SaveChangeLabel();
                 if (Properties.Settings.Default.DownloadDb)
                 {
                     state = "downloading object database";
-                    if (File.Exists("objectdb.xml.bak")) File.Delete("objectdb.xml.bak");
-                    if (File.Exists("objectdb.xml")) File.Move("objectdb.xml", "objectdb.xml.bak");
-                    new WebClient().DownloadFile(Properties.Settings.Default.DownloadDbLink == "" ? ObjectDbLink : Properties.Settings.Default.DownloadDbLink, "objectdb.xml");
-                    if (!File.Exists("objectdb.xml"))
+                    if (File.Exists("newobjdb.xml.bak")) File.Delete("newobjdb.xml.bak");
+                    if (File.Exists("newobjdb.xml")) File.Move("newobjdb.xml", "newobjdb.xml.bak");
+                    new WebClient().DownloadFile(Properties.Settings.Default.DownloadDbLink == "" ? ObjectDbLink : Properties.Settings.Default.DownloadDbLink, "newobjdb.xml");
+                    if (!File.Exists("newobjdb.xml"))
                     {
                         MessageBox.Show("There was an error downloading the object database");
-                        if (File.Exists("objectdb.xml.bak")) File.Move("objectdb.xml.bak", "objectdb.xml");
+                        if (File.Exists("newobjdb.xml.bak")) File.Move("newobjdb.xml.bak", "newobjdb.xml");
                     }
                 }
                 if (Properties.Settings.Default.CheckUpdates)
@@ -4508,7 +4522,7 @@ SaveChangeLabel();
             catch (Exception ex)
             {
                 MessageBox.Show("There was an error" + state + ": " + ex.Message);
-                if (File.Exists("objectdb.xml.bak") && !File.Exists("objectdb.xml")) File.Move("objectdb.xml.bak", "objectdb.xml");
+                if (File.Exists("newobjdb.xml.bak") && !File.Exists("newobjdb.xml")) File.Move("newobjdb.xml.bak", "newobjdb.xml");
             }
         }
 

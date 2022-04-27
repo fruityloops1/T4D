@@ -169,8 +169,7 @@ namespace The4Dimension.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://cdn.discordapp.com/attachments/749031033395085376/807013958027706378/obje" +
-            "ctdb.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/KirbysDarkNebula/T4D/master/newobjdb.xml")]
         public string DownloadDbLink {
             get {
                 return ((string)(this["DownloadDbLink"]));
