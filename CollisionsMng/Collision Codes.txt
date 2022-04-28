@@ -1,0 +1,32 @@
+SoundType:
+0: Ground
+1: Soil/Pathway
+2: Grass
+3: Metal (fency railey type sound)
+4: Water 
+5: Sand
+6: Metal 2 
+7: Rock
+8: Thick Wood
+9: Thick Snow
+10: Water 2
+11: Water 3
+12: Sand 2
+13: Slippery Icey
+14: Stone concrete sound? 
+15: Thin Wood 
+16: Snow 2
+17: Light water splashes
+18: Medium water splashes
+19: Heavy water splashes
+20: Carpet/Wood? 
+
+FloorType:
+0: Normal
+1: Damage
+2: Lava Death
+3: Poison Death
+
+WallType:
+0: Normal
+1: Can't walljump
