@@ -641,6 +641,10 @@ namespace The4Dimension
             string a = Properties.Settings.Default.UseLayeredFs ? Properties.Settings.Default.LayeredFSPath + "\\SystemData\\CreatorClassNameTable.szs" : @"CreatorClassNameTable.szs";
             if (!File.Exists(a))
             {
+                if (Properties.Settings.Default.UseLayeredFs && !Directory.Exists(Properties.Settings.Default.LayeredFSPath + "\\SystemData\\"))
+                {
+                    Directory.CreateDirectory(Properties.Settings.Default.LayeredFSPath + "\\SystemData\\");
+                }
                 if (Properties.Settings.Default.GamePath.Trim() != "" && File.Exists(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs"))
                 {
                     File.Copy(Properties.Settings.Default.GamePath + "\\SystemData\\CreatorClassNameTable.szs", a);
@@ -2325,6 +2329,10 @@ namespace The4Dimension
             }
             else if (File.Exists(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs") && !File.Exists(bgm))
             {
+                if (Properties.Settings.Default.UseLayeredFs && !Directory.Exists(Properties.Settings.Default.LayeredFSPath + "\\SoundData"))
+                {
+                    Directory.CreateDirectory(Properties.Settings.Default.LayeredFSPath + "\\SoundData");
+                }
                 File.Copy(Properties.Settings.Default.GamePath + "\\SoundData\\BgmTable.szs", bgm);
             }
             BgmEditors.FrmBgmMain f = new BgmEditors.FrmBgmMain(LevelNameNum);
