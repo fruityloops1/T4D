@@ -4545,7 +4545,7 @@ SaveChangeLabel();
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/exelix11/TheFourthDimension/blob/master/guide.md");
+            System.Diagnostics.Process.Start("https://github.com/KirbysDarkNebula/T4D/blob/master/guide.md");
         }
 
         private void propertyGrid1_Click(object sender, EventArgs e)
