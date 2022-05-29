@@ -33,7 +33,7 @@ To add a child, make a new object and copy its Object Id and paste it into the P
  Ctrl + Z : Undo<br />
  Space : Move the camera on the selected object<br />
  Ctrl + D : Duplicate selected object<br />
- + : Add a new object<br />
+ Plus (+) : Add a new object<br />
  Del : Delete selected object<br />
  Ctrl + N: Makes a new file<br />
  Ctrl + O: Opens level selector<br />

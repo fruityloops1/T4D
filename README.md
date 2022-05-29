@@ -1,14 +1,14 @@
 # TheFourthDimension-Quality Of Life
-A [**Super Mario 3d Land**](https://www.mariowiki.com/Super_Mario_3D_Land) level editor, originally made by [Exelix11](https://github.com/exelix11).
+A [**Super Mario 3D Land**](https://www.mariowiki.com/Super_Mario_3D_Land) level editor, originally made by [Exelix11](https://github.com/exelix11).
 
 This is a continuation of Exelix' [project](https://github.com/exelix11/TheFourthDimension) trying to improve it as much as possible.
 
 ## Usage
-Extract your Super Mario 3d Land romfs folder using citra or godmode9 and load it following the program's steps, then open your level and edit as you like!
+Extract your Super Mario 3D Land romfs folder using citra or godmode9 and load it following the program's steps, then open your level and edit as you like!
 
 ## Features
-- Edits every 3d Land level and every file under romfs/StageData/
-- 3d Previews of most assets
+- Edits every 3D Land level and every file under romfs/StageData/
+- 3D Previews of most assets
 - byml <-> xml 
 # New features
 - Improvements to the general user experience:
