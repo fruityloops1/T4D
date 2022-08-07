@@ -214,6 +214,7 @@
             this.label98 = new System.Windows.Forms.Label();
             this.label99 = new System.Windows.Forms.Label();
             this.DemoExtra = new System.Windows.Forms.TabPage();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.DemoSwitchDeadOn = new System.Windows.Forms.NumericUpDown();
             this.DemoSwitchKill = new System.Windows.Forms.NumericUpDown();
             this.DemoSwitchAppear = new System.Windows.Forms.NumericUpDown();
@@ -391,7 +392,6 @@
             this.showAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showRailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.ClipBoardMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -721,7 +721,7 @@
             this.saveAsSZSToolStripMenuItem.Name = "saveAsSZSToolStripMenuItem";
             this.saveAsSZSToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.saveAsSZSToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.saveAsSZSToolStripMenuItem.Text = "Save as Szs";
             this.saveAsSZSToolStripMenuItem.Visible = false;
             this.saveAsSZSToolStripMenuItem.Click += new System.EventHandler(this.saveAsSZSToolStripMenuItem_Click);
@@ -729,14 +729,14 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(214, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(200, 6);
             this.toolStripSeparator3.Visible = false;
             // 
             // saveAsBymlToolStripMenuItem1
             // 
             this.saveAsBymlToolStripMenuItem1.Enabled = false;
             this.saveAsBymlToolStripMenuItem1.Name = "saveAsBymlToolStripMenuItem1";
-            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
+            this.saveAsBymlToolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
             this.saveAsBymlToolStripMenuItem1.Text = "Save as Byml";
             this.saveAsBymlToolStripMenuItem1.Visible = false;
             this.saveAsBymlToolStripMenuItem1.Click += new System.EventHandler(this.saveAsBymlToolStripMenuItem1_Click);
@@ -745,7 +745,7 @@
             // 
             this.saveAsXmlToolStripMenuItem.Enabled = false;
             this.saveAsXmlToolStripMenuItem.Name = "saveAsXmlToolStripMenuItem";
-            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.saveAsXmlToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.saveAsXmlToolStripMenuItem.Text = "Save as Xml";
             this.saveAsXmlToolStripMenuItem.Visible = false;
             this.saveAsXmlToolStripMenuItem.Click += new System.EventHandler(this.saveAsXmlToolStripMenuItem_Click);
@@ -992,55 +992,55 @@
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // hotkeysListToolStripMenuItem
             // 
             this.hotkeysListToolStripMenuItem.Name = "hotkeysListToolStripMenuItem";
-            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.hotkeysListToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.hotkeysListToolStripMenuItem.Text = "Hotkeys list";
             this.hotkeysListToolStripMenuItem.Click += new System.EventHandler(this.hotkeysListToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(243, 6);
             // 
             // downloadLatestT4DToolStripMenuItem
             // 
             this.downloadLatestT4DToolStripMenuItem.Name = "downloadLatestT4DToolStripMenuItem";
-            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.downloadLatestT4DToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.downloadLatestT4DToolStripMenuItem.Text = "Download latest T4D";
             this.downloadLatestT4DToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestT4DToolStripMenuItem_Click);
             // 
             // downloadLatestObjectDatabaseToolStripMenuItem
             // 
             this.downloadLatestObjectDatabaseToolStripMenuItem.Name = "downloadLatestObjectDatabaseToolStripMenuItem";
-            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.downloadLatestObjectDatabaseToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.downloadLatestObjectDatabaseToolStripMenuItem.Text = "Download latest object database";
             this.downloadLatestObjectDatabaseToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestObjectDatabaseToolStripMenuItem_Click);
             // 
             // objectsDatabaseToolStripMenuItem
             // 
             this.objectsDatabaseToolStripMenuItem.Name = "objectsDatabaseToolStripMenuItem";
-            this.objectsDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.objectsDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.O)));
-            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.objectsDatabaseToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.objectsDatabaseToolStripMenuItem.Text = "Edit object database";
             this.objectsDatabaseToolStripMenuItem.Click += new System.EventHandler(this.objectsDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(243, 6);
             // 
             // gbatempThreadToolStripMenuItem
             // 
             this.gbatempThreadToolStripMenuItem.Image = global::The4Dimension.Properties.Resources.gbatemp;
             this.gbatempThreadToolStripMenuItem.Name = "gbatempThreadToolStripMenuItem";
-            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.gbatempThreadToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.gbatempThreadToolStripMenuItem.Text = "Gbatemp thread";
             this.gbatempThreadToolStripMenuItem.Click += new System.EventHandler(this.gbatempThreadToolStripMenuItem_Click);
             // 
@@ -3023,6 +3023,31 @@
             this.DemoExtra.TabIndex = 3;
             this.DemoExtra.Text = "Cutscene Object Properties";
             this.DemoExtra.UseVisualStyleBackColor = true;
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Items.AddRange(new object[] {
+            "DemoActor",
+            "DemoCamera",
+            "DemoObjectDemoOpening",
+            "DemoObjectDemoOpeningFlag",
+            "DemoObjectDemoWorldInterval01",
+            "DemoObjectFlowerBlueA",
+            "DemoObjectFlowerOrangeA",
+            "DemoObjectFlowerPinkA",
+            "DemoPhoto",
+            "DemoPlayer",
+            "DemoSceneGolePole",
+            "DemoSceneSwitch",
+            "DemoStarterDemoBeforeEndingStage",
+            "SkyDemoStormFire"});
+            this.comboBox4.Location = new System.Drawing.Point(76, 5);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(196, 21);
+            this.comboBox4.TabIndex = 42;
+            this.comboBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
+            this.comboBox4.Validated += new System.EventHandler(this.comboBox2_Validated);
             // 
             // DemoSwitchDeadOn
             // 
@@ -5408,31 +5433,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(324, 556);
             this.panel4.TabIndex = 30;
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
-            "DemoActor",
-            "DemoCamera",
-            "DemoObjectDemoOpening",
-            "DemoObjectDemoOpeningFlag",
-            "DemoObjectDemoWorldInterval01",
-            "DemoObjectFlowerBlueA",
-            "DemoObjectFlowerOrangeA",
-            "DemoObjectFlowerPinkA",
-            "DemoPhoto",
-            "DemoPlayer",
-            "DemoSceneGolePole",
-            "DemoSceneSwitch",
-            "DemoStarterDemoBeforeEndingStage",
-            "SkyDemoStormFire"});
-            this.comboBox4.Location = new System.Drawing.Point(76, 5);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(196, 21);
-            this.comboBox4.TabIndex = 42;
-            this.comboBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
-            this.comboBox4.Validated += new System.EventHandler(this.comboBox2_Validated);
             // 
             // Form1
             // 
