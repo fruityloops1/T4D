@@ -42,7 +42,7 @@ To add a child, make a new object and copy its Object Id and paste it into the P
  Alt + S: Opens settings menu<br />
  Ctrl + M: Opens up model importer<br />
  Ctrl + F : Open the search menu<br />
- Ctrl + Shift + O: Opens object database editor<br />
+ Ctrl + Alt + O: Opens object database editor<br />
  
 In the 3D view:<br />
  Ctrl + R : Round the selected object position to a multiple of 100 (like Ctrl + alt + drag, but without dragging)<br />
