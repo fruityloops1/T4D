@@ -401,11 +401,13 @@ namespace The4Dimension
             if (name != null)
             {
                 obj.Prop.Add("name", new Node(name, "A0"));
+                obj.Prop.Add("ClassName", new Node(comboBox3.Text, "A0"));
                 obj.Prop.Add("dbname", ndb.Entries[name].dbname);
             }
             else
             {
                 obj.Prop.Add("name", new Node(!usingdb ? comboBox1.Text : listView1.Items[listView1.SelectedIndices[0]].Text, "A0"));
+                obj.Prop.Add("ClassName", new Node(comboBox3.Text, "A0"));
             }
             obj.Prop.Add("dir", new Single[3] { (Single)Gendir0.Value, (Single)Gendir1.Value, (Single)Gendir2.Value });
             obj.Prop.Add("pos", new Single[3] { (Single)Genpos0.Value, (Single)Genpos1.Value, (Single)(Genpos2.Value) });

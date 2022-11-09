@@ -179,6 +179,7 @@ namespace The4Dimension
         public AllRailInfoSection AllRailInfos = new AllRailInfoSection();
         public Dictionary<string, int> highestID = new Dictionary<string, int>();
         public Dictionary<string, string> CreatorClassNameTable = new Dictionary<string, string>();
+        public List<string> ClassList = new List<string>();
         CameraParams LevelCams = new CameraParams();
         public CustomStack<UndoAction> Undo = new CustomStack<UndoAction>();
         public static List<ClipBoardItem> clipboard = new List<ClipBoardItem>();
@@ -681,6 +682,12 @@ namespace The4Dimension
             {
                 comboBox2.Items.Add(item);
             }
+            comboBox5.Items.Clear();
+            foreach (string item in CreatorClassNameTable.Values.ToArray())
+            {
+                if (!comboBox5.Items.Contains(item))
+                    comboBox5.Items.Add(item);
+            }
         }
 
         void OpenFile(string XmlText, string Type, bool Last)
@@ -1035,6 +1042,16 @@ namespace The4Dimension
                 LevelObj tempO = LoadOBJECT(N.ChildNodes, Type);
                 GetListByName(Type).Add(tempO);
 
+                if (Type == "ObjInfo" || Type == "DemoSceneObjInfo" || Type == "GoalObjInfo")
+                {
+                    if (!tempO.Prop.ContainsKey("ClassName"))
+                    {
+                        if (CreatorClassNameTable.ContainsKey(((Node)tempO.Prop["name"]).StringValue)) {
+                            tempO.Prop["ClassName"] = new Node(CreatorClassNameTable[((Node)tempO.Prop["name"]).StringValue], "A0");
+                        }
+                        else throw new Exception("shit This level file Sucks");
+                    }
+                }
                 if (NewObjectDatabase.Entries.ContainsKey(((Node)tempO.Prop["name"]).StringValue)) treeView1.Nodes[Type].Nodes.Add(NewObjectDatabase.Entries[((Node)tempO.Prop["name"]).StringValue].dbname);
                 else treeView1.Nodes[Type].Nodes.Add(((Node)tempO.Prop["name"]).StringValue);
             }
@@ -4819,11 +4836,13 @@ SaveChangeLabel();
                 PriorityChck.Checked = false;
                 CameraIdChck.Checked = false;
                 ViewIdChck.Checked = false;
+                comboBox5.Hide();
+                label100.Hide();
+
                 foreach (KeyValuePair<string, TabPage> tabs in PropertyTabs)
                 {
                     foreach (KeyValuePair<string, object> prop in CurrentAllInfosSection[CurrentAllInfosSelectedIndex].Prop)
                     {
-
                         string tabidentifier = "";
                         if (SelectedProperties.TabPages.Contains(tabs.Value))
                         {
@@ -4843,8 +4862,17 @@ SaveChangeLabel();
                                         button10.Enabled = false;
                                     }
                                 }
-                                else 
+                                else
                                 {
+                                    if ((CurrentAllInfosSectionName == "ObjInfo" || CurrentAllInfosSectionName == "GoalObjInfo" || CurrentAllInfosSectionName == "DemoSceneObjInfo") && prop.Key == "ClassName")
+                                    {
+                                        comboBox5.Show();
+                                        label100.Show();
+                                        if (comboBox5.Items.Contains(((Node)prop.Value).StringValue))
+                                            comboBox5.SelectedIndex = comboBox5.Items.IndexOf(((Node)prop.Value).StringValue);
+                                        else
+                                            comboBox5.Text = ((Node)prop.Value).StringValue;
+                                    }
                                     CurrentProperty(tabidentifier, prop, tabs, CurrentAllInfosSection[CurrentAllInfosSelectedIndex].Prop);
                                     if (prop.Key == "l_id")
                                     {
@@ -6928,5 +6956,37 @@ SaveChangeLabel();
             return res.Reverse().ToArray();
         }
 
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox5_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                comboBox5_Validated(sender, null);
+            }
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox5_Validated(sender, e);
+        }
+
+        private void comboBox5_Validated(object sender, EventArgs e)
+        {
+            if (!refreshdone) return;
+
+            string property = "ClassName";
+            if (!CurrentAllInfosSection[CurrentAllInfosSelectedIndex].Prop.ContainsKey(property))
+            {
+                CurrentAllInfosSection[CurrentAllInfosSelectedIndex].Prop.Add(property, new Node(((ComboBox)sender).Text, "A0"));
+            }
+            if (CurrentAllInfosSection[CurrentAllInfosSelectedIndex].Prop[property].GetType() == typeof(Node))
+            {
+                ((Node)(CurrentAllInfosSection[CurrentAllInfosSelectedIndex].Prop[property])).StringValue = ((ComboBox)sender).Text;
+            }
+        }
     }
 }
